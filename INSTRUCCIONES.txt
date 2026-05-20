@@ -1,0 +1,48 @@
+================================================================================
+  PUBLICAR CAMBIOS — Secretaría de Investigación (GitHub Pages)
+================================================================================
+
+SITIO EN VIVO (no toca el Google Sites actual):
+  https://claudiomlarrea.github.io/secretaria-investigacion/
+
+REPOSITORIO:
+  https://github.com/claudiomlarrea/secretaria-investigacion
+
+--------------------------------------------------------------------------------
+PASO 4 — Cada vez que edites el sitio en Cursor
+--------------------------------------------------------------------------------
+
+1. Guardá los archivos en Cursor (index.html, css/, etc.).
+
+2. En Terminal:
+
+   cd ~/Documents/secretaria-investigacion
+   ./publicar.sh "Breve descripción del cambio"
+
+   (O sin script:)
+   git add -A
+   git commit -m "Breve descripción del cambio"
+   git push
+
+3. Esperá 1–2 minutos. Recargá el sitio en vivo con Cmd+Shift+R.
+
+4. El Google Sites de siempre NO se actualiza solo. Solo cambia la URL de arriba.
+
+--------------------------------------------------------------------------------
+IMPORTANTE — No cortar el sitio que usa la gente hoy
+--------------------------------------------------------------------------------
+
+  Google Sites (sigue activo):
+  https://sites.google.com/uccuyo.edu.ar/tablero-de-investigacion/inicio
+
+  No pegar redirección en Google Sites hasta que el equipo lo decida.
+
+--------------------------------------------------------------------------------
+Menú de cabecera — al agregar una sección nueva
+--------------------------------------------------------------------------------
+
+  En index.html:
+  - <section id="nueva-seccion">
+  - <li><a href="#nueva-seccion">Nombre corto</a> en el <nav>
+
+================================================================================
