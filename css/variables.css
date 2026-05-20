@@ -1,0 +1,44 @@
+/**
+ * Paleta llamativa: verde banda superior, rojo institucional reforzado,
+ * texto blanco sobre fondos oscuros. Ajustá hex si Comunicación pasa valores del manual.
+ */
+:root {
+  /* Verde franja superior / acentos (referencia diseño ~#004d33) */
+  --color-banner-green: #064a38;
+  --color-banner-green-dark: #042f23;
+  --rgb-banner-green: 6, 74, 56;
+
+  /* Rojo institucional más intenso que el burdeos web clásico */
+  --color-institutional: #7a1532;
+  --color-institutional-dark: #4a0c1f;
+  --color-institutional-mid: #9c2748;
+  --rgb-inst: 122, 21, 50;
+
+  /* Verde para enlaces y detalles sobre fondo claro */
+  --color-green: #0d6e4f;
+  --color-green-dark: #084c37;
+  --rgb-green: 13, 110, 79;
+
+  --color-surface: #ffffff;
+  --color-muted: #f4f0f1;
+  --color-text: #1f1418;
+  --color-text-soft: #5c4f54;
+  --color-on-dark: #ffffff;
+  --color-on-dark-muted: rgba(255, 255, 255, 0.88);
+
+  --color-primary: var(--color-institutional);
+  --color-primary-dark: var(--color-institutional-dark);
+  --color-primary-mid: var(--color-institutional-mid);
+  --color-accent-green: var(--color-green);
+  --color-accent-deep: var(--color-green-dark);
+
+  --font-sans: "Source Sans 3", "Source Sans Pro", system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Fraunces", "Georgia", serif;
+  --radius: 10px;
+  --shadow: 0 14px 44px rgba(var(--rgb-inst), 0.14);
+  --top-banner-h: 2.625rem;
+  --header-bar-h: 4.125rem;
+  --header-h: calc(var(--top-banner-h) + var(--header-bar-h));
+  --max: 72rem;
+}
