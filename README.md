@@ -11,39 +11,27 @@ python3 -m http.server 8080
 
 Abrí: http://localhost:8080
 
-## Publicar en GitHub Pages
+## Repositorio y sitio publicado
 
-### 1. Crear el repositorio en GitHub
+| | Enlace |
+|---|--------|
+| **Repositorio** | https://github.com/claudiomlarrea/secretaria-investigacion |
+| **Sitio en vivo** | https://claudiomlarrea.github.io/secretaria-investigacion/ |
 
-En [github.com/new](https://github.com/new):
+Cada `git push` a `main` vuelve a publicar el sitio (GitHub Actions).
 
-- **Nombre:** `secretaria-investigacion` (o el que prefieras)
-- **Público**
-- Sin README ni `.gitignore` (ya están en este proyecto)
-
-### 2. Subir el código (primera vez)
+### Actualizar cambios
 
 ```bash
 cd ~/Documents/secretaria-investigacion
-git remote add origin https://github.com/TU_USUARIO/secretaria-investigacion.git
-git push -u origin main
+git add -A
+git commit -m "Descripción del cambio"
+git push
 ```
 
-(Reemplazá `TU_USUARIO` por tu cuenta de GitHub.)
+### Redirect desde Google Sites
 
-### 3. Activar GitHub Pages
-
-En el repo: **Settings → Pages → Build and deployment → Source:** **GitHub Actions**.
-
-El workflow `.github/workflows/deploy-pages.yml` publica automáticamente en cada `push` a `main`.
-
-### 4. URL del sitio
-
-Tras el primer deploy (unos minutos):
-
-`https://TU_USUARIO.github.io/secretaria-investigacion/`
-
-Esa URL es la que conviene usar en el **redirect** del [Google Sites actual](https://sites.google.com/uccuyo.edu.ar/tablero-de-investigacion/inicio).
+Usá la URL del sitio en vivo en el [Google Sites actual](https://sites.google.com/uccuyo.edu.ar/tablero-de-investigacion/inicio) (bloque HTML con `window.location.replace` o enlace visible).
 
 ## Estructura del proyecto
 
