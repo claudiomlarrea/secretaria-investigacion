@@ -9,12 +9,7 @@
 
 html {
   scroll-behavior: smooth;
-  /* Cabecera fija: al ir a #consejo-investigacion etc., el título no queda tapado */
-  scroll-padding-top: calc(var(--header-h) + 0.75rem);
-}
-
-.section[id] {
-  scroll-margin-top: calc(var(--header-h) + 0.75rem);
+  scroll-padding-top: calc(var(--header-h) + 1rem);
 }
 
 body {
@@ -393,6 +388,7 @@ a:hover {
   padding: 1.15rem 1.25rem 1.3rem;
   text-align: center;
   box-sizing: border-box;
+  scroll-margin-top: calc(var(--header-h) + 1rem);
 }
 
 .section-head--green {

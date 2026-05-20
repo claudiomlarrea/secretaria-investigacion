@@ -9,7 +9,7 @@
     />
     <title>Secretaría de Investigación | Universidad Católica de Cuyo</title>
     <link rel="icon" type="image/png" href="assets/logo-uccuyo.png" />
-    <link rel="stylesheet" href="css/styles.css?v=19" />
+    <link rel="stylesheet" href="css/styles.css?v=20" />
   </head>
   <body>
     <a class="skip-link" href="#contenido">Ir al contenido</a>
@@ -46,7 +46,7 @@
             <span class="nav-toggle-icon"></span>
           </button>
           <!--
-            REGLA: cada <section id="..."> del main debe tener su <li><a href="#...">
+            REGLA: cada banda de sección lleva id en <header id="..."> y su <li><a href="#...">
             Orden = orden de las secciones en la página.
           -->
           <nav class="site-nav" id="site-nav" aria-label="Principal">
@@ -102,9 +102,12 @@
         </div>
       </section>
 
-      <section class="section" id="la-secretaria" aria-labelledby="sec-secretaria">
+      <section class="section" aria-labelledby="sec-secretaria">
         <div class="section-inner">
-          <header class="section-head section-head--bar section-head--green">
+          <header
+            id="la-secretaria"
+            class="section-head section-head--bar section-head--green"
+          >
             <p class="section-kicker">Identidad</p>
             <h2 id="sec-secretaria">La Secretaría de Investigación</h2>
           </header>
@@ -179,9 +182,12 @@
         </div>
       </section>
 
-      <section class="section" id="consejo-investigacion" aria-labelledby="sec-consejo">
+      <section class="section" aria-labelledby="sec-consejo">
         <div class="section-inner">
-          <header class="section-head section-head--bar section-head--green">
+          <header
+            id="consejo-investigacion"
+            class="section-head section-head--bar section-head--green"
+          >
             <p class="section-kicker">Gobernanza</p>
             <h2 id="sec-consejo">Consejo de Investigación</h2>
           </header>
@@ -203,9 +209,12 @@
         </div>
       </section>
 
-      <section class="section" id="ordenanza-general" aria-labelledby="sec-ordenanza">
+      <section class="section" aria-labelledby="sec-ordenanza">
         <div class="section-inner">
-          <header class="section-head section-head--bar section-head--red">
+          <header
+            id="ordenanza-general"
+            class="section-head section-head--bar section-head--red"
+          >
             <p class="section-kicker">Normativa</p>
             <h2 id="sec-ordenanza">Ordenanza general de investigación</h2>
           </header>
@@ -306,9 +315,9 @@
         </div>
       </section>
 
-      <section class="section" id="equipo" aria-labelledby="sec-equipo">
+      <section class="section" aria-labelledby="sec-equipo">
         <div class="section-inner">
-          <header class="section-head section-head--bar section-head--red">
+          <header id="equipo" class="section-head section-head--bar section-head--red">
             <p class="section-kicker">Personas</p>
             <h2 id="sec-equipo">Equipo de la Secretaría</h2>
           </header>
@@ -351,9 +360,12 @@
         </div>
       </section>
 
-      <section class="section" id="observatorio-ia" aria-labelledby="sec-oia">
+      <section class="section" aria-labelledby="sec-oia">
         <div class="section-inner">
-          <header class="section-head section-head--bar section-head--green">
+          <header
+            id="observatorio-ia"
+            class="section-head section-head--bar section-head--green"
+          >
             <p class="section-kicker">Vinculación</p>
             <h2 id="sec-oia">Observatorio de Inteligencia Artificial</h2>
           </header>
@@ -394,9 +406,9 @@
         </div>
       </section>
 
-      <section class="section" id="contacto" aria-labelledby="sec-contacto">
+      <section class="section" aria-labelledby="sec-contacto">
         <div class="section-inner">
-          <header class="section-head section-head--bar section-head--red">
+          <header id="contacto" class="section-head section-head--bar section-head--red">
             <p class="section-kicker">Escríbenos</p>
             <h2 id="sec-contacto">Datos de contacto</h2>
           </header>
@@ -455,6 +467,6 @@
       </div>
     </footer>
 
-    <script src="js/main.js?v=2" defer></script>
+    <script src="js/main.js?v=3" defer></script>
   </body>
 </html>
