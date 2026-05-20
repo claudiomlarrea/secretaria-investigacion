@@ -35,7 +35,42 @@ IMPORTANTE — No cortar el sitio que usa la gente hoy
   Google Sites (sigue activo):
   https://sites.google.com/uccuyo.edu.ar/tablero-de-investigacion/inicio
 
-  No pegar redirección en Google Sites hasta que el equipo lo decida.
+  PASO SUAVE (redirección desde el enlace habitual de Google Sites):
+  Ver archivo google-sites-redireccion.html y los pasos abajo.
+
+--------------------------------------------------------------------------------
+PASO SUAVE — Redirigir Google Sites al sitio nuevo (hacelo vos en el editor)
+--------------------------------------------------------------------------------
+
+1. Abrí el sitio actual como EDITOR:
+   https://sites.google.com/uccuyo.edu.ar/tablero-de-investigacion/inicio
+
+2. Entrá a la página INICIO (la que todos usan).
+
+3. Opcional pero recomendado: ocultá o borrá los bloques viejos de botones
+   (Consejo, Ordenanza, anexos…) para que no se vean debajo del aviso.
+   O dejá solo un bloque de texto arriba y el incrustado abajo.
+
+4. Menú Insertar → Incrustar → Pestaña "Incrustar código".
+
+5. Abrí en tu Mac el archivo:
+   ~/Documents/secretaria-investigacion/google-sites-redireccion.html
+   Copiá TODO y pegalo en el cuadro de código.
+
+6. Ajustá el tamaño del bloque incrustado si hace falta.
+
+7. Arriba a la derecha: PUBLICAR (no solo Guardar).
+
+8. Probá en ventana de incógnito:
+   https://sites.google.com/uccuyo.edu.ar/tablero-de-investigacion/inicio
+   Deberías ver el mensaje breve y luego el sitio:
+   https://claudiomlarrea.github.io/secretaria-investigacion/
+
+Si Google Sites NO acepta el script (no redirige):
+  - Dejá solo el botón "Ir al portal ahora" del mismo archivo, o
+  - Un bloque de texto con enlace grande al sitio nuevo.
+
+Para volver atrás: editá Inicio otra vez, borrá el incrustado y Publicá.
 
 --------------------------------------------------------------------------------
 Menú de cabecera — al agregar una sección nueva
