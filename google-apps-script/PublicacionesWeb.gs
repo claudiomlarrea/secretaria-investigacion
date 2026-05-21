@@ -200,7 +200,7 @@ function obtenerItemsPublicos_() {
     var o = rowAToObj_(values[i]);
     if (!o.titulo && !o.autores && !o.evento) continue;
     if (SOLO_FILA_SECRETARIA && !PATRON_UNIDAD_SEC.test(String(o.unidad || ""))) continue;
-    if (normalizar_(o.estado) === "borrador") continue;
+    if (!esVisibleEnWeb_(o)) continue;
     o.categoria = inferirCategoria_(o);
     out.push(o);
   }
@@ -216,8 +216,13 @@ function getSheet_() {
   return sh;
 }
 
+function esVisibleEnWeb_(o) {
+  var est = normalizar_(o && o.estado);
+  if (est === "borrador") return false;
+  return true;
+}
+
 function payloadToRow_(p) {
-  // Siempre publicado: el panel no ofrece borrador para evitar olvidos al cargar.
   var estado = ESTADO_PUBLICABLE;
   return [
     val_(p.tipo),
@@ -269,7 +274,7 @@ function rowAToObj_(row) {
     fecha: g(14),
     resumen: g(15),
     repositorio: g(16),
-    estado: g(17) || "borrador"
+    estado: g(17)
   };
 }
 
