@@ -1,0 +1,80 @@
+================================================================================
+  PUBLICACIONES — Secretaría (espejo del Observatorio, misma planilla)
+================================================================================
+
+Arquitectura
+------------
+                    ┌─────────────────────────────┐
+                    │ Google Sheet                │
+                    │ "Publicaciones Observatorio"│
+                    │ pestaña: Hoja 1             │
+                    └──────────────┬──────────────┘
+                                   │
+              ┌────────────────────┼────────────────────┐
+              │                    │                    │
+              ▼                    ▼                    ▼
+     Apps Script OIA      Apps Script Secretaría   Streamlit / Consejo
+     (repo observatorio)  (carpeta google-apps-script/)
+     key: OIA-Privado-2026   key: SEC-Investigacion-2026
+     lista solo OIA          lista TODAS las unidades publicadas
+              │                    │
+              ▼                    ▼
+     sitio observatorio-ia   sitio secretaria-investigacion
+                             (muestra unidad + año en cada fila)
+
+
+Qué hace el sitio Secretaría
+----------------------------
+• Misma interfaz: filtros, tabla, Ver más, DOI.
+• Lee y escribe la MISMA hoja que el Observatorio.
+• Al cargar: elegís unidad en el desplegable (Secretaría, OIA, facultades…).
+• Siempre guarda estado = publicado (no hay borrador en el panel).
+• En la lista web se ve la unidad académica antes del año.
+
+
+NO mezclar proyectos en Google
+------------------------------
+• El Observatorio tiene SU Apps Script (no lo reemplaces con el .gs de Secretaría).
+• Secretaría: proyecto Apps Script NUEVO con los archivos de esta carpeta:
+    google-apps-script/PublicacionesWeb.gs
+    google-apps-script/PublicacionesAdmin.html
+
+
+PASO 1 — Desplegar Apps Script Secretaría
+-----------------------------------------
+1. Abrí la planilla Publicaciones Observatorio (misma ID que OIA).
+2. Extensiones → Apps Script → proyecto NUEVO.
+3. Pegá PublicacionesWeb.gs y PublicacionesAdmin.html (nombre exacto).
+4. Implementar → Nueva implementación → Aplicación web
+   - Ejecutar como: Yo
+   - Acceso: Cualquier usuario
+5. Copiá la URL que termina en /exec
+
+
+PASO 2 — Conectar la web Secretaría
+-----------------------------------
+1. Editá js/publicaciones-config.js → SEC_APPS_SCRIPT_PRODUCCION:
+     APPS_SCRIPT_URL: "https://script.google.com/macros/s/TU_ID/exec"
+     ADMIN_URL: "https://script.google.com/macros/s/TU_ID/exec?action=admin&key=SEC-Investigacion-2026"
+
+2. Recargá el sitio con Cmd+Shift+R.
+
+3. Panel de carga: entrá desde el botón del sitio o con
+   .../exec?action=admin&key=SEC-Investigacion-2026
+   (la clave OIA-Privado-2026 NO sirve en el proyecto Secretaría).
+
+
+Probar en local (sin GitHub)
+-----------------------------
+     cd ~/Documents/secretaria-investigacion
+     python3 -m http.server 8080
+     http://localhost:8080/#publicaciones
+
+Mientras SEC_APPS_SCRIPT_PRODUCCION esté vacío, usa el script del OIA solo
+para ver la interfaz; al desplegar Secretaría, pegá la URL nueva.
+
+
+Subir a GitHub Pages
+--------------------
+git add / commit / push en secretaria-investigacion (con la URL de producción
+ya cargada en publicaciones-config.js).

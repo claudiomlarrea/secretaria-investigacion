@@ -9,7 +9,7 @@
     />
     <title>Secretaría de Investigación | Universidad Católica de Cuyo</title>
     <link rel="icon" type="image/png" href="assets/logo-uccuyo.png" />
-    <link rel="stylesheet" href="css/styles.css?v=20" />
+    <link rel="stylesheet" href="css/styles.css?v=21" />
   </head>
   <body>
     <a class="skip-link" href="#contenido">Ir al contenido</a>
@@ -56,6 +56,7 @@
               <li><a href="#consejo-investigacion">Consejo de Investigación</a></li>
               <li><a href="#ordenanza-general">Ordenanza</a></li>
               <li><a href="#equipo">Equipo</a></li>
+              <li><a href="#publicaciones">Publicaciones</a></li>
               <li><a href="#observatorio-ia">Observatorio de IA</a></li>
               <li><a href="#contacto">Contacto</a></li>
             </ul>
@@ -360,6 +361,31 @@
         </div>
       </section>
 
+      <section class="section" aria-labelledby="sec-pub">
+        <div class="section-inner">
+          <header
+            id="publicaciones"
+            class="section-head section-head--bar section-head--red"
+          >
+            <p class="section-kicker">Difusión</p>
+            <h2 id="sec-pub">Publicaciones</h2>
+          </header>
+          <p class="pub-intro">
+            Producción científica de la UCCuyo cargada en la misma planilla que Producción Científica.
+            En cada fila se indica la <strong>unidad académica</strong> que publicó el registro.
+            <span id="pub-count-wrap" hidden>
+              Mostrando <strong id="pub-count">0</strong> en esta vista.
+            </span>
+          </p>
+          <div class="pub-app" id="pub-app">
+            <div id="pub-team-entry"></div>
+            <div class="pub-toolbar" id="pub-filters" role="toolbar" aria-label="Filtrar por tipo"></div>
+            <div id="pub-status" class="pub-status" aria-live="polite"></div>
+            <div class="pub-grid" id="pub-grid"></div>
+          </div>
+        </div>
+      </section>
+
       <section class="section" aria-labelledby="sec-oia">
         <div class="section-inner">
           <header
@@ -455,6 +481,7 @@
         <span>Secretaría de Investigación · UCCuyo</span>
         <a href="mailto:investigacion@uccuyo.edu.ar">investigacion@uccuyo.edu.ar</a>
         <a href="#equipo">Equipo</a>
+        <a href="#publicaciones">Publicaciones</a>
         <a href="#consejo-investigacion">Consejo</a>
         <a href="#ordenanza-general">Ordenanza</a>
         <a
@@ -467,6 +494,8 @@
       </div>
     </footer>
 
+    <script src="js/publicaciones-config.js" defer></script>
+    <script src="js/publicaciones.js?v=2" defer></script>
     <script src="js/main.js?v=3" defer></script>
   </body>
 </html>
