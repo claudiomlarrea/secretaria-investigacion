@@ -3,6 +3,7 @@
   var INSTITUTION_ID = String(CFG.OPENALEX_INSTITUTION_ID || "I4210121591").trim();
   var MAILTO = String(CFG.OPENALEX_MAILTO || "investigacion@uccuyo.edu.ar").trim();
   var PAGE_SIZE = Number(CFG.OPENALEX_PAGE_SIZE) || 15;
+  var SEARCH_DEBOUNCE_MS = 450;
 
   var items = [];
   var metaTotal = 0;
@@ -10,6 +11,8 @@
   var totalPages = 1;
   var loaded = false;
   var loading = false;
+  var searchQuery = "";
+  var searchDebounce = null;
 
   function el(id) {
     return document.getElementById(id);
@@ -78,27 +81,49 @@
     });
   }
 
-  function urlWorks(page) {
-    var filter = "authorships.institutions.lineage:" + encodeURIComponent(INSTITUTION_ID);
-    return (
-      "https://api.openalex.org/works?filter=" +
-      filter +
-      "&sort=publication_date:desc" +
-      "&per-page=" +
-      PAGE_SIZE +
-      "&page=" +
-      page
-    );
+  function filtroOpenAlex() {
+    var parts = ["authorships.institutions.lineage:" + INSTITUTION_ID];
+    var q = searchQuery.trim();
+    if (q) parts.push("display_name.search:" + q);
+    return parts.join(",");
   }
 
-  function cargarPagina(page) {
-    if (loading) return;
-    loading = true;
-    var status = el("pub-index-status");
-    if (status) {
-      status.innerHTML =
-        '<div class="pub-msg pub-msg--loading">Cargando publicaciones indexadas…</div>';
+  function urlWorks(page) {
+    var params = new URLSearchParams();
+    params.set("filter", filtroOpenAlex());
+    params.set("sort", "publication_date:desc");
+    params.set("per-page", String(PAGE_SIZE));
+    params.set("page", String(page));
+    return "https://api.openalex.org/works?" + params.toString();
+  }
+
+  function actualizarContador() {
+    var wrap = el("pub-index-count-wrap");
+    var totalEl = el("pub-index-total");
+    if (!wrap || !totalEl) return;
+    wrap.hidden = false;
+    totalEl.textContent = String(metaTotal);
+  }
+
+  function mensajeCarga() {
+    if (searchQuery.trim()) {
+      return (
+        '<div class="pub-msg pub-msg--loading">Buscando «' +
+        esc(searchQuery.trim()) +
+        "»…</div>"
+      );
     }
+    return '<div class="pub-msg pub-msg--loading">Cargando publicaciones indexadas…</div>';
+  }
+
+  function cargarPagina(page, query) {
+    if (typeof query === "string") searchQuery = query;
+    if (loading) return;
+
+    loading = true;
+    currentPage = page;
+    var status = el("pub-index-status");
+    if (status) status.innerHTML = mensajeCarga();
 
     fetchOpenAlex(urlWorks(page))
       .then(function (data) {
@@ -121,10 +146,8 @@
         });
 
         loaded = true;
-        var wrap = el("pub-index-count-wrap");
-        var totalEl = el("pub-index-total");
-        if (wrap) wrap.hidden = false;
-        if (totalEl) totalEl.textContent = String(metaTotal);
+        actualizarContador();
+        actualizarBotonLimpiar();
 
         if (status) status.innerHTML = "";
         dibujarGrilla();
@@ -137,6 +160,14 @@
             "Comprobá tu conexión o probá de nuevo en unos minutos.</div>";
         }
       });
+  }
+
+  function actualizarBotonLimpiar() {
+    var clearBtn = el("pub-index-q-clear");
+    var input = el("pub-index-q");
+    if (!clearBtn) return;
+    var tieneTexto = (input && input.value.trim()) || searchQuery.trim();
+    clearBtn.hidden = !tieneTexto;
   }
 
   function filaHTML(it) {
@@ -178,13 +209,24 @@
     );
   }
 
+  function mensajeVacio() {
+    if (searchQuery.trim()) {
+      return (
+        "<p>No hay publicaciones indexadas cuyo título coincida con <strong>«" +
+        esc(searchQuery.trim()) +
+        "»</strong>.</p>" +
+        "<p>Probá con otras palabras o usá <strong>Limpiar</strong> para ver todo el índice.</p>"
+      );
+    }
+    return "<p>No hay registros para mostrar en esta página.</p>";
+  }
+
   function dibujarGrilla() {
     var grid = el("pub-index-grid");
     if (!grid) return;
 
     if (!items.length) {
-      grid.innerHTML =
-        '<div class="pub-msg pub-msg--hint"><p>No hay registros para mostrar en esta página.</p></div>';
+      grid.innerHTML = '<div class="pub-msg pub-msg--hint">' + mensajeVacio() + "</div>";
       return;
     }
 
@@ -196,30 +238,31 @@
       items.map(filaHTML).join("") +
       "</div>";
 
-    html += '<div class="pub-index-pager">';
+    if (totalPages > 1) {
+      html += '<div class="pub-index-pager">';
 
-    if (currentPage > 1) {
-      html +=
-        '<button type="button" class="pub-more-btn pub-index-nav" data-pub-index-page="' +
-        (currentPage - 1) +
-        '">← Anterior</button>';
+      if (currentPage > 1) {
+        html +=
+          '<button type="button" class="pub-more-btn pub-index-nav" data-pub-index-page="' +
+          (currentPage - 1) +
+          '">← Anterior</button>';
+      }
+
+      var info = "Página " + currentPage + " de " + totalPages;
+      if (searchQuery.trim()) {
+        info += " · " + metaTotal + " resultado" + (metaTotal === 1 ? "" : "s");
+      }
+      html += '<span class="pub-index-page-info">' + info + "</span>";
+
+      if (currentPage < totalPages) {
+        html +=
+          '<button type="button" class="pub-more-btn pub-index-nav" data-pub-index-page="' +
+          (currentPage + 1) +
+          '">Siguiente →</button>';
+      }
+
+      html += "</div>";
     }
-
-    html +=
-      '<span class="pub-index-page-info">Página ' +
-      currentPage +
-      " de " +
-      totalPages +
-      "</span>";
-
-    if (currentPage < totalPages) {
-      html +=
-        '<button type="button" class="pub-more-btn pub-index-nav" data-pub-index-page="' +
-        (currentPage + 1) +
-        '">Siguiente →</button>';
-    }
-
-    html += "</div>";
 
     grid.innerHTML = html;
 
@@ -232,6 +275,44 @@
         if (panel) panel.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     });
+  }
+
+  function programarBusqueda(valor) {
+    if (searchDebounce) window.clearTimeout(searchDebounce);
+    searchDebounce = window.setTimeout(function () {
+      searchDebounce = null;
+      cargarPagina(1, valor);
+    }, SEARCH_DEBOUNCE_MS);
+  }
+
+  function limpiarBusqueda() {
+    var input = el("pub-index-q");
+    if (input) input.value = "";
+    searchQuery = "";
+    actualizarBotonLimpiar();
+    cargarPagina(1, "");
+  }
+
+  function initBuscador() {
+    var input = el("pub-index-q");
+    var clearBtn = el("pub-index-q-clear");
+    if (!input) return;
+
+    input.addEventListener("input", function () {
+      actualizarBotonLimpiar();
+      programarBusqueda(input.value);
+    });
+
+    input.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      if (searchDebounce) window.clearTimeout(searchDebounce);
+      cargarPagina(1, input.value);
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener("click", limpiarBusqueda);
+    }
   }
 
   function activarTab(tabId) {
@@ -267,6 +348,8 @@
   function initTabs() {
     var tablist = document.querySelector(".pub-tabs");
     if (!tablist) return;
+
+    initBuscador();
 
     tablist.querySelectorAll("[data-pub-tab]").forEach(function (btn) {
       btn.addEventListener("click", function () {

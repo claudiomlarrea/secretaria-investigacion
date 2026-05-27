@@ -9,7 +9,7 @@
     />
     <title>Secretaría de Investigación | Universidad Católica de Cuyo</title>
     <link rel="icon" type="image/png" href="assets/logo-uccuyo.png" />
-    <link rel="stylesheet" href="css/styles.css?v=22" />
+    <link rel="stylesheet" href="css/styles.css?v=23" />
   </head>
   <body>
     <a class="skip-link" href="#contenido">Ir al contenido</a>
@@ -437,6 +437,29 @@
                 · <strong id="pub-index-total">0</strong> trabajos indexados en OpenAlex
               </span>
             </p>
+            <div class="pub-index-search">
+              <label class="pub-index-search-label" for="pub-index-q"
+                >Buscar por nombre de la publicación</label
+              >
+              <div class="pub-index-search-row">
+                <input
+                  type="search"
+                  id="pub-index-q"
+                  class="pub-index-search-input"
+                  placeholder="Ej.: sostenibilidad, inteligencia artificial, demencia…"
+                  autocomplete="off"
+                  enterkeyhint="search"
+                />
+                <button
+                  type="button"
+                  id="pub-index-q-clear"
+                  class="pub-more-btn pub-index-search-clear"
+                  hidden
+                >
+                  Limpiar
+                </button>
+              </div>
+            </div>
             <div id="pub-index-status" class="pub-status" aria-live="polite"></div>
             <div class="pub-grid" id="pub-index-grid"></div>
           </div>
@@ -553,7 +576,7 @@
 
     <script src="js/publicaciones-config.js" defer></script>
     <script src="js/publicaciones.js?v=3" defer></script>
-    <script src="js/publicaciones-index.js?v=1" defer></script>
+    <script src="js/publicaciones-index.js?v=2" defer></script>
     <script src="js/main.js?v=3" defer></script>
   </body>
 </html>

@@ -1332,6 +1332,56 @@ form.simple-form small {
   color: #fff;
 }
 
+.pub-index-search {
+  margin: 0 0 1.25rem;
+  max-width: 40rem;
+}
+
+.pub-index-search-label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-institutional-dark);
+}
+
+.pub-index-search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.pub-index-search-input {
+  flex: 1 1 14rem;
+  min-width: 0;
+  padding: 0.65rem 1rem;
+  border: 2px solid rgba(var(--rgb-inst), 0.22);
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 1rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  box-shadow: 0 4px 14px rgba(var(--rgb-inst), 0.06);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pub-index-search-input::placeholder {
+  color: var(--color-text-soft);
+  opacity: 0.85;
+}
+
+.pub-index-search-input:focus {
+  outline: none;
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 3px rgba(var(--rgb-banner-green), 0.22);
+}
+
+.pub-index-search-clear {
+  flex: 0 0 auto;
+  align-self: center;
+}
+
 .pub-index-pager {
   display: flex;
   flex-wrap: wrap;
