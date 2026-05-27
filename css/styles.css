@@ -991,10 +991,70 @@ form.simple-form small {
 
 /* ——— Publicaciones dinámicas (Google Sheets → Apps Script) ——— */
 .pub-intro {
-  margin: 0 0 1.75rem;
+  margin: 0 0 1.25rem;
   max-width: 48rem;
   color: var(--color-text-soft);
   line-height: 1.55;
+}
+
+.pub-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+  padding: 0.35rem;
+  border-radius: var(--radius);
+  background: rgba(var(--rgb-inst), 0.06);
+  border: 1px solid rgba(var(--rgb-inst), 0.12);
+}
+
+.pub-tab {
+  flex: 1 1 12rem;
+  padding: 0.7rem 1rem;
+  border: 2px solid transparent;
+  border-radius: calc(var(--radius) - 2px);
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-institutional-dark);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.pub-tab:hover {
+  background: rgba(var(--rgb-banner-green), 0.12);
+}
+
+.pub-tab--active {
+  background: var(--color-surface);
+  color: var(--color-institutional-dark);
+  border-color: rgba(var(--rgb-inst), 0.18);
+  box-shadow: 0 6px 20px rgba(var(--rgb-inst), 0.12);
+}
+
+.pub-tab:focus-visible {
+  outline: 2px solid var(--color-green);
+  outline-offset: 2px;
+}
+
+.pub-panel-intro {
+  margin: 0 0 1.25rem;
+  max-width: 52rem;
+  color: var(--color-text-soft);
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+.pub-panel-intro--index a {
+  color: var(--color-institutional);
+  font-weight: 700;
+}
+
+.pub-panel[hidden] {
+  display: none !important;
 }
 
 .pub-app {
@@ -1270,6 +1330,25 @@ form.simple-form small {
   filter: brightness(1.08);
   transform: translateY(-1px);
   color: #fff;
+}
+
+.pub-index-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+  margin-top: 1.5rem;
+}
+
+.pub-index-page-info {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-soft);
+}
+
+.pub-index-nav {
+  min-width: 8rem;
 }
 
 .pub-more-wrap {
