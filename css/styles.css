@@ -1334,7 +1334,42 @@ form.simple-form small {
 
 .pub-index-search {
   margin: 0 0 1.25rem;
-  max-width: 40rem;
+  max-width: 44rem;
+}
+
+.pub-index-search-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.65rem;
+}
+
+.pub-index-mode {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 2px solid rgba(var(--rgb-inst), 0.18);
+  background: var(--color-surface);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-institutional-dark);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.pub-index-mode:hover {
+  border-color: var(--color-green);
+}
+
+.pub-index-mode--active {
+  background: rgba(var(--rgb-banner-green), 0.14);
+  border-color: var(--color-green);
+  color: var(--color-institutional-dark);
+}
+
+.pub-index-mode:focus-visible {
+  outline: 2px solid var(--color-green);
+  outline-offset: 2px;
 }
 
 .pub-index-search-label {

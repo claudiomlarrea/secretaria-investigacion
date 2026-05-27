@@ -12,7 +12,15 @@
   var loaded = false;
   var loading = false;
   var searchQuery = "";
+  var searchMode = "auto";
   var searchDebounce = null;
+
+  var ETIQUETA_MODO = {
+    auto: "coincidencias",
+    title: "título",
+    author: "autor/a",
+    doi: "DOI"
+  };
 
   function el(id) {
     return document.getElementById(id);
@@ -81,11 +89,87 @@
     });
   }
 
+  function normalizarDoi(q) {
+    var s = String(q || "").trim();
+    s = s.replace(/^https?:\/\/(?:dx\.)?doi\.org\//i, "");
+    s = s.replace(/^doi:\s*/i, "");
+    return s.trim();
+  }
+
+  function pareceDoi(q) {
+    var d = normalizarDoi(q);
+    return /^10\.\d{3,}/i.test(d);
+  }
+
+  function palabrasDe(q) {
+    return String(q || "")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+  }
+
+  function pareceAutor(q) {
+    var s = String(q || "").trim();
+    if (!s) return false;
+    if (s.indexOf(",") >= 0) return true;
+
+    var partes = palabrasDe(s);
+    if (partes.length === 1) {
+      return partes[0].length >= 3 && /^[\p{L}]/u.test(partes[0]);
+    }
+    if (partes.length < 2 || partes.length > 6) return false;
+
+    var mayusculas = partes.filter(function (w) {
+      return /^[\p{Lu}]/u.test(w);
+    }).length;
+    if (mayusculas >= 2) return true;
+    if (partes.length === 2 && mayusculas >= 1) return true;
+    return false;
+  }
+
+  function modoBusquedaEfectivo(q) {
+    var modo = searchMode;
+    if (modo === "auto") {
+      if (pareceDoi(q)) return "doi";
+      if (pareceAutor(q)) return "author";
+      return "title";
+    }
+    return modo;
+  }
+
+  function textoAutorBusqueda(q) {
+    return String(q || "")
+      .trim()
+      .replace(/\s*,\s*/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
   function filtroOpenAlex() {
     var parts = ["authorships.institutions.lineage:" + INSTITUTION_ID];
     var q = searchQuery.trim();
-    if (q) parts.push("display_name.search:" + q);
+    if (!q) return parts.join(",");
+
+    var modo = modoBusquedaEfectivo(q);
+    if (modo === "doi") {
+      var doi = normalizarDoi(q);
+      if (/^10\.\d{4,}.+\/.+/i.test(doi)) {
+        parts.push("doi:" + doi);
+      } else {
+        parts.push("doi_starts_with:" + doi);
+      }
+    } else if (modo === "author") {
+      parts.push("raw_author_name.search:" + textoAutorBusqueda(q));
+    } else {
+      parts.push("display_name.search:" + q);
+    }
     return parts.join(",");
+  }
+
+  function etiquetaModoActual() {
+    var q = searchQuery.trim();
+    if (!q) return "";
+    return ETIQUETA_MODO[modoBusquedaEfectivo(q)] || "coincidencias";
   }
 
   function urlWorks(page) {
@@ -108,7 +192,9 @@
   function mensajeCarga() {
     if (searchQuery.trim()) {
       return (
-        '<div class="pub-msg pub-msg--loading">Buscando «' +
+        '<div class="pub-msg pub-msg--loading">Buscando por ' +
+        esc(etiquetaModoActual()) +
+        ": «" +
         esc(searchQuery.trim()) +
         "»…</div>"
       );
@@ -212,10 +298,12 @@
   function mensajeVacio() {
     if (searchQuery.trim()) {
       return (
-        "<p>No hay publicaciones indexadas cuyo título coincida con <strong>«" +
+        "<p>No hay publicaciones indexadas que coincidan por <strong>" +
+        esc(etiquetaModoActual()) +
+        "</strong> con «" +
         esc(searchQuery.trim()) +
-        "»</strong>.</p>" +
-        "<p>Probá con otras palabras o usá <strong>Limpiar</strong> para ver todo el índice.</p>"
+        "».</p>" +
+        "<p>Probá otro criterio (título, DOI o autor/a) o usá <strong>Limpiar</strong>.</p>"
       );
     }
     return "<p>No hay registros para mostrar en esta página.</p>";
@@ -293,10 +381,29 @@
     cargarPagina(1, "");
   }
 
+  function seleccionarModo(modo) {
+    searchMode = modo || "auto";
+    document.querySelectorAll("[data-pub-index-mode]").forEach(function (btn) {
+      var on = btn.getAttribute("data-pub-index-mode") === searchMode;
+      btn.classList.toggle("pub-index-mode--active", on);
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  }
+
   function initBuscador() {
     var input = el("pub-index-q");
     var clearBtn = el("pub-index-q-clear");
     if (!input) return;
+
+    document.querySelectorAll("[data-pub-index-mode]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        seleccionarModo(btn.getAttribute("data-pub-index-mode"));
+        if (input.value.trim()) {
+          if (searchDebounce) window.clearTimeout(searchDebounce);
+          cargarPagina(1, input.value);
+        }
+      });
+    });
 
     input.addEventListener("input", function () {
       actualizarBotonLimpiar();

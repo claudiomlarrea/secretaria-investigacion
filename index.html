@@ -9,7 +9,7 @@
     />
     <title>Secretaría de Investigación | Universidad Católica de Cuyo</title>
     <link rel="icon" type="image/png" href="assets/logo-uccuyo.png" />
-    <link rel="stylesheet" href="css/styles.css?v=23" />
+    <link rel="stylesheet" href="css/styles.css?v=24" />
   </head>
   <body>
     <a class="skip-link" href="#contenido">Ir al contenido</a>
@@ -439,14 +439,52 @@
             </p>
             <div class="pub-index-search">
               <label class="pub-index-search-label" for="pub-index-q"
-                >Buscar por nombre de la publicación</label
+                >Buscar por título, DOI o autor/a</label
               >
+              <div
+                class="pub-index-search-modes"
+                role="radiogroup"
+                aria-label="Tipo de búsqueda"
+              >
+                <button
+                  type="button"
+                  class="pub-index-mode pub-index-mode--active"
+                  data-pub-index-mode="auto"
+                  aria-pressed="true"
+                >
+                  Auto
+                </button>
+                <button
+                  type="button"
+                  class="pub-index-mode"
+                  data-pub-index-mode="title"
+                  aria-pressed="false"
+                >
+                  Título
+                </button>
+                <button
+                  type="button"
+                  class="pub-index-mode"
+                  data-pub-index-mode="author"
+                  aria-pressed="false"
+                >
+                  Autor/a
+                </button>
+                <button
+                  type="button"
+                  class="pub-index-mode"
+                  data-pub-index-mode="doi"
+                  aria-pressed="false"
+                >
+                  DOI
+                </button>
+              </div>
               <div class="pub-index-search-row">
                 <input
                   type="search"
                   id="pub-index-q"
                   class="pub-index-search-input"
-                  placeholder="Ej.: sostenibilidad, inteligencia artificial, demencia…"
+                  placeholder="Título, 10.1234/…, Apellido Nombre o Apellido, Nombre"
                   autocomplete="off"
                   enterkeyhint="search"
                 />
@@ -576,7 +614,7 @@
 
     <script src="js/publicaciones-config.js" defer></script>
     <script src="js/publicaciones.js?v=3" defer></script>
-    <script src="js/publicaciones-index.js?v=2" defer></script>
+    <script src="js/publicaciones-index.js?v=3" defer></script>
     <script src="js/main.js?v=3" defer></script>
   </body>
 </html>
