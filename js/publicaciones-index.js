@@ -13,6 +13,7 @@
   var loading = false;
   var searchQuery = "";
   var searchMode = "auto";
+  var yearFilter = "all";
   var searchDebounce = null;
 
   var ETIQUETA_MODO = {
@@ -147,6 +148,7 @@
 
   function filtroOpenAlex() {
     var parts = ["authorships.institutions.lineage:" + INSTITUTION_ID];
+    if (yearFilter !== "all") parts.push("publication_year:" + yearFilter);
     var q = searchQuery.trim();
     if (!q) return parts.join(",");
 
@@ -190,16 +192,22 @@
   }
 
   function mensajeCarga() {
+    var byYear = yearFilter !== "all" ? " en " + yearFilter : "";
     if (searchQuery.trim()) {
       return (
         '<div class="pub-msg pub-msg--loading">Buscando por ' +
         esc(etiquetaModoActual()) +
+        byYear +
         ": «" +
         esc(searchQuery.trim()) +
         "»…</div>"
       );
     }
-    return '<div class="pub-msg pub-msg--loading">Cargando publicaciones indexadas…</div>';
+    return (
+      '<div class="pub-msg pub-msg--loading">Cargando publicaciones indexadas' +
+      byYear +
+      "…</div>"
+    );
   }
 
   function cargarPagina(page, query) {
@@ -306,6 +314,13 @@
         "<p>Probá otro criterio (título, DOI o autor/a) o usá <strong>Limpiar</strong>.</p>"
       );
     }
+    if (yearFilter !== "all") {
+      return (
+        "<p>No hay publicaciones indexadas para <strong>" +
+        esc(yearFilter) +
+        "</strong>.</p><p>Probá con otro año o seleccioná <strong>Todos los años</strong>.</p>"
+      );
+    }
     return "<p>No hay registros para mostrar en esta página.</p>";
   }
 
@@ -381,6 +396,19 @@
     cargarPagina(1, "");
   }
 
+  function construirOpcionesAnio() {
+    var select = el("pub-index-year");
+    if (!select) return;
+    var currentYear = new Date().getFullYear();
+    var minYear = 1990;
+    var opts = ['<option value="all">Todos los años</option>'];
+    for (var y = currentYear; y >= minYear; y--) {
+      opts.push('<option value="' + y + '">' + y + "</option>");
+    }
+    select.innerHTML = opts.join("");
+    select.value = yearFilter;
+  }
+
   function seleccionarModo(modo) {
     searchMode = modo || "auto";
     document.querySelectorAll("[data-pub-index-mode]").forEach(function (btn) {
@@ -393,7 +421,10 @@
   function initBuscador() {
     var input = el("pub-index-q");
     var clearBtn = el("pub-index-q-clear");
+    var yearSelect = el("pub-index-year");
     if (!input) return;
+
+    construirOpcionesAnio();
 
     document.querySelectorAll("[data-pub-index-mode]").forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -419,6 +450,13 @@
 
     if (clearBtn) {
       clearBtn.addEventListener("click", limpiarBusqueda);
+    }
+
+    if (yearSelect) {
+      yearSelect.addEventListener("change", function () {
+        yearFilter = yearSelect.value || "all";
+        cargarPagina(1);
+      });
     }
   }
 

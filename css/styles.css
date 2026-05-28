@@ -1387,6 +1387,38 @@ form.simple-form small {
   align-items: stretch;
 }
 
+.pub-index-year {
+  margin: 0 0 0.75rem;
+  max-width: 18rem;
+}
+
+.pub-index-year-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-text-soft);
+}
+
+.pub-index-year-select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid rgba(var(--rgb-inst), 0.2);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-institutional-dark);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pub-index-year-select:focus {
+  outline: none;
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 3px rgba(var(--rgb-banner-green), 0.22);
+}
+
 .pub-index-search-input {
   flex: 1 1 14rem;
   min-width: 0;
