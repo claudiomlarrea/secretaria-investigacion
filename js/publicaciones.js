@@ -99,7 +99,8 @@
 
     status.innerHTML = "<div class=\"pub-msg pub-msg--loading\">Cargando publicaciones…</div>";
 
-    fetchJson(url).then(
+    var urlLive = url + (url.indexOf("?") >= 0 ? "&" : "?") + "_=" + Date.now();
+    fetchJson(urlLive).then(
       function (data) {
         if (!data || !data.ok || !Array.isArray(data.items)) throw new Error("format");
         items = data.items;
@@ -108,7 +109,7 @@
         renderTodo();
       },
       function () {
-        return fetchJsonp(url).then(
+        return fetchJsonp(urlLive).then(
           function (data) {
             if (!data || !data.ok || !Array.isArray(data.items)) throw new Error("format");
             items = data.items;
