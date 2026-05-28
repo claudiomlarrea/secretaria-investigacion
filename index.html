@@ -372,8 +372,9 @@
           </header>
           <p class="pub-intro">
             Consultá la producción <strong>registrada por la universidad</strong> o explorá un
-            <strong>índice académico automático</strong> (revistas y trabajos con DOI indexados en
-            OpenAlex, <strong>por afiliación UCCuyo</strong>).
+            <strong>índice académico automático</strong> en fuentes abiertas (OpenAlex, Crossref,
+            Semantic Scholar, Europe PMC y enlaces de acceso abierto vía Unpaywall),
+            <strong>por afiliación UCCuyo</strong>.
           </p>
 
           <div class="pub-tabs" role="tablist" aria-label="Vistas de publicaciones">
@@ -430,14 +431,22 @@
           >
             <p class="pub-panel-intro pub-panel-intro--index">
               Listado aproximado desde
-              <a href="https://openalex.org" target="_blank" rel="noopener noreferrer">OpenAlex</a>
-              con publicaciones de investigadoras e investigadores de la
+              <a href="https://openalex.org" target="_blank" rel="noopener noreferrer">OpenAlex</a>,
+              <a href="https://www.crossref.org" target="_blank" rel="noopener noreferrer">Crossref</a>,
+              <a href="https://www.semanticscholar.org" target="_blank" rel="noopener noreferrer"
+                >Semantic Scholar</a
+              >
+              y
+              <a href="https://europepmc.org" target="_blank" rel="noopener noreferrer">Europe PMC</a>
+              (incluye PubMed), con enlaces de acceso abierto vía
+              <a href="https://unpaywall.org" target="_blank" rel="noopener noreferrer">Unpaywall</a>.
+              Publicaciones de investigadoras e investigadores de la
               <em>Universidad Católica de Cuyo</em> (según <strong>afiliación UCCuyo</strong> en la base). Puede faltar
-              producción sin DOI o incluir registros a revisar. Datos actualizados por la base, no
+              producción sin DOI o incluir registros a revisar. Datos actualizados por las bases, no
               por la Secretaría.
               <span class="pub-index-badge">Resultados aproximados</span>
               <span id="pub-index-count-wrap" hidden>
-                · <strong id="pub-index-total">0</strong> trabajos indexados en OpenAlex
+                · <strong id="pub-index-total">0</strong> trabajos aproximados (referencia OpenAlex)
               </span>
             </p>
             <div class="pub-index-search">
@@ -648,7 +657,8 @@
 
     <script src="js/publicaciones-config.js" defer></script>
     <script src="js/publicaciones.js?v=3" defer></script>
-    <script src="js/publicaciones-index.js?v=4" defer></script>
+    <script src="js/publicaciones-fuentes-abiertas.js?v=1" defer></script>
+    <script src="js/publicaciones-index.js?v=5" defer></script>
     <script src="js/main.js?v=3" defer></script>
   </body>
 </html>
