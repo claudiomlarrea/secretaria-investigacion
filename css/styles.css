@@ -1342,6 +1342,7 @@ form.simple-form small {
   flex-wrap: wrap;
   gap: 0.4rem;
   margin-bottom: 0.65rem;
+  align-items: center;
 }
 
 .pub-index-mode {
@@ -1388,8 +1389,11 @@ form.simple-form small {
 }
 
 .pub-index-year {
-  margin: 0 0 0.75rem;
-  max-width: 18rem;
+  margin: 0;
+}
+
+.pub-index-year--inline {
+  margin-left: 0.1rem;
 }
 
 .pub-index-year-label {
@@ -1401,15 +1405,17 @@ form.simple-form small {
 }
 
 .pub-index-year-select {
-  width: 100%;
-  padding: 0.5rem 0.75rem;
+  width: auto;
+  min-width: 9.2rem;
+  padding: 0.32rem 2rem 0.32rem 0.75rem;
   border: 2px solid rgba(var(--rgb-inst), 0.2);
   border-radius: 999px;
   background: var(--color-surface);
   color: var(--color-institutional-dark);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
+  line-height: 1.2;
   cursor: pointer;
 }
 
