@@ -1455,6 +1455,19 @@ form.simple-form small {
   align-self: center;
 }
 
+.pub-index-search-clear-all {
+  flex: 0 0 auto;
+  align-self: center;
+  border-style: dashed;
+}
+
+.pub-index-active {
+  margin-top: 0.45rem;
+  font-size: 0.82rem;
+  color: var(--color-text-soft);
+  min-height: 1.1rem;
+}
+
 .pub-index-pager {
   display: flex;
   flex-wrap: wrap;
