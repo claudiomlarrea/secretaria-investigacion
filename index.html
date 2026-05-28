@@ -435,6 +435,7 @@
               <em>Universidad Católica de Cuyo</em> (según <strong>afiliación UCCuyo</strong> en la base). Puede faltar
               producción sin DOI o incluir registros a revisar. Datos actualizados por la base, no
               por la Secretaría.
+              <span class="pub-index-badge">Resultados aproximados</span>
               <span id="pub-index-count-wrap" hidden>
                 · <strong id="pub-index-total">0</strong> trabajos indexados en OpenAlex
               </span>
@@ -514,6 +515,20 @@
                 <button type="button" id="pub-index-clear-all" class="pub-more-btn pub-index-search-clear-all">
                   Limpiar todo
                 </button>
+              </div>
+              <div class="pub-index-controls">
+                <label class="pub-index-control-label" for="pub-index-size">Por página</label>
+                <select id="pub-index-size" class="pub-index-control-select" aria-label="Cantidad por página">
+                  <option value="15">15</option>
+                  <option value="30">30</option>
+                  <option value="50">50</option>
+                </select>
+                <label class="pub-index-control-label" for="pub-index-sort">Orden</label>
+                <select id="pub-index-sort" class="pub-index-control-select" aria-label="Ordenar publicaciones">
+                  <option value="date_desc">Fecha: más reciente</option>
+                  <option value="date_asc">Fecha: más antigua</option>
+                  <option value="relevance">Relevancia (si hay búsqueda)</option>
+                </select>
               </div>
               <div id="pub-index-active" class="pub-index-active" aria-live="polite"></div>
             </div>

@@ -1468,6 +1468,53 @@ form.simple-form small {
   min-height: 1.1rem;
 }
 
+.pub-index-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.5rem;
+}
+
+.pub-index-control-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text-soft);
+}
+
+.pub-index-control-select {
+  padding: 0.28rem 1.6rem 0.28rem 0.55rem;
+  border: 2px solid rgba(var(--rgb-inst), 0.18);
+  border-radius: 999px;
+  background: var(--color-surface);
+  font: inherit;
+  font-size: 0.78rem;
+  color: var(--color-institutional-dark);
+}
+
+.pub-index-control-select:focus {
+  outline: none;
+  border-color: var(--color-green);
+}
+
+.pub-index-badge {
+  display: inline-flex;
+  margin-left: 0.45rem;
+  padding: 0.1rem 0.48rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(var(--rgb-banner-green), 0.14);
+  color: var(--color-green-dark);
+}
+
+.pub-mark {
+  background: rgba(var(--rgb-banner-green), 0.24);
+  color: inherit;
+  padding: 0 0.12rem;
+  border-radius: 0.2rem;
+}
+
 .pub-index-pager {
   display: flex;
   flex-wrap: wrap;
