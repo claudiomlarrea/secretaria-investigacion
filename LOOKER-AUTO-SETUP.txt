@@ -1,0 +1,49 @@
+SISTEMA AUTOMÁTICO — PLANILLA LOOKER + TABLERO
+==============================================
+
+Flujo completo
+--------------
+1) Investigador carga en el panel web («Ingreso equipo · Cargar publicaciones»).
+   → Se guarda en la planilla del sitio Y se copia a «indice_openalex» (Looker).
+   → Fuente: Registro manual.
+
+2) Cada día, GitHub Actions consulta OpenAlex (UCCuyo, 2020–hoy).
+   → Agrega solo publicaciones nuevas (por DOI) en «indice_openalex».
+   → Fuente: OpenAlex.
+
+3) Looker Studio (actualización cada 15 min) relee la planilla.
+   → El tablero muestra datos nuevos sin hacer nada más.
+
+
+PASO A — Activar espejo al cargar (Apps Script, una vez)
+--------------------------------------------------------
+1. Abrí el proyecto Apps Script que usa el sitio (Publicaciones Observatorio o Publicaciones Página Web).
+2. En PublicacionesWeb.gs pegá la versión actual del repo (incluye mirrorPublicationToLooker_).
+3. Implementar → Administrar implementaciones → Nueva versión → Implementar.
+4. La cuenta de servicio del script debe tener acceso Editor a la planilla Looker:
+   https://docs.google.com/spreadsheets/d/10SKDfZJIZGSTOaOWgGmB46WPM0Bd0BvLe4aZ9jilA34/edit
+   (compartir con el correo que ejecuta el script, normalmente el tuyo).
+
+
+PASO B — Sincronización diaria OpenAlex (GitHub, una vez)
+---------------------------------------------------------
+1. Google Cloud: cuenta de servicio + JSON (Sheets API + Drive API).
+2. Compartir planilla Looker con el email de la cuenta de servicio (Editor).
+3. GitHub → secretaria-investigacion → Settings → Secrets → GOOGLE_SA_JSON = contenido del JSON.
+4. Actions → «Sync Looker OpenAlex» → Run workflow (probar).
+
+
+PASO C — Looker Studio
+----------------------
+1. Fuente de datos: Publicaciones → hoja «indice_openalex».
+2. «Usar primera fila como encabezados» activado.
+3. Actualización de datos: 15 minutos (ya configurado en tu informe).
+4. Tabla: dimensiones anio, titulo, autores; resumen por año: solo anio + Record Count.
+
+
+Importante
+----------
+- No existe aviso instantáneo cuando alguien publica en una revista del mundo;
+  OpenAlex se actualiza con demora; el job diario detecta novedades.
+- La carga manual del panel sí impacta en minutos (planilla + Looker 15 min).
+- Apps Script directo a OpenAlex falla con error 429; por eso OpenAlex va por GitHub Actions.

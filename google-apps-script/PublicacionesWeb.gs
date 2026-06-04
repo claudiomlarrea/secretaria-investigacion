@@ -24,6 +24,10 @@ var PATRON_UNIDAD_SEC =
   /Secretaría de Investigación|Secretaria de Investigacion|SEC.*Investigación/i;
 var ESTADO_PUBLICABLE = "publicado";
 
+var LOOKER_SHEET_ID = "10SKDfZJIZGSTOaOWgGmB46WPM0Bd0BvLe4aZ9jilA34";
+var LOOKER_TAB = "indice_openalex";
+var LOOKER_HEADERS = ["anio", "titulo", "autores", "doi", "url", "fuente", "fecha_sync"];
+
 var ADMIN_ACCESS_KEY = "SEC-Investigacion-2026";
 
 var AUTHORIZED_EMAILS = [
@@ -100,6 +104,7 @@ function doPost(e) {
   try {
     getSheet_().appendRow(row);
     SpreadsheetApp.flush();
+    mirrorPublicationToLooker_(payload);
   } catch (err) {
     if (fromPanel) return panelSaveResponse_(false, String(err), payload);
     return json_({ ok: false, error: "save_failed", message: String(err) });
@@ -139,10 +144,61 @@ function savePublicationAdmin_(payload) {
     }
     getSheet_().appendRow(row);
     SpreadsheetApp.flush();
+    mirrorPublicationToLooker_(payload);
     return { ok: true, message: "Guardado" };
   } catch (err) {
     return { ok: false, message: String(err) };
   }
+}
+
+function mirrorPublicationToLooker_(p) {
+  if (!LOOKER_SHEET_ID) return;
+  try {
+    var est = normalizar_(val_(p.estado) || ESTADO_PUBLICABLE);
+    if (est === "borrador") return;
+
+    var sh = SpreadsheetApp.openById(LOOKER_SHEET_ID).getSheetByName(LOOKER_TAB);
+    if (!sh) sh = SpreadsheetApp.openById(LOOKER_SHEET_ID).insertSheet(LOOKER_TAB);
+
+    if (sh.getLastRow() === 0) {
+      sh.getRange(1, 1, 1, LOOKER_HEADERS.length).setValues([LOOKER_HEADERS]);
+    }
+
+    var doi = normalizeDoiForLooker_(val_(p.doi));
+    if (doi && lookerHasDoi_(sh, doi)) return;
+
+    var anio = val_(p.anio);
+    if (/^\d{4}\/\d/.test(anio)) {
+      try {
+        anio = String(new Date(anio).getFullYear());
+      } catch (_e) {}
+    }
+    var link = val_(p.link);
+    if (!link && doi) link = "https://doi.org/" + doi;
+    var now = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "yyyy-MM-dd HH:mm:ss");
+
+    sh.appendRow([anio, val_(p.titulo), val_(p.autores), doi, link, "Registro manual", now]);
+  } catch (err) {
+    Logger.log("mirrorPublicationToLooker_: " + err);
+  }
+}
+
+function normalizeDoiForLooker_(raw) {
+  var s = String(raw || "").trim();
+  s = s.replace(/^https?:\/\/(?:dx\.)?doi\.org\//i, "");
+  s = s.replace(/^doi:\s*/i, "");
+  return s.trim();
+}
+
+function lookerHasDoi_(sh, doi) {
+  var last = sh.getLastRow();
+  if (last < 2) return false;
+  var vals = sh.getRange(2, 4, last - 1, 1).getValues();
+  var needle = doi.toLowerCase();
+  for (var i = 0; i < vals.length; i++) {
+    if (normalizeDoiForLooker_(vals[i][0]).toLowerCase() === needle) return true;
+  }
+  return false;
 }
 
 function authorizeSavePanel() {

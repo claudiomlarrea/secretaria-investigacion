@@ -1,0 +1,45 @@
+SYNC AUTOMÁTICO A GOOGLE SHEETS (LOOKER)
+=======================================
+
+Objetivo
+--------
+Cargar automáticamente en la planilla de Looker:
+- anio
+- titulo
+- autores
+
+También agrega:
+- doi
+- url
+- fuente
+- fecha_sync
+
+
+Archivo a usar
+--------------
+SyncLookerOpenAlex.gs
+
+
+Pasos
+-----
+1) Abrí tu proyecto de Google Apps Script.
+2) Pegá el contenido de SyncLookerOpenAlex.gs.
+3) Verificá constantes al inicio:
+   - LOOKER_SHEET_ID
+   - LOOKER_SHEET_NAME
+   - OPENALEX_INSTITUTION_ID_LOOKER
+   - OPENALEX_MAILTO_LOOKER
+4) Ejecutá una vez:
+   syncLookerPublicacionesOpenAlex
+   (Google te va a pedir permisos).
+5) Opcional (automático diario):
+   createDailyLookerSyncTrigger
+
+
+Notas importantes
+-----------------
+- Deduplica por DOI; si no hay DOI, por titulo+anio.
+- No borra filas existentes: solo agrega nuevas.
+- Filtra desde LOOKER_MIN_YEAR y evita años futuros.
+- Si querés refresco completo, borrá filas (desde la 2) y corré sync de nuevo.
+
