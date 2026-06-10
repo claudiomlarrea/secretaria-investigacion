@@ -1,0 +1,50 @@
+================================================================================
+  INVESTIGACIONES DESTACADAS — Hoja 2 Consejo → sitio Secretaría
+================================================================================
+
+Fuente de datos
+---------------
+Planilla: Datos Consejo Investigación
+https://docs.google.com/spreadsheets/d/17MiyW17W7oLIwSCKjDXCoA85CwBkYqHYhDKblVN37c8/edit
+Pestaña: Hoja 2 (misma que Streamlit Consejo y Looker)
+
+
+PASO 1 — Columnas en la planilla (una vez)
+------------------------------------------
+Al final de la fila de encabezados de Hoja 2, agregá dos columnas:
+
+  destacar_web      → sí / no  (solo «sí» aparece en el sitio)
+  orden_destacado   → 1, 2, 3… (orden en la grilla; menor = primero)
+
+Marcá «sí» en 10–20 proyectos representativos (Proyecto de Investigación,
+Proyecto de Cátedra, etc.). El resto de la hoja sigue igual para Looker.
+
+
+PASO 2 — Apps Script (obligatorio para que funcione en vivo)
+------------------------------------------------------------
+1. Abrí el proyecto Apps Script que usa el sitio Secretaría
+   (el mismo de publicaciones: PublicacionesWeb.gs).
+2. Pegá la versión actual de google-apps-script/PublicacionesWeb.gs del repo.
+3. La cuenta que ejecuta el script debe tener acceso Lector (o Editor) a la
+   planilla Datos Consejo Investigación (17MiyW17…).
+4. Implementar → Administrar implementaciones → Nueva versión → Implementar.
+   (Sin esto GitHub Pages sigue con el script viejo sin ?action=proyectos.)
+
+
+PASO 3 — Probar
+---------------
+Local:
+  cd ~/Documents/secretaria-investigacion
+  python3 -m http.server 8080
+  http://localhost:8080/#investigaciones
+
+API directa:
+  …/exec?action=proyectos
+
+Debe devolver JSON con items[] (vacío si nadie tiene destacar_web = sí).
+
+
+Qué muestra cada tarjeta
+------------------------
+Año, tipo, unidad, título, descripción, director, instituto/cátedra, equipo.
+NO se publican: DNI, montos, puntajes, resoluciones, responsable de carga.

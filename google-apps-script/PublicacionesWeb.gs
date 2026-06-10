@@ -11,12 +11,16 @@
  *   en cada fila se ve la unidad académica. OIA sigue filtrando solo filas OIA.
  *
  * Endpoints:
- * - GET  (sin action): JSON para la web pública.
+ * - GET  (sin action): JSON publicaciones para la web pública.
+ * - GET  ?action=proyectos: JSON investigaciones destacadas (Hoja 2 Consejo).
  * - GET  ?action=admin: panel HTML de carga.
  * - POST ?action=add: agrega fila en la misma hoja.
  */
 
 var SPREADSHEET_ID = "18xXPRok4kVF81hkEDDlfDf8Vx-KI2HeywZNFSXkozwU";
+var CONSEJO_SHEET_ID = "17MiyW17W7oLIwSCKjDXCoA85CwBkYqHYhDKblVN37c8";
+var CONSEJO_HOJA = "Hoja 2";
+var PROYECTOS_CACHE_SEC = 300;
 var HOJA_PUBLICACIONES = "Hoja 1";
 /** false = misma planilla compartida, se listan todas las unidades (la UI muestra cuál es cada una). */
 var SOLO_FILA_SECRETARIA = false;
@@ -75,6 +79,12 @@ function doGet(e) {
   var action = param_(e, "action", "public");
   if (action === "admin") {
     return renderAdmin_(e);
+  }
+  if (action === "proyectos") {
+    return jsonOrJsonp_(
+      { ok: true, generatedAt: new Date().toISOString(), items: obtenerProyectosDestacados_() },
+      e
+    );
   }
 
   var datos = obtenerItemsPublicos_();
@@ -243,6 +253,130 @@ function renderAdmin_(e) {
     .evaluate()
     .setTitle("Carga de Publicaciones")
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function obtenerProyectosDestacados_() {
+  var cache = CacheService.getScriptCache();
+  var cached = cache.get("proyectos_destacados_v1");
+  if (cached) {
+    try {
+      return JSON.parse(cached);
+    } catch (_e) {}
+  }
+  var items = obtenerProyectosDestacadosFresh_();
+  try {
+    cache.put("proyectos_destacados_v1", JSON.stringify(items), PROYECTOS_CACHE_SEC);
+  } catch (_e2) {}
+  return items;
+}
+
+function obtenerProyectosDestacadosFresh_() {
+  var sh;
+  try {
+    sh = getConsejoSheet_();
+  } catch (err) {
+    Logger.log("obtenerProyectosDestacadosFresh_: " + err);
+    return [];
+  }
+
+  var values = sh.getDataRange().getDisplayValues();
+  if (!values || values.length < 2) return [];
+
+  var idxMap = headerIndexMap_(values[0]);
+  if (idxMap.destacar_web == null) return [];
+
+  var out = [];
+  for (var i = 1; i < values.length; i++) {
+    var row = values[i];
+    if (!esDestacadoWeb_(colConsejo_(row, idxMap, ["destacar_web"]))) continue;
+
+    var titulo = colConsejo_(row, idxMap, ["titulo"]);
+    if (!titulo) continue;
+
+    var anioRaw = colConsejo_(row, idxMap, ["ano", "anio", "a_o"]);
+    var ordenRaw = colConsejo_(row, idxMap, ["orden_destacado", "orden"]);
+    var orden = parseInt(ordenRaw, 10);
+    if (isNaN(orden)) orden = 9999;
+
+    out.push({
+      anio: anioRaw,
+      tipo: truncarTexto_(colConsejo_(row, idxMap, ["tipo"]), 120),
+      titulo: truncarTexto_(titulo, 300),
+      descripcion: truncarTexto_(colConsejo_(row, idxMap, ["descripcion", "descripci_n"]), 220),
+      director: truncarTexto_(colConsejo_(row, idxMap, ["director"]), 160),
+      unidad: truncarTexto_(
+        colConsejo_(row, idxMap, ["unidad_academica", "unidad"]),
+        200
+      ),
+      instituto: truncarTexto_(colConsejo_(row, idxMap, ["instituto"]), 120),
+      catedra: truncarTexto_(colConsejo_(row, idxMap, ["catedra"]), 120),
+      equipo: truncarTexto_(colConsejo_(row, idxMap, ["equipo"]), 180),
+      orden: orden
+    });
+  }
+
+  out.sort(comparadorProyectos_);
+  return out;
+}
+
+function getConsejoSheet_() {
+  var ss = SpreadsheetApp.openById(CONSEJO_SHEET_ID);
+  var sh = ss.getSheetByName(CONSEJO_HOJA);
+  if (!sh) throw new Error("No existe la pestaña '" + CONSEJO_HOJA + "'");
+  return sh;
+}
+
+function headerIndexMap_(headerRow) {
+  var map = {};
+  for (var i = 0; i < headerRow.length; i++) {
+    var key = normalizarHeaderKey_(headerRow[i]);
+    if (key) map[key] = i;
+  }
+  return map;
+}
+
+function normalizarHeaderKey_(h) {
+  return normalizar_(h).replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+}
+
+function colConsejo_(row, idxMap, keys) {
+  for (var k = 0; k < keys.length; k++) {
+    var idx = idxMap[keys[k]];
+    if (idx == null) continue;
+    var v = row[idx];
+    if (v != null && String(v).trim()) return String(v).trim();
+  }
+  return "";
+}
+
+function esDestacadoWeb_(val) {
+  var v = normalizar_(val);
+  return (
+    v === "si" ||
+    v === "s" ||
+    v === "1" ||
+    v === "true" ||
+    v === "yes" ||
+    v === "x" ||
+    v === "destacado"
+  );
+}
+
+function truncarTexto_(s, max) {
+  s = val_(s);
+  if (!s) return "";
+  if (s.length <= max) return s;
+  return s.substring(0, Math.max(0, max - 1)) + "\u2026";
+}
+
+function comparadorProyectos_(a, b) {
+  var oa = a.orden != null ? a.orden : 9999;
+  var ob = b.orden != null ? b.orden : 9999;
+  if (oa !== ob) return oa - ob;
+  var ya = parseInt(a.anio, 10);
+  var yb = parseInt(b.anio, 10);
+  if (!isNaN(ya) && !isNaN(yb) && ya !== yb) return yb - ya;
+  return String(a.titulo || "").localeCompare(String(b.titulo || ""), "es");
 }
 
 function obtenerItemsPublicos_() {
