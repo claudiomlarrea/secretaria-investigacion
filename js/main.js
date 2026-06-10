@@ -53,6 +53,10 @@
 
   function alinearHashInicial() {
     var hash = window.location.hash;
+    if (hash === "#investigaciones") {
+      history.replaceState(null, "", "#inicio");
+      hash = "#inicio";
+    }
     if (!hash || hash === "#inicio") return;
     var el = document.querySelector(hash);
     if (!el) return;

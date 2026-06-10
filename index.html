@@ -3,13 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <meta
       name="description"
       content="Secretaría de Investigación de la Universidad Católica de Cuyo. Normativa, trámites, actas y recursos para la comunidad investigadora."
     />
     <title>Secretaría de Investigación | Universidad Católica de Cuyo</title>
     <link rel="icon" type="image/png" href="assets/logo-uccuyo.png" />
-    <link rel="stylesheet" href="css/styles.css?v=27" />
+    <link rel="stylesheet" href="css/styles.css?v=28" />
+    <script>
+      if (location.hash === "#investigaciones") {
+        history.replaceState(null, "", location.pathname + "#inicio");
+      }
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#contenido">Ir al contenido</a>
@@ -703,6 +711,6 @@
     <script src="js/publicaciones.js?v=4" defer></script>
     <script src="js/publicaciones-fuentes-abiertas.js?v=1" defer></script>
     <script src="js/publicaciones-index.js?v=5" defer></script>
-    <script src="js/main.js?v=3" defer></script>
+    <script src="js/main.js?v=4" defer></script>
   </body>
 </html>
