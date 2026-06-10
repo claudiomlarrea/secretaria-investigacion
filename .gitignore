@@ -1,7 +1,10 @@
-.DS_Store
-.AppleDouble
-.LSOverride
-Thumbs.db
 *.log
+.AppleDouble
+.DS_Store
+.LSOverride
 .cursor/
+Thumbs.db
 looker*.csv
+node_modules/
+package-lock.json
+package.json
