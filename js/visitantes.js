@@ -1,10 +1,12 @@
 (function () {
+  var CFG = window.SEC_VISITANTES || {};
   var PUB = window.SEC_PUBLICACIONES || window.OBS_PUBLICACIONES || {};
   var root = document.getElementById("visitantes-widget");
   if (!root) return;
 
   var base = PUB.APPS_SCRIPT_URL && String(PUB.APPS_SCRIPT_URL).trim();
-  if (!base) return;
+  var site = CFG.SITE && String(CFG.SITE).trim();
+  if (!base || !site) return;
 
   function fmt(n) {
     var x = Number(n);
@@ -16,13 +18,15 @@
     }
   }
 
+  function esContador(data) {
+    return data && data.ok && data.secretaria != null && data.observatorio != null && !Array.isArray(data.items);
+  }
+
   function pintar(data) {
-    if (!data || !data.ok) return;
+    if (!esContador(data)) return;
     root.hidden = false;
     root.innerHTML =
-      "Visitas (" +
-      (data.periodo || "últimos 90 días") +
-      "): Secretaría <strong>" +
+      "Visitas a las páginas web: Secretaría <strong>" +
       fmt(data.secretaria) +
       "</strong> · Observatorio <strong>" +
       fmt(data.observatorio) +
@@ -38,7 +42,7 @@
 
   function fetchJsonp(url) {
     return new Promise(function (resolve, reject) {
-      var name = "_visStats_" + Math.floor(Math.random() * 1e9);
+      var name = "_visCb_" + Math.floor(Math.random() * 1e9);
       var done = false;
       var qs = url.indexOf("?") >= 0 ? "&" : "?";
       var script = document.createElement("script");
@@ -67,7 +71,12 @@
   }
 
   var url =
-    base + (base.indexOf("?") >= 0 ? "&" : "?") + "action=stats&_=" + Date.now();
+    base +
+    (base.indexOf("?") >= 0 ? "&" : "?") +
+    "action=visit&site=" +
+    encodeURIComponent(site) +
+    "&_=" +
+    Date.now();
 
   fetchJson(url).then(pintar, function () {
     fetchJsonp(url).then(pintar, function () {});

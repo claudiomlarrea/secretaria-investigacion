@@ -1,0 +1,15 @@
+ÚNICO PASO QUE NO PUEDO HACER YO (necesita tu cuenta Google)
+============================================================
+
+En la Mac, Terminal:
+
+  ~/Documents/secretaria-investigacion/google-apps-script/activar-contador.sh
+
+Luego en el navegador que se abre:
+  Cmd+A → Cmd+V → Cmd+S
+  Implementar → Administrar implementaciones → lápiz → Nueva versión → Implementar
+
+Listo. Los números aparecen en el pie de ambas páginas.
+
+Nota: cuenta cada visita a la página (no es el panel de Google Analytics).
+Para números idénticos a GA4 haría falta configurar la API de Analytics (más complejo).
