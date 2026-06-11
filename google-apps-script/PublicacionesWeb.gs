@@ -13,7 +13,7 @@
  * Endpoints:
  * - GET  (sin action): JSON para la web pública.
  * - GET  ?action=admin: panel HTML de carga.
- * - GET  ?action=visit&site=secretaria|observatorio: +1 visita a esa página web (GitHub Pages).
+ * - GET  ?action=stats: usuarios activos GA4 (90 días) Secretaría + Observatorio.
  * - POST ?action=add: agrega fila en la misma hoja.
  */
 
@@ -30,6 +30,10 @@ var LOOKER_TAB = "indice_openalex";
 var LOOKER_HEADERS = ["anio", "titulo", "autores", "doi", "url", "fuente", "fecha_sync"];
 
 var ADMIN_ACCESS_KEY = "SEC-Investigacion-2026";
+
+/** IDs de propiedad GA4 (solo números, de Administración → Detalles de la propiedad). */
+var GA_PROPERTY_SECRETARIA = "468456433";
+var GA_PROPERTY_OBSERVATORIO = "538113678";
 
 var AUTHORIZED_EMAILS = [
   "claudio.larrea@hotmail.com",
@@ -77,8 +81,8 @@ function doGet(e) {
   if (action === "admin") {
     return renderAdmin_(e);
   }
-  if (action === "visit") {
-    return jsonOrJsonp_(registrarVisita_(param_(e, "site", "")), e);
+  if (action === "stats") {
+    return jsonOrJsonp_(obtenerStatsGA_(), e);
   }
 
   var datos = obtenerItemsPublicos_();
@@ -466,28 +470,33 @@ function adminKeyFromRequest_(e) {
   return val_(e.parameter.key);
 }
 
-/** Visitas a las páginas en GitHub Pages (no a la sección Publicaciones). */
-function registrarVisita_(site) {
-  var props = PropertiesService.getScriptProperties();
-  var sec = parseInt(props.getProperty("visitas_web_secretaria") || "0", 10) || 0;
-  var obs = parseInt(props.getProperty("visitas_web_observatorio") || "0", 10) || 0;
-  if (site === "secretaria") {
-    sec++;
-    props.setProperty("visitas_web_secretaria", String(sec));
-  } else if (site === "observatorio") {
-    obs++;
-    props.setProperty("visitas_web_observatorio", String(obs));
+function obtenerStatsGA_() {
+  try {
+    return {
+      ok: true,
+      periodo: "últimos 90 días",
+      metrica: "usuarios activos",
+      secretaria: leerUsuariosGA_(GA_PROPERTY_SECRETARIA),
+      observatorio: leerUsuariosGA_(GA_PROPERTY_OBSERVATORIO)
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      error: String(err),
+      secretaria: 0,
+      observatorio: 0
+    };
   }
-  return {
-    ok: true,
-    tipo: "paginas_web",
-    secretaria: sec,
-    observatorio: obs,
-    paginas: {
-      secretaria: "https://claudiomlarrea.github.io/secretaria-investigacion/",
-      observatorio: "https://claudiomlarrea.github.io/observatorio-ia/"
-    }
+}
+
+function leerUsuariosGA_(propertyId) {
+  var req = {
+    dateRanges: [{ startDate: "90daysAgo", endDate: "today" }],
+    metrics: [{ name: "activeUsers" }]
   };
+  var res = AnalyticsData.Properties.runReport(req, "properties/" + propertyId);
+  if (!res.rows || !res.rows.length) return 0;
+  return parseInt(res.rows[0].metricValues[0].value, 10) || 0;
 }
 
 function json_(obj) {
