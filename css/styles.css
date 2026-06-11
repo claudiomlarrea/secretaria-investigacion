@@ -325,8 +325,16 @@ a:hover {
   gap: 0.75rem;
 }
 
-.hero-mail {
+.hero-mail-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1.5rem;
   margin: 1.25rem 0 0;
+}
+
+.hero-mail {
+  margin: 0;
   font-size: 0.95rem;
   font-weight: 600;
 }
@@ -813,6 +821,21 @@ form.simple-form small {
   text-align: center;
   font-size: 0.85rem;
   color: var(--color-on-dark-muted);
+}
+
+.visitantes-widget--hero {
+  flex-basis: auto;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  text-align: left;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.hero .visitantes-widget--hero strong {
+  color: var(--color-on-dark);
 }
 
 .visitantes-widget a {
