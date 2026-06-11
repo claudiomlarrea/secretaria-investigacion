@@ -805,6 +805,21 @@ form.simple-form small {
   text-decoration: underline;
 }
 
+.visitantes-widget {
+  flex-basis: 100%;
+  width: 100%;
+  max-width: var(--max);
+  margin: 0.5rem auto 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-on-dark-muted);
+}
+
+.visitantes-widget strong {
+  color: var(--color-on-dark);
+  font-variant-numeric: tabular-nums;
+}
+
 .stack-gap-top {
   margin-top: 2rem;
 }

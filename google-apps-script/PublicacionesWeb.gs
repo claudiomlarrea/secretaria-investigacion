@@ -13,6 +13,7 @@
  * Endpoints:
  * - GET  (sin action): JSON para la web pública.
  * - GET  ?action=admin: panel HTML de carga.
+ * - GET  ?action=visit&site=secretaria|observatorio: suma 1 visita y devuelve ambos totales.
  * - POST ?action=add: agrega fila en la misma hoja.
  */
 
@@ -75,6 +76,9 @@ function doGet(e) {
   var action = param_(e, "action", "public");
   if (action === "admin") {
     return renderAdmin_(e);
+  }
+  if (action === "visit") {
+    return jsonOrJsonp_(registrarVisita_(param_(e, "site", "")), e);
   }
 
   var datos = obtenerItemsPublicos_();
@@ -460,6 +464,36 @@ function isAuthorized_(e) {
 function adminKeyFromRequest_(e) {
   if (!e || !e.parameter) return "";
   return val_(e.parameter.key);
+}
+
+var HOJA_VISITAS = "contador_visitas";
+
+function registrarVisita_(site) {
+  var sh = getVisitasSheet_();
+  var sec = Number(sh.getRange(2, 1).getValue()) || 0;
+  var obs = Number(sh.getRange(2, 2).getValue()) || 0;
+  if (site === "secretaria") {
+    sec++;
+    sh.getRange(2, 1).setValue(sec);
+  } else if (site === "observatorio") {
+    obs++;
+    sh.getRange(2, 2).setValue(obs);
+  }
+  return { ok: true, secretaria: sec, observatorio: obs };
+}
+
+function getVisitasSheet_() {
+  var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var sh = ss.getSheetByName(HOJA_VISITAS);
+  if (!sh) {
+    sh = ss.insertSheet(HOJA_VISITAS);
+    sh.getRange(1, 1, 1, 2).setValues([["secretaria", "observatorio"]]);
+    sh.getRange(2, 1, 2, 2).setValues([[0, 0]]);
+    try {
+      sh.hideSheet();
+    } catch (err) {}
+  }
+  return sh;
 }
 
 function json_(obj) {
