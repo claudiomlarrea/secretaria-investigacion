@@ -1,61 +1,29 @@
 ================================================================================
-  CONTADOR DE VISITAS — Secretaría + Observatorio (simple)
+  VISITAS A LAS PÁGINAS WEB — Secretaría y Observatorio
 ================================================================================
 
-Qué hace
---------
-Cada visita a una página suma 1 y muestra en el pie:
+Qué cuenta
+----------
+Cada vez que alguien abre una de estas páginas en el navegador:
 
-  Visitas: 1.234 Secretaría · 567 Observatorio de IA
+  Secretaría:    https://claudiomlarrea.github.io/secretaria-investigacion/
+  Observatorio:  https://claudiomlarrea.github.io/observatorio-ia/
 
-Los dos números se guardan en la misma planilla de Publicaciones
-(pestaña oculta "contador_visitas"). No usa Google Analytics ni APIs extra.
+En el pie de AMBAS páginas se muestran los dos totales.
 
-
-Tu parte (una sola vez, ~5 minutos)
------------------------------------
-
-1) Actualizar Apps Script (en el proyecto que usa la URL de publicaciones-config.js)
-
-   • Abrí script.google.com → el proyecto vinculado a:
-     https://script.google.com/macros/s/AKfycbwwHlP8QpZsm_uK2Kwcauk1BvgmsWl5f_VrFFNQJzq6r4NcLUgHosaFO8uVRmy6mfiRig/exec
-
-   • Copiá el contenido de google-apps-script/PublicacionesWeb.gs (versión nueva).
-
-   • Implementar → Administrar implementaciones → lápiz → Nueva versión → Implementar.
-     (La URL /exec no cambia.)
-
-2) Subir la web Secretaría
-
-   cd ~/Documents/secretaria-investigacion
-   ./publicar.sh
-   (o git add / commit / push como siempre)
-
-3) Observatorio (repo observatorio-ia en GitHub)
-
-   • Copiá estos archivos (mismo contenido, salvo el config):
-       js/visitantes.js
-       js/visitantes-config.js   →  SITE: "observatorio"
-       css: clase .visitantes-widget (o el bloque del styles.css de Secretaría)
-
-   • En el HTML del pie, antes de </footer>:
-       <p id="visitantes-widget" class="visitantes-widget" aria-live="polite" hidden></p>
-
-   • Antes de </body>, después de publicaciones-config.js:
-       <script src="js/visitantes-config.js?v=1" defer></script>
-       <script src="js/visitantes.js?v=1" defer></script>
-
-   • publicaciones-config.js del Observatorio debe tener la MISMA APPS_SCRIPT_URL
-     que Secretaría (la del paso 1), para que compartan el contador.
-
-4) Probar
-
-   Abrí cada sitio en ventana privada. Deberías ver subir el número del sitio
-   que visitaste. Recargá con ⌘⇧R si no aparece al primer intento.
+NO es el contador de Google Analytics.
+NO cuenta visitas a publicaciones ni descargas de PDF.
 
 
-Notas
------
-• Cuenta cada carga de página (no usuarios únicos). Es lo habitual en contadores simples.
-• Si actualizás solo un Apps Script, usá la misma planilla SPREADSHEET_ID en ambos
-  o un solo script para visitas (recomendado: uno solo, como arriba).
+Activar (una vez, en Apps Script)
+---------------------------------
+Ver: ../Observatorio/google-apps-script/PEGAR-Y-PUBLICAR-AHORA.txt
+
+O ejecutar:
+  ~/Documents/Observatorio/google-apps-script/activar-visitas.sh
+
+
+Publicar cambios web
+--------------------
+  cd ~/Documents/secretaria-investigacion && ./publicar.sh
+  cd ~/Documents/Observatorio && git add -A && git commit -m "..." && git push

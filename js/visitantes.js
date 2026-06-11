@@ -1,12 +1,18 @@
 (function () {
-  var VIS = window.SEC_VISITANTES || {};
-  var PUB = window.SEC_PUBLICACIONES || window.OBS_PUBLICACIONES || {};
+  var CFG = window.SEC_VISITANTES || {};
   var root = document.getElementById("visitantes-widget");
   if (!root) return;
 
-  var base = (VIS.STATS_URL && String(VIS.STATS_URL).trim()) || (PUB.APPS_SCRIPT_URL && String(PUB.APPS_SCRIPT_URL).trim());
-  var site = VIS.SITE && String(VIS.SITE).trim();
+  var base = CFG.VISITAS_SCRIPT_URL && String(CFG.VISITAS_SCRIPT_URL).trim();
+  var site = CFG.SITE && String(CFG.SITE).trim();
+  var paginas = CFG.PAGINAS || {};
   if (!base || !site) return;
+
+  function esc(s) {
+    var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s);
+    return d.innerHTML;
+  }
 
   function fmt(n) {
     var x = Number(n);
@@ -18,15 +24,27 @@
     }
   }
 
+  function esRespuestaVisitas(data) {
+    return data && data.ok && data.secretaria != null && data.observatorio != null && !Array.isArray(data.items);
+  }
+
   function pintar(data) {
-    if (!data || !data.ok) return;
+    if (!esRespuestaVisitas(data)) return;
+    var urlSec = paginas.secretaria || "#";
+    var urlObs = paginas.observatorio || "#";
     root.hidden = false;
     root.innerHTML =
-      "Visitas: <strong>" +
+      "Visitas a las páginas web: " +
+      '<a href="' +
+      esc(urlSec) +
+      '" rel="noopener noreferrer">Secretaría de Investigación</a> <strong>' +
       fmt(data.secretaria) +
-      "</strong> Secretaría · <strong>" +
+      "</strong> · " +
+      '<a href="' +
+      esc(urlObs) +
+      '" rel="noopener noreferrer">Observatorio de IA</a> <strong>' +
       fmt(data.observatorio) +
-      "</strong> Observatorio de IA";
+      "</strong>";
   }
 
   function fetchJson(url) {

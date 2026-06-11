@@ -815,6 +815,15 @@ form.simple-form small {
   color: var(--color-on-dark-muted);
 }
 
+.visitantes-widget a {
+  color: var(--color-on-dark);
+  font-weight: 600;
+}
+
+.visitantes-widget a:hover {
+  text-decoration: underline;
+}
+
 .visitantes-widget strong {
   color: var(--color-on-dark);
   font-variant-numeric: tabular-nums;

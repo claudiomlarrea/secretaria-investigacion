@@ -13,7 +13,7 @@
  * Endpoints:
  * - GET  (sin action): JSON para la web pública.
  * - GET  ?action=admin: panel HTML de carga.
- * - GET  ?action=visit&site=secretaria|observatorio: suma 1 visita y devuelve ambos totales.
+ * - GET  ?action=visit&site=secretaria|observatorio: +1 visita a esa página web (GitHub Pages).
  * - POST ?action=add: agrega fila en la misma hoja.
  */
 
@@ -466,34 +466,28 @@ function adminKeyFromRequest_(e) {
   return val_(e.parameter.key);
 }
 
-var HOJA_VISITAS = "contador_visitas";
-
+/** Visitas a las páginas en GitHub Pages (no a la sección Publicaciones). */
 function registrarVisita_(site) {
-  var sh = getVisitasSheet_();
-  var sec = Number(sh.getRange(2, 1).getValue()) || 0;
-  var obs = Number(sh.getRange(2, 2).getValue()) || 0;
+  var props = PropertiesService.getScriptProperties();
+  var sec = parseInt(props.getProperty("visitas_web_secretaria") || "0", 10) || 0;
+  var obs = parseInt(props.getProperty("visitas_web_observatorio") || "0", 10) || 0;
   if (site === "secretaria") {
     sec++;
-    sh.getRange(2, 1).setValue(sec);
+    props.setProperty("visitas_web_secretaria", String(sec));
   } else if (site === "observatorio") {
     obs++;
-    sh.getRange(2, 2).setValue(obs);
+    props.setProperty("visitas_web_observatorio", String(obs));
   }
-  return { ok: true, secretaria: sec, observatorio: obs };
-}
-
-function getVisitasSheet_() {
-  var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  var sh = ss.getSheetByName(HOJA_VISITAS);
-  if (!sh) {
-    sh = ss.insertSheet(HOJA_VISITAS);
-    sh.getRange(1, 1, 1, 2).setValues([["secretaria", "observatorio"]]);
-    sh.getRange(2, 1, 2, 2).setValues([[0, 0]]);
-    try {
-      sh.hideSheet();
-    } catch (err) {}
-  }
-  return sh;
+  return {
+    ok: true,
+    tipo: "paginas_web",
+    secretaria: sec,
+    observatorio: obs,
+    paginas: {
+      secretaria: "https://claudiomlarrea.github.io/secretaria-investigacion/",
+      observatorio: "https://claudiomlarrea.github.io/observatorio-ia/"
+    }
+  };
 }
 
 function json_(obj) {
