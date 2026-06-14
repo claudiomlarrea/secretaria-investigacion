@@ -18,12 +18,13 @@ from lib.pei_model import (
     load_baseline,
     planilla_evolucion_anual_df,
     planilla_funciones_resumen_df,
+    planilla_indicadores_institucionales_por_anio_df,
     planilla_objetivos_df,
     planilla_sedes_df,
     planilla_unidades_df,
 )
 from lib.styles import apply_plotly_style, render_header
-from ui_theme import CHART_SEQUENCE, GREEN
+from ui_theme import CHART_SEQUENCE, GREEN, estilizar_variacion_tabla
 
 render_header(
     "Actividades del Plan Estratégico Institucional por año, sede y función sustantiva "
@@ -38,6 +39,23 @@ c1.metric("Actividades del plan", data["total_actividades"])
 c2.metric("Objetivos generales", len(data["objetivos"]))
 c3.metric("Sedes", len(data["sedes"]))
 c4.metric("Funciones sustantivas", len(data["funciones_sustantivas"]))
+
+st.subheader("Indicadores institucionales · serie histórica")
+st.caption(
+    "Actividades reales del PEI según Memoria Académica y análisis cuantitativo. "
+    "Los valores 2023–2024 se estiman a partir del volumen de actividades del plan de cada año."
+)
+
+planilla_hist = planilla_indicadores_institucionales_por_anio_df()
+st.dataframe(
+    estilizar_variacion_tabla(planilla_hist, columnas_delta=("Δ último año",)),
+    hide_index=True,
+    use_container_width=True,
+    column_config={
+        "Área": st.column_config.TextColumn("Área", width="medium"),
+        "Indicador": st.column_config.TextColumn("Indicador", width="large"),
+    },
+)
 
 st.subheader(f"Planillas del PEI · {anio}")
 st.caption(data.get("fuente", "Memoria Académica y análisis del PEI."))

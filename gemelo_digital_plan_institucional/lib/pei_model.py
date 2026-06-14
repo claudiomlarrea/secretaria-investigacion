@@ -16,7 +16,8 @@ ANIOS_DISPONIBLES = [2023, 2024, 2025]
 def load_baseline(anio: int = 2025) -> dict:
     with open(BASELINE_PATH, encoding="utf-8") as f:
         data = json.load(f)
-    if anio != data.get("anio", 2025):
+    base_anio = data.get("anio", 2025)
+    if anio != base_anio:
         serie = {r["anio"]: r["total"] for r in data.get("actividades_por_anio", [])}
         total = serie.get(anio, data["total_actividades"])
         factor = total / data["total_actividades"] if data["total_actividades"] else 1
@@ -25,6 +26,19 @@ def load_baseline(anio: int = 2025) -> dict:
             {**o, "actividades": max(1, round(o["actividades"] * factor)), "pct": round(o["pct"], 1)}
             for o in data["objetivos"]
         ]
+        funciones: list[dict] = []
+        for f in data["funciones_sustantivas"]:
+            fn = {**f, "actividades_plan": max(1, round(f["actividades_plan"] * factor))}
+            for sede_key in ("alumnos", "docentes", "investigadores", "actividades"):
+                if sede_key in fn and isinstance(fn[sede_key], dict):
+                    fn[sede_key] = {
+                        sede: max(0, round(val * factor)) for sede, val in fn[sede_key].items()
+                    }
+            for campo in ("convenios_firmados", "actividades_extension", "voluntariado_y_comunidad"):
+                if campo in fn:
+                    fn[campo] = max(0, round(fn[campo] * factor))
+            funciones.append(fn)
+        data["funciones_sustantivas"] = funciones
     return data
 
 
@@ -118,6 +132,57 @@ def planilla_evolucion_anual_df() -> pd.DataFrame:
             "variación vs año anterior": "Δ vs año anterior",
         }
     )
+
+
+def _actividades_og6(data: dict) -> int:
+    return int(next(o["actividades"] for o in data["objetivos"] if int(o["id"]) == 6))
+
+
+def planilla_indicadores_institucionales_por_anio_df(
+    anios: list[int] | None = None,
+) -> pd.DataFrame:
+    """Planilla comparativa de indicadores reales del PEI por año (formato ancho)."""
+    anios = anios or ANIOS_DISPONIBLES
+    filas_def = [
+        ("Docencia", "Alumnos", lambda d: funcion_metricas("Docencia", d)["alumnos"]),
+        ("Docencia", "Docentes", lambda d: funcion_metricas("Docencia", d)["docentes"]),
+        (
+            "Investigación",
+            "Actividades de investigación",
+            lambda d: funcion_metricas("Investigación", d)["actividades"],
+        ),
+        (
+            "Extensión",
+            "Actividades de extensión",
+            lambda d: funcion_metricas("Extensión", d)["extension"],
+        ),
+        (
+            "Identidad católica e institucional",
+            "Actividades OG6 en el plan",
+            _actividades_og6,
+        ),
+    ]
+    valores_por_anio: dict[int, dict[str, float | int]] = {a: {} for a in anios}
+    for anio in anios:
+        data = load_baseline(anio)
+        for _, indicador, fn in filas_def:
+            valores_por_anio[anio][indicador] = fn(data)
+
+    rows: list[dict] = []
+    for area, indicador, _ in filas_def:
+        row: dict = {"Área": area, "Indicador": indicador}
+        for anio in anios:
+            row[str(anio)] = valores_por_anio[anio][indicador]
+        if len(anios) >= 2:
+            ultimo = anios[-1]
+            anterior = anios[-2]
+            v_u = valores_por_anio[ultimo][indicador]
+            v_a = valores_por_anio[anterior][indicador]
+            row["Δ último año"] = (
+                round(v_u - v_a, 1) if isinstance(v_u, float) and v_u != int(v_u) else v_u - v_a
+            )
+        rows.append(row)
+    return pd.DataFrame(rows)
 
 
 def planilla_unidades_df(data: dict | None = None) -> pd.DataFrame:
