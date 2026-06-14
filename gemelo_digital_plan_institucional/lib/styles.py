@@ -8,7 +8,8 @@ from constants import APP_NAME
 from ucc_streamlit_chrome import hide_streamlit_cloud_toolbar
 
 ROOT = Path(__file__).resolve().parent.parent
-LOGO = ROOT / "assets" / "logo_uccuyo.png"
+LOGO_UCCUYO = ROOT / "assets" / "logo_uccuyo.png"
+LOGO_OIA = ROOT / "assets" / "logo-observatorio-ia.png"
 
 
 def apply_styles() -> None:
@@ -18,7 +19,33 @@ def apply_styles() -> None:
         <style>
         [data-testid="stAppViewContainer"] { background: #f4f0f1; }
         [data-testid="stSidebar"] { background: #4a0c1f !important; }
-        [data-testid="stSidebar"] * { color: #f8f4f5 !important; }
+
+        /* Texto de navegación y etiquetas en sidebar */
+        [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+        [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] span,
+        [data-testid="stSidebar"] label,
+        [data-testid="stSidebarNav"] a,
+        [data-testid="stSidebarNav"] span {
+            color: #f8f4f5 !important;
+        }
+
+        /* Selectores e inputs: fondo claro y texto oscuro legible */
+        [data-testid="stSidebar"] [data-baseweb="select"] > div,
+        [data-testid="stSidebar"] [data-baseweb="input"] {
+            background-color: #ffffff !important;
+            color: #1f1418 !important;
+            border-color: #ddd5d8 !important;
+        }
+        [data-testid="stSidebar"] [data-baseweb="select"] span,
+        [data-testid="stSidebar"] [data-baseweb="select"] input,
+        [data-testid="stSidebar"] [data-baseweb="input"] input {
+            color: #1f1418 !important;
+            -webkit-text-fill-color: #1f1418 !important;
+        }
+        [data-testid="stSidebar"] [data-testid="stSelectbox"] svg {
+            fill: #1f1418 !important;
+        }
+
         .gemelo-banner {
             background: linear-gradient(90deg, #7a1532, #4a0c1f);
             color: #fff;
@@ -59,17 +86,22 @@ def apply_styles() -> None:
 
 def render_header(subtitulo: str) -> None:
     apply_styles()
-    c1, c2 = st.columns([1, 7])
+    c1, c2, c3 = st.columns([1, 1, 6])
     with c1:
-        if LOGO.exists():
-            st.image(str(LOGO), width=88)
+        if LOGO_UCCUYO.exists():
+            st.image(str(LOGO_UCCUYO), width=72)
     with c2:
+        if LOGO_OIA.exists():
+            st.image(str(LOGO_OIA), width=72)
+        else:
+            st.caption("Observatorio de IA")
+    with c3:
         st.markdown(
             f"""
             <div class="gemelo-banner">
               <h1>{APP_NAME}</h1>
               <p>{subtitulo}</p>
-              <span class="proto-badge">Prototipo interno · no publicado en el sitio web</span>
+              <span class="proto-badge">Prototipo interno · Observatorio de IA · UCCuyo</span>
             </div>
             """,
             unsafe_allow_html=True,

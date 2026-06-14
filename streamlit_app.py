@@ -14,8 +14,10 @@ for p in (str(REPO), str(GEMELO), str(VIEWS)):
         sys.path.insert(0, p)
 
 from gemelo_digital_plan_institucional.constants import APP_NAME
+from gemelo_digital_plan_institucional.lib.styles import apply_styles
 
 st.set_page_config(page_title=APP_NAME, page_icon="🎓", layout="wide")
+apply_styles()
 
 pages = [
     st.Page(
