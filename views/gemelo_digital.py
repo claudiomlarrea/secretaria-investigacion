@@ -12,6 +12,8 @@ from lib.pei_model import (
     ANIOS_DISPONIBLES,
     contribucion_objetivo_funcion,
     funciones_df,
+    guia_por_indicador_df,
+    guia_por_objetivo_df,
     indice_equilibrio,
     load_baseline,
     metricas_operativas_por_funcion,
@@ -86,6 +88,27 @@ with right:
     )
     fig_fun.update_layout(showlegend=False, height=340)
     st.plotly_chart(fig_fun, use_container_width=True)
+
+st.divider()
+st.subheader("Qué objetivo impulsa qué indicador")
+
+st.markdown(
+    "Referencia para interpretar la simulación. Al **subir el peso** de un objetivo general "
+    "en los controles de abajo, crecen los indicadores vinculados según la matriz del PEI."
+)
+
+guia_tabs = st.tabs(["Por indicador", "Por objetivo general (OG)"])
+
+with guia_tabs[0]:
+    st.caption(
+        "Indicadores operativos (proyectados en la simulación) y temáticas del plan "
+        "(calidad, identidad católica, educación a distancia, etc.)."
+    )
+    st.dataframe(guia_por_indicador_df(data), hide_index=True, use_container_width=True)
+
+with guia_tabs[1]:
+    st.caption("Resumen de cada uno de los seis objetivos generales del PEI 2023–2027.")
+    st.dataframe(guia_por_objetivo_df(data), hide_index=True, use_container_width=True)
 
 st.divider()
 st.subheader("Simulación: redistribución por objetivo")

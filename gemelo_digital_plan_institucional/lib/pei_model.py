@@ -250,3 +250,130 @@ def indice_equilibrio(pcts: list[float]) -> float:
     ideal = 100 / n
     desv = sum(abs(p - ideal) for p in pcts) / (2 * (100 - ideal) or 1)
     return round(max(0.0, 1.0 - desv), 2)
+
+
+def _objetivos_map(data: dict) -> dict[str, str]:
+    return {str(o["id"]): o["nombre"] for o in data["objetivos"]}
+
+
+def _rank_objetivos_por_funcion(data: dict, funcion: str) -> list[tuple[str, float]]:
+    matriz = _matriz_objetivo_funcion(data)
+    return sorted(
+        ((og_id, pesos.get(funcion, 0.0)) for og_id, pesos in matriz.items()),
+        key=lambda item: item[1],
+        reverse=True,
+    )
+
+
+def guia_por_indicador_df(data: dict | None = None) -> pd.DataFrame:
+    """Qué objetivos del PEI impulsan cada indicador operativo o temático."""
+    data = data or load_baseline()
+    objetivos = _objetivos_map(data)
+    matriz = _matriz_objetivo_funcion(data)
+    rows: list[dict] = []
+
+    operativos = [
+        ("Alumnos", "Docencia"),
+        ("Docentes", "Docencia"),
+        ("Investigadores", "Investigación"),
+        ("Actividades científicas (investigaciones)", "Investigación"),
+        ("Convenios firmados", "Extensión"),
+        ("Actividades de extensión", "Extensión"),
+        ("Voluntariado y comunidad", "Extensión"),
+    ]
+    for indicador, funcion in operativos:
+        ranked = _rank_objetivos_por_funcion(data, funcion)
+        og_top, peso_top = ranked[0]
+        otros = ", ".join(f"OG{og} ({p:.0%})" for og, p in ranked[1:4] if p > 0)
+        rows.append(
+            {
+                "Indicador": indicador,
+                "Función sustantiva": funcion,
+                "Objetivo principal": f"OG{og_top} — {objetivos[og_top]}",
+                "Peso en la simulación": f"{peso_top:.0%}",
+                "Otros objetivos": otros or "—",
+            }
+        )
+
+    tematicos: list[tuple[str, str, str]] = [
+        (
+            "1",
+            "Calidad académica e institucional",
+            "Acreditaciones, estándares y aseguramiento de calidad en docencia, investigación y gestión.",
+        ),
+        (
+            "3",
+            "Educación a distancia y matrícula",
+            "Oferta formativa a distancia y acceso de nuevos alumnos.",
+        ),
+        (
+            "2",
+            "Vinculación, comunicación y convenios",
+            "Acuerdos institucionales, redes y presencia pública de la universidad.",
+        ),
+        (
+            "4",
+            "Jerarquización de recursos humanos",
+            "Formación, carrera y retención de docentes e investigadores.",
+        ),
+        (
+            "5",
+            "Participación estudiantil y de egresados",
+            "Vida universitaria, egresados y vínculo con la comunidad educativa.",
+        ),
+        (
+            "6",
+            "Identidad católica e institucional",
+            "Misión de la UCCuyo, valores y compromiso social con la comunidad.",
+        ),
+    ]
+    for og_id, tema, nota in tematicos:
+        pesos = matriz[og_id]
+        funcion_top = max(pesos, key=pesos.get)
+        rows.append(
+            {
+                "Indicador": tema,
+                "Función sustantiva": "Transversal (PEI)",
+                "Objetivo principal": f"OG{og_id} — {objetivos[og_id]}",
+                "Peso en la simulación": f"{pesos[funcion_top]:.0%} en {funcion_top.lower()}",
+                "Otros objetivos": nota,
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def guia_por_objetivo_df(data: dict | None = None) -> pd.DataFrame:
+    """Qué indicadores se mueven al incrementar cada objetivo general."""
+    data = data or load_baseline()
+    objetivos = _objetivos_map(data)
+    matriz = _matriz_objetivo_funcion(data)
+    indicadores_por_funcion = {
+        "Docencia": "alumnos y docentes",
+        "Investigación": "investigadores y actividades científicas",
+        "Extensión": "convenios, extensión y voluntariado",
+    }
+    tematica = {
+        "1": "Calidad académica e institucional",
+        "2": "Vinculación, comunicación y convenios",
+        "3": "Educación a distancia",
+        "4": "Jerarquización de recursos humanos",
+        "5": "Participación estudiantil y de egresados",
+        "6": "Identidad católica e institucional",
+    }
+    rows: list[dict] = []
+    for og_id in sorted(matriz, key=int):
+        pesos = matriz[og_id]
+        impactos = [
+            f"{función} ({pct:.0%}): {indicadores_por_funcion[función]}"
+            for función, pct in sorted(pesos.items(), key=lambda item: item[1], reverse=True)
+            if pct > 0
+        ]
+        rows.append(
+            {
+                "Objetivo": f"OG{og_id}",
+                "Nombre en el PEI": objetivos[og_id],
+                "Temática": tematica[og_id],
+                "Al subir su peso, incrementa sobre todo": "; ".join(impactos),
+            }
+        )
+    return pd.DataFrame(rows)
