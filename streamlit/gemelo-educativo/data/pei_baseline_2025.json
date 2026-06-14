@@ -1,0 +1,94 @@
+{
+  "anio": 2025,
+  "fuente": "Memoria Académica 2025 y Análisis cuantitativo/cualitativo PEI",
+  "total_actividades": 805,
+  "objetivos": [
+    {
+      "id": 1,
+      "nombre": "Sistema integral de aseguramiento de la calidad",
+      "actividades": 164,
+      "pct": 20.4,
+      "meta_sugerida_pct": 18.0
+    },
+    {
+      "id": 2,
+      "nombre": "Integralidad, vinculación y comunicación",
+      "actividades": 412,
+      "pct": 51.2,
+      "meta_sugerida_pct": 30.0
+    },
+    {
+      "id": 3,
+      "nombre": "Educación a distancia",
+      "actividades": 61,
+      "pct": 7.6,
+      "meta_sugerida_pct": 12.0
+    },
+    {
+      "id": 4,
+      "nombre": "Jerarquización de recursos humanos",
+      "actividades": 62,
+      "pct": 7.7,
+      "meta_sugerida_pct": 12.0
+    },
+    {
+      "id": 5,
+      "nombre": "Participación estudiantil y de egresados",
+      "actividades": 115,
+      "pct": 14.3,
+      "meta_sugerida_pct": 15.0
+    },
+    {
+      "id": 6,
+      "nombre": "Identidad institucional y compromiso social",
+      "actividades": 47,
+      "pct": 5.8,
+      "meta_sugerida_pct": 13.0
+    }
+  ],
+  "ejes_tematicos": [
+    { "eje": "Formación académica", "peso": 22 },
+    { "eje": "Vinculación institucional", "peso": 24 },
+    { "eje": "Extensión universitaria", "peso": 16 },
+    { "eje": "Investigación científica", "peso": 14 },
+    { "eje": "Innovación educativa", "peso": 12 },
+    { "eje": "Gestión institucional", "peso": 12 }
+  ],
+  "unidades": [
+    { "unidad": "FDCSSJ- Facultad de Derecho y Ciencias Sociales Sede San Juan", "sede": "San Juan", "actividades": 78, "transversalidad": 1.42 },
+    { "unidad": "FCEESJ- Facultad de Ciencias Económicas y Empresariales Sede San Juan", "sede": "San Juan", "actividades": 72, "transversalidad": 1.38 },
+    { "unidad": "FEDSJ- Facultad de Educación", "sede": "San Juan", "actividades": 65, "transversalidad": 1.51 },
+    { "unidad": "FCQyTSJ- Facultad de Ciencias Químicas y Tecnológicas", "sede": "San Juan", "actividades": 58, "transversalidad": 1.29 },
+    { "unidad": "FFyHSJ- Facultad de Filosofía y Humanidades", "sede": "San Juan", "actividades": 54, "transversalidad": 1.33 },
+    { "unidad": "FCMSJ- Facultad de Ciencias Médicas San Juan", "sede": "San Juan", "actividades": 52, "transversalidad": 1.27 },
+    { "unidad": "FDCSSL- Facultad de Derecho y Ciencias Sociales Sede San Luis", "sede": "San Luis", "actividades": 48, "transversalidad": 1.35 },
+    { "unidad": "FCEESL- Facultad de Ciencias Económicas y Empresariales Sede San Luis", "sede": "San Luis", "actividades": 45, "transversalidad": 1.31 },
+    { "unidad": "FCMSL- Facultad de Ciencias Médicas Sede San Luis", "sede": "San Luis", "actividades": 42, "transversalidad": 1.24 },
+    { "unidad": "FBOSCO- Facultad Don Bosco", "sede": "San Luis", "actividades": 38, "transversalidad": 1.22 },
+    { "unidad": "Secretaría de Investigación", "sede": "Central", "actividades": 36, "transversalidad": 1.58 },
+    { "unidad": "Rectorado y Dependencias", "sede": "Central", "actividades": 34, "transversalidad": 1.62 },
+    { "unidad": "Departamento de Educación a Distancia", "sede": "Central", "actividades": 31, "transversalidad": 1.45 },
+    { "unidad": "Secretaría de Extensión", "sede": "Central", "actividades": 28, "transversalidad": 1.48 },
+    { "unidad": "FCVSL- Facultad de Ciencias Veterinarias Sede San Luis", "sede": "San Luis", "actividades": 26, "transversalidad": 1.19 },
+    { "unidad": "ISDSM- Instituto Universitario Santa María", "sede": "San Juan", "actividades": 22, "transversalidad": 1.18 },
+    { "unidad": "OIA- Observatorio de Inteligencia Artificial", "sede": "Central", "actividades": 18, "transversalidad": 1.55 },
+    { "unidad": "Unidad de Vinculación Tecnológica", "sede": "Central", "actividades": 16, "transversalidad": 1.41 }
+  ],
+  "alertas": [
+    {
+      "nivel": "atencion",
+      "titulo": "Concentración en OG2",
+      "detalle": "El Objetivo 2 concentra el 51,2 % de las 805 actividades (412 acciones)."
+    },
+    {
+      "nivel": "atencion",
+      "titulo": "OG3, OG4 y OG6 por debajo del equilibrio",
+      "detalle": "Educación a distancia (7,6 %), RR.HH. (7,7 %) e identidad (5,8 %) muestran menor intensidad operativa."
+    },
+    {
+      "nivel": "info",
+      "titulo": "Alta transversalidad",
+      "detalle": "Una proporción significativa de actividades impacta en más de un objetivo o función sustantiva."
+    }
+  ]
+}

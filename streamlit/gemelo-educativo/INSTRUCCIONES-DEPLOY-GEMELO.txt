@@ -1,0 +1,43 @@
+GEMELO DIGITAL EDUCATIVO — PROTOTIPO STREAMLIT (INTERNO)
+=========================================================
+
+Este prototipo NO está enlazado desde index.html del sitio público.
+Solo se comparte la URL directa con autoridades (rectorado, decanos, etc.).
+
+URL prevista (Streamlit Cloud)
+------------------------------
+https://gemelo-educativo-uccuyo.streamlit.app
+
+(Requiere publicar una vez en share.streamlit.io con el nombre de app
+ «gemelo-educativo-uccuyo».)
+
+Publicar en Streamlit Cloud (una vez)
+--------------------------------------
+1. Subir este commit a GitHub (repo: claudiomlarrea/secretaria-investigacion).
+2. Ir a https://share.streamlit.io → New app.
+3. Repository: claudiomlarrea/secretaria-investigacion
+4. Branch: main
+5. Main file path: streamlit/gemelo-educativo/app.py
+6. App URL (custom): gemelo-educativo-uccuyo
+7. Deploy.
+
+Ver en local
+------------
+cd ~/Documents/secretaria-investigacion/streamlit/gemelo-educativo
+python3 -m pip install -r requirements.txt
+streamlit run app.py
+
+Luego abrir: http://localhost:8501
+
+Páginas del prototipo
+---------------------
+- Inicio: panorama PEI 2025 + alertas
+- Panorama Rectorado: equilibrio estratégico
+- Vista Decanato: benchmark por unidad
+- Producción científica: OpenAlex UCCuyo
+- Simulación PEI: escenarios what-if
+
+Nota
+----
+Los datos de unidades son representativos para la demo. La versión productiva
+debe conectarse al Formulario Único PEI y a la planilla Looker de publicaciones.

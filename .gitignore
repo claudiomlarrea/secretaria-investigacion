@@ -8,3 +8,4 @@ looker*.csv
 node_modules/
 package-lock.json
 package.json
+streamlit/**/.venv/
