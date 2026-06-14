@@ -15,16 +15,20 @@ for p in (str(REPO), str(GEMELO), str(VIEWS)):
 
 from gemelo_digital_plan_institucional.constants import APP_NAME
 
-VIEWS_DIR = REPO / "views"
-
 st.set_page_config(page_title=APP_NAME, page_icon="🎓", layout="wide")
 
 pages = [
-    st.Page(str(VIEWS_DIR / "inicio.py"), title=APP_NAME, icon="🎓", default=True),
-    st.Page(str(VIEWS_DIR / "rectorado.py"), title="Panorama Rectorado", icon="🏛️"),
-    st.Page(str(VIEWS_DIR / "decanato.py"), title="Vista Decanato", icon="🎯"),
-    st.Page(str(VIEWS_DIR / "produccion.py"), title="Producción científica", icon="🔬"),
-    st.Page(str(VIEWS_DIR / "simulacion.py"), title="Simulación PEI", icon="⚖️"),
+    st.Page(
+        str(VIEWS / "analisis_actividades.py"),
+        title="Análisis de actividades del plan",
+        icon="📊",
+        default=True,
+    ),
+    st.Page(
+        str(VIEWS / "gemelo_digital.py"),
+        title="Gemelo digital",
+        icon="🎓",
+    ),
 ]
 
 st.navigation(pages).run()
