@@ -38,6 +38,7 @@ render_header(
 anio_base = st.sidebar.selectbox("Año base", ANIOS_DISPONIBLES, index=ANIOS_DISPONIBLES.index(2025))
 data = load_baseline(anio_base)
 base = objetivos_df(data)
+pct_suma_pei = float(base["pct"].sum())
 total_base = data["total_actividades"]
 total_sim = st.sidebar.number_input(
     "Actividades totales del plan (simulado)",
@@ -112,29 +113,77 @@ st.divider()
 st.subheader("Simulación: redistribución por objetivo")
 
 st.markdown(
-    f"Ajustá la prioridad relativa de cada objetivo y el volumen total del plan. "
-    f"El gemelo recalcula las actividades respecto del escenario **{anio_base}** "
-    f"({total_base} actividades reales → **{total_sim}** simuladas)."
+    f"Ajustá el **peso relativo** de cada objetivo (% del plan {anio_base}). "
+    f"Los valores se **normalizan** para repartir las **{total_sim}** actividades simuladas. "
+    f"Para aumentar **extensión y convenios**, subí **OG2** por encima de su base "
+    f"({base.loc[base['id'] == 2, 'pct'].iloc[0]}%) y bajá otros objetivos."
 )
 
-pesos = []
+_OG_AYUDA = {
+    1: "Calidad académica · impulsa docencia e investigación.",
+    2: "Vinculación y convenios · principal impulsor de extensión (80% de sus actividades).",
+    3: "Educación a distancia · impulsa alumnos y docentes.",
+    4: "Recursos humanos · docentes e investigadores.",
+    5: "Participación estudiantil · extensión y vinculación.",
+    6: "Identidad católica e institucional · extensión y compromiso social.",
+}
+
+pesos_brutos = []
 cols = st.columns(3)
 for i, row in base.iterrows():
+    og_id = int(row["id"])
     with cols[i % 3]:
-        pesos.append(
+        pesos_brutos.append(
             st.slider(
-                f"OG{int(row['id'])}",
-                min_value=1,
-                max_value=100,
-                value=max(1, int(row["pct"])),
-                key=f"sim_og_{row['id']}",
+                f"OG{og_id} · {row['pct']}% PEI",
+                min_value=0.0,
+                max_value=100.0,
+                value=round(float(row["pct"]) / pct_suma_pei * 100, 1),
+                step=0.5,
+                help=(
+                    f"Base {anio_base}: {int(row['actividades'])} actividades ({row['pct']}%). "
+                    f"{_OG_AYUDA.get(og_id, '')}"
+                ),
+                key=f"sim_og_{og_id}",
             )
         )
 
-sim = simular_distribucion(pesos, total=total_sim, data=data)
+suma_pesos = sum(pesos_brutos)
+pesos_pct = [p / suma_pesos * 100 for p in pesos_brutos] if suma_pesos else pesos_brutos
+og2_base_pct = round(float(base.loc[base["id"] == 2, "pct"].iloc[0]) / pct_suma_pei * 100, 1)
+og2_sim_pct = pesos_pct[1] if len(pesos_pct) > 1 else og2_base_pct
+
+st.caption(
+    f"Suma de pesos: **{suma_pesos:.1f}** → OG2 pasa de **{og2_base_pct}%** (base) "
+    f"a **{og2_sim_pct:.1f}%** (simulado)."
+)
+
+sim = simular_distribucion(pesos_pct, total=total_sim, data=data, en_porcentaje=True)
 impacto = simular_impacto_funciones(sim, data)
 contrib = contribucion_objetivo_funcion(sim, data)
 metricas_por_fn = metricas_operativas_por_funcion(impacto, data)
+
+ext_imp = impacto.loc[impacto["funcion"] == "Extensión"].iloc[0]
+og2_delta = int(sim.loc[sim["id"] == 2, "delta_actividades"].iloc[0])
+og2_slider = pesos_brutos[1]
+conv = next(f for f in metricas_por_fn["Extensión"] if f["indicador"] == "Convenios firmados")
+
+if og2_sim_pct > og2_base_pct + 0.5:
+    st.success(
+        f"OG2 priorizado ({og2_base_pct}% → **{og2_sim_pct:.1f}%**): extensión "
+        f"**{ext_imp['actividades_base']} → {ext_imp['actividades_sim']}** actividades "
+        f"({ext_imp['delta']:+d}). Convenios: **{conv['base']} → {conv['proyectado']}** ({conv['delta']:+d})."
+    )
+elif og2_slider > og2_base_pct:
+    st.warning(
+        f"Moviste OG2 a {og2_slider:.1f}, pero tras normalizar queda en **{og2_sim_pct:.1f}%** "
+        f"(base {og2_base_pct}%). Para subir extensión y convenios, aumentá OG2 y **bajá OG1 u otros**."
+    )
+elif og2_sim_pct < og2_base_pct - 0.5:
+    st.info(
+        f"OG2 en **{og2_sim_pct:.1f}%** (base {og2_base_pct}%): extensión y convenios tienden a **bajar** "
+        f"({ext_imp['delta']:+d} actividades de extensión)."
+    )
 
 s1, s2, s3 = st.columns(3)
 s1.metric("Equilibrio simulado", indice_equilibrio(sim["pct_sim"].tolist()))
@@ -148,14 +197,15 @@ s3.metric(
 )
 
 tabla_objetivos = sim[
-    ["id", "nombre", "actividades", "actividades_sim", "delta_actividades", "pct", "pct_sim", "delta_pct"]
+    ["id", "nombre", "actividades", "actividades_ref", "actividades_sim", "delta_actividades", "pct", "pct_sim", "delta_pct"]
 ].rename(
     columns={
         "id": "OG",
-        "actividades": "Act. reales",
+        "actividades": "Act. memoria PEI",
+        "actividades_ref": "Act. referencia",
         "actividades_sim": "Act. simuladas",
         "delta_actividades": "Δ actividades",
-        "pct": "% real",
+        "pct": "% PEI",
         "pct_sim": "% simulado",
         "delta_pct": "Δ puntos",
     }
@@ -321,4 +371,7 @@ st.dataframe(
     },
 )
 
-st.caption("Simulación ilustrativa · Observatorio de Inteligencia Artificial · UCCuyo")
+st.caption(
+    "Act. memoria PEI = Memoria Académica. Act. referencia = reparto proporcional normalizado. "
+    "Δ = cambio respecto de la referencia (0 al iniciar sin mover sliders)."
+)

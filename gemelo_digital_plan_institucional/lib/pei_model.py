@@ -179,20 +179,35 @@ def funcion_metricas(funcion: str, data: dict | None = None) -> dict:
 
 
 def simular_distribucion(
-    pesos: list[float], total: int = 805, data: dict | None = None
+    pesos: list[float],
+    total: int = 805,
+    data: dict | None = None,
+    *,
+    en_porcentaje: bool = False,
 ) -> pd.DataFrame:
+    """Redistribuye actividades. Por defecto `pesos` son relativos; si en_porcentaje=True, suman 100."""
     data = data or load_baseline()
-    s = sum(pesos) or 1.0
-    norm = [p / s for p in pesos]
+    if en_porcentaje:
+        norm = [p / 100.0 for p in pesos]
+    else:
+        s = sum(pesos) or 1.0
+        norm = [p / s for p in pesos]
     acts = [max(0, round(total * p)) for p in norm]
     diff = total - sum(acts)
-    if diff:
-        acts[0] += diff
+    if diff and acts:
+        idx = acts.index(max(acts))
+        acts[idx] += diff
     out = objetivos_df(data).copy()
+    pct_suma = float(out["pct"].sum()) or 100.0
+    out["actividades_ref"] = [max(0, round(total * (p / pct_suma))) for p in out["pct"]]
+    diff_ref = total - int(out["actividades_ref"].sum())
+    if diff_ref and len(out):
+        idx = int(out["actividades_ref"].idxmax())
+        out.loc[idx, "actividades_ref"] = int(out.loc[idx, "actividades_ref"]) + diff_ref
     out["actividades_sim"] = acts
     out["pct_sim"] = (out["actividades_sim"] / total * 100).round(1)
-    out["delta_actividades"] = out["actividades_sim"] - out["actividades"]
-    out["delta_pct"] = (out["pct_sim"] - out["pct"]).round(1)
+    out["delta_actividades"] = out["actividades_sim"] - out["actividades_ref"]
+    out["delta_pct"] = (out["pct_sim"] - (out["pct"] / pct_suma * 100).round(1)).round(1)
     return out
 
 
