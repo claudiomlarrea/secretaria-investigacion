@@ -257,14 +257,42 @@ for tab, funcion in zip(tabs, ("Docencia", "Investigación", "Extensión")):
             f"({row_imp['delta']:+d}, {row_imp['delta_pct']:+.1f} %)."
         )
 
-st.markdown("**Resumen comparativo por función**")
-res_cols = st.columns(3)
-for col, funcion in zip(res_cols, ("Docencia", "Investigación", "Extensión")):
-    with col:
-        st.markdown(f"**{funcion}**")
-        resumen = pd.DataFrame(metricas_por_fn[funcion]).rename(
-            columns={"indicador": "Indicador", "base": f"Base {anio_base}", "proyectado": "Simulado", "delta": "Δ"}
+        resumen_tab = pd.DataFrame(filas).rename(
+            columns={
+                "indicador": "Indicador",
+                "base": f"Base {anio_base}",
+                "proyectado": "Simulado",
+                "delta": "Δ",
+            }
         )
-        st.dataframe(resumen, hide_index=True, use_container_width=True)
+        st.dataframe(resumen_tab, hide_index=True, use_container_width=True)
+
+st.markdown("**Resumen comparativo por función**")
+filas_todas: list[dict] = []
+for funcion in ("Docencia", "Investigación", "Extensión"):
+    for fila in metricas_por_fn[funcion]:
+        filas_todas.append({"Función": funcion, **fila})
+
+resumen = (
+    pd.DataFrame(filas_todas)
+    .rename(
+        columns={
+            "indicador": "Indicador",
+            "base": f"Base {anio_base}",
+            "proyectado": "Simulado",
+            "delta": "Δ",
+        }
+    )
+    [["Función", "Indicador", f"Base {anio_base}", "Simulado", "Δ"]]
+)
+st.dataframe(
+    resumen,
+    hide_index=True,
+    use_container_width=True,
+    column_config={
+        "Función": st.column_config.TextColumn("Función", width="small"),
+        "Indicador": st.column_config.TextColumn("Indicador", width="large"),
+    },
+)
 
 st.caption("Simulación ilustrativa · Observatorio de Inteligencia Artificial · UCCuyo")
