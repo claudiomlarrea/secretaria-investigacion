@@ -24,7 +24,7 @@ from lib.pei_model import (
     planilla_unidades_df,
 )
 from lib.styles import apply_plotly_style, render_header
-from ui_theme import CHART_SEQUENCE, GREEN, estilizar_variacion_tabla
+from ui_theme import CHART_SEQUENCE, GREEN, estilizar_escala_cantidad, estilizar_variacion_tabla
 
 render_header(
     "Actividades del Plan Estratégico Institucional por año, sede y función sustantiva "
@@ -58,7 +58,14 @@ st.dataframe(
 )
 
 st.subheader(f"Planillas del PEI · {anio}")
-st.caption(data.get("fuente", "Memoria Académica y análisis del PEI."))
+st.caption(
+    f"{data.get('fuente', 'Memoria Académica y análisis del PEI.')} "
+    "Las celdas de actividades se colorean de rojo (menor cantidad) a verde (mayor cantidad); "
+    "el % del plan usa la misma escala respecto al 100% del total "
+    f"({data['total_actividades']} actividades)."
+)
+
+total_plan = int(data["total_actividades"])
 
 tab_og, tab_fun, tab_sede, tab_evol, tab_det = st.tabs(
     [
@@ -71,7 +78,17 @@ tab_og, tab_fun, tab_sede, tab_evol, tab_det = st.tabs(
 )
 
 with tab_og:
-    st.dataframe(planilla_objetivos_df(data), hide_index=True, use_container_width=True)
+    og = planilla_objetivos_df(data)
+    st.dataframe(
+        estilizar_escala_cantidad(
+            og,
+            ("Actividades", "% del plan"),
+            referencia_max={"Actividades": float(og["Actividades"].max()), "% del plan": 100},
+            decimales=1,
+        ),
+        hide_index=True,
+        use_container_width=True,
+    )
 
 with tab_fun:
     st.dataframe(planilla_funciones_resumen_df(data), hide_index=True, use_container_width=True)
@@ -79,9 +96,21 @@ with tab_fun:
 with tab_sede:
     col_t1, col_t2 = st.columns([3, 2])
     with col_t1:
-        st.dataframe(planilla_sedes_df(data), hide_index=True, use_container_width=True)
-    with col_t2:
         sede = planilla_sedes_df(data)
+        st.dataframe(
+            estilizar_escala_cantidad(
+                sede,
+                ("Actividades", "% del plan"),
+                referencia_max={
+                    "Actividades": float(sede["Actividades"].max()),
+                    "% del plan": 100,
+                },
+                decimales=1,
+            ),
+            hide_index=True,
+            use_container_width=True,
+        )
+    with col_t2:
         fig_sede = apply_plotly_style(
             px.pie(
                 sede,
@@ -95,10 +124,31 @@ with tab_sede:
         st.plotly_chart(fig_sede, use_container_width=True)
 
 with tab_evol:
-    st.dataframe(planilla_evolucion_anual_df(), hide_index=True, use_container_width=True)
+    evol = planilla_evolucion_anual_df()
+    max_evol = int(evol["Actividades registradas"].max())
+    st.dataframe(
+        estilizar_escala_cantidad(
+            evol,
+            ("Actividades registradas",),
+            referencia_max=max_evol,
+            decimales=0,
+        ),
+        hide_index=True,
+        use_container_width=True,
+    )
 
 with tab_det:
-    st.dataframe(planilla_unidades_df(data), hide_index=True, use_container_width=True)
+    unidades = planilla_unidades_df(data)
+    st.dataframe(
+        estilizar_escala_cantidad(
+            unidades,
+            ("Actividades",),
+            referencia_max=float(unidades["Actividades"].max()),
+            decimales=0,
+        ),
+        hide_index=True,
+        use_container_width=True,
+    )
 
 st.divider()
 st.subheader("Funciones sustantivas por sede")

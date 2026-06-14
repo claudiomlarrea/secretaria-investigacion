@@ -255,6 +255,90 @@ def apply_plotly_style(fig):  # noqa: ANN001
 SIM_SUBE_STYLE = "background-color: #E8F3EF; color: #044A30; font-weight: 600"
 SIM_BAJA_STYLE = "background-color: #FCE8E8; color: #B42318; font-weight: 600"
 
+# Escala continua: rojo (menor ponderación) → verde (mayor ponderación)
+_ESCALA_ROJO_BG = (252, 232, 232)
+_ESCALA_ROJO_FG = (180, 35, 24)
+_ESCALA_VERDE_BG = (232, 243, 239)
+_ESCALA_VERDE_FG = (4, 74, 48)
+
+
+def _lerp(a: int, b: int, t: float) -> int:
+    return int(round(a + (b - a) * t))
+
+
+def _css_escala_cantidad(val, vmin: float, vmax: float) -> str:  # noqa: ANN001
+    if not isinstance(val, (int, float)) or pd.isna(val):
+        return ""
+    if vmax <= vmin:
+        t = 0.5
+    else:
+        t = max(0.0, min(1.0, (float(val) - vmin) / (vmax - vmin)))
+    bg = (
+        _lerp(_ESCALA_ROJO_BG[0], _ESCALA_VERDE_BG[0], t),
+        _lerp(_ESCALA_ROJO_BG[1], _ESCALA_VERDE_BG[1], t),
+        _lerp(_ESCALA_ROJO_BG[2], _ESCALA_VERDE_BG[2], t),
+    )
+    fg = (
+        _lerp(_ESCALA_ROJO_FG[0], _ESCALA_VERDE_FG[0], t),
+        _lerp(_ESCALA_ROJO_FG[1], _ESCALA_VERDE_FG[1], t),
+        _lerp(_ESCALA_ROJO_FG[2], _ESCALA_VERDE_FG[2], t),
+    )
+    return (
+        f"background-color: rgb({bg[0]},{bg[1]},{bg[2]}); "
+        f"color: rgb({fg[0]},{fg[1]},{fg[2]}); font-weight: 600"
+    )
+
+
+def _resolver_referencia(
+    referencia: float | dict[str, float] | None,
+    columna: str,
+    serie: pd.Series,
+) -> float:
+    if isinstance(referencia, dict):
+        if columna in referencia:
+            return float(referencia[columna])
+        return float(serie.max()) if len(serie) else 1.0
+    if referencia is not None:
+        return float(referencia)
+    return float(serie.max()) if len(serie) else 1.0
+
+
+def estilizar_escala_cantidad(
+    df: pd.DataFrame,
+    columnas: tuple[str, ...],
+    *,
+    referencia_max: float | dict[str, float] | None = None,
+    referencia_min: float | dict[str, float] = 0,
+    decimales: int = 1,
+) -> pd.io.formats.style.Styler:
+    """Colorea celdas en escala rojo→verde según ponderación respecto al máximo de referencia."""
+    tabla = df.copy()
+    numericas = [c for c in tabla.columns if pd.api.types.is_numeric_dtype(tabla[c])]
+    for col in numericas:
+        tabla[col] = tabla[col].apply(
+            lambda x: round(float(x), decimales) if pd.notna(x) and isinstance(x, (int, float)) else x
+        )
+
+    styled = tabla.style
+    presentes = [c for c in columnas if c in tabla.columns]
+    for col in presentes:
+        vmin = (
+            float(referencia_min[col])
+            if isinstance(referencia_min, dict) and col in referencia_min
+            else float(referencia_min)
+        )
+        vmax = _resolver_referencia(referencia_max, col, tabla[col])
+        styled = styled.map(
+            lambda v, vmin=vmin, vmax=vmax: _css_escala_cantidad(v, vmin, vmax),
+            subset=[col],
+        )
+
+    if numericas:
+        fmt = {col: f"{{:.{decimales}f}}" for col in numericas}
+        styled = styled.format(fmt, na_rep="")
+
+    return styled
+
 
 def _css_variacion(val) -> str:  # noqa: ANN001
     if isinstance(val, (int, float)) and not pd.isna(val):
