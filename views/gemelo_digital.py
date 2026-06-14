@@ -4,17 +4,21 @@ import runpy
 
 runpy.run_path(str(Path(__file__).resolve().parent / "_path.py"))
 
+import pandas as pd
 import plotly.express as px
 import streamlit as st
 
 from lib.pei_model import (
     ANIOS_DISPONIBLES,
+    contribucion_objetivo_funcion,
     funciones_df,
     indice_equilibrio,
     load_baseline,
     objetivos_df,
+    proyectar_metricas_operativas,
     sedes_df,
     simular_distribucion,
+    simular_impacto_funciones,
 )
 from lib.styles import apply_plotly_style, render_header
 from ui_theme import CHART_SEQUENCE, GREEN, GREEN_MID, ORANGE
@@ -27,13 +31,22 @@ render_header(
 anio_base = st.sidebar.selectbox("Año base", ANIOS_DISPONIBLES, index=ANIOS_DISPONIBLES.index(2025))
 data = load_baseline(anio_base)
 base = objetivos_df(data)
-total = data["total_actividades"]
+total_base = data["total_actividades"]
+total_sim = st.sidebar.number_input(
+    "Actividades totales del plan (simulado)",
+    min_value=400,
+    max_value=1200,
+    value=total_base,
+    step=5,
+    help="Permite simular un plan con más o menos actividades totales, además de redistribuirlas.",
+)
 funciones = funciones_df(data)
 
-c1, c2, c3 = st.columns(3)
-c1.metric("Actividades base", total)
-c2.metric("Índice de equilibrio actual", indice_equilibrio(base["pct"].tolist()))
-c3.metric("Sedes modeladas", len(data["sedes"]))
+c1, c2, c3, c4 = st.columns(4)
+c1.metric("Actividades base", total_base)
+c2.metric("Actividades simuladas", total_sim, delta=total_sim - total_base)
+c3.metric("Índice de equilibrio actual", indice_equilibrio(base["pct"].tolist()))
+c4.metric("Sedes modeladas", len(data["sedes"]))
 
 st.subheader("Estado actual del gemelo")
 
@@ -78,8 +91,9 @@ st.divider()
 st.subheader("Simulación: redistribución por objetivo")
 
 st.markdown(
-    f"Ajustá la prioridad relativa de cada objetivo. El gemelo recalcula las **{total} actividades** "
-    f"como si el plan {anio_base} hubiera tenido otra distribución estratégica."
+    f"Ajustá la prioridad relativa de cada objetivo y el volumen total del plan. "
+    f"El gemelo recalcula las actividades respecto del escenario **{anio_base}** "
+    f"({total_base} actividades reales → **{total_sim}** simuladas)."
 )
 
 pesos = []
@@ -96,15 +110,21 @@ for i, row in base.iterrows():
             )
         )
 
-sim = simular_distribucion(pesos, total=total)
+sim = simular_distribucion(pesos, total=total_sim, data=data)
+impacto = simular_impacto_funciones(sim, data)
+contrib = contribucion_objetivo_funcion(sim, data)
+metricas_ops = proyectar_metricas_operativas(impacto, data)
 
 s1, s2, s3 = st.columns(3)
 s1.metric("Equilibrio simulado", indice_equilibrio(sim["pct_sim"].tolist()))
 s2.metric(
-    "Cambio mayor",
+    "Cambio mayor por objetivo",
     f"OG{int(sim.loc[sim['delta_pct'].abs().idxmax(), 'id'])} ({sim['delta_pct'].abs().max():+.1f} pp)",
 )
-s3.metric("OG2 simulado", f"{sim.loc[sim['id'] == 2, 'pct_sim'].iloc[0]} %")
+s3.metric(
+    "Función más afectada",
+    f"{impacto.loc[impacto['delta'].abs().idxmax(), 'funcion']} ({impacto['delta'].abs().max():+d})",
+)
 
 fig = apply_plotly_style(
     px.bar(
@@ -121,11 +141,143 @@ fig.update_layout(height=380)
 st.plotly_chart(fig, use_container_width=True)
 
 st.dataframe(
-    sim[["id", "nombre", "pct", "pct_sim", "delta_pct"]].rename(
-        columns={"id": "OG", "pct": "% real", "pct_sim": "% simulado", "delta_pct": "Δ puntos"}
+    sim[["id", "nombre", "actividades", "actividades_sim", "delta_actividades", "pct", "pct_sim", "delta_pct"]].rename(
+        columns={
+            "id": "OG",
+            "actividades": "Act. reales",
+            "actividades_sim": "Act. simuladas",
+            "delta_actividades": "Δ actividades",
+            "pct": "% real",
+            "pct_sim": "% simulado",
+            "delta_pct": "Δ puntos",
+        }
     ),
     hide_index=True,
     use_container_width=True,
 )
+
+st.divider()
+st.subheader("Impacto en funciones sustantivas")
+
+st.markdown(
+    "Cada cambio en los objetivos se traduce en más o menos actividades de **Docencia**, "
+    "**Investigación** y **Extensión**, según la matriz de vinculación del PEI "
+    "(p. ej. OG2 impulsa extensión y convenios; OG3 educación a distancia impulsa docencia)."
+)
+
+with st.expander("Cómo se calcula el impacto por función"):
+    st.markdown(
+        """
+        - Si un objetivo **aumenta** actividades, las funciones vinculadas crecen en proporción a su peso.
+        - Si un objetivo **disminuye**, las funciones asociadas se reducen.
+        - Los indicadores operativos (alumnos, docentes, investigadores, convenios) se proyectan
+          de forma lineal respecto del cambio en actividades de cada función.
+        - Es una **simulación ilustrativa** para conversar escenarios; no reemplaza el seguimiento real del plan.
+        """
+    )
+    matriz = data["matriz_objetivo_funcion"]
+    matriz_df = pd.DataFrame(matriz).T
+    matriz_df.index = [f"OG{i}" for i in matriz_df.index]
+    st.dataframe(matriz_df.style.format("{:.0%}"), use_container_width=True)
+
+f1, f2, f3 = st.columns(3)
+for col, (_, row) in zip((f1, f2, f3), impacto.iterrows()):
+    col.metric(
+        row["funcion"],
+        f"{row['actividades_sim']} actividades",
+        delta=f"{row['delta']:+d} ({row['delta_pct']:+.1f} %)",
+    )
+
+impacto_long = impacto.melt(
+    id_vars=["funcion"],
+    value_vars=["actividades_base", "actividades_sim"],
+    var_name="escenario",
+    value_name="actividades",
+)
+impacto_long["escenario"] = impacto_long["escenario"].map(
+    {"actividades_base": f"{anio_base} real", "actividades_sim": "Simulado"}
+)
+
+col_l, col_r = st.columns(2)
+
+with col_l:
+    fig_fun_sim = apply_plotly_style(
+        px.bar(
+            impacto_long,
+            x="funcion",
+            y="actividades",
+            color="escenario",
+            barmode="group",
+            text="actividades",
+            labels={"actividades": "Actividades en el plan", "funcion": ""},
+            color_discrete_map={f"{anio_base} real": GREEN, "Simulado": GREEN_MID},
+        )
+    )
+    fig_fun_sim.update_traces(textposition="outside")
+    fig_fun_sim.update_layout(height=360, title="Actividades por función sustantiva")
+    st.plotly_chart(fig_fun_sim, use_container_width=True)
+
+with col_r:
+    contrib_pivot = contrib.pivot_table(
+        index="objetivo", columns="funcion", values="contribucion", aggfunc="sum", fill_value=0
+    )
+    fig_contrib = apply_plotly_style(
+        px.imshow(
+            contrib_pivot,
+            text_auto=True,
+            color_continuous_scale=["#E8F3EF", GREEN],
+            labels=dict(x="Función", y="Objetivo", color="Δ actividades"),
+            title="Contribución de cada objetivo al cambio por función",
+        )
+    )
+    fig_contrib.update_layout(height=360)
+    st.plotly_chart(fig_contrib, use_container_width=True)
+
+st.subheader("Proyección de indicadores operativos")
+
+tabs = st.tabs(["Docencia", "Investigación", "Extensión"])
+
+for tab, funcion in zip(tabs, ("Docencia", "Investigación", "Extensión")):
+    with tab:
+        row_imp = impacto.loc[impacto["funcion"] == funcion].iloc[0]
+        row_ops = metricas_ops.loc[metricas_ops["función"] == funcion].iloc[0]
+        st.caption(
+            next(f["descripcion"] for f in data["funciones_sustantivas"] if f["funcion"] == funcion)
+        )
+        mcols = st.columns(4)
+        if funcion == "Docencia":
+            labels = [
+                ("Alumnos", row_ops["Alumnos (proy.)"], row_ops["Δ alumnos"]),
+                ("Docentes", row_ops["Docentes (proy.)"], row_ops["Δ docentes"]),
+                ("Alumnos / docente", row_ops["Alumnos / docente"], None),
+                ("Factor simulado", f"{row_ops['factor']:.2f}x", None),
+            ]
+        elif funcion == "Investigación":
+            labels = [
+                ("Investigadores", row_ops["Investigadores (proy.)"], row_ops["Δ investigadores"]),
+                ("Actividades científicas", row_ops["Actividades científicas (proy.)"], row_ops["Δ actividades"]),
+                ("Actividades / investigador", row_ops["Actividades / investigador"], None),
+                ("Factor simulado", f"{row_ops['factor']:.2f}x", None),
+            ]
+        else:
+            labels = [
+                ("Convenios", row_ops["Convenios (proy.)"], row_ops["Δ convenios"]),
+                ("Extensión", row_ops["Extensión (proy.)"], row_ops["Δ extensión"]),
+                ("Voluntariado", row_ops["Voluntariado (proy.)"], row_ops["Δ voluntariado"]),
+                ("Factor simulado", f"{row_ops['factor']:.2f}x", None),
+            ]
+        for col, (label, value, delta) in zip(mcols, labels):
+            if delta is not None:
+                col.metric(label, value, delta=delta)
+            else:
+                col.metric(label, value)
+
+        st.info(
+            f"Actividades del plan en **{funcion.lower()}**: "
+            f"{row_imp['actividades_base']} → **{row_imp['actividades_sim']}** "
+            f"({row_imp['delta']:+d}, {row_imp['delta_pct']:+.1f} %)."
+        )
+
+st.dataframe(metricas_ops.drop(columns=["factor"]), hide_index=True, use_container_width=True)
 
 st.caption("Simulación ilustrativa · Observatorio de Inteligencia Artificial · UCCuyo")

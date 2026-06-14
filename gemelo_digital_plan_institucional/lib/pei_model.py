@@ -103,18 +103,133 @@ def funcion_metricas(funcion: str, data: dict | None = None) -> dict:
     }
 
 
-def simular_distribucion(pesos: list[float], total: int = 805) -> pd.DataFrame:
+def simular_distribucion(
+    pesos: list[float], total: int = 805, data: dict | None = None
+) -> pd.DataFrame:
+    data = data or load_baseline()
     s = sum(pesos) or 1.0
     norm = [p / s for p in pesos]
     acts = [max(0, round(total * p)) for p in norm]
     diff = total - sum(acts)
     if diff:
         acts[0] += diff
-    out = objetivos_df().copy()
+    out = objetivos_df(data).copy()
     out["actividades_sim"] = acts
     out["pct_sim"] = (out["actividades_sim"] / total * 100).round(1)
+    out["delta_actividades"] = out["actividades_sim"] - out["actividades"]
     out["delta_pct"] = (out["pct_sim"] - out["pct"]).round(1)
     return out
+
+
+def _matriz_objetivo_funcion(data: dict) -> dict[str, dict[str, float]]:
+    return data.get("matriz_objetivo_funcion", {})
+
+
+def contribucion_objetivo_funcion(sim: pd.DataFrame, data: dict | None = None) -> pd.DataFrame:
+    """Cuánto aporta cada cambio de objetivo al delta de cada función sustantiva."""
+    data = data or load_baseline()
+    matriz = _matriz_objetivo_funcion(data)
+    rows: list[dict] = []
+    for _, row in sim.iterrows():
+        og_id = str(int(row["id"]))
+        delta = int(row["delta_actividades"])
+        for funcion, peso in matriz.get(og_id, {}).items():
+            rows.append(
+                {
+                    "objetivo": f"OG{og_id}",
+                    "funcion": funcion,
+                    "contribucion": round(delta * peso),
+                }
+            )
+    return pd.DataFrame(rows)
+
+
+def simular_impacto_funciones(sim: pd.DataFrame, data: dict | None = None) -> pd.DataFrame:
+    """Proyecta actividades por función según cambios en la distribución por objetivo."""
+    data = data or load_baseline()
+    matriz = _matriz_objetivo_funcion(data)
+    funciones_base = {
+        f["funcion"]: f["actividades_plan"] for f in data["funciones_sustantivas"]
+    }
+    impacto = {fn: 0.0 for fn in funciones_base}
+    for _, row in sim.iterrows():
+        og_id = str(int(row["id"]))
+        delta = int(row["delta_actividades"])
+        for funcion, peso in matriz.get(og_id, {}).items():
+            impacto[funcion] += delta * peso
+
+    rows: list[dict] = []
+    for funcion, base in funciones_base.items():
+        delta = round(impacto[funcion])
+        sim_act = max(0, base + delta)
+        rows.append(
+            {
+                "funcion": funcion,
+                "actividades_base": base,
+                "actividades_sim": sim_act,
+                "delta": sim_act - base,
+                "delta_pct": round((sim_act - base) / base * 100, 1) if base else 0.0,
+                "factor": sim_act / base if base else 1.0,
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def proyectar_metricas_operativas(
+    impacto_funciones: pd.DataFrame, data: dict | None = None
+) -> pd.DataFrame:
+    """Escala indicadores operativos (alumnos, docentes, convenios, etc.) según el factor simulado."""
+    data = data or load_baseline()
+    factor_map = {r["funcion"]: r["factor"] for _, r in impacto_funciones.iterrows()}
+    rows: list[dict] = []
+
+    for funcion in ("Docencia", "Investigación", "Extensión"):
+        factor = factor_map.get(funcion, 1.0)
+        base = funcion_metricas(funcion, data)
+        row: dict = {"función": funcion, "factor": round(factor, 3)}
+
+        if funcion == "Docencia":
+            alumnos = int(base["alumnos"] * factor)
+            docentes = max(1, round(base["docentes"] * factor))
+            row.update(
+                {
+                    "Alumnos (proy.)": alumnos,
+                    "Docentes (proy.)": docentes,
+                    "Alumnos / docente": round(alumnos / docentes, 1) if docentes else 0,
+                    "Δ alumnos": alumnos - base["alumnos"],
+                    "Δ docentes": docentes - base["docentes"],
+                }
+            )
+        elif funcion == "Investigación":
+            inv = max(1, round(base["investigadores"] * factor))
+            acts = max(0, round(base["actividades"] * factor))
+            row.update(
+                {
+                    "Investigadores (proy.)": inv,
+                    "Actividades científicas (proy.)": acts,
+                    "Actividades / investigador": round(acts / inv, 2) if inv else 0,
+                    "Δ investigadores": inv - base["investigadores"],
+                    "Δ actividades": acts - base["actividades"],
+                }
+            )
+        else:
+            convenios = max(0, round(base["convenios"] * factor))
+            extension = max(0, round(base["extension"] * factor))
+            voluntariado = max(0, round(base["voluntariado"] * factor))
+            acts = max(0, round(base["actividades"] * factor))
+            row.update(
+                {
+                    "Convenios (proy.)": convenios,
+                    "Extensión (proy.)": extension,
+                    "Voluntariado (proy.)": voluntariado,
+                    "Actividades plan (proy.)": acts,
+                    "Δ convenios": convenios - base["convenios"],
+                    "Δ extensión": extension - base["extension"],
+                    "Δ voluntariado": voluntariado - base["voluntariado"],
+                }
+            )
+        rows.append(row)
+    return pd.DataFrame(rows)
 
 
 def indice_equilibrio(pcts: list[float]) -> float:

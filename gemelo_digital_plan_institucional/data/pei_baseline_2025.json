@@ -86,6 +86,14 @@
       }
     }
   ],
+  "matriz_objetivo_funcion": {
+    "1": { "Docencia": 0.55, "Investigación": 0.30, "Extensión": 0.15 },
+    "2": { "Docencia": 0.10, "Investigación": 0.10, "Extensión": 0.80 },
+    "3": { "Docencia": 0.90, "Investigación": 0.05, "Extensión": 0.05 },
+    "4": { "Docencia": 0.45, "Investigación": 0.40, "Extensión": 0.15 },
+    "5": { "Docencia": 0.35, "Investigación": 0.05, "Extensión": 0.60 },
+    "6": { "Docencia": 0.20, "Investigación": 0.10, "Extensión": 0.70 }
+  },
   "actividades_por_anio": [
     { "anio": 2023, "total": 612 },
     { "anio": 2024, "total": 698 },
