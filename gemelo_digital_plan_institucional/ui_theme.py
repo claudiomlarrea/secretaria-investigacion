@@ -255,38 +255,62 @@ def apply_plotly_style(fig):  # noqa: ANN001
 SIM_SUBE_STYLE = "background-color: #E8F3EF; color: #044A30; font-weight: 600"
 SIM_BAJA_STYLE = "background-color: #FCE8E8; color: #B42318; font-weight: 600"
 
-# Escala continua: rojo (menor ponderación) → verde (mayor ponderación)
-_ESCALA_ROJO_BG = (252, 232, 232)
-_ESCALA_ROJO_FG = (180, 35, 24)
-_ESCALA_VERDE_BG = (232, 243, 239)
-_ESCALA_VERDE_FG = (4, 74, 48)
+# Escala continua: rojo (bajo) → ámbar (medio) → verde (alto)
+_ESCALA_BAJO_BG = (252, 165, 165)   # #FCA5A5
+_ESCALA_BAJO_FG = (127, 29, 29)    # #7F1D1D
+_ESCALA_MEDIO_BG = (253, 230, 138)  # #FDE68A
+_ESCALA_MEDIO_FG = (146, 64, 14)   # #92400E
+_ESCALA_ALTO_BG = (110, 231, 183)   # #6EE7B7
+_ESCALA_ALTO_FG = (6, 95, 70)       # #065F46
 
 
 def _lerp(a: int, b: int, t: float) -> int:
     return int(round(a + (b - a) * t))
 
 
+def _rgb_a_css(bg: tuple[int, int, int], fg: tuple[int, int, int]) -> str:
+    return (
+        f"background-color: rgb({bg[0]},{bg[1]},{bg[2]}); "
+        f"color: rgb({fg[0]},{fg[1]},{fg[2]}); font-weight: 700"
+    )
+
+
+def _interpolar_escala(t: float) -> str:
+    t = max(0.0, min(1.0, t))
+    if t <= 0.5:
+        u = t / 0.5
+        bg = (
+            _lerp(_ESCALA_BAJO_BG[0], _ESCALA_MEDIO_BG[0], u),
+            _lerp(_ESCALA_BAJO_BG[1], _ESCALA_MEDIO_BG[1], u),
+            _lerp(_ESCALA_BAJO_BG[2], _ESCALA_MEDIO_BG[2], u),
+        )
+        fg = (
+            _lerp(_ESCALA_BAJO_FG[0], _ESCALA_MEDIO_FG[0], u),
+            _lerp(_ESCALA_BAJO_FG[1], _ESCALA_MEDIO_FG[1], u),
+            _lerp(_ESCALA_BAJO_FG[2], _ESCALA_MEDIO_FG[2], u),
+        )
+    else:
+        u = (t - 0.5) / 0.5
+        bg = (
+            _lerp(_ESCALA_MEDIO_BG[0], _ESCALA_ALTO_BG[0], u),
+            _lerp(_ESCALA_MEDIO_BG[1], _ESCALA_ALTO_BG[1], u),
+            _lerp(_ESCALA_MEDIO_BG[2], _ESCALA_ALTO_BG[2], u),
+        )
+        fg = (
+            _lerp(_ESCALA_MEDIO_FG[0], _ESCALA_ALTO_FG[0], u),
+            _lerp(_ESCALA_MEDIO_FG[1], _ESCALA_ALTO_FG[1], u),
+            _lerp(_ESCALA_MEDIO_FG[2], _ESCALA_ALTO_FG[2], u),
+        )
+    return _rgb_a_css(bg, fg)
+
+
 def _css_escala_cantidad(val, vmin: float, vmax: float) -> str:  # noqa: ANN001
     if not isinstance(val, (int, float)) or pd.isna(val):
         return ""
     if vmax <= vmin:
-        t = 0.5
-    else:
-        t = max(0.0, min(1.0, (float(val) - vmin) / (vmax - vmin)))
-    bg = (
-        _lerp(_ESCALA_ROJO_BG[0], _ESCALA_VERDE_BG[0], t),
-        _lerp(_ESCALA_ROJO_BG[1], _ESCALA_VERDE_BG[1], t),
-        _lerp(_ESCALA_ROJO_BG[2], _ESCALA_VERDE_BG[2], t),
-    )
-    fg = (
-        _lerp(_ESCALA_ROJO_FG[0], _ESCALA_VERDE_FG[0], t),
-        _lerp(_ESCALA_ROJO_FG[1], _ESCALA_VERDE_FG[1], t),
-        _lerp(_ESCALA_ROJO_FG[2], _ESCALA_VERDE_FG[2], t),
-    )
-    return (
-        f"background-color: rgb({bg[0]},{bg[1]},{bg[2]}); "
-        f"color: rgb({fg[0]},{fg[1]},{fg[2]}); font-weight: 600"
-    )
+        return _interpolar_escala(0.5)
+    t = max(0.0, min(1.0, (float(val) - vmin) / (vmax - vmin)))
+    return _interpolar_escala(t)
 
 
 def _resolver_referencia(
@@ -303,15 +327,29 @@ def _resolver_referencia(
     return float(serie.max()) if len(serie) else 1.0
 
 
+def _resolver_minimo(
+    referencia: float | dict[str, float] | None,
+    columna: str,
+    serie: pd.Series,
+) -> float:
+    if isinstance(referencia, dict):
+        if columna in referencia:
+            return float(referencia[columna])
+    elif referencia is not None:
+        return float(referencia)
+    numericos = [float(v) for v in serie if isinstance(v, (int, float)) and not pd.isna(v)]
+    return min(numericos) if numericos else 0.0
+
+
 def estilizar_escala_cantidad(
     df: pd.DataFrame,
     columnas: tuple[str, ...],
     *,
     referencia_max: float | dict[str, float] | None = None,
-    referencia_min: float | dict[str, float] = 0,
+    referencia_min: float | dict[str, float] | None = None,
     decimales: int = 1,
 ) -> pd.io.formats.style.Styler:
-    """Colorea celdas en escala rojo→verde según ponderación respecto al máximo de referencia."""
+    """Colorea celdas en escala rojo→ámbar→verde según ponderación relativa."""
     tabla = df.copy()
     numericas = [c for c in tabla.columns if pd.api.types.is_numeric_dtype(tabla[c])]
     for col in numericas:
@@ -322,11 +360,7 @@ def estilizar_escala_cantidad(
     styled = tabla.style
     presentes = [c for c in columnas if c in tabla.columns]
     for col in presentes:
-        vmin = (
-            float(referencia_min[col])
-            if isinstance(referencia_min, dict) and col in referencia_min
-            else float(referencia_min)
-        )
+        vmin = _resolver_minimo(referencia_min, col, tabla[col])
         vmax = _resolver_referencia(referencia_max, col, tabla[col])
         styled = styled.map(
             lambda v, vmin=vmin, vmax=vmax: _css_escala_cantidad(v, vmin, vmax),

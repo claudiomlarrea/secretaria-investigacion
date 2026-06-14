@@ -60,9 +60,8 @@ st.dataframe(
 st.subheader(f"Planillas del PEI · {anio}")
 st.caption(
     f"{data.get('fuente', 'Memoria Académica y análisis del PEI.')} "
-    "Las celdas de actividades se colorean de rojo (menor cantidad) a verde (mayor cantidad); "
-    "el % del plan usa la misma escala respecto al 100% del total "
-    f"({data['total_actividades']} actividades)."
+    "Escala de color: rojo (menor), ámbar (intermedio) y verde (mayor). "
+    f"Total del plan: {data['total_actividades']} actividades."
 )
 
 total_plan = int(data["total_actividades"])
@@ -84,6 +83,7 @@ with tab_og:
             og,
             ("Actividades", "% del plan"),
             referencia_max={"Actividades": float(og["Actividades"].max()), "% del plan": 100},
+            referencia_min={"Actividades": float(og["Actividades"].min()), "% del plan": 0},
             decimales=1,
         ),
         hide_index=True,
@@ -104,6 +104,10 @@ with tab_sede:
                 referencia_max={
                     "Actividades": float(sede["Actividades"].max()),
                     "% del plan": 100,
+                },
+                referencia_min={
+                    "Actividades": float(sede["Actividades"].min()),
+                    "% del plan": 0,
                 },
                 decimales=1,
             ),
@@ -126,11 +130,13 @@ with tab_sede:
 with tab_evol:
     evol = planilla_evolucion_anual_df()
     max_evol = int(evol["Actividades registradas"].max())
+    min_evol = int(evol["Actividades registradas"].min())
     st.dataframe(
         estilizar_escala_cantidad(
             evol,
             ("Actividades registradas",),
             referencia_max=max_evol,
+            referencia_min=min_evol,
             decimales=0,
         ),
         hide_index=True,
@@ -144,6 +150,7 @@ with tab_det:
             unidades,
             ("Actividades",),
             referencia_max=float(unidades["Actividades"].max()),
+            referencia_min=float(unidades["Actividades"].min()),
             decimales=0,
         ),
         hide_index=True,
