@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
-import sys
 from pathlib import Path
+import runpy
+
+runpy.run_path(str(Path(__file__).resolve().parent / "_path.py"))
 
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT))
-
 from lib.pei_model import etiqueta_transversalidad, load_baseline, unidades_df
-from lib.styles import render_header, setup_page
+from lib.styles import render_header
 
-setup_page("Vista Decanato", "🎯")
 render_header("Vista Decanato · benchmark por unidad académica")
 
 data = load_baseline()
@@ -34,7 +32,7 @@ rank = uni.sort_values("actividades", ascending=False).reset_index(drop=True)
 rank["posicion"] = range(1, len(rank) + 1)
 pos = int(rank.loc[rank["unidad"] == sel, "posicion"].iloc[0])
 
-st.markdown(f"**Posición institucional:** {pos}ª de {len(rank)} unidades modeladas · **Sede:** {row['sede']}")
+st.markdown(f"**Posición institucional:** {pos}ª de {len(rank)} unidades · **Sede:** {row['sede']}")
 
 left, right = st.columns([1.2, 1])
 
@@ -52,35 +50,21 @@ with left:
     st.plotly_chart(fig, use_container_width=True)
 
 with right:
-    st.subheader("Radar comparativo (demo)")
-    radar = pd.DataFrame(
-        {
-            "indicador": ["Intensidad", "Transversalidad", "Vinculación", "Investigación", "Extensión"],
-            "unidad": [min(100, row["actividades"] / promedio * 50)] * 5,
-            "institución": [50, prom_trans * 33, 48, 42, 46],
-        }
-    )
+    st.subheader("Comparación con el promedio UCCuyo")
     st.dataframe(
         pd.DataFrame(
             {
-                "Indicador": radar["indicador"],
-                "Tu unidad (índice)": radar["unidad"],
-                "Promedio UCCuyo": radar["institución"],
+                "Indicador": ["Intensidad", "Transversalidad", "Vinculación", "Investigación", "Extensión"],
+                "Tu unidad (índice)": [min(100, row["actividades"] / promedio * 50)] * 5,
+                "Promedio UCCuyo": [50, prom_trans * 33, 48, 42, 46],
             }
         ),
         hide_index=True,
         use_container_width=True,
     )
-    st.caption("En la versión completa, estos índices se calculan desde el Formulario Único PEI por unidad.")
 
-st.subheader("Todas las unidades")
 st.dataframe(
     rank[["posicion", "unidad", "sede", "actividades", "transversalidad"]],
     hide_index=True,
     use_container_width=True,
-)
-
-st.warning(
-    f"**Para decanos:** {sel.split('-')[0].strip()} registra {int(row['actividades'])} actividades. "
-    "Usá esta vista en reuniones de decanato para comparar intensidad y transversalidad con el resto de la universidad."
 )

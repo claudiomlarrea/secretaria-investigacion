@@ -1,17 +1,17 @@
-"""Estilos UCCuyo compartidos entre páginas del gemelo."""
+"""Estilos UCCuyo — Gemelo Digital Plan Institucional."""
 
 from pathlib import Path
 
 import streamlit as st
 
+from constants import APP_NAME
 from ucc_streamlit_chrome import hide_streamlit_cloud_toolbar
 
 ROOT = Path(__file__).resolve().parent.parent
 LOGO = ROOT / "assets" / "logo_uccuyo.png"
 
 
-def setup_page(title: str, icon: str = "🎓") -> None:
-    st.set_page_config(page_title=title, page_icon=icon, layout="wide")
+def apply_styles() -> None:
     hide_streamlit_cloud_toolbar()
     st.markdown(
         """
@@ -58,6 +58,7 @@ def setup_page(title: str, icon: str = "🎓") -> None:
 
 
 def render_header(subtitulo: str) -> None:
+    apply_styles()
     c1, c2 = st.columns([1, 7])
     with c1:
         if LOGO.exists():
@@ -66,7 +67,7 @@ def render_header(subtitulo: str) -> None:
         st.markdown(
             f"""
             <div class="gemelo-banner">
-              <h1>Gemelo digital educativo · UCCuyo</h1>
+              <h1>{APP_NAME}</h1>
               <p>{subtitulo}</p>
               <span class="proto-badge">Prototipo interno · no publicado en el sitio web</span>
             </div>

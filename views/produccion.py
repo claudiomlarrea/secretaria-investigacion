@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
-import sys
 from pathlib import Path
+import runpy
+
+runpy.run_path(str(Path(__file__).resolve().parent / "_path.py"))
 
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT))
-
 from lib.openalex import fetch_works, resumen_por_anio
-from lib.styles import render_header, setup_page
+from lib.styles import render_header
 
-setup_page("Producción científica", "🔬")
 render_header("Producción científica UCCuyo · OpenAlex")
 
 st.markdown(
@@ -57,14 +55,8 @@ with col2:
     fig2.update_layout(height=340, margin=dict(l=10, r=10, t=10, b=10))
     st.plotly_chart(fig2, use_container_width=True)
 
-st.subheader("Últimas publicaciones")
 st.dataframe(
     df[["anio", "titulo", "autores", "tipo", "oa", "doi"]].head(40),
     hide_index=True,
     use_container_width=True,
-)
-
-st.info(
-    "**Próximo paso del gemelo:** cruzar este índice con la producción **registrada** en la planilla "
-    "de la Secretaría para detectar brechas y alinear publicaciones con objetivos PEI OG1/OG2."
 )

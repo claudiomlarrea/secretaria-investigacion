@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
-import sys
 from pathlib import Path
+import runpy
+
+runpy.run_path(str(Path(__file__).resolve().parent / "_path.py"))
 
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT))
-
 from lib.pei_model import indice_equilibrio, load_baseline, objetivos_df
-from lib.styles import render_header, setup_page
+from lib.styles import render_header
 
-setup_page("Panorama Rectorado", "🏛️")
-render_header("Vista Rectorado · equilibrio estratégico del PEI 2025")
+render_header("Panorama Rectorado · equilibrio estratégico del PEI 2025")
 
 data = load_baseline()
 obj = objetivos_df(data)
@@ -76,5 +74,5 @@ st.plotly_chart(fig3, use_container_width=True)
 
 st.info(
     "**Lectura para rectorado:** el patrón 2025 es de equilibrio asimétrico — OG2 concentra más de la mitad "
-    "de las acciones. Las metas sugeridas del prototipo son ilustrativas para conversar prioridades 2026."
+    "de las acciones. Las metas sugeridas del Gemelo Digital Plan Institucional son ilustrativas para 2026."
 )

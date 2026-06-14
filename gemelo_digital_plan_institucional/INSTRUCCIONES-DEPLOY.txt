@@ -1,0 +1,24 @@
+GEMELO DIGITAL PLAN INSTITUCIONAL — STREAMLIT (INTERNO)
+=======================================================
+
+No está enlazado desde index.html del sitio público.
+
+URL
+---
+https://gemelo-digital-plan-institucional.streamlit.app
+
+Deploy en Streamlit Cloud
+-------------------------
+1. https://share.streamlit.io → New app
+2. Repository: claudiomlarrea/secretaria-investigacion
+3. Branch: main
+4. Main file path: streamlit_app.py
+5. App URL: gemelo-digital-plan-institucional
+6. Deploy
+
+Local
+-----
+cd ~/Documents/secretaria-investigacion
+python3 -m venv .venv-gemelo && source .venv-gemelo/bin/activate
+pip install -r requirements.txt
+streamlit run streamlit_app.py

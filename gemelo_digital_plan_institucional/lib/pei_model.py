@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent  # gemelo_digital_plan_institucional/
 BASELINE_PATH = ROOT / "data" / "pei_baseline_2025.json"
 
 

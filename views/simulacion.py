@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
-import sys
 from pathlib import Path
+import runpy
+
+runpy.run_path(str(Path(__file__).resolve().parent / "_path.py"))
 
 import plotly.express as px
 import streamlit as st
 
-ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT))
-
 from lib.pei_model import indice_equilibrio, load_baseline, objetivos_df, simular_distribucion
-from lib.styles import render_header, setup_page
+from lib.styles import render_header
 
-setup_page("Simulación PEI", "⚖️")
 render_header("Simulación estratégica · escenarios what-if PEI")
 
 data = load_baseline()
@@ -19,11 +17,10 @@ base = objetivos_df(data)
 total = data["total_actividades"]
 
 st.markdown(
-    "Ajustá la **prioridad relativa** de cada objetivo y el gemelo recalcula cómo quedaría "
-    f"la distribución de las **{total} actividades** institucionales."
+    "Ajustá la **prioridad relativa** de cada objetivo y el **Gemelo Digital Plan Institucional** "
+    f"recalcula la distribución de las **{total} actividades**."
 )
 
-st.subheader("Prioridades estratégicas (pesos relativos)")
 pesos = []
 cols = st.columns(3)
 for i, row in base.iterrows():
@@ -61,7 +58,6 @@ with left:
     st.plotly_chart(fig, use_container_width=True)
 
 with right:
-    st.subheader("Cambios por objetivo")
     st.dataframe(
         sim[["id", "nombre", "pct", "pct_sim", "delta_pct"]].rename(
             columns={
@@ -75,24 +71,4 @@ with right:
         use_container_width=True,
     )
 
-preset = st.radio(
-    "Escenarios rápidos",
-    ["Personalizado", "Reequilibrar OG3/4/6", "Mantener foco vinculación (OG2)"],
-    horizontal=True,
-)
-
-if preset == "Reequilibrar OG3/4/6":
-    st.success(
-        "Escenario sugerido: subir Educación a distancia, RR.HH. e identidad institucional "
-        "sin reducir por debajo del 15 % la calidad (OG1) ni la participación (OG5)."
-    )
-elif preset == "Mantener foco vinculación (OG2)":
-    st.warning(
-        "Escenario conservador: mantiene la lógica 2025 donde OG2 concentra más del 50 % "
-        "de las actividades institucionales."
-    )
-
-st.caption(
-    "Simulación ilustrativa para conversaciones de planificación. No modifica el PEI real "
-    "hasta integrar el Formulario Único institucional."
-)
+st.caption("Simulación ilustrativa · Gemelo Digital Plan Institucional")

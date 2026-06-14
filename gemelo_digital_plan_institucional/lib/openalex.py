@@ -18,7 +18,7 @@ def _fetch(url: str) -> dict:
         url,
         headers={
             "Accept": "application/json",
-            "User-Agent": f"mailto:{MAILTO} (gemelo-educativo-uccuyo)",
+            "User-Agent": f"mailto:{MAILTO} (gemelo-digital-plan-institucional)",
         },
     )
     with urllib.request.urlopen(req, timeout=60) as resp:
