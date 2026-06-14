@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 from pathlib import Path
-import runpy
+import sys
 
-runpy.run_path(str(Path(__file__).resolve().parent / "_path.py"))
+_ROOT = Path(__file__).resolve().parent.parent
+_GEMELO = _ROOT / "gemelo_digital_plan_institucional"
+for _dir in (_GEMELO, _ROOT):
+    _s = str(_dir)
+    if _s not in sys.path:
+        sys.path.insert(0, _s)
 
 import plotly.express as px
 import streamlit as st

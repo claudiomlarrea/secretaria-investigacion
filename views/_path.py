@@ -5,6 +5,6 @@ from pathlib import Path
 
 _REPO = Path(__file__).resolve().parent.parent
 _GEMELO = _REPO / "gemelo_digital_plan_institucional"
-for p in (str(_REPO), str(_GEMELO)):
+for p in (str(_GEMELO), str(_REPO)):
     if p not in sys.path:
         sys.path.insert(0, p)

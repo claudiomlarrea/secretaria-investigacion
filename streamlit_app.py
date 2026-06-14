@@ -9,7 +9,7 @@ import streamlit as st
 REPO = Path(__file__).resolve().parent
 GEMELO = REPO / "gemelo_digital_plan_institucional"
 VIEWS = REPO / "views"
-for p in (str(REPO), str(GEMELO), str(VIEWS)):
+for p in (str(GEMELO), str(REPO), str(VIEWS)):
     if p not in sys.path:
         sys.path.insert(0, p)
 

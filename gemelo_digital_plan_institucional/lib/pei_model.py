@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Modelo del Gemelo Digital Plan Institucional."""
 
 from __future__ import annotations
@@ -329,7 +330,7 @@ def guia_por_indicador_df(data: dict | None = None) -> pd.DataFrame:
     ]
     for og_id, tema, nota in tematicos:
         pesos = matriz[og_id]
-        funcion_top = max(pesos, key=pesos.get)
+        funcion_top = max(pesos.keys(), key=lambda k: pesos[k])
         rows.append(
             {
                 "Indicador": tema,
@@ -364,8 +365,8 @@ def guia_por_objetivo_df(data: dict | None = None) -> pd.DataFrame:
     for og_id in sorted(matriz, key=int):
         pesos = matriz[og_id]
         impactos = [
-            f"{función} ({pct:.0%}): {indicadores_por_funcion[función]}"
-            for función, pct in sorted(pesos.items(), key=lambda item: item[1], reverse=True)
+            f"{fn_nombre} ({pct:.0%}): {indicadores_por_funcion[fn_nombre]}"
+            for fn_nombre, pct in sorted(pesos.items(), key=lambda item: item[1], reverse=True)
             if pct > 0
         ]
         rows.append(
