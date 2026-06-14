@@ -160,8 +160,9 @@ def simular_impacto_funciones(sim: pd.DataFrame, data: dict | None = None) -> pd
 
     rows: list[dict] = []
     for funcion, base in funciones_base.items():
-        delta = round(impacto[funcion])
-        sim_act = max(0, base + delta)
+        delta_float = impacto[funcion]
+        factor = max(0.0, (base + delta_float) / base) if base else 1.0
+        sim_act = max(0, round(base * factor))
         rows.append(
             {
                 "funcion": funcion,
@@ -169,67 +170,79 @@ def simular_impacto_funciones(sim: pd.DataFrame, data: dict | None = None) -> pd
                 "actividades_sim": sim_act,
                 "delta": sim_act - base,
                 "delta_pct": round((sim_act - base) / base * 100, 1) if base else 0.0,
-                "factor": sim_act / base if base else 1.0,
+                "factor": factor,
             }
         )
     return pd.DataFrame(rows)
 
 
-def proyectar_metricas_operativas(
+def metricas_operativas_por_funcion(
     impacto_funciones: pd.DataFrame, data: dict | None = None
-) -> pd.DataFrame:
-    """Escala indicadores operativos (alumnos, docentes, convenios, etc.) según el factor simulado."""
+) -> dict[str, list[dict]]:
+    """Indicadores base vs proyectados por función, listos para mostrar en la UI."""
     data = data or load_baseline()
     factor_map = {r["funcion"]: r["factor"] for _, r in impacto_funciones.iterrows()}
-    rows: list[dict] = []
+    out: dict[str, list[dict]] = {}
 
     for funcion in ("Docencia", "Investigación", "Extensión"):
         factor = factor_map.get(funcion, 1.0)
         base = funcion_metricas(funcion, data)
-        row: dict = {"función": funcion, "factor": round(factor, 3)}
+        filas: list[dict] = []
 
         if funcion == "Docencia":
-            alumnos = int(base["alumnos"] * factor)
-            docentes = max(1, round(base["docentes"] * factor))
-            row.update(
-                {
-                    "Alumnos (proy.)": alumnos,
-                    "Docentes (proy.)": docentes,
-                    "Alumnos / docente": round(alumnos / docentes, 1) if docentes else 0,
-                    "Δ alumnos": alumnos - base["alumnos"],
-                    "Δ docentes": docentes - base["docentes"],
-                }
-            )
+            pares = [
+                ("Alumnos", base["alumnos"], int(base["alumnos"] * factor)),
+                ("Docentes", base["docentes"], max(1, round(base["docentes"] * factor))),
+            ]
+            ratio_base = round(base["alumnos"] / base["docentes"], 1) if base["docentes"] else 0
+            ratio_proj = round(pares[0][2] / pares[1][2], 1) if pares[1][2] else 0
+            pares.append(("Alumnos / docente", ratio_base, ratio_proj))
         elif funcion == "Investigación":
-            inv = max(1, round(base["investigadores"] * factor))
-            acts = max(0, round(base["actividades"] * factor))
-            row.update(
-                {
-                    "Investigadores (proy.)": inv,
-                    "Actividades científicas (proy.)": acts,
-                    "Actividades / investigador": round(acts / inv, 2) if inv else 0,
-                    "Δ investigadores": inv - base["investigadores"],
-                    "Δ actividades": acts - base["actividades"],
-                }
-            )
+            inv_base = base["investigadores"]
+            acts_base = base["actividades"]
+            inv_proj = max(1, round(inv_base * factor))
+            acts_proj = max(0, round(acts_base * factor))
+            pares = [
+                ("Investigadores", inv_base, inv_proj),
+                ("Actividades científicas", acts_base, acts_proj),
+                (
+                    "Actividades / investigador",
+                    round(acts_base / inv_base, 2) if inv_base else 0,
+                    round(acts_proj / inv_proj, 2) if inv_proj else 0,
+                ),
+            ]
         else:
-            convenios = max(0, round(base["convenios"] * factor))
-            extension = max(0, round(base["extension"] * factor))
-            voluntariado = max(0, round(base["voluntariado"] * factor))
-            acts = max(0, round(base["actividades"] * factor))
-            row.update(
+            pares = [
+                ("Convenios firmados", base["convenios"], max(0, round(base["convenios"] * factor))),
+                ("Actividades de extensión", base["extension"], max(0, round(base["extension"] * factor))),
+                (
+                    "Voluntariado y comunidad",
+                    base["voluntariado"],
+                    max(0, round(base["voluntariado"] * factor)),
+                ),
+                (
+                    "Actividades en el plan",
+                    base["actividades_plan"],
+                    max(0, round(base["actividades_plan"] * factor)),
+                ),
+            ]
+
+        for indicador, valor_base, valor_proj in pares:
+            diff = valor_proj - valor_base
+            if isinstance(valor_base, int):
+                delta: int | float = int(valor_proj) - valor_base
+            else:
+                delta = round(diff, 2)
+            filas.append(
                 {
-                    "Convenios (proy.)": convenios,
-                    "Extensión (proy.)": extension,
-                    "Voluntariado (proy.)": voluntariado,
-                    "Actividades plan (proy.)": acts,
-                    "Δ convenios": convenios - base["convenios"],
-                    "Δ extensión": extension - base["extension"],
-                    "Δ voluntariado": voluntariado - base["voluntariado"],
+                    "indicador": indicador,
+                    "base": valor_base,
+                    "proyectado": valor_proj,
+                    "delta": delta,
                 }
             )
-        rows.append(row)
-    return pd.DataFrame(rows)
+        out[funcion] = filas
+    return out
 
 
 def indice_equilibrio(pcts: list[float]) -> float:

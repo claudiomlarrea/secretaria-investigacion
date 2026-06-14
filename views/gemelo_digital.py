@@ -14,8 +14,8 @@ from lib.pei_model import (
     funciones_df,
     indice_equilibrio,
     load_baseline,
+    metricas_operativas_por_funcion,
     objetivos_df,
-    proyectar_metricas_operativas,
     sedes_df,
     simular_distribucion,
     simular_impacto_funciones,
@@ -113,7 +113,7 @@ for i, row in base.iterrows():
 sim = simular_distribucion(pesos, total=total_sim, data=data)
 impacto = simular_impacto_funciones(sim, data)
 contrib = contribucion_objetivo_funcion(sim, data)
-metricas_ops = proyectar_metricas_operativas(impacto, data)
+metricas_por_fn = metricas_operativas_por_funcion(impacto, data)
 
 s1, s2, s3 = st.columns(3)
 s1.metric("Equilibrio simulado", indice_equilibrio(sim["pct_sim"].tolist()))
@@ -240,37 +240,16 @@ tabs = st.tabs(["Docencia", "Investigación", "Extensión"])
 for tab, funcion in zip(tabs, ("Docencia", "Investigación", "Extensión")):
     with tab:
         row_imp = impacto.loc[impacto["funcion"] == funcion].iloc[0]
-        row_ops = metricas_ops.loc[metricas_ops["función"] == funcion].iloc[0]
+        filas = metricas_por_fn[funcion]
         st.caption(
             next(f["descripcion"] for f in data["funciones_sustantivas"] if f["funcion"] == funcion)
         )
-        mcols = st.columns(4)
-        if funcion == "Docencia":
-            labels = [
-                ("Alumnos", row_ops["Alumnos (proy.)"], row_ops["Δ alumnos"]),
-                ("Docentes", row_ops["Docentes (proy.)"], row_ops["Δ docentes"]),
-                ("Alumnos / docente", row_ops["Alumnos / docente"], None),
-                ("Factor simulado", f"{row_ops['factor']:.2f}x", None),
-            ]
-        elif funcion == "Investigación":
-            labels = [
-                ("Investigadores", row_ops["Investigadores (proy.)"], row_ops["Δ investigadores"]),
-                ("Actividades científicas", row_ops["Actividades científicas (proy.)"], row_ops["Δ actividades"]),
-                ("Actividades / investigador", row_ops["Actividades / investigador"], None),
-                ("Factor simulado", f"{row_ops['factor']:.2f}x", None),
-            ]
-        else:
-            labels = [
-                ("Convenios", row_ops["Convenios (proy.)"], row_ops["Δ convenios"]),
-                ("Extensión", row_ops["Extensión (proy.)"], row_ops["Δ extensión"]),
-                ("Voluntariado", row_ops["Voluntariado (proy.)"], row_ops["Δ voluntariado"]),
-                ("Factor simulado", f"{row_ops['factor']:.2f}x", None),
-            ]
-        for col, (label, value, delta) in zip(mcols, labels):
-            if delta is not None:
-                col.metric(label, value, delta=delta)
-            else:
-                col.metric(label, value)
+        mcols = st.columns(min(4, len(filas)))
+        for col, fila in zip(mcols, filas):
+            delta = fila["delta"]
+            if isinstance(delta, float) and delta == int(delta):
+                delta = int(delta)
+            col.metric(fila["indicador"], fila["proyectado"], delta=delta if delta != 0 else None)
 
         st.info(
             f"Actividades del plan en **{funcion.lower()}**: "
@@ -278,6 +257,14 @@ for tab, funcion in zip(tabs, ("Docencia", "Investigación", "Extensión")):
             f"({row_imp['delta']:+d}, {row_imp['delta_pct']:+.1f} %)."
         )
 
-st.dataframe(metricas_ops.drop(columns=["factor"]), hide_index=True, use_container_width=True)
+st.markdown("**Resumen comparativo por función**")
+res_cols = st.columns(3)
+for col, funcion in zip(res_cols, ("Docencia", "Investigación", "Extensión")):
+    with col:
+        st.markdown(f"**{funcion}**")
+        resumen = pd.DataFrame(metricas_por_fn[funcion]).rename(
+            columns={"indicador": "Indicador", "base": f"Base {anio_base}", "proyectado": "Simulado", "delta": "Δ"}
+        )
+        st.dataframe(resumen, hide_index=True, use_container_width=True)
 
 st.caption("Simulación ilustrativa · Observatorio de Inteligencia Artificial · UCCuyo")
