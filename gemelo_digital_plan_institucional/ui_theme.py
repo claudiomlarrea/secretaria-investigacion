@@ -269,10 +269,18 @@ def estilizar_variacion_tabla(
     df: pd.DataFrame,
     columnas_delta: tuple[str, ...],
     columnas_vinculadas: tuple[tuple[str, str], ...] = (),
+    decimales: int = 1,
 ) -> pd.io.formats.style.Styler:
     """Colorea en verde las subas y en rojo las bajas según columnas Δ."""
-    styled = df.style
-    presentes = [c for c in columnas_delta if c in df.columns]
+    tabla = df.copy()
+    numericas = [c for c in tabla.columns if pd.api.types.is_numeric_dtype(tabla[c])]
+    for col in numericas:
+        tabla[col] = tabla[col].apply(
+            lambda x: round(float(x), decimales) if pd.notna(x) and isinstance(x, (int, float)) else x
+        )
+
+    styled = tabla.style
+    presentes = [c for c in columnas_delta if c in tabla.columns]
     if presentes:
         styled = styled.map(_css_variacion, subset=presentes)
 
@@ -289,5 +297,9 @@ def estilizar_variacion_tabla(
             return estilos
 
         styled = styled.apply(_fila, axis=1)
+
+    if numericas:
+        fmt = {col: f"{{:.{decimales}f}}" for col in numericas}
+        styled = styled.format(fmt, na_rep="")
 
     return styled
