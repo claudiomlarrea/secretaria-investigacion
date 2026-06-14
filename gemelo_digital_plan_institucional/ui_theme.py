@@ -5,6 +5,7 @@ import base64
 import html
 from pathlib import Path
 
+import pandas as pd
 import streamlit as st
 
 from constants import APP_NAME
@@ -249,3 +250,44 @@ def apply_plotly_style(fig):  # noqa: ANN001
     fig.update_xaxes(gridcolor="#D4E4DB", linecolor="#B8CFC4")
     fig.update_yaxes(gridcolor="#D4E4DB", linecolor="#B8CFC4")
     return fig
+
+
+SIM_SUBE_STYLE = "background-color: #E8F3EF; color: #044A30; font-weight: 600"
+SIM_BAJA_STYLE = "background-color: #FCE8E8; color: #B42318; font-weight: 600"
+
+
+def _css_variacion(val) -> str:  # noqa: ANN001
+    if isinstance(val, (int, float)) and not pd.isna(val):
+        if val > 0:
+            return SIM_SUBE_STYLE
+        if val < 0:
+            return SIM_BAJA_STYLE
+    return ""
+
+
+def estilizar_variacion_tabla(
+    df: pd.DataFrame,
+    columnas_delta: tuple[str, ...],
+    columnas_vinculadas: tuple[tuple[str, str], ...] = (),
+) -> pd.io.formats.style.Styler:
+    """Colorea en verde las subas y en rojo las bajas según columnas Δ."""
+    styled = df.style
+    presentes = [c for c in columnas_delta if c in df.columns]
+    if presentes:
+        styled = styled.map(_css_variacion, subset=presentes)
+
+    if columnas_vinculadas:
+        def _fila(row):  # noqa: ANN001
+            estilos = [""] * len(row)
+            idx = {nombre: i for i, nombre in enumerate(row.index)}
+            for col_valor, col_delta in columnas_vinculadas:
+                if col_valor not in idx or col_delta not in idx:
+                    continue
+                css = _css_variacion(row[col_delta])
+                if css:
+                    estilos[idx[col_valor]] = css
+            return estilos
+
+        styled = styled.apply(_fila, axis=1)
+
+    return styled

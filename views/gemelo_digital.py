@@ -21,7 +21,7 @@ from lib.pei_model import (
     simular_impacto_funciones,
 )
 from lib.styles import apply_plotly_style, render_header
-from ui_theme import CHART_SEQUENCE, GREEN, GREEN_MID, ORANGE
+from ui_theme import CHART_SEQUENCE, GREEN, GREEN_MID, ORANGE, estilizar_variacion_tabla
 
 render_header(
     "Réplica digital del plan institucional para simular escenarios de redistribución "
@@ -140,17 +140,24 @@ fig.for_each_trace(lambda t: t.update(name=f"{anio_base} real" if t.name == "pct
 fig.update_layout(height=380)
 st.plotly_chart(fig, use_container_width=True)
 
+tabla_objetivos = sim[
+    ["id", "nombre", "actividades", "actividades_sim", "delta_actividades", "pct", "pct_sim", "delta_pct"]
+].rename(
+    columns={
+        "id": "OG",
+        "actividades": "Act. reales",
+        "actividades_sim": "Act. simuladas",
+        "delta_actividades": "Δ actividades",
+        "pct": "% real",
+        "pct_sim": "% simulado",
+        "delta_pct": "Δ puntos",
+    }
+)
 st.dataframe(
-    sim[["id", "nombre", "actividades", "actividades_sim", "delta_actividades", "pct", "pct_sim", "delta_pct"]].rename(
-        columns={
-            "id": "OG",
-            "actividades": "Act. reales",
-            "actividades_sim": "Act. simuladas",
-            "delta_actividades": "Δ actividades",
-            "pct": "% real",
-            "pct_sim": "% simulado",
-            "delta_pct": "Δ puntos",
-        }
+    estilizar_variacion_tabla(
+        tabla_objetivos,
+        columnas_delta=("Δ actividades", "Δ puntos"),
+        columnas_vinculadas=(("Act. simuladas", "Δ actividades"), ("% simulado", "Δ puntos")),
     ),
     hide_index=True,
     use_container_width=True,
@@ -265,7 +272,15 @@ for tab, funcion in zip(tabs, ("Docencia", "Investigación", "Extensión")):
                 "delta": "Δ",
             }
         )
-        st.dataframe(resumen_tab, hide_index=True, use_container_width=True)
+        st.dataframe(
+            estilizar_variacion_tabla(
+                resumen_tab,
+                columnas_delta=("Δ",),
+                columnas_vinculadas=(("Simulado", "Δ"),),
+            ),
+            hide_index=True,
+            use_container_width=True,
+        )
 
 st.markdown("**Resumen comparativo por función**")
 filas_todas: list[dict] = []
@@ -286,7 +301,11 @@ resumen = (
     [["Función", "Indicador", f"Base {anio_base}", "Simulado", "Δ"]]
 )
 st.dataframe(
-    resumen,
+    estilizar_variacion_tabla(
+        resumen,
+        columnas_delta=("Δ",),
+        columnas_vinculadas=(("Simulado", "Δ"),),
+    ),
     hide_index=True,
     use_container_width=True,
     column_config={
