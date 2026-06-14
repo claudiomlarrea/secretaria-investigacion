@@ -28,7 +28,7 @@ from lib.pei_model import (
     simular_impacto_funciones,
 )
 from lib.styles import apply_plotly_style, render_header
-from ui_theme import CHART_SEQUENCE, GREEN, GREEN_MID, ORANGE, estilizar_variacion_tabla
+from ui_theme import CHART_SEQUENCE, GREEN, GREEN_MID, estilizar_variacion_tabla
 
 render_header(
     "Réplica digital del plan institucional para simular escenarios de redistribución "
@@ -75,24 +75,17 @@ with left:
     st.plotly_chart(fig_sede, use_container_width=True)
 
 with right:
-    fig_fun = apply_plotly_style(
-        px.bar(
-            funciones,
-            x="funcion",
-            y="actividades_plan",
-            text="actividades_plan",
-            title="Actividades por función sustantiva",
-            labels={"actividades_plan": "Actividades", "funcion": ""},
-            color="funcion",
-            color_discrete_map={
-                "Docencia": GREEN,
-                "Investigación": GREEN_MID,
-                "Extensión": ORANGE,
-            },
-        )
+    st.dataframe(
+        funciones[["funcion", "actividades_plan", "descripcion"]].rename(
+            columns={
+                "funcion": "Función",
+                "actividades_plan": "Actividades en el plan",
+                "descripcion": "Descripción",
+            }
+        ),
+        hide_index=True,
+        use_container_width=True,
     )
-    fig_fun.update_layout(showlegend=False, height=340)
-    st.plotly_chart(fig_fun, use_container_width=True)
 
 st.divider()
 st.subheader("Qué objetivo impulsa qué indicador")
@@ -153,20 +146,6 @@ s3.metric(
     "Función más afectada",
     f"{impacto.loc[impacto['delta'].abs().idxmax(), 'funcion']} ({impacto['delta'].abs().max():+d})",
 )
-
-fig = apply_plotly_style(
-    px.bar(
-        sim,
-        x="id",
-        y=["pct", "pct_sim"],
-        barmode="group",
-        labels={"value": "%", "id": "Objetivo", "variable": "Escenario"},
-        color_discrete_map={"pct": GREEN, "pct_sim": GREEN_MID},
-    )
-)
-fig.for_each_trace(lambda t: t.update(name=f"{anio_base} real" if t.name == "pct" else "Simulado"))
-fig.update_layout(height=380)
-st.plotly_chart(fig, use_container_width=True)
 
 tabla_objetivos = sim[
     ["id", "nombre", "actividades", "actividades_sim", "delta_actividades", "pct", "pct_sim", "delta_pct"]

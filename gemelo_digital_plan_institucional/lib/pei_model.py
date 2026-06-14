@@ -55,6 +55,80 @@ def actividades_por_anio_df() -> pd.DataFrame:
     return pd.DataFrame(data["actividades_por_anio"])
 
 
+def planilla_objetivos_df(data: dict | None = None) -> pd.DataFrame:
+    obj = objetivos_df(data).copy()
+    obj["id"] = obj["id"].astype(int)
+    return obj[["id", "nombre", "actividades", "pct"]].rename(
+        columns={
+            "id": "OG",
+            "nombre": "Objetivo general",
+            "actividades": "Actividades",
+            "pct": "% del plan",
+        }
+    )
+
+
+def planilla_sedes_df(data: dict | None = None) -> pd.DataFrame:
+    data = data or load_baseline()
+    sede = sedes_df(data).copy()
+    total = int(sede["actividades"].sum()) or 1
+    sede["% del plan"] = (sede["actividades"] / total * 100).round(1)
+    return sede.rename(columns={"sede": "Sede", "actividades": "Actividades"})
+
+
+def planilla_funciones_resumen_df(data: dict | None = None) -> pd.DataFrame:
+    """Indicadores institucionales del PEI por función sustantiva."""
+    data = data or load_baseline()
+    rows: list[dict] = []
+    for funcion in ("Docencia", "Investigación", "Extensión"):
+        m = funcion_metricas(funcion, data)
+        if funcion == "Docencia":
+            pares = [
+                ("Actividades en el plan", m["actividades_plan"]),
+                ("Alumnos", m["alumnos"]),
+                ("Docentes", m["docentes"]),
+                ("Alumnos / docente", m["ratio_alumnos_docente"]),
+            ]
+        elif funcion == "Investigación":
+            pares = [
+                ("Actividades en el plan", m["actividades_plan"]),
+                ("Investigadores", m["investigadores"]),
+                ("Actividades científicas", m["actividades"]),
+                ("Actividades / investigador", m["actividades_por_investigador"]),
+            ]
+        else:
+            pares = [
+                ("Actividades en el plan", m["actividades_plan"]),
+                ("Convenios firmados", m["convenios"]),
+                ("Actividades de extensión", m["extension"]),
+                ("Voluntariado y comunidad", m["voluntariado"]),
+            ]
+        for indicador, valor in pares:
+            rows.append({"Función sustantiva": funcion, "Indicador": indicador, "Valor": valor})
+    return pd.DataFrame(rows)
+
+
+def planilla_evolucion_anual_df() -> pd.DataFrame:
+    df = actividades_por_anio_df().copy()
+    df["variación vs año anterior"] = df["total"].diff().fillna(0).astype(int)
+    return df.rename(
+        columns={
+            "anio": "Año",
+            "total": "Actividades registradas",
+            "variación vs año anterior": "Δ vs año anterior",
+        }
+    )
+
+
+def planilla_unidades_df(data: dict | None = None) -> pd.DataFrame:
+    data = data or load_baseline()
+    return (
+        unidades_df(data)
+        .sort_values("actividades", ascending=False)
+        .rename(columns={"unidad": "Unidad académica", "sede": "Sede", "actividades": "Actividades"})
+    )
+
+
 def funcion_metricas(funcion: str, data: dict | None = None) -> dict:
     data = data or load_baseline()
     row = next(f for f in data["funciones_sustantivas"] if f["funcion"] == funcion)
