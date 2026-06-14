@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Gemelo Digital Plan Institucional — entrada Streamlit Cloud."""
+"""Gemelo Digital Plan Institucional — Observatorio de IA · UCCuyo."""
 
 import sys
 from pathlib import Path
@@ -13,11 +13,16 @@ for p in (str(REPO), str(GEMELO), str(VIEWS)):
     if p not in sys.path:
         sys.path.insert(0, p)
 
-from gemelo_digital_plan_institucional.constants import APP_NAME
-from gemelo_digital_plan_institucional.lib.styles import apply_styles
+from constants import APP_NAME
+from ui_theme import inject_theme
 
-st.set_page_config(page_title=APP_NAME, page_icon="🎓", layout="wide")
-apply_styles()
+st.set_page_config(
+    page_title=APP_NAME,
+    page_icon="🎓",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+inject_theme()
 
 pages = [
     st.Page(

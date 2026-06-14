@@ -7,7 +7,6 @@ runpy.run_path(str(Path(__file__).resolve().parent / "_path.py"))
 import plotly.express as px
 import streamlit as st
 
-from constants import APP_SUBTITLE
 from lib.pei_model import (
     ANIOS_DISPONIBLES,
     funciones_df,
@@ -17,20 +16,19 @@ from lib.pei_model import (
     sedes_df,
     simular_distribucion,
 )
-from lib.styles import render_header
+from lib.styles import apply_plotly_style, render_header
+from ui_theme import CHART_SEQUENCE, GREEN, GREEN_MID, ORANGE
 
-render_header(f"Gemelo digital · simulación estratégica · {APP_SUBTITLE}")
+render_header(
+    "Réplica digital del plan institucional para simular escenarios de redistribución "
+    "estratégica entre objetivos generales y funciones sustantivas."
+)
 
 anio_base = st.sidebar.selectbox("Año base", ANIOS_DISPONIBLES, index=ANIOS_DISPONIBLES.index(2025))
 data = load_baseline(anio_base)
 base = objetivos_df(data)
 total = data["total_actividades"]
 funciones = funciones_df(data)
-
-st.markdown(
-    "El **gemelo digital** replica el estado del plan institucional y permite simular escenarios "
-    "de redistribución de actividades entre objetivos y funciones sustantivas."
-)
 
 c1, c2, c3 = st.columns(3)
 c1.metric("Actividades base", total)
@@ -43,33 +41,37 @@ left, right = st.columns(2)
 
 with left:
     sede = sedes_df(data)
-    fig_sede = px.pie(
-        sede,
-        names="sede",
-        values="actividades",
-        hole=0.45,
-        title="Actividades por sede",
-        color_discrete_sequence=["#7a1532", "#c45c6a", "#e8c4cf"],
+    fig_sede = apply_plotly_style(
+        px.pie(
+            sede,
+            names="sede",
+            values="actividades",
+            hole=0.45,
+            title="Actividades por sede",
+            color_discrete_sequence=CHART_SEQUENCE[:3],
+        )
     )
-    fig_sede.update_layout(height=340, margin=dict(l=10, r=10, t=30, b=10))
+    fig_sede.update_layout(height=340)
     st.plotly_chart(fig_sede, use_container_width=True)
 
 with right:
-    fig_fun = px.bar(
-        funciones,
-        x="funcion",
-        y="actividades_plan",
-        text="actividades_plan",
-        title="Actividades por función sustantiva",
-        labels={"actividades_plan": "Actividades", "funcion": ""},
-        color="funcion",
-        color_discrete_map={
-            "Docencia": "#7a1532",
-            "Investigación": "#0d6e4f",
-            "Extensión": "#c45c00",
-        },
+    fig_fun = apply_plotly_style(
+        px.bar(
+            funciones,
+            x="funcion",
+            y="actividades_plan",
+            text="actividades_plan",
+            title="Actividades por función sustantiva",
+            labels={"actividades_plan": "Actividades", "funcion": ""},
+            color="funcion",
+            color_discrete_map={
+                "Docencia": GREEN,
+                "Investigación": GREEN_MID,
+                "Extensión": ORANGE,
+            },
+        )
     )
-    fig_fun.update_layout(showlegend=False, height=340, margin=dict(l=10, r=10, t=30, b=10))
+    fig_fun.update_layout(showlegend=False, height=340)
     st.plotly_chart(fig_fun, use_container_width=True)
 
 st.divider()
@@ -104,16 +106,18 @@ s2.metric(
 )
 s3.metric("OG2 simulado", f"{sim.loc[sim['id'] == 2, 'pct_sim'].iloc[0]} %")
 
-fig = px.bar(
-    sim,
-    x="id",
-    y=["pct", "pct_sim"],
-    barmode="group",
-    labels={"value": "%", "id": "Objetivo", "variable": "Escenario"},
-    color_discrete_map={"pct": "#7a1532", "pct_sim": "#0d6e4f"},
+fig = apply_plotly_style(
+    px.bar(
+        sim,
+        x="id",
+        y=["pct", "pct_sim"],
+        barmode="group",
+        labels={"value": "%", "id": "Objetivo", "variable": "Escenario"},
+        color_discrete_map={"pct": GREEN, "pct_sim": GREEN_MID},
+    )
 )
 fig.for_each_trace(lambda t: t.update(name=f"{anio_base} real" if t.name == "pct" else "Simulado"))
-fig.update_layout(height=380, margin=dict(l=10, r=10, t=10, b=10))
+fig.update_layout(height=380)
 st.plotly_chart(fig, use_container_width=True)
 
 st.dataframe(
@@ -124,6 +128,4 @@ st.dataframe(
     use_container_width=True,
 )
 
-st.caption(
-    "Simulación ilustrativa del Gemelo Digital Plan Institucional · no modifica el PEI real."
-)
+st.caption("Simulación ilustrativa · Observatorio de Inteligencia Artificial · UCCuyo")

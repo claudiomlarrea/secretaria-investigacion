@@ -1,9 +1,12 @@
-[client]
-toolbarMode = "viewer"
+# Gemelo Digital Plan Institucional — colores Observatorio de IA / UCCuyo
 
 [theme]
-primaryColor = "#7a1532"
-backgroundColor = "#f4f0f1"
-secondaryBackgroundColor = "#ffffff"
-textColor = "#1f1418"
+base = "light"
+primaryColor = "#044A30"
+backgroundColor = "#E8E8E8"
+secondaryBackgroundColor = "#F0F0F0"
+textColor = "#1A2E28"
 font = "sans serif"
+
+[client]
+toolbarMode = "viewer"
