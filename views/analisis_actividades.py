@@ -44,9 +44,9 @@ def _render_funciones_por_sede(data: dict, anio: int) -> None:
     with tabs[0]:
         m = funcion_metricas("Docencia", data)
         d1, d2, d3 = st.columns(3)
-        d1.metric("Alumnos (total)", f"{m['alumnos']:,}".replace(",", "."), key=f"doc_alumnos_{anio}")
-        d2.metric("Docentes (total)", m["docentes"], key=f"doc_docentes_{anio}")
-        d3.metric("Alumnos por docente", m["ratio_alumnos_docente"], key=f"doc_ratio_{anio}")
+        d1.metric("Alumnos (total)", f"{m['alumnos']:,}".replace(",", "."))
+        d2.metric("Docentes (total)", f"{m['docentes']:,}".replace(",", "."))
+        d3.metric("Alumnos por docente", m["ratio_alumnos_docente"])
         por = m["por_sede"].rename(
             columns={"sede": "Sede", "alumnos": "Alumnos", "docentes": "Docentes"}
         )
@@ -73,9 +73,9 @@ def _render_funciones_por_sede(data: dict, anio: int) -> None:
     with tabs[1]:
         m = funcion_metricas("Investigación", data)
         i1, i2, i3 = st.columns(3)
-        i1.metric("Investigadores", m["investigadores"], key=f"inv_inv_{anio}")
-        i2.metric("Actividades en investigación", m["actividades"], key=f"inv_act_{anio}")
-        i3.metric("Actividades / investigador", m["actividades_por_investigador"], key=f"inv_ratio_{anio}")
+        i1.metric("Investigadores", f"{m['investigadores']:,}".replace(",", "."))
+        i2.metric("Actividades en investigación", f"{m['actividades']:,}".replace(",", "."))
+        i3.metric("Actividades / investigador", m["actividades_por_investigador"])
         por = m["por_sede"].copy()
         por["Actividades / investigador"] = (por["actividades"] / por["investigadores"]).round(2)
         tabla = por.rename(
@@ -107,10 +107,10 @@ def _render_funciones_por_sede(data: dict, anio: int) -> None:
     with tabs[2]:
         m = funcion_metricas("Extensión", data)
         e1, e2, e3, e4 = st.columns(4)
-        e1.metric("Convenios firmados", m["convenios"], key=f"ext_conv_{anio}")
-        e2.metric("Actividades de extensión", m["extension"], key=f"ext_act_{anio}")
-        e3.metric("Voluntariado y comunidad", m["voluntariado"], key=f"ext_vol_{anio}")
-        e4.metric("Actividades en el plan", m["actividades_plan"], key=f"ext_plan_{anio}")
+        e1.metric("Convenios firmados", m["convenios"])
+        e2.metric("Actividades de extensión", f"{m['extension']:,}".replace(",", "."))
+        e3.metric("Voluntariado y comunidad", m["voluntariado"])
+        e4.metric("Actividades en el plan", f"{m['actividades_plan']:,}".replace(",", "."))
         por = m["por_sede"].rename(columns={"sede": "Sede", "actividades": "Actividades de extensión"})
         st.dataframe(
             estilizar_escala_cantidad(
