@@ -18,7 +18,6 @@ from lib.pei_model import (
     delta_actividades_anio,
     funcion_metricas,
     load_baseline,
-    planilla_evolucion_anual_df,
     planilla_funciones_resumen_df,
     planilla_indicadores_institucionales_por_anio_df,
     planilla_objetivos_df,
@@ -27,16 +26,6 @@ from lib.pei_model import (
 )
 from lib.styles import apply_plotly_style, render_header
 from ui_theme import CHART_SEQUENCE, GREEN, estilizar_escala_cantidad, estilizar_variacion_tabla
-
-
-def _destacar_anio_seleccionado(styler, columna_anio: str, anio: int):
-    """Resalta la fila del año elegido en la sidebar (sobre un Styler existente)."""
-    def _fila(row):  # noqa: ANN001
-        if row[columna_anio] == anio:
-            return ["background-color: #E8F3EF; font-weight: 700"] * len(row)
-        return [""] * len(row)
-
-    return styler.apply(_fila, axis=1)
 
 
 def _render_funciones_por_sede(data: dict, anio: int) -> None:
@@ -271,31 +260,6 @@ with tab_evol:
         hide_index=True,
         use_container_width=True,
         key=f"evol_og_{anio}",
-    )
-
-    st.markdown("##### Serie histórica 2023–2025")
-    st.caption(
-        "Totales anuales del plan (dato histórico fijo por fila). "
-        "El desglose superior sí cambia según el año del selector lateral."
-    )
-    evol = planilla_evolucion_anual_df()
-    max_evol = int(evol["Actividades registradas"].max())
-    min_evol = int(evol["Actividades registradas"].min())
-    st.dataframe(
-        _destacar_anio_seleccionado(
-            estilizar_escala_cantidad(
-                evol,
-                ("Actividades registradas",),
-                referencia_max=max_evol,
-                referencia_min=min_evol,
-                decimales=0,
-            ),
-            "Año",
-            anio,
-        ),
-        hide_index=True,
-        use_container_width=True,
-        key=f"evol_hist_{anio}",
     )
 
 with tab_det:
