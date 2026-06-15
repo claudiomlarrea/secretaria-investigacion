@@ -25,11 +25,11 @@ SURFACE = "#FFFFFF"
 
 CHART_SEQUENCE = [GREEN, ORANGE, MAROON, GREEN_MID, "#6B9080", "#C9A227", "#2D6A4F"]
 
-# Bloques por función sustantiva (alineado a gráficos por sede)
+# Degradé verde por función sustantiva (intenso → suave)
 _FUNCION_PALETA = {
-    "Docencia": {"bg": "#E8F3EF", "fg": "#044A30", "borde": "#044A30"},
-    "Investigación": {"bg": "#FDF3E3", "fg": "#92400E", "borde": "#EAA958"},
-    "Extensión": {"bg": "#F5EBEA", "fg": "#934B3F", "borde": "#934B3F"},
+    "Docencia": {"bg": "#B8D4C8", "fg": "#033B26", "borde": "#044A30"},
+    "Investigación": {"bg": "#D4E4DB", "fg": "#044A30", "borde": "#0A5C3E"},
+    "Extensión": {"bg": "#E8F3EF", "fg": "#0A5C3E", "borde": "#2D6A4F"},
 }
 
 LOGO_PATH = Path(__file__).resolve().parent / "assets" / "logo-observatorio-ia.png"
@@ -386,7 +386,7 @@ def estilizar_funciones_sustantivas(
     columna_funcion: str = "Función sustantiva",
     decimales: int = 1,
 ) -> pd.io.formats.style.Styler:
-    """Colorea filas por función sustantiva: docencia (verde), investigación (ámbar), extensión (bordó)."""
+    """Colorea filas en degradé verde por función: docencia (intenso) → investigación → extensión (suave)."""
     tabla = df.copy()
     numericas = [c for c in tabla.columns if pd.api.types.is_numeric_dtype(tabla[c])]
     for col in numericas:

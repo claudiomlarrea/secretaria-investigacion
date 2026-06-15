@@ -191,7 +191,7 @@ with tab_fun:
     fun = planilla_funciones_resumen_df(data)
     st.caption(
         f"Indicadores institucionales del PEI para el año {anio}. "
-        "Verde = Docencia · Ámbar = Investigación · Bordó = Extensión."
+        "Degradé verde: Docencia (intenso) → Investigación → Extensión (suave)."
     )
     st.dataframe(
         estilizar_funciones_sustantivas(fun),
