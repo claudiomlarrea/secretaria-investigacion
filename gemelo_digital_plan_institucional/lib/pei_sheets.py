@@ -105,9 +105,9 @@ def _metadata_estatico() -> dict:
         return json.load(f)
 
 
-def _normalizar_actividad(val) -> str:  # noqa: ANN001
-    """Normaliza el texto de una actividad (misma lógica que Looker Studio)."""
-    return " ".join(str(val).strip().lower().split())
+def _texto_actividad(val) -> str:  # noqa: ANN001
+    """Texto de actividad normalizado (espacios); respeta mayúsculas como Looker Studio."""
+    return " ".join(str(val).strip().split())
 
 
 def _conteo_por_og(df_anio: pd.DataFrame, cols_act: list[str]) -> list[int]:
@@ -115,24 +115,18 @@ def _conteo_por_og(df_anio: pd.DataFrame, cols_act: list[str]) -> list[int]:
     conteos: list[int] = []
     for col in cols_act:
         mask = df_anio[col].map(_celda_con_actividad)
-        textos = df_anio.loc[mask, col].map(_normalizar_actividad)
+        textos = df_anio.loc[mask, col].map(_texto_actividad)
         conteos.append(int(textos.nunique()))
     return conteos
 
 
-def _conteo_por_unidad(
-    df_anio: pd.DataFrame, cols_act: list[str], ucol: str
-) -> dict[str, int]:
-    """Total de actividades cargadas por unidad (suma de celdas con actividad)."""
-    unidad_act: dict[str, int] = {}
-    for _, row in df_anio.iterrows():
-        acts_en_fila = sum(1 for col in cols_act if _celda_con_actividad(row[col]))
-        if acts_en_fila <= 0:
-            continue
-        unidad = str(row[ucol]).strip()
+def _conteo_por_unidad(df_anio: pd.DataFrame, ucol: str) -> dict[str, int]:
+    """Formularios cargados por unidad (1 fila = 1 registro), alineado a Looker Studio."""
+    conteo: dict[str, int] = {}
+    for unidad, n in df_anio[ucol].astype(str).str.strip().value_counts().items():
         if unidad:
-            unidad_act[unidad] = unidad_act.get(unidad, 0) + acts_en_fila
-    return unidad_act
+            conteo[unidad] = int(n)
+    return conteo
 
 
 def _actividades_por_funcion(objetivos: list[dict], matriz: dict) -> dict[str, int]:
@@ -167,7 +161,7 @@ def _convenios_desde_planilla(df_anio: pd.DataFrame, cols_act: list[str]) -> int
     mask = df_anio[col].map(_celda_con_actividad) & df_anio[col].astype(str).str.contains(
         "convenio", case=False, na=False
     )
-    return int(df_anio.loc[mask, col].map(_normalizar_actividad).nunique())
+    return int(df_anio.loc[mask, col].map(_texto_actividad).nunique())
 
 
 def _extension_y_voluntariado(
@@ -180,8 +174,8 @@ def _extension_y_voluntariado(
     vol_mask = df_anio[col6].map(_celda_con_actividad) & df_anio[col6].astype(str).str.contains(
         r"voluntariado|comunidad|pastoral", case=False, na=False
     )
-    convenios = int(df_anio.loc[conv_mask, col2].map(_normalizar_actividad).nunique())
-    voluntariado = int(df_anio.loc[vol_mask, col6].map(_normalizar_actividad).nunique())
+    convenios = int(df_anio.loc[conv_mask, col2].map(_texto_actividad).nunique())
+    voluntariado = int(df_anio.loc[vol_mask, col6].map(_texto_actividad).nunique())
     extension = max(0, actividades_ext - convenios - voluntariado)
     return extension, voluntariado
 
@@ -202,14 +196,16 @@ def build_baseline_from_sheets(anio: int) -> dict:
     ucol = _columna_unidad(df)
     df_anio = df[df["AÑO"] == anio].copy()
     conteos = _conteo_por_og(df_anio, cols_act)
-    total = sum(conteos) or 1
+    total_formularios = len(df_anio)
+    suma_unicas_og = sum(conteos)
+    total_pct = suma_unicas_og or 1
 
     objetivos = [
         {
             "id": og_id,
             "nombre": OG_NOMBRES[og_id],
             "actividades": conteos[og_id - 1],
-            "pct": round(conteos[og_id - 1] / total * 100, 1),
+            "pct": round(conteos[og_id - 1] / total_pct * 100, 1),
         }
         for og_id in range(1, 7)
     ]
@@ -219,9 +215,9 @@ def build_baseline_from_sheets(anio: int) -> dict:
         if a > 2026:
             continue
         sub = df[df["AÑO"] == a]
-        actividades_por_anio.append({"anio": a, "total": sum(_conteo_por_og(sub, cols_act))})
+        actividades_por_anio.append({"anio": a, "total": len(sub)})
 
-    unidad_act = _conteo_por_unidad(df_anio, cols_act, ucol)
+    unidad_act = _conteo_por_unidad(df_anio, ucol)
 
     unidades = [
         {"unidad": nombre, "sede": unidad_a_sede(nombre), "actividades": cant}
@@ -272,11 +268,12 @@ def build_baseline_from_sheets(anio: int) -> dict:
     return {
         "anio": anio,
         "fuente": (
-            "Planilla Google Sheets PEI · conteo alineado a Looker Studio "
-            "(actividades únicas por objetivo general)"
+            "Planilla Google Sheets PEI · total de formularios como Looker Studio; "
+            "columnas OG con actividades únicas por objetivo"
         ),
         "fuente_url": f"https://docs.google.com/spreadsheets/d/{PEI_SHEET_ID}/edit#gid={PEI_SHEET_GID}",
-        "total_actividades": total,
+        "total_actividades": total_formularios,
+        "suma_actividades_unicas_og": suma_unicas_og,
         "sedes": SEDES,
         "objetivos": objetivos,
         "funciones_sustantivas": funciones_sustantivas,

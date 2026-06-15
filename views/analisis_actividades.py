@@ -139,14 +139,23 @@ if data.get("fuente_url"):
     st.sidebar.markdown(f"[Planilla Google Sheets]({data['fuente_url']})")
 
 c1, c2, c3, c4 = st.columns(4)
-c1.metric("Actividades del plan", data["total_actividades"])
+c1.metric(
+    "Actividades del plan",
+    data["total_actividades"],
+    help="Formularios cargados en la planilla (mismo total que Looker Studio).",
+)
 c2.metric("Objetivos generales", len(data["objetivos"]))
 c3.metric("Sedes", len(data["sedes"]))
-c4.metric("Funciones sustantivas", len(data["funciones_sustantivas"]))
+c4.metric(
+    "Únicas por objetivo (suma OG)",
+    data.get("suma_actividades_unicas_og", sum(o["actividades"] for o in data["objetivos"])),
+    help="Suma de actividades distintas en OG1–OG6; puede superar el total de formularios.",
+)
 
 st.subheader("Indicadores institucionales · serie histórica")
 st.caption(
-    "Actividades únicas por objetivo general (mismo criterio que Looker Studio). "
+    "Total del plan = formularios del año (Looker: «Cantidad total de actividades»). "
+    "Cada columna OG cuenta actividades únicas por objetivo (Looker: «Actividades Objetivo N»). "
     "Alumnos y docentes se estiman a partir de la memoria académica escalada al volumen del año."
 )
 
@@ -165,7 +174,9 @@ st.subheader(f"Planillas del PEI · {anio}")
 st.caption(
     f"{data.get('fuente', 'Memoria Académica y análisis del PEI.')} "
     "Escala de color: rojo (menor), ámbar (intermedio) y verde (mayor). "
-    f"Total del plan: {data['total_actividades']} actividades."
+    f"Total del plan: {data['total_actividades']} formularios "
+    f"({data.get('suma_actividades_unicas_og', sum(o['actividades'] for o in data['objetivos']))} "
+    "actividades únicas sumando OG1–OG6)."
 )
 
 total_plan = int(data["total_actividades"])
