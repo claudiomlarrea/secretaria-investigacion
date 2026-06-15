@@ -1,0 +1,31 @@
+{
+  "anio": 2023,
+  "fuente": "Memoria Académica Anual 2023 y Memoria Económica Anual 2023 (RRHH, p. 9)",
+  "notas": [
+    "La Memoria Académica 2023 no incluye el anexo «Datos Estadísticos» por sede que publica la memoria 2025.",
+    "Docentes (total 1.348): Memoria Económica 2023, área Recursos Humanos — personal docente dependiente y contratado, nivel universitario y preuniversitario.",
+    "Distribución por sede: estimada aplicando la proporción territorial de la Memoria Académica 2025 al total 2023.",
+    "Alumnos nivel universitario: estimados escalando la matrícula 2025 (13.157) según la serie histórica de actividades PEI (612/805)."
+  ],
+  "factor_estimacion": 0.7602,
+  "alumnos": {
+    "descripcion": "Matrícula nivel universitario (estimada)",
+    "total": 9995,
+    "estimado": true,
+    "por_sede": {
+      "Sede San Juan": 7599,
+      "Sede San Luis": 2181,
+      "Sede Mendoza": 215
+    }
+  },
+  "docentes": {
+    "descripcion": "Plantel docente (total verificado; desglose por sede estimado)",
+    "total": 1348,
+    "estimado_por_sede": true,
+    "por_sede": {
+      "Sede San Juan": 972,
+      "Sede San Luis": 351,
+      "Sede Mendoza": 25
+    }
+  }
+}

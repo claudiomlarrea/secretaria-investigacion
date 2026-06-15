@@ -51,16 +51,29 @@ def _load_baseline_json(anio: int = 2025) -> dict:
         funciones: list[dict] = []
         for f in data["funciones_sustantivas"]:
             fn = {**f, "actividades_plan": _escalar_cantidad(f["actividades_plan"], factor)}
-            for sede_key in ("alumnos", "docentes", "investigadores", "actividades"):
-                if sede_key in fn and isinstance(fn[sede_key], dict):
-                    fn[sede_key] = {
-                        sede: _escalar_cantidad(val, factor, minimo=0) for sede, val in fn[sede_key].items()
-                    }
+            if fn.get("funcion") != "Docencia":
+                for sede_key in ("investigadores", "actividades"):
+                    if sede_key in fn and isinstance(fn[sede_key], dict):
+                        fn[sede_key] = {
+                            sede: _escalar_cantidad(val, factor, minimo=0)
+                            for sede, val in fn[sede_key].items()
+                        }
             for campo in ("convenios_firmados", "actividades_extension", "voluntariado_y_comunidad"):
                 if campo in fn:
                     fn[campo] = _escalar_cantidad(fn[campo], factor, minimo=0)
             funciones.append(fn)
         data["funciones_sustantivas"] = funciones
+        try:
+            from lib.memoria_academica import docencia_desde_memoria
+
+            docencia_mem = docencia_desde_memoria(anio)
+            for fn in data["funciones_sustantivas"]:
+                if fn.get("funcion") == "Docencia":
+                    fn["alumnos"] = docencia_mem["alumnos"]
+                    fn["docentes"] = docencia_mem["docentes"]
+            data["fuente_memoria_docencia"] = docencia_mem["fuente_memoria"]
+        except Exception:
+            pass
     return data
 
 
@@ -215,10 +228,12 @@ def planilla_indicadores_institucionales_por_anio_df(
     anios: list[int] | None = None,
 ) -> pd.DataFrame:
     """Planilla comparativa de indicadores reales del PEI por año (formato ancho)."""
+    from lib.memoria_academica import docencia_desde_memoria
+
     anios = anios or ANIOS_DISPONIBLES
     filas_def = [
-        ("Docencia", "Alumnos", lambda d: funcion_metricas("Docencia", d)["alumnos"]),
-        ("Docencia", "Docentes", lambda d: funcion_metricas("Docencia", d)["docentes"]),
+        ("Docencia", "Alumnos", None),
+        ("Docencia", "Docentes", None),
         (
             "Investigación",
             "Actividades de investigación",
@@ -238,7 +253,10 @@ def planilla_indicadores_institucionales_por_anio_df(
     valores_por_anio: dict[int, dict[str, float | int]] = {a: {} for a in anios}
     for anio in anios:
         data = load_baseline(anio)
-        for _, indicador, fn in filas_def:
+        docencia_mem = docencia_desde_memoria(anio)
+        valores_por_anio[anio]["Alumnos"] = sum(docencia_mem["alumnos"].values())
+        valores_por_anio[anio]["Docentes"] = sum(docencia_mem["docentes"].values())
+        for _, indicador, fn in filas_def[2:]:
             valores_por_anio[anio][indicador] = fn(data)
 
     rows: list[dict] = []

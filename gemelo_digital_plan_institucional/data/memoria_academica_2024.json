@@ -1,0 +1,31 @@
+{
+  "anio": 2024,
+  "fuente": "Memoria Económica Año 2024 — área Recursos Humanos (p. 7)",
+  "notas": [
+    "No se dispone de Memoria Académica 2024 con anexo «Datos Estadísticos» por sede (equivalente al de 2025).",
+    "Docentes (total 1.569): Memoria Económica 2024, área Recursos Humanos — personal docente dependiente y contratado.",
+    "Distribución por sede: estimada aplicando la proporción territorial de la Memoria Académica 2025 al total 2024.",
+    "Alumnos nivel universitario: estimados escalando la matrícula 2025 (13.157) según la serie histórica de actividades PEI (698/805)."
+  ],
+  "factor_estimacion": 0.8671,
+  "alumnos": {
+    "descripcion": "Matrícula nivel universitario (estimada)",
+    "total": 11408,
+    "estimado": true,
+    "por_sede": {
+      "Sede San Juan": 8679,
+      "Sede San Luis": 2489,
+      "Sede Mendoza": 240
+    }
+  },
+  "docentes": {
+    "descripcion": "Plantel docente (total verificado; desglose por sede estimado)",
+    "total": 1569,
+    "estimado_por_sede": true,
+    "por_sede": {
+      "Sede San Juan": 1131,
+      "Sede San Luis": 408,
+      "Sede Mendoza": 30
+    }
+  }
+}
