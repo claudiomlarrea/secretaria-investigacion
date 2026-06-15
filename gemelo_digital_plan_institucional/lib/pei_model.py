@@ -13,13 +13,22 @@ BASELINE_PATH = ROOT / "data" / "pei_baseline_2025.json"
 ANIOS_DISPONIBLES = [2023, 2024, 2025]
 
 
+def _anios_planilla() -> list[int]:
+    try:
+        from lib.pei_sheets import anios_disponibles_planilla
+
+        return anios_disponibles_planilla()
+    except Exception:
+        return ANIOS_DISPONIBLES
+
+
 def _escalar_cantidad(valor: int | float, factor: float, minimo: int = 1) -> int:
     if valor <= 0:
         return 0
     return max(minimo, round(float(valor) * factor))
 
 
-def load_baseline(anio: int = 2025) -> dict:
+def _load_baseline_json(anio: int = 2025) -> dict:
     with open(BASELINE_PATH, encoding="utf-8") as f:
         data = json.load(f)
     base_anio = data.get("anio", 2025)
@@ -53,6 +62,19 @@ def load_baseline(anio: int = 2025) -> dict:
             funciones.append(fn)
         data["funciones_sustantivas"] = funciones
     return data
+
+
+def load_baseline(anio: int = 2025) -> dict:
+    try:
+        from lib.pei_sheets import build_baseline_from_sheets
+
+        global ANIOS_DISPONIBLES
+        ANIOS_DISPONIBLES = _anios_planilla()
+        if anio not in ANIOS_DISPONIBLES:
+            anio = ANIOS_DISPONIBLES[-1]
+        return build_baseline_from_sheets(anio)
+    except Exception:
+        return _load_baseline_json(anio)
 
 
 def objetivos_df(data: dict | None = None) -> pd.DataFrame:

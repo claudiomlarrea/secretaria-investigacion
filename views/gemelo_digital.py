@@ -36,7 +36,15 @@ render_header(
 )
 
 anio_base = st.sidebar.selectbox("Año base", ANIOS_DISPONIBLES, index=ANIOS_DISPONIBLES.index(2025))
+if st.sidebar.button("Actualizar planilla", help="Vuelve a leer la planilla Google Sheets."):
+    from lib.pei_sheets import fetch_planilla_pei
+
+    fetch_planilla_pei(force=True)
+    st.rerun()
+
 data = load_baseline(anio_base)
+if data.get("fuente_url"):
+    st.sidebar.markdown(f"[Planilla Google Sheets]({data['fuente_url']})")
 base = objetivos_df(data)
 total_base = data["total_actividades"]
 funciones = funciones_df(data)

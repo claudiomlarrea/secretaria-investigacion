@@ -128,7 +128,15 @@ render_header(
 )
 
 anio = st.sidebar.selectbox("Año", ANIOS_DISPONIBLES, index=ANIOS_DISPONIBLES.index(2025))
+if st.sidebar.button("Actualizar planilla", help="Vuelve a leer la planilla Google Sheets."):
+    from lib.pei_sheets import fetch_planilla_pei
+
+    fetch_planilla_pei(force=True)
+    st.rerun()
+
 data = load_baseline(anio)
+if data.get("fuente_url"):
+    st.sidebar.markdown(f"[Planilla Google Sheets]({data['fuente_url']})")
 
 c1, c2, c3, c4 = st.columns(4)
 c1.metric("Actividades del plan", data["total_actividades"])
@@ -138,8 +146,8 @@ c4.metric("Funciones sustantivas", len(data["funciones_sustantivas"]))
 
 st.subheader("Indicadores institucionales · serie histórica")
 st.caption(
-    "Actividades reales del PEI según Memoria Académica y análisis cuantitativo. "
-    "Los valores 2023–2024 se estiman a partir del volumen de actividades del plan de cada año."
+    "Actividades registradas en la planilla Google Sheets del PEI (un formulario = una actividad). "
+    "Alumnos y docentes se estiman a partir de la memoria académica escalada al volumen de actividades del año."
 )
 
 planilla_hist = planilla_indicadores_institucionales_por_anio_df()
