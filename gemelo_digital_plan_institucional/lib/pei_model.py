@@ -296,13 +296,36 @@ def funcion_metricas(funcion: str, data: dict | None = None) -> dict:
 
 def simular_distribucion(
     pesos: list[float],
-    total: int = 805,
+    total: int | None = 805,
     data: dict | None = None,
     *,
     en_porcentaje: bool = False,
+    modo: str = "crecimiento",
 ) -> pd.DataFrame:
-    """Redistribuye actividades. Por defecto `pesos` son relativos; si en_porcentaje=True, suman 100."""
+    """Proyecta actividades por objetivo.
+
+    modo='crecimiento': cada peso es % del nivel memoria PEI (100 = sin cambio); el total puede crecer.
+    modo='redistribucion': reparto a suma fija entre objetivos.
+    """
     data = data or load_baseline()
+    out = objetivos_df(data).copy()
+    out["actividades_ref"] = out["actividades"]
+
+    if modo == "crecimiento":
+        multipliers = [p / 100.0 for p in pesos] if en_porcentaje else list(pesos)
+        acts = [
+            max(0, round(act * mult))
+            for act, mult in zip(out["actividades"], multipliers)
+        ]
+        total_sim = sum(acts) or 1
+        out["actividades_sim"] = acts
+        out["pct_sim"] = (out["actividades_sim"] / total_sim * 100).round(1)
+        pct_base = (out["actividades_ref"] / out["actividades_ref"].sum() * 100).round(1)
+        out["delta_actividades"] = out["actividades_sim"] - out["actividades_ref"]
+        out["delta_pct"] = (out["pct_sim"] - pct_base).round(1)
+        return out
+
+    total = total or data["total_actividades"]
     if en_porcentaje:
         norm = [p / 100.0 for p in pesos]
     else:
@@ -313,7 +336,6 @@ def simular_distribucion(
     if diff and acts:
         idx = acts.index(max(acts))
         acts[idx] += diff
-    out = objetivos_df(data).copy()
     pct_suma = float(out["pct"].sum()) or 100.0
     out["actividades_ref"] = [max(0, round(total * (p / pct_suma))) for p in out["pct"]]
     diff_ref = total - int(out["actividades_ref"].sum())
@@ -350,8 +372,17 @@ def contribucion_objetivo_funcion(sim: pd.DataFrame, data: dict | None = None) -
     return pd.DataFrame(rows)
 
 
-def simular_impacto_funciones(sim: pd.DataFrame, data: dict | None = None) -> pd.DataFrame:
-    """Proyecta actividades por función según cambios en la distribución por objetivo."""
+def simular_impacto_funciones(
+    sim: pd.DataFrame,
+    data: dict | None = None,
+    *,
+    solo_incrementos: bool = True,
+) -> pd.DataFrame:
+    """Proyecta actividades por función según cambios en la distribución por objetivo.
+
+    Con solo_incrementos=True (defecto), solo los objetivos que crecen impulsan sus funciones
+    vinculadas; reducir un objetivo no recorta automáticamente las demás funciones.
+    """
     data = data or load_baseline()
     matriz = _matriz_objetivo_funcion(data)
     funciones_base = {
@@ -361,14 +392,15 @@ def simular_impacto_funciones(sim: pd.DataFrame, data: dict | None = None) -> pd
     for _, row in sim.iterrows():
         og_id = str(int(row["id"]))
         delta = int(row["delta_actividades"])
+        if solo_incrementos and delta <= 0:
+            continue
         for funcion, peso in matriz.get(og_id, {}).items():
             impacto[funcion] += delta * peso
 
     rows: list[dict] = []
     for funcion, base in funciones_base.items():
         delta_float = impacto[funcion]
-        factor = max(0.0, (base + delta_float) / base) if base else 1.0
-        sim_act = max(0, round(base * factor))
+        sim_act = max(base, round(base + delta_float)) if solo_incrementos else max(0, round(base + delta_float))
         rows.append(
             {
                 "funcion": funcion,
@@ -376,7 +408,7 @@ def simular_impacto_funciones(sim: pd.DataFrame, data: dict | None = None) -> pd
                 "actividades_sim": sim_act,
                 "delta": sim_act - base,
                 "delta_pct": round((sim_act - base) / base * 100, 1) if base else 0.0,
-                "factor": factor,
+                "factor": sim_act / base if base else 1.0,
             }
         )
     return pd.DataFrame(rows)
