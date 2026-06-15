@@ -13,6 +13,12 @@ BASELINE_PATH = ROOT / "data" / "pei_baseline_2025.json"
 ANIOS_DISPONIBLES = [2023, 2024, 2025]
 
 
+def _escalar_cantidad(valor: int | float, factor: float, minimo: int = 1) -> int:
+    if valor <= 0:
+        return 0
+    return max(minimo, round(float(valor) * factor))
+
+
 def load_baseline(anio: int = 2025) -> dict:
     with open(BASELINE_PATH, encoding="utf-8") as f:
         data = json.load(f)
@@ -23,20 +29,24 @@ def load_baseline(anio: int = 2025) -> dict:
         factor = total / data["total_actividades"] if data["total_actividades"] else 1
         data = {**data, "anio": anio, "total_actividades": total}
         data["objetivos"] = [
-            {**o, "actividades": max(1, round(o["actividades"] * factor)), "pct": round(o["pct"], 1)}
+            {**o, "actividades": _escalar_cantidad(o["actividades"], factor), "pct": round(o["pct"], 1)}
             for o in data["objetivos"]
+        ]
+        data["unidades"] = [
+            {**u, "actividades": _escalar_cantidad(u["actividades"], factor)}
+            for u in data["unidades"]
         ]
         funciones: list[dict] = []
         for f in data["funciones_sustantivas"]:
-            fn = {**f, "actividades_plan": max(1, round(f["actividades_plan"] * factor))}
+            fn = {**f, "actividades_plan": _escalar_cantidad(f["actividades_plan"], factor)}
             for sede_key in ("alumnos", "docentes", "investigadores", "actividades"):
                 if sede_key in fn and isinstance(fn[sede_key], dict):
                     fn[sede_key] = {
-                        sede: max(0, round(val * factor)) for sede, val in fn[sede_key].items()
+                        sede: _escalar_cantidad(val, factor, minimo=0) for sede, val in fn[sede_key].items()
                     }
             for campo in ("convenios_firmados", "actividades_extension", "voluntariado_y_comunidad"):
                 if campo in fn:
-                    fn[campo] = max(0, round(fn[campo] * factor))
+                    fn[campo] = _escalar_cantidad(fn[campo], factor, minimo=0)
             funciones.append(fn)
         data["funciones_sustantivas"] = funciones
     return data

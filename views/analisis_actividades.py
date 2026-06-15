@@ -122,9 +122,10 @@ with tab_sede:
                 values="Actividades",
                 hole=0.4,
                 color_discrete_sequence=CHART_SEQUENCE[:3],
+                title=f"Distribución por sede · {anio}",
             )
         )
-        fig_sede.update_layout(height=300, showlegend=True)
+        fig_sede.update_layout(height=300, showlegend=True, title_x=0.5)
         st.plotly_chart(fig_sede, use_container_width=True)
 
 with tab_evol:
