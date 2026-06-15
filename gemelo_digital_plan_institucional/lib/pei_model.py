@@ -28,9 +28,12 @@ def load_baseline(anio: int = 2025) -> dict:
         total = serie.get(anio, data["total_actividades"])
         factor = total / data["total_actividades"] if data["total_actividades"] else 1
         data = {**data, "anio": anio, "total_actividades": total}
+        scaled_obj = [
+            {**o, "actividades": _escalar_cantidad(o["actividades"], factor)} for o in data["objetivos"]
+        ]
+        suma_obj = sum(o["actividades"] for o in scaled_obj) or 1
         data["objetivos"] = [
-            {**o, "actividades": _escalar_cantidad(o["actividades"], factor), "pct": round(o["pct"], 1)}
-            for o in data["objetivos"]
+            {**o, "pct": round(o["actividades"] / suma_obj * 100, 1)} for o in scaled_obj
         ]
         data["unidades"] = [
             {**u, "actividades": _escalar_cantidad(u["actividades"], factor)}
@@ -142,6 +145,44 @@ def planilla_evolucion_anual_df() -> pd.DataFrame:
             "variación vs año anterior": "Δ vs año anterior",
         }
     )
+
+
+def delta_actividades_anio(anio: int) -> int | None:
+    """Variación de actividades respecto al año anterior (None si no hay dato previo)."""
+    serie = {r["anio"]: r["total"] for r in load_baseline()["actividades_por_anio"]}
+    if anio not in serie:
+        return None
+    anios = sorted(serie)
+    idx = anios.index(anio)
+    if idx == 0:
+        return 0
+    return serie[anio] - serie[anios[idx - 1]]
+
+
+def alertas_para_anio(data: dict) -> list[dict]:
+    """Alertas contextuales según el año cargado (no texto fijo de 2025)."""
+    anio = int(data.get("anio", 2025))
+    total = int(data["total_actividades"])
+    og2 = next(o for o in data["objetivos"] if int(o["id"]) == 2)
+    pct_txt = f"{og2['pct']:.1f}".replace(".", ",")
+    return [
+        {
+            "nivel": "atencion",
+            "titulo": "Concentración en OG2",
+            "detalle": (
+                f"El Objetivo 2 concentra el {pct_txt} % de las {total} actividades "
+                f"({og2['actividades']} acciones), vinculado en gran medida con extensión y convenios."
+            ),
+        },
+        {
+            "nivel": "info",
+            "titulo": "Extensión como función predominante",
+            "detalle": (
+                "Convenios, actividades comunitarias y voluntariado explican el mayor volumen "
+                f"de acciones del plan en {anio}."
+            ),
+        },
+    ]
 
 
 def _actividades_og6(data: dict) -> int:

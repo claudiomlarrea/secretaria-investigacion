@@ -14,6 +14,8 @@ import streamlit as st
 
 from lib.pei_model import (
     ANIOS_DISPONIBLES,
+    alertas_para_anio,
+    delta_actividades_anio,
     funcion_metricas,
     load_baseline,
     planilla_evolucion_anual_df,
@@ -187,6 +189,7 @@ with tab_og:
         ),
         hide_index=True,
         use_container_width=True,
+        key=f"og_{anio}",
     )
 
 with tab_fun:
@@ -227,6 +230,7 @@ with tab_sede:
             ),
             hide_index=True,
             use_container_width=True,
+            key=f"sede_{anio}",
         )
     with col_t2:
         fig_sede = apply_plotly_style(
@@ -243,11 +247,38 @@ with tab_sede:
         st.plotly_chart(fig_sede, use_container_width=True)
 
 with tab_evol:
-    evol = planilla_evolucion_anual_df()
-    st.caption(
-        f"Serie histórica de actividades registradas en el plan. "
-        f"El año {anio} está resaltado según el selector lateral."
+    delta = delta_actividades_anio(anio)
+    e1, e2 = st.columns(2)
+    e1.metric("Actividades del año seleccionado", data["total_actividades"])
+    e2.metric("Δ vs año anterior", 0 if delta is None else delta)
+
+    st.markdown(f"##### Desglose por objetivo general · {anio}")
+    og_anio = planilla_objetivos_df(data)
+    st.dataframe(
+        estilizar_escala_cantidad(
+            og_anio,
+            ("Actividades", "% del plan"),
+            referencia_max={
+                "Actividades": float(og_anio["Actividades"].max()),
+                "% del plan": 100,
+            },
+            referencia_min={
+                "Actividades": float(og_anio["Actividades"].min()),
+                "% del plan": 0,
+            },
+            decimales=1,
+        ),
+        hide_index=True,
+        use_container_width=True,
+        key=f"evol_og_{anio}",
     )
+
+    st.markdown("##### Serie histórica 2023–2025")
+    st.caption(
+        "Totales anuales del plan (dato histórico fijo por fila). "
+        "El desglose superior sí cambia según el año del selector lateral."
+    )
+    evol = planilla_evolucion_anual_df()
     max_evol = int(evol["Actividades registradas"].max())
     min_evol = int(evol["Actividades registradas"].min())
     st.dataframe(
@@ -264,7 +295,7 @@ with tab_evol:
         ),
         hide_index=True,
         use_container_width=True,
-        key=f"evol_tabla_{anio}",
+        key=f"evol_hist_{anio}",
     )
 
 with tab_det:
@@ -279,8 +310,9 @@ with tab_det:
         ),
         hide_index=True,
         use_container_width=True,
+        key=f"det_{anio}",
     )
 
-for alerta in data["alertas"]:
+for alerta in alertas_para_anio(data):
     fn = st.warning if alerta["nivel"] == "atencion" else st.info
     fn(f"**{alerta['titulo']}** — {alerta['detalle']}")
