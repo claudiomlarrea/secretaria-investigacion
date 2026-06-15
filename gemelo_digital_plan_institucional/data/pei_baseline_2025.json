@@ -47,14 +47,14 @@
       "descripcion": "Formación académica: matrícula de alumnos y cuerpo docente por sede.",
       "actividades_plan": 282,
       "alumnos": {
-        "Sede San Juan": 8420,
-        "Sede San Luis": 3180,
-        "Sede Mendoza": 1540
+        "Sede San Juan": 10009,
+        "Sede San Luis": 2871,
+        "Sede Mendoza": 277
       },
       "docentes": {
-        "Sede San Juan": 620,
-        "Sede San Luis": 245,
-        "Sede Mendoza": 118
+        "Sede San Juan": 1706,
+        "Sede San Luis": 616,
+        "Sede Mendoza": 44
       }
     },
     {

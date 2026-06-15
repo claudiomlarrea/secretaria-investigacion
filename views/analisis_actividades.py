@@ -124,7 +124,7 @@ def _render_funciones_por_sede(data: dict, anio: int) -> None:
 
 render_header(
     "Actividades del Plan Estratégico Institucional por año, sede y función sustantiva "
-    "(Docencia, Investigación y Extensión). Datos de referencia: Memoria Académica 2025."
+    "(Docencia, Investigación y Extensión). Matrícula y plantel docente: Memoria Académica 2025."
 )
 
 anio = st.sidebar.selectbox("Año", ANIOS_DISPONIBLES, index=ANIOS_DISPONIBLES.index(2025))
@@ -155,8 +155,9 @@ c4.metric(
 st.subheader("Indicadores institucionales · serie histórica")
 st.caption(
     "Total del plan = formularios del año (Looker: «Cantidad total de actividades»). "
-    "Cada columna OG cuenta actividades únicas por objetivo (Looker: «Actividades Objetivo N»). "
-    "Alumnos y docentes se estiman a partir de la memoria académica escalada al volumen del año."
+    "Cada columna OG cuenta actividades únicas por objetivo. "
+    "Alumnos y docentes: Memoria Académica 2025 (Anexo Datos Estadísticos); "
+    "años anteriores estimados según volumen de formularios PEI."
 )
 
 planilla_hist = planilla_indicadores_institucionales_por_anio_df()

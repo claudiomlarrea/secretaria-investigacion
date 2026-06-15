@@ -1,0 +1,22 @@
+{
+  "anio": 2025,
+  "fuente": "Memoria Académica 2025 — Anexo «Datos Estadísticos» (pp. 166-170)",
+  "alumnos": {
+    "descripcion": "Matrícula nivel universitario",
+    "total": 13157,
+    "por_sede": {
+      "Sede San Juan": 10009,
+      "Sede San Luis": 2871,
+      "Sede Mendoza": 277
+    }
+  },
+  "docentes": {
+    "descripcion": "Plantel docente por sede (3 sedes)",
+    "total": 2366,
+    "por_sede": {
+      "Sede San Juan": 1706,
+      "Sede San Luis": 616,
+      "Sede Mendoza": 44
+    }
+  }
+}

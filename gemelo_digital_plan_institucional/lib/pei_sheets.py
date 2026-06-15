@@ -12,6 +12,8 @@ from urllib.request import urlopen
 
 import pandas as pd
 
+from lib.memoria_academica import docencia_desde_memoria
+
 ROOT = Path(__file__).resolve().parent.parent
 METADATA_PATH = ROOT / "data" / "pei_baseline_2025.json"
 
@@ -212,7 +214,7 @@ def build_baseline_from_sheets(anio: int) -> dict:
 
     actividades_por_anio = []
     for a in anios:
-        if a > 2026:
+        if a > 2025:
             continue
         sub = df[df["AÑO"] == a]
         actividades_por_anio.append({"anio": a, "total": len(sub)})
@@ -226,7 +228,13 @@ def build_baseline_from_sheets(anio: int) -> dict:
 
     act_func = _actividades_por_funcion(objetivos, matriz)
     meta_func = {f["funcion"]: f for f in meta["funciones_sustantivas"]}
-    factor_anio = act_func["Docencia"] / meta_func["Docencia"]["actividades_plan"] if act_func["Docencia"] else 1
+    docencia_mem = docencia_desde_memoria(anio)
+    factor_inv = (
+        sum(docencia_mem["docentes"].values())
+        / sum(meta_func["Docencia"]["docentes"].values())
+        if sum(meta_func["Docencia"]["docentes"].values())
+        else 1
+    )
 
     funciones_sustantivas: list[dict] = []
     for nombre in ("Docencia", "Investigación", "Extensión"):
@@ -238,17 +246,17 @@ def build_baseline_from_sheets(anio: int) -> dict:
             "actividades_plan": plan,
         }
         if nombre == "Docencia":
-            item["alumnos"] = {s: max(0, round(base_fn["alumnos"][s] * factor_anio)) for s in SEDES}
-            item["docentes"] = {s: max(0, round(base_fn["docentes"][s] * factor_anio)) for s in SEDES}
+            item["alumnos"] = docencia_mem["alumnos"]
+            item["docentes"] = docencia_mem["docentes"]
         elif nombre == "Investigación":
             dist = _distribuir_por_sede(df_anio, cols_act, matriz, "Investigación")
             if sum(dist.values()):
                 escala = plan / sum(dist.values())
                 dist = {s: max(0, round(v * escala)) for s, v in dist.items()}
             else:
-                dist = {s: max(0, round(base_fn["actividades"][s] * factor_anio)) for s in SEDES}
+                dist = {s: max(0, round(base_fn["actividades"][s] * factor_inv)) for s in SEDES}
             item["investigadores"] = {
-                s: max(0, round(base_fn["investigadores"][s] * factor_anio)) for s in SEDES
+                s: max(0, round(base_fn["investigadores"][s] * factor_inv)) for s in SEDES
             }
             item["actividades"] = dist
         else:
@@ -261,7 +269,7 @@ def build_baseline_from_sheets(anio: int) -> dict:
             item["actividades_extension"] = extension
             item["voluntariado_y_comunidad"] = voluntariado
             item["actividades"] = dist if sum(dist.values()) else {
-                s: max(0, round(base_fn["actividades"][s] * factor_anio)) for s in SEDES
+                s: max(0, round(base_fn["actividades"][s] * factor_inv)) for s in SEDES
             }
         funciones_sustantivas.append(item)
 
@@ -280,10 +288,11 @@ def build_baseline_from_sheets(anio: int) -> dict:
         "matriz_objetivo_funcion": matriz,
         "actividades_por_anio": actividades_por_anio,
         "unidades": unidades,
+        "fuente_memoria_docencia": docencia_mem["fuente_memoria"],
         "alertas": meta.get("alertas", []),
     }
 
 
 def anios_disponibles_planilla() -> list[int]:
     df = fetch_planilla_pei()
-    return sorted(int(a) for a in df["AÑO"].unique() if int(a) <= 2026)
+    return sorted(int(a) for a in df["AÑO"].unique() if 2023 <= int(a) <= 2025)
