@@ -25,6 +25,13 @@ SURFACE = "#FFFFFF"
 
 CHART_SEQUENCE = [GREEN, ORANGE, MAROON, GREEN_MID, "#6B9080", "#C9A227", "#2D6A4F"]
 
+# Bloques por función sustantiva (alineado a gráficos por sede)
+_FUNCION_PALETA = {
+    "Docencia": {"bg": "#E8F3EF", "fg": "#044A30", "borde": "#044A30"},
+    "Investigación": {"bg": "#FDF3E3", "fg": "#92400E", "borde": "#EAA958"},
+    "Extensión": {"bg": "#F5EBEA", "fg": "#934B3F", "borde": "#934B3F"},
+}
+
 LOGO_PATH = Path(__file__).resolve().parent / "assets" / "logo-observatorio-ia.png"
 OBSERVATORIO_NAME = "Observatorio de Inteligencia Artificial"
 INSTITUTION_NAME = "Universidad Católica de Cuyo"
@@ -371,6 +378,42 @@ def estilizar_escala_cantidad(
         fmt = {col: f"{{:.{decimales}f}}" for col in numericas}
         styled = styled.format(fmt, na_rep="")
 
+    return styled
+
+
+def estilizar_funciones_sustantivas(
+    df: pd.DataFrame,
+    columna_funcion: str = "Función sustantiva",
+    decimales: int = 1,
+) -> pd.io.formats.style.Styler:
+    """Colorea filas por función sustantiva: docencia (verde), investigación (ámbar), extensión (bordó)."""
+    tabla = df.copy()
+    numericas = [c for c in tabla.columns if pd.api.types.is_numeric_dtype(tabla[c])]
+    for col in numericas:
+        tabla[col] = tabla[col].apply(
+            lambda x: round(float(x), decimales) if pd.notna(x) and isinstance(x, (int, float)) else x
+        )
+
+    def _fila(row):  # noqa: ANN001
+        pal = _FUNCION_PALETA.get(str(row.get(columna_funcion, "")), {})
+        if not pal:
+            return [""] * len(row)
+        base = (
+            f"background-color: {pal['bg']}; color: {pal['fg']}; "
+            f"border-left: 4px solid {pal['borde']};"
+        )
+        estilos = []
+        for col in row.index:
+            if col == columna_funcion:
+                estilos.append(f"{base} font-weight: 700")
+            else:
+                estilos.append(base)
+        return estilos
+
+    styled = tabla.style.apply(_fila, axis=1)
+    if numericas:
+        fmt = {col: f"{{:.{decimales}f}}" for col in numericas}
+        styled = styled.format(fmt, na_rep="")
     return styled
 
 

@@ -25,7 +25,13 @@ from lib.pei_model import (
     planilla_unidades_df,
 )
 from lib.styles import apply_plotly_style, render_header
-from ui_theme import CHART_SEQUENCE, GREEN, estilizar_escala_cantidad, estilizar_variacion_tabla
+from ui_theme import (
+    CHART_SEQUENCE,
+    GREEN,
+    estilizar_escala_cantidad,
+    estilizar_funciones_sustantivas,
+    estilizar_variacion_tabla,
+)
 
 
 def _render_funciones_por_sede(data: dict, anio: int) -> None:
@@ -183,15 +189,12 @@ with tab_og:
 
 with tab_fun:
     fun = planilla_funciones_resumen_df(data)
-    st.caption(f"Indicadores institucionales del PEI para el año {anio}.")
+    st.caption(
+        f"Indicadores institucionales del PEI para el año {anio}. "
+        "Verde = Docencia · Ámbar = Investigación · Bordó = Extensión."
+    )
     st.dataframe(
-        estilizar_escala_cantidad(
-            fun,
-            ("Valor",),
-            referencia_max=float(fun["Valor"].max()),
-            referencia_min=float(fun["Valor"].min()),
-            decimales=1,
-        ),
+        estilizar_funciones_sustantivas(fun),
         hide_index=True,
         use_container_width=True,
         key=f"fun_resumen_{anio}",
