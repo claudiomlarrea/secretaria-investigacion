@@ -146,8 +146,8 @@ c4.metric("Funciones sustantivas", len(data["funciones_sustantivas"]))
 
 st.subheader("Indicadores institucionales · serie histórica")
 st.caption(
-    "Actividades registradas en la planilla Google Sheets del PEI (un formulario = una actividad). "
-    "Alumnos y docentes se estiman a partir de la memoria académica escalada al volumen de actividades del año."
+    "Actividades únicas por objetivo general (mismo criterio que Looker Studio). "
+    "Alumnos y docentes se estiman a partir de la memoria académica escalada al volumen del año."
 )
 
 planilla_hist = planilla_indicadores_institucionales_por_anio_df()

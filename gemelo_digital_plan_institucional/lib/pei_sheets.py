@@ -105,11 +105,34 @@ def _metadata_estatico() -> dict:
         return json.load(f)
 
 
+def _normalizar_actividad(val) -> str:  # noqa: ANN001
+    """Normaliza el texto de una actividad (misma lógica que Looker Studio)."""
+    return " ".join(str(val).strip().lower().split())
+
+
 def _conteo_por_og(df_anio: pd.DataFrame, cols_act: list[str]) -> list[int]:
-    return [
-        int((df_anio[col].map(_celda_con_actividad)).sum())
-        for col in cols_act
-    ]
+    """Actividades únicas por OG (COUNT DISTINCT del nombre), alineado a Looker Studio."""
+    conteos: list[int] = []
+    for col in cols_act:
+        mask = df_anio[col].map(_celda_con_actividad)
+        textos = df_anio.loc[mask, col].map(_normalizar_actividad)
+        conteos.append(int(textos.nunique()))
+    return conteos
+
+
+def _conteo_por_unidad(
+    df_anio: pd.DataFrame, cols_act: list[str], ucol: str
+) -> dict[str, int]:
+    """Total de actividades cargadas por unidad (suma de celdas con actividad)."""
+    unidad_act: dict[str, int] = {}
+    for _, row in df_anio.iterrows():
+        acts_en_fila = sum(1 for col in cols_act if _celda_con_actividad(row[col]))
+        if acts_en_fila <= 0:
+            continue
+        unidad = str(row[ucol]).strip()
+        if unidad:
+            unidad_act[unidad] = unidad_act.get(unidad, 0) + acts_en_fila
+    return unidad_act
 
 
 def _actividades_por_funcion(objetivos: list[dict], matriz: dict) -> dict[str, int]:
@@ -141,22 +164,26 @@ def _distribuir_por_sede(
 
 def _convenios_desde_planilla(df_anio: pd.DataFrame, cols_act: list[str]) -> int:
     col = cols_act[1]  # OG2
-    serie = df_anio[col].astype(str)
-    return int(serie.str.contains("convenio", case=False, na=False).sum())
+    mask = df_anio[col].map(_celda_con_actividad) & df_anio[col].astype(str).str.contains(
+        "convenio", case=False, na=False
+    )
+    return int(df_anio.loc[mask, col].map(_normalizar_actividad).nunique())
 
 
 def _extension_y_voluntariado(
     df_anio: pd.DataFrame, cols_act: list[str], actividades_ext: int
 ) -> tuple[int, int]:
     col2, col6 = cols_act[1], cols_act[5]
-    convenio_mask = df_anio[col2].astype(str).str.contains("convenio", case=False, na=False)
-    voluntad_mask = df_anio[col6].astype(str).str.contains(
+    conv_mask = df_anio[col2].map(_celda_con_actividad) & df_anio[col2].astype(str).str.contains(
+        "convenio", case=False, na=False
+    )
+    vol_mask = df_anio[col6].map(_celda_con_actividad) & df_anio[col6].astype(str).str.contains(
         r"voluntariado|comunidad|pastoral", case=False, na=False
     )
-    convenios = int(convenio_mask.sum())
-    voluntariado = int(voluntad_mask.sum())
+    convenios = int(df_anio.loc[conv_mask, col2].map(_normalizar_actividad).nunique())
+    voluntariado = int(df_anio.loc[vol_mask, col6].map(_normalizar_actividad).nunique())
     extension = max(0, actividades_ext - convenios - voluntariado)
-    return extension, max(voluntariado, 0)
+    return extension, voluntariado
 
 
 def build_baseline_from_sheets(anio: int) -> dict:
@@ -194,14 +221,7 @@ def build_baseline_from_sheets(anio: int) -> dict:
         sub = df[df["AÑO"] == a]
         actividades_por_anio.append({"anio": a, "total": sum(_conteo_por_og(sub, cols_act))})
 
-    unidad_act: dict[str, int] = {}
-    for _, row in df_anio.iterrows():
-        acts_en_fila = sum(1 for col in cols_act if _celda_con_actividad(row[col]))
-        if acts_en_fila <= 0:
-            continue
-        unidad = str(row[ucol]).strip()
-        if unidad:
-            unidad_act[unidad] = unidad_act.get(unidad, 0) + acts_en_fila
+    unidad_act = _conteo_por_unidad(df_anio, cols_act, ucol)
 
     unidades = [
         {"unidad": nombre, "sede": unidad_a_sede(nombre), "actividades": cant}
@@ -226,7 +246,10 @@ def build_baseline_from_sheets(anio: int) -> dict:
             item["docentes"] = {s: max(0, round(base_fn["docentes"][s] * factor_anio)) for s in SEDES}
         elif nombre == "Investigación":
             dist = _distribuir_por_sede(df_anio, cols_act, matriz, "Investigación")
-            if sum(dist.values()) == 0:
+            if sum(dist.values()):
+                escala = plan / sum(dist.values())
+                dist = {s: max(0, round(v * escala)) for s, v in dist.items()}
+            else:
                 dist = {s: max(0, round(base_fn["actividades"][s] * factor_anio)) for s in SEDES}
             item["investigadores"] = {
                 s: max(0, round(base_fn["investigadores"][s] * factor_anio)) for s in SEDES
@@ -234,6 +257,9 @@ def build_baseline_from_sheets(anio: int) -> dict:
             item["actividades"] = dist
         else:
             dist = _distribuir_por_sede(df_anio, cols_act, matriz, "Extensión")
+            if sum(dist.values()):
+                escala = plan / sum(dist.values())
+                dist = {s: max(0, round(v * escala)) for s, v in dist.items()}
             extension, voluntariado = _extension_y_voluntariado(df_anio, cols_act, plan)
             item["convenios_firmados"] = _convenios_desde_planilla(df_anio, cols_act)
             item["actividades_extension"] = extension
@@ -245,7 +271,10 @@ def build_baseline_from_sheets(anio: int) -> dict:
 
     return {
         "anio": anio,
-        "fuente": "Planilla Google Sheets PEI · actividades registradas por unidad académica",
+        "fuente": (
+            "Planilla Google Sheets PEI · conteo alineado a Looker Studio "
+            "(actividades únicas por objetivo general)"
+        ),
         "fuente_url": f"https://docs.google.com/spreadsheets/d/{PEI_SHEET_ID}/edit#gid={PEI_SHEET_GID}",
         "total_actividades": total,
         "sedes": SEDES,
