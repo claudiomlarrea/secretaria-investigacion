@@ -14,6 +14,7 @@ for p in (str(GEMELO), str(REPO), str(VIEWS)):
         sys.path.insert(0, p)
 
 from constants import APP_NAME
+from lib.app_tour import maybe_auto_start_tour, render_tour_sidebar
 from ui_theme import inject_theme
 
 st.set_page_config(
@@ -23,6 +24,8 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 inject_theme()
+maybe_auto_start_tour()
+render_tour_sidebar()
 
 pages = [
     st.Page(
