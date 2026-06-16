@@ -216,11 +216,12 @@
   }
 
   function safeHref(url) {
-    var u = String(url).trim();
+    var u = String(url || "").trim();
+    if (!u) return "#";
     if (/^https?:\/\//i.test(u)) return u;
     if (/^doi:/i.test(u)) return doiToUrl(u);
     if (/^10\.\d+/i.test(u)) return doiToUrl(u);
-    return u || "#";
+    return "#";
   }
 
   function metaLinea(it, categoria) {

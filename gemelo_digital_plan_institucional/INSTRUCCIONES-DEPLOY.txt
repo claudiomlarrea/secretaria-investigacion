@@ -3,18 +3,24 @@ GEMELO DIGITAL PLAN INSTITUCIONAL — STREAMLIT (INTERNO)
 
 No está enlazado desde index.html del sitio público.
 
-URL
----
+URL (activa en Streamlit Cloud)
+--------------------------------
+https://apparia-investigacion-jrrjwsaezzfejklwgbbkle.streamlit.app
+
+URL personalizada (solo si la creás en el deploy)
+-------------------------------------------------
 https://gemelo-digital-plan-institucional.streamlit.app
+(esta URL da error 404 si la app no fue creada con ese nombre)
 
 Deploy en Streamlit Cloud
 -------------------------
-1. https://share.streamlit.io → New app
-2. Repository: claudiomlarrea/secretaria-investigacion
-3. Branch: main
-4. Main file path: streamlit_app.py
-5. App URL: gemelo-digital-plan-institucional
-6. Deploy
+1. https://share.streamlit.io → Mis aplicaciones
+2. Si no aparece la app: Crear aplicación → New app
+3. Repository: claudiomlarrea/secretaria-investigacion
+4. Branch: main
+5. Main file path: streamlit_app.py
+6. App URL (opcional): gemelo-digital-plan-institucional
+7. Deploy
 
 Local
 -----

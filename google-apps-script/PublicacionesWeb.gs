@@ -80,6 +80,9 @@ function doGet(e) {
   if (action === "visit") {
     return jsonOrJsonp_(registrarVisita_(param_(e, "site", "")), e);
   }
+  if (action === "noticias") {
+    return jsonOrJsonp_(obtenerNoticiasMedios_(), e);
+  }
 
   var datos = obtenerItemsPublicos_();
   return jsonOrJsonp_({ ok: true, generatedAt: new Date().toISOString(), items: datos }, e);
@@ -493,4 +496,251 @@ function jsonOrJsonp_(obj, e) {
     );
   }
   return ContentService.createTextOutput(json).setMimeType(ContentService.MimeType.JSON);
+}
+
+var NOTICIAS_UCCUYO_API = "https://noticias.uccuyo.edu.ar/wp-json/wp/v2/posts";
+var NOTICIAS_BUSQUEDAS_UCCUYO = [
+  "observatorio inteligencia artificial",
+  "observatorio de ia",
+  "oia uccuyo",
+  "boletin observatorio ia"
+];
+var NOTICIAS_GOOGLE_QUERIES = [
+  '"Observatorio de Inteligencia Artificial" UCCuyo',
+  '"Observatorio de IA" UCCuyo',
+  "site:noticias.uccuyo.edu.ar observatorio inteligencia artificial"
+];
+var PATRON_UNIDAD_OIA_NOTICIAS = /OIA|Observatorio de Inteligencia Artificial/i;
+
+function obtenerNoticiasMedios_() {
+  var items = [];
+  items = items.concat(fetchUccuyoNoticiasWp_());
+  items = items.concat(fetchGoogleNewsRss_());
+  items = items.concat(fetchPublicacionesMedios_());
+  items = dedupeNoticias_(items);
+  items = items.filter(function (it) {
+    return !esMedioExcluidoNoticia_(it);
+  });
+  items.sort(comparadorNoticiaReciente_);
+  return {
+    ok: true,
+    generatedAt: new Date().toISOString(),
+    count: items.length,
+    items: items
+  };
+}
+
+function fetchUccuyoNoticiasWp_() {
+  var out = [];
+  var seen = {};
+  NOTICIAS_BUSQUEDAS_UCCUYO.forEach(function (q) {
+    try {
+      var url =
+        NOTICIAS_UCCUYO_API +
+        "?search=" +
+        encodeURIComponent(q) +
+        "&per_page=20&_fields=id,date,link,title,excerpt";
+      var resp = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+      if (resp.getResponseCode() !== 200) return;
+      var posts = JSON.parse(resp.getContentText());
+      if (!posts || !posts.length) return;
+      posts.forEach(function (post) {
+        var id = "uccuyo-" + post.id;
+        if (seen[id]) return;
+        var titulo = stripHtmlNoticia_(post.title && post.title.rendered);
+        var excerpt = stripHtmlNoticia_(post.excerpt && post.excerpt.rendered);
+        var texto = titulo + " " + excerpt;
+        if (!esRelevanteOIA_(texto)) return;
+        seen[id] = true;
+        out.push({
+          id: id,
+          fuente: "Noticias UCCuyo",
+          medio: "noticias.uccuyo.edu.ar",
+          titulo: titulo,
+          link: post.link,
+          fecha: post.date,
+          excerpt: excerpt,
+          origen: "uccuyo_noticias"
+        });
+      });
+    } catch (err) {
+      Logger.log("fetchUccuyoNoticiasWp_: " + err);
+    }
+  });
+  return out;
+}
+
+function fetchGoogleNewsRss_() {
+  var out = [];
+  var seen = {};
+  NOTICIAS_GOOGLE_QUERIES.forEach(function (q) {
+    try {
+      var url =
+        "https://news.google.com/rss/search?q=" +
+        encodeURIComponent(q) +
+        "&hl=es-419&gl=AR&ceid=AR:es-419";
+      var resp = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+      if (resp.getResponseCode() !== 200) return;
+      var doc = XmlService.parse(resp.getContentText());
+      var channel = doc.getRootElement().getChild("channel");
+      if (!channel) return;
+      var rssItems = channel.getChildren("item");
+      rssItems.forEach(function (item) {
+        var rawTitle = item.getChildText("title") || "";
+        var link = item.getChildText("link") || "";
+        if (!link) return;
+        var key = normalizarUrlNoticia_(link);
+        if (seen[key]) return;
+        var titulo = limpiarTituloGoogleNews_(rawTitle);
+        var desc = stripHtmlNoticia_(item.getChildText("description") || "");
+        var texto = titulo + " " + desc;
+        if (!esRelevanteOIA_(texto)) return;
+        seen[key] = true;
+        var medio = extraerMedioGoogleNews_(rawTitle);
+        out.push({
+          id: "gnews-" + key.slice(0, 48),
+          fuente: "Diario online",
+          medio: medio,
+          titulo: titulo,
+          link: link,
+          fecha: item.getChildText("pubDate") || "",
+          excerpt: desc,
+          origen: "google_news"
+        });
+      });
+    } catch (err) {
+      Logger.log("fetchGoogleNewsRss_: " + err);
+    }
+  });
+  return out;
+}
+
+function fetchPublicacionesMedios_() {
+  var values = getSheet_().getDataRange().getDisplayValues();
+  if (!values.length) return [];
+  var startIdx = tieneHeader_(values[0]) ? 1 : 0;
+  var out = [];
+  for (var i = startIdx; i < values.length; i++) {
+    var o = rowAToObj_(values[i]);
+    if (!esVisibleEnWeb_(o)) continue;
+    if (!esPublicacionMedioOIA_(o)) continue;
+    var cat = inferirCategoria_(o);
+    var tipoNorm = normalizar_(o.tipo_origen);
+    var esBoletin = tipoNorm.indexOf("boletin") >= 0 || normalizar_(o.tipo_publicacion).indexOf("boletin") >= 0;
+    var link = val_(o.link);
+    if (!link && o.doi) link = "https://doi.org/" + o.doi;
+    if (!link) continue;
+    out.push({
+      id: "pub-" + i,
+      fuente: esBoletin ? "Boletín" : "Medio registrado",
+      medio: val_(o.revista_o_medio) || val_(o.unidad),
+      titulo: val_(o.titulo),
+      link: link,
+      fecha: val_(o.fecha) || val_(o.anio),
+      excerpt: val_(o.resumen),
+      origen: esBoletin ? "boletin" : cat === "diarios" ? "diario_registrado" : "medio_registrado"
+    });
+  }
+  return out;
+}
+
+function esPublicacionMedioOIA_(o) {
+  var cat = inferirCategoria_(o);
+  var tipoNorm = normalizar_(o.tipo_origen);
+  var esBoletin = tipoNorm.indexOf("boletin") >= 0 || normalizar_(o.tipo_publicacion).indexOf("boletin") >= 0;
+  if (cat !== "diarios" && !esBoletin) return false;
+  var texto =
+    val_(o.titulo) +
+    " " +
+    val_(o.resumen) +
+    " " +
+    val_(o.revista_o_medio) +
+    " " +
+    val_(o.unidad);
+  if (PATRON_UNIDAD_OIA_NOTICIAS.test(val_(o.unidad))) return true;
+  return esRelevanteOIA_(texto);
+}
+
+function esRelevanteOIA_(texto) {
+  var t = normalizar_(texto);
+  if (!t) return false;
+  if (t.indexOf("observatorio de inteligencia artificial") >= 0) return true;
+  if (t.indexOf("observatorio de ia") >= 0) return true;
+  if (t.indexOf("observatorio de i.a") >= 0) return true;
+  if (t.indexOf("oia de la uccuyo") >= 0) return true;
+  if (t.indexOf("oia uccuyo") >= 0) return true;
+  if (t.indexOf("observatorio") >= 0 && t.indexOf("inteligencia artificial") >= 0) return true;
+  if (t.indexOf("observatorio") >= 0 && t.indexOf("uccuyo") >= 0 && /\bia\b/.test(t)) return true;
+  return false;
+}
+
+function esMedioExcluidoNoticia_(item) {
+  var blob = normalizar_(
+    val_(item && item.medio) +
+      " " +
+      val_(item && item.link) +
+      " " +
+      val_(item && item.fuente) +
+      " " +
+      val_(item && item.titulo)
+  );
+  return blob.indexOf("diario de cuyo") >= 0 || blob.indexOf("diariodecuyo") >= 0;
+}
+
+function dedupeNoticias_(items) {
+  var seen = {};
+  var out = [];
+  items.forEach(function (it) {
+    var key = normalizarUrlNoticia_(it.link || it.id || "");
+    if (!key || seen[key]) return;
+    seen[key] = true;
+    out.push(it);
+  });
+  return out;
+}
+
+function comparadorNoticiaReciente_(a, b) {
+  return parseFechaNoticia_(b.fecha) - parseFechaNoticia_(a.fecha);
+}
+
+function parseFechaNoticia_(raw) {
+  if (!raw) return 0;
+  var s = String(raw).trim();
+  if (/^\d{4}$/.test(s)) return parseInt(s, 10) * 10000;
+  var t = Date.parse(s);
+  return isNaN(t) ? 0 : t;
+}
+
+function normalizarUrlNoticia_(url) {
+  return String(url || "")
+    .toLowerCase()
+    .replace(/^https?:\/\//, "")
+    .replace(/\/$/, "")
+    .replace(/\?.*$/, "")
+    .trim();
+}
+
+function stripHtmlNoticia_(html) {
+  return String(html || "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function limpiarTituloGoogleNews_(title) {
+  var t = String(title || "").trim();
+  var idx = t.lastIndexOf(" - ");
+  if (idx > 0) return t.slice(0, idx).trim();
+  return t;
+}
+
+function extraerMedioGoogleNews_(title) {
+  var t = String(title || "").trim();
+  var idx = t.lastIndexOf(" - ");
+  if (idx > 0) return t.slice(idx + 3).trim();
+  return "Google Noticias";
 }
