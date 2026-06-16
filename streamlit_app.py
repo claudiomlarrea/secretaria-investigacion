@@ -39,11 +39,6 @@ pages = [
         title="Gemelo digital",
         icon="🎓",
     ),
-    st.Page(
-        str(VIEWS / "eph_indec.py"),
-        title="Analizador automático EPH",
-        icon="📈",
-    ),
 ]
 
 st.navigation(pages).run()

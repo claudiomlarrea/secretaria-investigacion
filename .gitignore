@@ -10,7 +10,3 @@ package-lock.json
 package.json
 streamlit/**/.venv/
 .venv-gemelo/
-.venv-eph/
-eph_analisis/.venv/
-eph_analisis/data/
-eph_analisis/outputs/
