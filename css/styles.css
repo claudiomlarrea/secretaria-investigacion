@@ -425,6 +425,29 @@ header.section-head--bar .section-kicker {
 }
 
 /* Mayor especificidad que .section h2 para títulos sobre bandas verde/rojo */
+.dashboard-embed {
+  width: 100%;
+  margin: 0 0 1.5rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  background: #fff;
+}
+
+.dashboard-embed iframe {
+  display: block;
+  width: 100%;
+  min-height: 600px;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .dashboard-embed iframe {
+    min-height: 480px;
+  }
+}
+
 header.section-head--bar h2 {
   color: #ffffff;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.22);
