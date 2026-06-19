@@ -13,6 +13,11 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+from lib.pei_consistencia import (
+    actividades_consistencia_df,
+    indice_consistencia_general,
+    indice_consistencia_por_objetivo_df,
+)
 from lib.pei_model import (
     ANIOS_DISPONIBLES,
     anio_anterior,
@@ -88,6 +93,105 @@ with right:
         ),
         hide_index=True,
         use_container_width=True,
+    )
+
+st.divider()
+st.subheader(f"Consistencia actividad–objetivo ({anio_base})")
+
+st.markdown(
+    "Mide qué tan relacionado está el **texto de cada actividad** con el **objetivo específico** "
+    "bajo el cual fue cargada en la planilla (similitud textual TF-IDF + solapamiento de términos). "
+    "El índice va de **0 a 100** (100 = máxima coherencia observada en el año)."
+)
+
+try:
+    indice_consistencia = indice_consistencia_general(anio_base)
+    consistencia_og = indice_consistencia_por_objetivo_df(anio_base)
+    detalle_consistencia = actividades_consistencia_df(anio_base)
+
+    ic1, ic2, ic3 = st.columns(3)
+    ic1.metric("Índice general de consistencia", f"{indice_consistencia:.1f}")
+    ic2.metric("Actividades analizadas", len(detalle_consistencia))
+    ic3.metric(
+        "Objetivo más consistente",
+        consistencia_og.loc[consistencia_og["indice_consistencia"].idxmax(), "og"]
+        if not consistencia_og.empty
+        else "—",
+    )
+
+    col_cons_l, col_cons_r = st.columns([3, 2])
+    with col_cons_l:
+        tabla_cons = consistencia_og[
+            ["og", "objetivo_general", "indice_consistencia", "actividades_analizadas"]
+        ].rename(
+            columns={
+                "og": "OG",
+                "objetivo_general": "Objetivo general",
+                "indice_consistencia": "Índice",
+                "actividades_analizadas": "Actividades",
+            }
+        )
+        st.dataframe(
+            estilizar_escala_cantidad(
+                tabla_cons,
+                ("Índice",),
+                referencia_max=float(tabla_cons["Índice"].max()) if not tabla_cons.empty else 100,
+                referencia_min=0.0,
+                decimales=1,
+            ),
+            hide_index=True,
+            use_container_width=True,
+        )
+    with col_cons_r:
+        fig_cons = apply_plotly_style(
+            px.bar(
+                consistencia_og,
+                x="og",
+                y="indice_consistencia",
+                text="indice_consistencia",
+                labels={"og": "Objetivo", "indice_consistencia": "Índice de consistencia"},
+                title="Consistencia por objetivo general",
+                color_discrete_sequence=[GREEN],
+            )
+        )
+        fig_cons.update_traces(texttemplate="%{text:.1f}", textposition="outside")
+        fig_cons.update_layout(height=340, yaxis_range=[0, 100])
+        st.plotly_chart(fig_cons, use_container_width=True)
+
+    with st.expander("Ver actividades con mayor y menor consistencia"):
+        if detalle_consistencia.empty:
+            st.caption("No hay actividades para analizar en este año.")
+        else:
+            cols_det = st.columns(2)
+            top = detalle_consistencia.nlargest(8, "consistencia")[
+                ["og", "actividad", "objetivo_especifico", "consistencia", "coincidencias"]
+            ].rename(
+                columns={
+                    "og": "OG",
+                    "actividad": "Actividad",
+                    "objetivo_especifico": "Objetivo específico",
+                    "consistencia": "Índice",
+                    "coincidencias": "Términos en común",
+                }
+            )
+            low = detalle_consistencia.nsmallest(8, "consistencia")[
+                ["og", "actividad", "objetivo_especifico", "consistencia"]
+            ].rename(
+                columns={
+                    "og": "OG",
+                    "actividad": "Actividad",
+                    "objetivo_especifico": "Objetivo específico",
+                    "consistencia": "Índice",
+                }
+            )
+            cols_det[0].markdown("**Mayor consistencia**")
+            cols_det[0].dataframe(top, hide_index=True, use_container_width=True)
+            cols_det[1].markdown("**Menor consistencia**")
+            cols_det[1].dataframe(low, hide_index=True, use_container_width=True)
+except Exception as exc:
+    st.info(
+        "El índice de consistencia requiere la planilla Google Sheets con actividades y "
+        f"objetivos específicos. Detalle: {exc}"
     )
 
 st.divider()
