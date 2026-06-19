@@ -182,16 +182,51 @@ def planilla_evolucion_anual_df() -> pd.DataFrame:
     )
 
 
+def anio_anterior(anio: int) -> int | None:
+    """Año inmediatamente previo disponible en la planilla, o None si es el primero."""
+    anios = sorted(_anios_planilla())
+    if anio not in anios:
+        return None
+    idx = anios.index(anio)
+    if idx == 0:
+        return None
+    return anios[idx - 1]
+
+
 def delta_actividades_anio(anio: int) -> int | None:
     """Variación de actividades respecto al año anterior (None si no hay dato previo)."""
     serie = {r["anio"]: r["total"] for r in load_baseline()["actividades_por_anio"]}
     if anio not in serie:
         return None
-    anios = sorted(serie)
-    idx = anios.index(anio)
-    if idx == 0:
-        return 0
-    return serie[anio] - serie[anios[idx - 1]]
+    prev = anio_anterior(anio)
+    if prev is None:
+        return None
+    return serie[anio] - serie[prev]
+
+
+def objetivos_variacion_anual_df(anio: int) -> pd.DataFrame:
+    """Actividades por OG en el año base y variación respecto del año anterior."""
+    data = load_baseline(anio)
+    out = objetivos_df(data).copy()
+    prev_anio = anio_anterior(anio)
+    if prev_anio is None:
+        out["actividades_anterior"] = out["actividades"]
+        out["delta_anterior"] = 0
+        out["delta_pct_anterior"] = 0.0
+        out["anio_anterior"] = None
+        return out
+
+    prev = objetivos_df(load_baseline(prev_anio)).set_index("id")["actividades"]
+    out["actividades_anterior"] = out["id"].map(prev).fillna(0).astype(int)
+    out["delta_anterior"] = out["actividades"] - out["actividades_anterior"]
+    out["delta_pct_anterior"] = out.apply(
+        lambda r: round(r["delta_anterior"] / r["actividades_anterior"] * 100, 1)
+        if r["actividades_anterior"]
+        else 0.0,
+        axis=1,
+    )
+    out["anio_anterior"] = prev_anio
+    return out
 
 
 def alertas_para_anio(data: dict) -> list[dict]:

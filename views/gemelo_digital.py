@@ -15,7 +15,9 @@ import streamlit as st
 
 from lib.pei_model import (
     ANIOS_DISPONIBLES,
+    anio_anterior,
     contribucion_objetivo_funcion,
+    delta_actividades_anio,
     funciones_df,
     guia_por_indicador_df,
     guia_por_objetivo_df,
@@ -23,6 +25,7 @@ from lib.pei_model import (
     load_baseline,
     metricas_operativas_por_funcion,
     objetivos_df,
+    objetivos_variacion_anual_df,
     sedes_df,
     simular_distribucion,
     simular_impacto_funciones,
@@ -109,6 +112,74 @@ with guia_tabs[1]:
     st.dataframe(guia_por_objetivo_df(data), hide_index=True, use_container_width=True)
 
 st.divider()
+st.subheader(f"Punto de partida · objetivos generales ({anio_base})")
+
+variacion_base = objetivos_variacion_anual_df(anio_base)
+prev_anio = anio_anterior(anio_base)
+delta_total = delta_actividades_anio(anio_base)
+
+if prev_anio:
+    st.markdown(
+        f"Actividades reales del PEI en **{anio_base}**, comparadas con **{prev_anio}**. "
+        f"**Verde** = más actividades que el año anterior; **rojo** = menos. "
+        f"A partir de esta base podés simular escenarios con los controles de abajo."
+    )
+else:
+    st.markdown(
+        f"Actividades reales del PEI en **{anio_base}** (primer año disponible en la planilla). "
+        f"A partir de esta base podés simular escenarios con los controles de abajo."
+    )
+
+b1, b2 = st.columns(2)
+b1.metric(f"Total {anio_base}", total_base)
+b2.metric(
+    f"Δ total vs {prev_anio}" if prev_anio else "Δ vs año anterior",
+    "—" if delta_total is None else delta_total,
+)
+
+if prev_anio:
+    columnas_base = [
+        "id",
+        "nombre",
+        "actividades",
+        "actividades_anterior",
+        "delta_anterior",
+        "pct",
+        "delta_pct_anterior",
+    ]
+    rename_base = {
+        "id": "OG",
+        "nombre": "Objetivo general",
+        "actividades": f"Act. {anio_base}",
+        "actividades_anterior": f"Act. {prev_anio}",
+        "delta_anterior": "Δ actividades",
+        "pct": "% del plan",
+        "delta_pct_anterior": "Δ %",
+    }
+    estilo_base = estilizar_variacion_tabla(
+        variacion_base[columnas_base].rename(columns=rename_base),
+        columnas_delta=("Δ actividades", "Δ %"),
+        columnas_vinculadas=(
+            (f"Act. {anio_base}", "Δ actividades"),
+            ("% del plan", "Δ %"),
+        ),
+    )
+else:
+    columnas_base = ["id", "nombre", "actividades", "pct"]
+    rename_base = {
+        "id": "OG",
+        "nombre": "Objetivo general",
+        "actividades": f"Act. {anio_base}",
+        "pct": "% del plan",
+    }
+    estilo_base = variacion_base[columnas_base].rename(columns=rename_base).style
+
+st.dataframe(
+    estilo_base,
+    hide_index=True,
+    use_container_width=True,
+)
+
 st.subheader("Simulación: crecimiento por objetivo")
 
 st.markdown(
@@ -128,12 +199,21 @@ _OG_AYUDA = {
 
 niveles_og: list[float] = []
 cols = st.columns(3)
+variacion_por_og = variacion_base.set_index("id")
 for i, row in base.iterrows():
     og_id = int(row["id"])
+    var = variacion_por_og.loc[og_id]
+    delta_prev = int(var["delta_anterior"])
+    if prev_anio and delta_prev > 0:
+        tendencia = f" · ↑ {delta_prev:+d} vs {prev_anio}"
+    elif prev_anio and delta_prev < 0:
+        tendencia = f" · ↓ {delta_prev:+d} vs {prev_anio}"
+    else:
+        tendencia = ""
     with cols[i % 3]:
         niveles_og.append(
             st.slider(
-                f"OG{og_id} · {int(row['actividades'])} act. base",
+                f"OG{og_id} · {int(row['actividades'])} act. base{tendencia}",
                 min_value=50.0,
                 max_value=200.0,
                 value=100.0,
@@ -141,7 +221,12 @@ for i, row in base.iterrows():
                 format="%.0f%%",
                 help=(
                     f"Memoria {anio_base}: {int(row['actividades'])} actividades ({row['pct']}%). "
-                    f"100 % = mantener; 150 % = +50 % de actividades en este objetivo. "
+                    + (
+                        f"Vs {prev_anio}: {delta_prev:+d} actividades ({var['delta_pct_anterior']:+.1f} %). "
+                        if prev_anio
+                        else ""
+                    )
+                    + f"100 % = mantener; 150 % = +50 % de actividades en este objetivo. "
                     f"{_OG_AYUDA.get(og_id, '')}"
                 ),
                 key=f"sim_og_{og_id}",
