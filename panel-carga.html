@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Carga de Publicaciones · Secretaría de Investigación</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      .panel-wrap {
+        max-width: 900px;
+        margin: 32px auto;
+        padding: 0 16px 48px;
+      }
+      .panel-wrap h1 {
+        margin: 0 0 8px;
+        color: var(--color-borgona, #6b1f2a);
+      }
+      .panel-wrap .help {
+        color: #444;
+        margin: 0 0 20px;
+      }
+      .panel-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .panel-form label {
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 4px;
+        display: block;
+      }
+      .panel-form input,
+      .panel-form select,
+      .panel-form textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+      }
+      .panel-form textarea {
+        min-height: 96px;
+        resize: vertical;
+      }
+      .panel-form .full {
+        grid-column: 1 / -1;
+      }
+      .panel-actions {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .panel-actions button {
+        background: #0b6b5d;
+        color: #fff;
+        border: 0;
+        border-radius: 8px;
+        padding: 10px 18px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .panel-actions button:disabled {
+        opacity: 0.6;
+        cursor: wait;
+      }
+      #msg.ok {
+        color: #0c6b2f;
+        font-weight: 600;
+      }
+      #msg.err {
+        color: #8a1f1f;
+        font-weight: 600;
+      }
+      .btn-sheet {
+        display: inline-block;
+        margin-bottom: 16px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 2px solid #0b6b5d;
+        color: #0b6b5d;
+        background: #fff;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      @media (max-width: 760px) {
+        .panel-form {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+    <script src="js/publicaciones-config.js?v=4"></script>
+  </head>
+  <body>
+    <div class="panel-wrap">
+      <h1>Carga de Publicaciones</h1>
+      <p class="help">
+        Completá los datos y guardá. La publicación queda visible en la sección Publicaciones del sitio
+        de la Secretaría de Investigación.
+      </p>
+      <p>
+        <a
+          class="btn-sheet"
+          href="https://docs.google.com/spreadsheets/d/18xXPRok4kVF81hkEDDlfDf8Vx-KI2HeywZNFSXkozwU/edit#gid=0"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Abrir planilla en Google Sheets</a
+        >
+        <a class="btn-sheet" href="index.html#publicaciones">Volver al sitio</a>
+      </p>
+
+      <iframe
+        name="gas_frame"
+        id="gas_frame"
+        title="Respuesta de guardado"
+        style="display: none; width: 0; height: 0; border: 0"
+      ></iframe>
+
+      <form id="f" class="panel-form" method="post" action="" accept-charset="UTF-8" target="gas_frame">
+        <input type="hidden" name="action" value="add" />
+        <input type="hidden" name="_panel" value="1" />
+        <input type="hidden" name="key" id="admin-key" value="" />
+
+        <div>
+          <label for="tipo">Tipo *</label>
+          <select id="tipo" name="tipo" required>
+            <option value="Revista">Revista</option>
+            <option value="Libro">Libro</option>
+            <option value="Capítulo de libro">Capítulo de libro</option>
+            <option value="Repositorio">Informe</option>
+            <option value="Evento">Evento</option>
+            <option value="Diario">Diario</option>
+          </select>
+        </div>
+        <div>
+          <label for="anio">Año</label>
+          <input id="anio" name="anio" type="number" min="1900" max="2100" />
+        </div>
+
+        <div class="full">
+          <label for="titulo">Título *</label>
+          <input id="titulo" name="titulo" required />
+        </div>
+        <div class="full">
+          <label for="autores">Autor/es</label>
+          <input id="autores" name="autores" />
+        </div>
+
+        <div>
+          <label for="revista_o_medio">Revista / medio</label>
+          <input id="revista_o_medio" name="revista_o_medio" />
+        </div>
+        <div>
+          <label for="doi">DOI</label>
+          <input id="doi" name="doi" />
+        </div>
+
+        <div>
+          <label for="unidad">Unidad *</label>
+          <select id="unidad" name="unidad" required>
+            <option value="Secretaría de Investigación" selected>Secretaría de Investigación</option>
+            <option value="OIA- Observatorio de Inteligencia Artificial">
+              OIA- Observatorio de Inteligencia Artificial
+            </option>
+            <option value="Unidad de Vinculación Tecnológica">Unidad de Vinculación Tecnológica</option>
+            <option value="FDCSSL- Facultad de Derecho y Ciencias Sociales Sede San Luis">
+              FDCSSL- Facultad de Derecho y Ciencias Sociales Sede San Luis
+            </option>
+            <option value="FCMSL- Facultad de Ciencias Médicas Sede San Luis">
+              FCMSL- Facultad de Ciencias Médicas Sede San Luis
+            </option>
+            <option value="FCVSL- Facultad de Ciencias Veterinarias Sede San Luis">
+              FCVSL- Facultad de Ciencias Veterinarias Sede San Luis
+            </option>
+            <option value="FCEESL- Facultad de Ciencias Económicas y Empresariales Sede San Luis">
+              FCEESL- Facultad de Ciencias Económicas y Empresariales Sede San Luis
+            </option>
+            <option value="FBOSCO- Facultad Don Bosco">FBOSCO- Facultad Don Bosco</option>
+            <option value="FCEESJ- Facultad de Ciencias Económicas y Empresariales Sede San Juan">
+              FCEESJ- Facultad de Ciencias Económicas y Empresariales Sede San Juan
+            </option>
+            <option value="FFyHSJ- Facultad de Filosofía y Humanidades">
+              FFyHSJ- Facultad de Filosofía y Humanidades
+            </option>
+            <option value="ISDSM- Instituto Universitario Santa María">
+              ISDSM- Instituto Universitario Santa María
+            </option>
+            <option value="ECRyPSJ- Escuela Cultura Religiosa y Pastoral">
+              ECRyPSJ- Escuela Cultura Religiosa y Pastoral
+            </option>
+            <option value="FDCSSJ- Facultad de Derecho y Ciencias Sociales Sede San Juan">
+              FDCSSJ- Facultad de Derecho y Ciencias Sociales Sede San Juan
+            </option>
+            <option value="FCMSJ- Facultad de Ciencias Médicas San Juan">
+              FCMSJ- Facultad de Ciencias Médicas San Juan
+            </option>
+            <option value="FEDSJ- Facultad de Educación">FEDSJ- Facultad de Educación</option>
+            <option value="ESEGSJ- Escuela de Seguridad">ESEGSJ- Escuela de Seguridad</option>
+            <option value="FCQyTSJ- Facultad de Ciencias Químicas y Tecnológicas">
+              FCQyTSJ- Facultad de Ciencias Químicas y Tecnológicas
+            </option>
+            <option value="ISB- Instituto San Buenaventura">ISB- Instituto San Buenaventura</option>
+            <option value="Vicerrectora de Formación">Vicerrectora de Formación</option>
+            <option value="Departamento de Educación a Distancia">
+              Departamento de Educación a Distancia
+            </option>
+          </select>
+        </div>
+        <div>
+          <label for="indexacion">Indexación</label>
+          <input id="indexacion" name="indexacion" />
+        </div>
+
+        <div>
+          <label for="editorial">Editorial</label>
+          <input id="editorial" name="editorial" />
+        </div>
+        <div>
+          <label for="isbn">ISBN</label>
+          <input id="isbn" name="isbn" />
+        </div>
+
+        <div>
+          <label for="tipo_publicacion">Tipo publicación</label>
+          <input id="tipo_publicacion" name="tipo_publicacion" />
+        </div>
+        <div>
+          <label for="link">Link</label>
+          <input id="link" name="link" type="url" placeholder="https://..." />
+        </div>
+
+        <div>
+          <label for="evento">Evento</label>
+          <input id="evento" name="evento" />
+        </div>
+        <div>
+          <label for="lugar">Lugar</label>
+          <input id="lugar" name="lugar" />
+        </div>
+
+        <div>
+          <label for="fecha">Fecha</label>
+          <input id="fecha" name="fecha" placeholder="YYYY-MM-DD" />
+        </div>
+        <input type="hidden" name="estado" value="publicado" />
+
+        <div class="full">
+          <label for="resumen">Resumen</label>
+          <textarea id="resumen" name="resumen"></textarea>
+        </div>
+        <div class="full">
+          <label for="repositorio">Repositorio</label>
+          <input id="repositorio" name="repositorio" />
+        </div>
+
+        <div class="panel-actions">
+          <button type="submit" id="save-btn">Guardar publicación</button>
+          <span id="msg"></span>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      (function () {
+        var cfg = window.SEC_PUBLICACIONES || {};
+        var api = String(cfg.APPS_SCRIPT_URL || "").trim();
+        var adminKey = String(cfg.ADMIN_ACCESS_KEY || "OIA-Privado-2026").trim();
+        var form = document.getElementById("f");
+        var msg = document.getElementById("msg");
+        var btn = document.getElementById("save-btn");
+        var frame = document.getElementById("gas_frame");
+        var keyInput = document.getElementById("admin-key");
+        var enviando = false;
+
+        if (keyInput) keyInput.value = adminKey;
+
+        if (!api) {
+          msg.textContent = "Falta configurar APPS_SCRIPT_URL en js/publicaciones-config.js";
+          msg.className = "err";
+          if (btn) btn.disabled = true;
+          return;
+        }
+        form.action = api;
+
+        var p = new URLSearchParams(window.location.search);
+        if (p.get("saved") === "1") {
+          msg.textContent = "Guardado correctamente.";
+          msg.className = "ok";
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState({}, "", "panel-carga.html");
+          }
+        } else if (p.get("saved") === "0") {
+          msg.textContent = "No se pudo guardar: " + (p.get("err") || "error");
+          msg.className = "err";
+        }
+
+        if (frame) {
+          frame.addEventListener("load", function () {
+            if (!enviando) return;
+            enviando = false;
+            if (btn) btn.disabled = false;
+            msg.textContent = "Guardado correctamente.";
+            msg.className = "ok";
+          });
+        }
+
+        form.addEventListener("submit", function () {
+          if (!form.reportValidity()) return;
+          enviando = true;
+          if (btn) btn.disabled = true;
+          msg.textContent = "Guardando…";
+          msg.className = "ok";
+        });
+      })();
+    </script>
+  </body>
+</html>
