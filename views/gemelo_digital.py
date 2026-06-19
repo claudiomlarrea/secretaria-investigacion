@@ -189,8 +189,12 @@ s2.metric(
     f"OG{int(sim.loc[sim['delta_pct'].abs().idxmax(), 'id'])} ({sim['delta_pct'].abs().max():+.1f} pp)",
 )
 s3.metric(
-    "Función más afectada",
+    "Función con mayor incremento",
     f"{impacto.loc[impacto['delta'].abs().idxmax(), 'funcion']} ({impacto['delta'].abs().max():+d})",
+    help=(
+        "Función sustantiva donde la simulación proyecta más actividades adicionales "
+        "(p. ej. subir OG3 impulsa principalmente docencia)."
+    ),
 )
 
 tabla_objetivos = sim[
