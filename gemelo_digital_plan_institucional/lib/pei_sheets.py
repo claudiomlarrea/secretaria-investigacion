@@ -182,6 +182,32 @@ def _extension_y_voluntariado(
     return extension, voluntariado
 
 
+def resumen_conteos_planilla(anio: int) -> dict[str, int]:
+    """Aclara los distintos totales usados en el gemelo (formularios vs cargas por OG)."""
+    df = fetch_planilla_pei()
+    df_anio = df[df["AÑO"] == anio].copy()
+    cols_act = _columnas_actividades(df_anio)
+    formularios = len(df_anio)
+    cargas = sum(
+        1
+        for _, row in df_anio.iterrows()
+        for col in cols_act
+        if _celda_con_actividad(row[col])
+    )
+    conteos_unicos = _conteo_por_og(df_anio, cols_act)
+    formularios_multiples_og = sum(
+        1
+        for _, row in df_anio.iterrows()
+        if sum(1 for col in cols_act if _celda_con_actividad(row[col])) > 1
+    )
+    return {
+        "formularios": formularios,
+        "cargas_actividad_og": cargas,
+        "actividades_unicas_por_og": sum(conteos_unicos),
+        "formularios_multiples_og": formularios_multiples_og,
+    }
+
+
 def build_baseline_from_sheets(anio: int) -> dict:
     """Arma el baseline del gemelo a partir de la planilla Google Sheets."""
     df = fetch_planilla_pei()
