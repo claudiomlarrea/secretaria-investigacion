@@ -205,7 +205,28 @@ def resumen_conteos_planilla(anio: int) -> dict[str, int]:
         "cargas_actividad_og": cargas,
         "actividades_unicas_por_og": sum(conteos_unicos),
         "formularios_multiples_og": formularios_multiples_og,
+        "registros_extra": max(0, cargas - formularios),
+        "repeticiones_mismo_nombre": max(0, cargas - sum(conteos_unicos)),
     }
+
+
+def leyenda_conteos_pei(anio: int) -> str:
+    """Texto único para explicar formularios, actividades por OG y registros repetidos."""
+    r = resumen_conteos_planilla(anio)
+    f = r["formularios"]
+    c = r["cargas_actividad_og"]
+    extra = r["registros_extra"]
+    rep = r["repeticiones_mismo_nombre"]
+    multi = r["formularios_multiples_og"]
+    return (
+        f"**{f} formularios** = total del plan en {anio} (1 fila = 1 carga institucional; "
+        f"coincide con Looker Studio). **Actividades por OG** = nombres **distintos** en cada "
+        f"objetivo (mismo número en todos los cuadros de esta pantalla). "
+        f"**{c} registros** en columnas OG = {f} formularios + **{extra}** declaraciones "
+        f"adicionales ({multi} formularios en 2 o más objetivos"
+        + (f"; **{rep}** repiten nombre en otro formulario" if rep else "")
+        + "). **No sume los números por OG**: un formulario puede contar en varios objetivos."
+    )
 
 
 def build_baseline_from_sheets(anio: int) -> dict:

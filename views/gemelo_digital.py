@@ -18,7 +18,7 @@ from lib.pei_consistencia import (
     indice_consistencia_general,
     indice_consistencia_por_objetivo_df,
 )
-from lib.pei_sheets import resumen_conteos_planilla
+from lib.pei_sheets import leyenda_conteos_pei, resumen_conteos_planilla
 from lib.pei_model import (
     ANIOS_DISPONIBLES,
     anio_anterior,
@@ -70,6 +70,8 @@ metric_sim = c2.empty()
 c3.metric("Índice de equilibrio actual", indice_equilibrio(base["pct"].tolist()))
 c4.metric("Sedes modeladas", len(data["sedes"]))
 
+st.info(leyenda_conteos_pei(anio_base))
+
 st.subheader("Estado actual del gemelo")
 
 left, right = st.columns(2)
@@ -82,7 +84,7 @@ with left:
             names="sede",
             values="actividades",
             hole=0.45,
-            title="Actividades por sede",
+            title="Formularios por sede",
             color_discrete_sequence=CHART_SEQUENCE[:3],
         )
     )
@@ -107,13 +109,10 @@ st.subheader(f"Consistencia actividad–objetivo ({anio_base})")
 
 st.markdown(
     "Mide qué tan relacionado está el **texto de cada actividad** con el **objetivo específico** "
-    "bajo el cual fue cargada en la planilla (similitud textual TF-IDF + solapamiento de términos). "
-    "El índice va de **0 a 100** (100 = máxima coherencia observada en el año).\n\n"
-    f"**{conteos_planilla['formularios']} formularios** en {anio_base} (total del plan). "
-    f"Acá se analizan **{conteos_planilla['cargas_actividad_og']} cargas actividad–objetivo** "
-    "(todas las celdas con actividad; el índice se calcula sobre cada una). "
-    "En las tablas por OG, **Act. distintas** coincide con el cuadro *Punto de partida* "
-    "(nombres únicos, alineado a Looker); **Cargas** incluye nombres repetidos en formularios distintos."
+    "bajo el cual fue cargada (similitud TF-IDF + términos en común). "
+    "Índice **0–100** (100 = máxima coherencia del año). "
+    f"El cálculo usa los **{conteos_planilla['cargas_actividad_og']} registros** en columnas OG "
+    f"(ver leyenda arriba); la columna **Actividades** por OG coincide con *Punto de partida*."
 )
 
 try:
@@ -124,11 +123,12 @@ try:
     ic1, ic2, ic3 = st.columns(3)
     ic1.metric("Índice general de consistencia", f"{indice_consistencia:.1f}")
     ic2.metric(
-        "Cargas actividad–objetivo",
+        "Registros evaluados",
         conteos_planilla["cargas_actividad_og"],
         help=(
-            f"Celdas con actividad en OG1–OG6 ({conteos_planilla['cargas_actividad_og']}). "
-            f"No es el total de formularios ({conteos_planilla['formularios']})."
+            f"Total de celdas con actividad en OG1–OG6. "
+            f"Incluye {conteos_planilla['registros_extra']} declaraciones adicionales "
+            f"respecto de {conteos_planilla['formularios']} formularios."
         ),
     )
     ic3.metric(
@@ -141,20 +141,13 @@ try:
     col_cons_l, col_cons_r = st.columns([3, 2])
     with col_cons_l:
         tabla_cons = consistencia_og[
-            [
-                "og",
-                "objetivo_general",
-                "indice_consistencia",
-                "actividades_distintas",
-                "cargas_analizadas",
-            ]
+            ["og", "objetivo_general", "indice_consistencia", "actividades_distintas"]
         ].rename(
             columns={
                 "og": "OG",
                 "objetivo_general": "Objetivo general",
                 "indice_consistencia": "Índice",
-                "actividades_distintas": "Act. distintas",
-                "cargas_analizadas": "Cargas",
+                "actividades_distintas": "Actividades",
             }
         )
         st.dataframe(
@@ -250,30 +243,20 @@ delta_total = delta_actividades_anio(anio_base)
 
 if prev_anio:
     st.markdown(
-        f"Actividades reales del PEI en **{anio_base}**. "
-        f"**Escala de color:** rojo (menor volumen ese año) → verde (mayor volumen). "
-        f"Las columnas de **{prev_anio}** son referencia; la simulación parte del año base.\n\n"
-        f"**{total_base} formularios** en el plan. **Act. distintas** cuenta nombres únicos "
-        f"por OG (suma {suma_unicas_og}, alineado a Looker). Un formulario puede cargar "
-        f"actividad en varios objetivos."
+        f"Distribución por objetivo en **{anio_base}**. "
+        f"**Escala de color:** rojo (menor volumen) → verde (mayor volumen). "
+        f"Referencia **{prev_anio}** en columnas comparativas."
     )
 else:
     st.markdown(
-        f"Actividades reales del PEI en **{anio_base}** (primer año disponible en la planilla). "
-        f"**Escala de color:** rojo (menor volumen) → verde (mayor volumen).\n\n"
-        f"**{total_base} formularios** en el plan. **Act. distintas** cuenta nombres únicos "
-        f"por OG (suma {suma_unicas_og}, alineado a Looker)."
+        f"Distribución por objetivo en **{anio_base}** (primer año en la planilla). "
+        f"**Escala de color:** rojo (menor volumen) → verde (mayor volumen)."
     )
 
-b1, b2, b3 = st.columns(3)
+b1, b2 = st.columns(2)
 b1.metric(f"Formularios {anio_base}", total_base)
 b2.metric(
-    f"Actividades distintas (suma OG)",
-    suma_unicas_og,
-    help="Suma de actividades únicas en OG1–OG6; puede superar el total de formularios.",
-)
-b3.metric(
-    f"Δ total vs {prev_anio}" if prev_anio else "Δ vs año anterior",
+    f"Δ formularios vs {prev_anio}" if prev_anio else "Δ vs año anterior",
     "—" if delta_total is None else delta_total,
 )
 
@@ -285,7 +268,7 @@ if prev_anio:
 rename_punto = {
     "id": "OG",
     "nombre": "Objetivo general",
-    "actividades": f"Act. distintas {anio_base}",
+    "actividades": "Actividades",
     "pct": "% del plan",
 }
 if prev_anio:
@@ -293,7 +276,7 @@ if prev_anio:
     rename_punto["delta_anterior"] = "Δ vs año ant."
 
 tabla_punto = tabla_punto.rename(columns=rename_punto)
-col_act = f"Act. distintas {anio_base}"
+col_act = "Actividades"
 estilo_base = estilizar_escala_cantidad(
     tabla_punto,
     (col_act, "% del plan"),
@@ -347,14 +330,14 @@ for i, row in base.iterrows():
     with cols[i % 3]:
         niveles_og.append(
             st.slider(
-                f"OG{og_id} · {int(row['actividades'])} act. base{tendencia}",
+                f"OG{og_id} · {int(row['actividades'])} act. · {int(row['pct'])} % del plan{tendencia}",
                 min_value=50.0,
                 max_value=200.0,
                 value=100.0,
                 step=5.0,
                 format="%.0f%%",
                 help=(
-                    f"Memoria {anio_base}: {int(row['actividades'])} actividades ({row['pct']}%). "
+                    f"Memoria {anio_base}: {int(row['actividades'])} actividades distintas ({row['pct']} % del plan). "
                     + (
                         f"Vs {prev_anio}: {delta_prev:+d} actividades ({var['delta_pct_anterior']:+.1f} %). "
                         if prev_anio
@@ -377,7 +360,7 @@ metric_sim.metric(
     "Actividades simuladas (suma OG)",
     total_sim,
     delta=total_sim - suma_unicas_og,
-    help="Suma de actividades simuladas por OG; referencia base = actividades distintas por objetivo.",
+    help="Suma por objetivo de actividades con nombre distinto; no es el total de formularios.",
 )
 
 og2_nivel = niveles_og[1]
@@ -388,8 +371,8 @@ inv_imp = impacto.loc[impacto["funcion"] == "Investigación"].iloc[0]
 conv = next(f for f in metricas_por_fn["Extensión"] if f["indicador"] == "Convenios firmados")
 
 st.caption(
-    f"Total simulado: **{total_sim}** actividades distintas por OG (base {suma_unicas_og} · "
-    f"{total_base} formularios). "
+    f"Suma simulada por OG: **{total_sim}** (base {suma_unicas_og}). "
+    f"Formularios del plan: **{total_base}**. "
     f"OG2: {og2_act_base} → **{og2_act_sim}** ({og2_nivel:.0f} % del nivel memoria)."
 )
 
