@@ -31,7 +31,7 @@ from lib.pei_model import (
     simular_impacto_funciones,
 )
 from lib.styles import apply_plotly_style, render_header
-from ui_theme import CHART_SEQUENCE, GREEN, GREEN_MID, estilizar_variacion_tabla
+from ui_theme import CHART_SEQUENCE, GREEN, GREEN_MID, estilizar_escala_cantidad, estilizar_variacion_tabla
 
 render_header(
     "Réplica digital del plan institucional para simular escenarios de redistribución "
@@ -120,14 +120,14 @@ delta_total = delta_actividades_anio(anio_base)
 
 if prev_anio:
     st.markdown(
-        f"Actividades reales del PEI en **{anio_base}**, comparadas con **{prev_anio}**. "
-        f"**Verde** = más actividades que el año anterior; **rojo** = menos. "
-        f"A partir de esta base podés simular escenarios con los controles de abajo."
+        f"Actividades reales del PEI en **{anio_base}**. "
+        f"**Escala de color:** rojo (menor volumen ese año) → verde (mayor volumen). "
+        f"Las columnas de **{prev_anio}** son referencia; la simulación parte del año base."
     )
 else:
     st.markdown(
         f"Actividades reales del PEI en **{anio_base}** (primer año disponible en la planilla). "
-        f"A partir de esta base podés simular escenarios con los controles de abajo."
+        f"**Escala de color:** rojo (menor volumen) → verde (mayor volumen)."
     )
 
 b1, b2 = st.columns(2)
@@ -137,42 +137,36 @@ b2.metric(
     "—" if delta_total is None else delta_total,
 )
 
+tabla_punto = variacion_base[["id", "nombre", "actividades", "pct"]].copy()
 if prev_anio:
-    columnas_base = [
-        "id",
-        "nombre",
-        "actividades",
-        "actividades_anterior",
-        "delta_anterior",
-        "pct",
-        "delta_pct_anterior",
-    ]
-    rename_base = {
-        "id": "OG",
-        "nombre": "Objetivo general",
-        "actividades": f"Act. {anio_base}",
-        "actividades_anterior": f"Act. {prev_anio}",
-        "delta_anterior": "Δ actividades",
-        "pct": "% del plan",
-        "delta_pct_anterior": "Δ %",
-    }
-    estilo_base = estilizar_variacion_tabla(
-        variacion_base[columnas_base].rename(columns=rename_base),
-        columnas_delta=("Δ actividades", "Δ %"),
-        columnas_vinculadas=(
-            (f"Act. {anio_base}", "Δ actividades"),
-            ("% del plan", "Δ %"),
-        ),
-    )
-else:
-    columnas_base = ["id", "nombre", "actividades", "pct"]
-    rename_base = {
-        "id": "OG",
-        "nombre": "Objetivo general",
-        "actividades": f"Act. {anio_base}",
-        "pct": "% del plan",
-    }
-    estilo_base = variacion_base[columnas_base].rename(columns=rename_base).style
+    tabla_punto["actividades_anterior"] = variacion_base["actividades_anterior"]
+    tabla_punto["delta_anterior"] = variacion_base["delta_anterior"]
+
+rename_punto = {
+    "id": "OG",
+    "nombre": "Objetivo general",
+    "actividades": f"Act. {anio_base}",
+    "pct": "% del plan",
+}
+if prev_anio:
+    rename_punto["actividades_anterior"] = f"Act. {prev_anio}"
+    rename_punto["delta_anterior"] = "Δ vs año ant."
+
+tabla_punto = tabla_punto.rename(columns=rename_punto)
+col_act = f"Act. {anio_base}"
+estilo_base = estilizar_escala_cantidad(
+    tabla_punto,
+    (col_act, "% del plan"),
+    referencia_max={
+        col_act: float(tabla_punto[col_act].max()),
+        "% del plan": 100.0,
+    },
+    referencia_min={
+        col_act: float(tabla_punto[col_act].min()),
+        "% del plan": 0.0,
+    },
+    decimales=0,
+)
 
 st.dataframe(
     estilo_base,
