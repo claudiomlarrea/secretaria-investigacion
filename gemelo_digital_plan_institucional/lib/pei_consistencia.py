@@ -13,6 +13,7 @@ from lib.pei_sheets import (
     OG_NOMBRES,
     _celda_con_actividad,
     _columnas_actividades,
+    _conteo_por_og,
     _texto_actividad,
     fetch_planilla_pei,
 )
@@ -140,14 +141,31 @@ def indice_consistencia_por_objetivo_df(anio: int) -> pd.DataFrame:
     detalle = actividades_consistencia_df(anio)
     if detalle.empty:
         return pd.DataFrame(
-            columns=["og_id", "og", "objetivo_general", "indice_consistencia", "actividades_analizadas"]
+            columns=[
+                "og_id",
+                "og",
+                "objetivo_general",
+                "indice_consistencia",
+                "actividades_distintas",
+                "cargas_analizadas",
+            ]
         )
     agg = (
         detalle.groupby(["og_id", "og", "og_nombre"], as_index=False)
-        .agg(indice_consistencia=("consistencia", "mean"), actividades_analizadas=("consistencia", "count"))
+        .agg(
+            indice_consistencia=("consistencia", "mean"),
+            cargas_analizadas=("consistencia", "count"),
+        )
         .rename(columns={"og_nombre": "objetivo_general"})
     )
     agg["indice_consistencia"] = agg["indice_consistencia"].round(1)
+
+    df = fetch_planilla_pei()
+    df_anio = df[df["AÑO"] == anio]
+    cols_act = _columnas_actividades(df_anio)
+    conteos_distintos = _conteo_por_og(df_anio, cols_act)
+    agg["actividades_distintas"] = [conteos_distintos[int(og) - 1] for og in agg["og_id"]]
+
     return agg.sort_values("og_id").reset_index(drop=True)
 
 

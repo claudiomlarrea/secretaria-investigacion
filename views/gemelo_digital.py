@@ -110,10 +110,10 @@ st.markdown(
     "bajo el cual fue cargada en la planilla (similitud textual TF-IDF + solapamiento de términos). "
     "El índice va de **0 a 100** (100 = máxima coherencia observada en el año).\n\n"
     f"**{conteos_planilla['formularios']} formularios** en {anio_base} (total del plan). "
-    f"Acá se analizan **{conteos_planilla['cargas_actividad_og']} cargas actividad–objetivo**: "
-    "cada celda con actividad en OG1–OG6. Un mismo formulario puede declarar actividades en "
-    "más de un objetivo "
-    f"({conteos_planilla['formularios_multiples_og']} formularios con 2 o más objetivos)."
+    f"Acá se analizan **{conteos_planilla['cargas_actividad_og']} cargas actividad–objetivo** "
+    "(todas las celdas con actividad; el índice se calcula sobre cada una). "
+    "En las tablas por OG, **Act. distintas** coincide con el cuadro *Punto de partida* "
+    "(nombres únicos, alineado a Looker); **Cargas** incluye nombres repetidos en formularios distintos."
 )
 
 try:
@@ -141,13 +141,20 @@ try:
     col_cons_l, col_cons_r = st.columns([3, 2])
     with col_cons_l:
         tabla_cons = consistencia_og[
-            ["og", "objetivo_general", "indice_consistencia", "actividades_analizadas"]
+            [
+                "og",
+                "objetivo_general",
+                "indice_consistencia",
+                "actividades_distintas",
+                "cargas_analizadas",
+            ]
         ].rename(
             columns={
                 "og": "OG",
                 "objetivo_general": "Objetivo general",
                 "indice_consistencia": "Índice",
-                "actividades_analizadas": "Cargas en OG",
+                "actividades_distintas": "Act. distintas",
+                "cargas_analizadas": "Cargas",
             }
         )
         st.dataframe(
@@ -246,16 +253,16 @@ if prev_anio:
         f"Actividades reales del PEI en **{anio_base}**. "
         f"**Escala de color:** rojo (menor volumen ese año) → verde (mayor volumen). "
         f"Las columnas de **{prev_anio}** son referencia; la simulación parte del año base.\n\n"
-        f"**{total_base} formularios** en el plan. Las columnas **Act. {anio_base}** cuentan "
-        f"actividades **distintas por OG** (suma {suma_unicas_og}): un formulario puede cargar "
+        f"**{total_base} formularios** en el plan. **Act. distintas** cuenta nombres únicos "
+        f"por OG (suma {suma_unicas_og}, alineado a Looker). Un formulario puede cargar "
         f"actividad en varios objetivos."
     )
 else:
     st.markdown(
         f"Actividades reales del PEI en **{anio_base}** (primer año disponible en la planilla). "
         f"**Escala de color:** rojo (menor volumen) → verde (mayor volumen).\n\n"
-        f"**{total_base} formularios** en el plan. Las columnas **Act. {anio_base}** cuentan "
-        f"actividades **distintas por OG** (suma {suma_unicas_og})."
+        f"**{total_base} formularios** en el plan. **Act. distintas** cuenta nombres únicos "
+        f"por OG (suma {suma_unicas_og}, alineado a Looker)."
     )
 
 b1, b2, b3 = st.columns(3)
@@ -278,7 +285,7 @@ if prev_anio:
 rename_punto = {
     "id": "OG",
     "nombre": "Objetivo general",
-    "actividades": f"Act. {anio_base}",
+    "actividades": f"Act. distintas {anio_base}",
     "pct": "% del plan",
 }
 if prev_anio:
@@ -286,7 +293,7 @@ if prev_anio:
     rename_punto["delta_anterior"] = "Δ vs año ant."
 
 tabla_punto = tabla_punto.rename(columns=rename_punto)
-col_act = f"Act. {anio_base}"
+col_act = f"Act. distintas {anio_base}"
 estilo_base = estilizar_escala_cantidad(
     tabla_punto,
     (col_act, "% del plan"),
