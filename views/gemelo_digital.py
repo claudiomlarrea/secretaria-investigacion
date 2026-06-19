@@ -60,15 +60,14 @@ suma_unicas_og = int(data.get("suma_actividades_unicas_og", int(base["actividade
 conteos_planilla = resumen_conteos_planilla(anio_base)
 funciones = funciones_df(data)
 
-c1, c2, c3, c4 = st.columns(4)
+c1, c2, c3 = st.columns(3)
 c1.metric(
     "Formularios del plan",
     total_base,
     help="Filas en la planilla del año (1 registro = 1 formulario cargado). Coincide con Looker Studio.",
 )
-metric_sim = c2.empty()
-c3.metric("Índice de equilibrio actual", indice_equilibrio(base["pct"].tolist()))
-c4.metric("Sedes modeladas", len(data["sedes"]))
+c2.metric("Índice de equilibrio actual", indice_equilibrio(base["pct"].tolist()))
+c3.metric("Sedes modeladas", len(data["sedes"]))
 
 st.info(leyenda_conteos_pei(anio_base))
 
@@ -352,16 +351,21 @@ for i, row in base.iterrows():
 
 sim = simular_distribucion(niveles_og, data=data, en_porcentaje=True, modo="crecimiento")
 total_sim = int(sim["actividades_sim"].sum())
+delta_sim_og = total_sim - suma_unicas_og
 impacto = simular_impacto_funciones(sim, data, solo_incrementos=True)
 contrib = contribucion_objetivo_funcion(sim, data)
 metricas_por_fn = metricas_operativas_por_funcion(impacto, data)
 
-metric_sim.metric(
-    "Actividades simuladas (suma OG)",
-    total_sim,
-    delta=total_sim - suma_unicas_og,
-    help="Suma por objetivo de actividades con nombre distinto; no es el total de formularios.",
-)
+if delta_sim_og == 0:
+    st.caption(
+        f"Escenario base: todos los objetivos al **100 %** de {anio_base} "
+        f"({total_base} formularios). Mové un control para simular cambios."
+    )
+else:
+    st.caption(
+        f"Cambio simulado: **{delta_sim_og:+d}** actividades distintas en total por OG "
+        f"(respecto del reparto base de {anio_base}). Formularios del plan: **{total_base}**."
+    )
 
 og2_nivel = niveles_og[1]
 og2_act_base = int(base.loc[base["id"] == 2, "actividades"].iloc[0])
@@ -369,12 +373,6 @@ og2_act_sim = int(sim.loc[sim["id"] == 2, "actividades_sim"].iloc[0])
 ext_imp = impacto.loc[impacto["funcion"] == "Extensión"].iloc[0]
 inv_imp = impacto.loc[impacto["funcion"] == "Investigación"].iloc[0]
 conv = next(f for f in metricas_por_fn["Extensión"] if f["indicador"] == "Convenios firmados")
-
-st.caption(
-    f"Suma simulada por OG: **{total_sim}** (base {suma_unicas_og}). "
-    f"Formularios del plan: **{total_base}**. "
-    f"OG2: {og2_act_base} → **{og2_act_sim}** ({og2_nivel:.0f} % del nivel memoria)."
-)
 
 if og2_nivel > 100.5:
     st.success(
