@@ -3,9 +3,12 @@
 
 from __future__ import annotations
 
+import json
 import re
 import unicodedata
 from collections import Counter
+from functools import lru_cache
+from pathlib import Path
 
 import pandas as pd
 
@@ -17,6 +20,9 @@ from lib.pei_sheets import (
     _texto_actividad,
     fetch_planilla_pei,
 )
+
+ROOT = Path(__file__).resolve().parent.parent
+CATALOGO_OE_PATH = ROOT / "data" / "objetivos_especificos_catalogo.json"
 
 SPANISH_STOPWORDS = frozenset(
     """
@@ -84,6 +90,47 @@ def _score_actividad_objetivo(actividad: str, obj_especifico: str, og_nombre: st
     return max(scores)
 
 
+@lru_cache(maxsize=1)
+def _catalogo_objetivos_especificos() -> dict[int, list[dict]]:
+    """Objetivos específicos del PEI agrupados por OG (catálogo institucional)."""
+    with open(CATALOGO_OE_PATH, encoding="utf-8") as f:
+        data = json.load(f)
+    by_og: dict[int, list[dict]] = {}
+    for item in data.get("objetivos", []):
+        by_og.setdefault(int(item["og_id"]), []).append(item)
+    return by_og
+
+
+def _mejor_match_catalogo(actividad: str, og_id: int, og_nombre: str) -> tuple[float, str]:
+    """Mejor puntaje léxico contra cualquier OE del catálogo para el OG dado."""
+    subset = _catalogo_objetivos_especificos().get(og_id, [])
+    if not subset:
+        return 0.0, ""
+    best_score = 0.0
+    best_label = ""
+    for item in subset:
+        texto = str(item.get("texto", "")).strip()
+        if not texto:
+            continue
+        score = _score_actividad_objetivo(actividad, texto, og_nombre)
+        if score > best_score:
+            best_score = score
+            codigo = str(item.get("codigo", "")).strip()
+            best_label = f"{codigo}. {texto}" if codigo else texto
+    return best_score, best_label
+
+
+def _puntaje_consistencia(actividad: str, obj_esp: str, og_id: int, og_nombre: str) -> tuple[float, str]:
+    """Combina OE declarado en planilla con mejor match del catálogo por OG."""
+    score_decl = _score_actividad_objetivo(actividad, obj_esp, og_nombre)
+    score_cat, oe_cat = _mejor_match_catalogo(actividad, og_id, og_nombre)
+    if score_cat > score_decl:
+        return score_cat, oe_cat
+    if obj_esp.strip():
+        return score_decl, obj_esp.strip()
+    return score_decl, oe_cat
+
+
 def actividades_consistencia_df(anio: int) -> pd.DataFrame:
     """Una fila por actividad con puntaje de consistencia respecto del OG donde se cargó."""
     df = fetch_planilla_pei()
@@ -108,9 +155,9 @@ def actividades_consistencia_df(anio: int) -> pd.DataFrame:
             if og_id - 1 < len(cols_obj) and _celda_con_actividad(row.get(cols_obj[og_id - 1])):
                 obj_esp = _texto_actividad(row[cols_obj[og_id - 1]])
             og_nombre = OG_NOMBRES[og_id]
-            score = _score_actividad_objetivo(actividad, obj_esp, og_nombre)
+            score, oe_correlacionado = _puntaje_consistencia(actividad, obj_esp, og_id, og_nombre)
             tokens_a = _tokenize(actividad)
-            tokens_ref = _tokenize(f"{obj_esp} {og_nombre}")
+            tokens_ref = _tokenize(f"{oe_correlacionado} {og_nombre}")
             coincidencias = [t for t in tokens_a if t in set(tokens_ref)]
             top_terms = ", ".join(w for w, _ in Counter(coincidencias).most_common(4))
             rows.append(
@@ -120,6 +167,7 @@ def actividades_consistencia_df(anio: int) -> pd.DataFrame:
                     "og_nombre": og_nombre,
                     "actividad": act,
                     "objetivo_especifico": obj_esp,
+                    "objetivo_especifico_correlacionado": oe_correlacionado,
                     "puntaje_raw": score,
                     "coincidencias": top_terms,
                 }
