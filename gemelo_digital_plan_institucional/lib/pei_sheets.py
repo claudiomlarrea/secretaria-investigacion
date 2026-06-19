@@ -99,6 +99,13 @@ def fetch_planilla_pei(*, force: bool = False) -> pd.DataFrame:
 
     _CACHE["df"] = df
     _CACHE["fetched_at"] = now
+    if force:
+        try:
+            from lib.pei_consistencia import invalidar_cache_consistencia
+
+            invalidar_cache_consistencia()
+        except ImportError:
+            pass
     return df.copy()
 
 

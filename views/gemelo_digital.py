@@ -13,11 +13,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from lib.pei_consistencia import (
-    actividades_consistencia_df,
-    indice_consistencia_general,
-    indice_consistencia_por_objetivo_df,
-)
+from lib.pei_consistencia import consistencia_resumen
 from lib.pei_sheets import leyenda_conteos_pei, resumen_conteos_planilla
 from lib.pei_model import (
     ANIOS_DISPONIBLES,
@@ -44,14 +40,32 @@ render_header(
     "estratégica entre objetivos generales y funciones sustantivas."
 )
 
+
+@st.cache_data(show_spinner=False)
+def _baseline_cached(anio: int) -> dict:
+    return load_baseline(anio)
+
+
+@st.cache_data(show_spinner=False)
+def _variacion_anual_cached(anio: int) -> pd.DataFrame:
+    return objetivos_variacion_anual_df(anio)
+
+
+@st.cache_data(show_spinner="Calculando consistencia actividad–objetivo…")
+def _consistencia_cached(anio: int) -> tuple[float, pd.DataFrame, pd.DataFrame]:
+    return consistencia_resumen(anio)
+
 anio_base = st.sidebar.selectbox("Año base", ANIOS_DISPONIBLES, index=ANIOS_DISPONIBLES.index(2025))
 if st.sidebar.button("Actualizar planilla", help="Vuelve a leer la planilla Google Sheets."):
     from lib.pei_sheets import fetch_planilla_pei
 
     fetch_planilla_pei(force=True)
+    _baseline_cached.clear()
+    _variacion_anual_cached.clear()
+    _consistencia_cached.clear()
     st.rerun()
 
-data = load_baseline(anio_base)
+data = _baseline_cached(anio_base)
 if data.get("fuente_url"):
     st.sidebar.markdown(f"[Planilla Google Sheets]({data['fuente_url']})")
 base = objetivos_df(data)
@@ -115,9 +129,7 @@ st.markdown(
 )
 
 try:
-    indice_consistencia = indice_consistencia_general(anio_base)
-    consistencia_og = indice_consistencia_por_objetivo_df(anio_base)
-    detalle_consistencia = actividades_consistencia_df(anio_base)
+    indice_consistencia, consistencia_og, detalle_consistencia = _consistencia_cached(anio_base)
 
     ic1, ic2, ic3 = st.columns(3)
     ic1.metric("Índice general de consistencia", f"{indice_consistencia:.1f}")
@@ -236,7 +248,7 @@ with guia_tabs[1]:
 st.divider()
 st.subheader(f"Punto de partida · objetivos generales ({anio_base})")
 
-variacion_base = objetivos_variacion_anual_df(anio_base)
+variacion_base = _variacion_anual_cached(anio_base)
 prev_anio = anio_anterior(anio_base)
 delta_total = delta_actividades_anio(anio_base)
 

@@ -106,13 +106,17 @@ def _mejor_match_catalogo(actividad: str, og_id: int, og_nombre: str) -> tuple[f
     subset = _catalogo_objetivos_especificos().get(og_id, [])
     if not subset:
         return 0.0, ""
-    best_score = 0.0
+    og_score = 0.0
+    if og_nombre.strip():
+        og_score = 0.55 * _cosine_tfidf(actividad, og_nombre) + 0.45 * _overlap_score(actividad, og_nombre)
+    best_score = og_score
     best_label = ""
     for item in subset:
         texto = str(item.get("texto", "")).strip()
         if not texto:
             continue
-        score = _score_actividad_objetivo(actividad, texto, og_nombre)
+        spec = 0.80 * _cosine_tfidf(actividad, texto) + 0.20 * _overlap_score(actividad, texto)
+        score = max(spec, og_score)
         if score > best_score:
             best_score = score
             codigo = str(item.get("codigo", "")).strip()
@@ -131,6 +135,12 @@ def _puntaje_consistencia(actividad: str, obj_esp: str, og_id: int, og_nombre: s
     return score_decl, oe_cat
 
 
+def invalidar_cache_consistencia() -> None:
+    """Limpia resultados cacheados (p. ej. tras actualizar la planilla)."""
+    actividades_consistencia_df.cache_clear()
+
+
+@lru_cache(maxsize=8)
 def actividades_consistencia_df(anio: int) -> pd.DataFrame:
     """Una fila por actividad con puntaje de consistencia respecto del OG donde se cargó."""
     df = fetch_planilla_pei()
@@ -181,7 +191,27 @@ def actividades_consistencia_df(anio: int) -> pd.DataFrame:
         out["consistencia"] = ((out["puntaje_raw"] - pmin) / (pmax - pmin) * 100).round(1)
     else:
         out["consistencia"] = 50.0
-    return out
+    return out.copy()
+
+
+def consistencia_resumen(anio: int) -> tuple[float, pd.DataFrame, pd.DataFrame]:
+    """Índice global, resumen por OG y detalle (un solo cálculo cacheado)."""
+    detalle = actividades_consistencia_df(anio)
+    if detalle.empty:
+        vacio = pd.DataFrame(
+            columns=[
+                "og_id",
+                "og",
+                "objetivo_general",
+                "indice_consistencia",
+                "actividades_distintas",
+                "cargas_analizadas",
+            ]
+        )
+        return 0.0, vacio, detalle
+    indice = round(float(detalle["consistencia"].mean()), 1)
+    por_og = indice_consistencia_por_objetivo_df(anio)
+    return indice, por_og, detalle
 
 
 def indice_consistencia_por_objetivo_df(anio: int) -> pd.DataFrame:
