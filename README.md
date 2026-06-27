@@ -1,6 +1,24 @@
-# Secretaría de Investigación — sitio web
+# Secretaría de Investigación · UCCuyo
 
-Sitio estático de la **Secretaría de Investigación** de la Universidad Católica de Cuyo (UCCuyo). Misma paleta y navegación por secciones que el sitio del Observatorio de IA.
+Este repositorio incluye **MDeIA UCCuyo** (madurez digital e IA) y el sitio web estático de la Secretaría.
+
+## MDeIA UCCuyo — Madurez digital e IA
+
+Sistema de medición del **Índice de Madurez Digital (IMD)** para la UCCuyo.
+Detalle en [`MODELO-MDEIA.md`](MODELO-MDEIA.md).
+
+```bash
+cd ~/Documents/secretaria-investigacion
+streamlit run streamlit_app.py
+```
+
+Abrí: http://localhost:8501
+
+> El **Gemelo Digital del PEI** es otro sistema: `streamlit run gemelo_streamlit_app.py`
+
+---
+
+## Sitio web estático
 
 ## Ver en local
 
@@ -37,6 +55,9 @@ Usá la URL del sitio en vivo en el [Google Sites actual](https://sites.google.c
 
 | Ruta | Uso |
 |------|-----|
+| `streamlit_app.py` | **MDeIA UCCuyo** — madurez digital e IA |
+| `modelo_mdeia/` | Catálogo, lógica IMD y app Streamlit |
+| `gemelo_streamlit_app.py` | Gemelo Digital del PEI (app aparte) |
 | `index.html` | Página única con todas las secciones |
 | `css/` | Estilos institucionales |
 | `js/main.js` | Menú móvil |

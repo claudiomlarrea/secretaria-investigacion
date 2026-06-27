@@ -1,0 +1,81 @@
+{
+  "id": "piloto-fase1-2026",
+  "nombre": "Línea de base IMD (36 indicadores)",
+  "descripcion": "Primer diagnóstico con 36 indicadores seleccionados para establecer la línea de base institucional sin relevar el catálogo completo (129). Alineado al plan MDeIA UCCuyo (meses 1–6). No es un «piloto» de persona ni un experimento: es la **evaluación inicial** oficial.",
+  "duracion_sesion_minutos": 90,
+  "participantes_sugeridos": [
+    "Responsable de TI / Sistemas institucionales",
+    "Secretaría de Investigación / Observatorio de IA",
+    "Representante de Rectorado o Consejo Superior",
+    "Coordinación de plataforma virtual / docencia",
+    "Opcional: decano o referente de innovación docente"
+  ],
+  "materiales": [
+    "Acceso a esta aplicación (MDeIA UCCuyo)",
+    "Datos de referencia: presupuesto TI, dotación de personal TI, encuesta OIA de uso de IA",
+    "Proyección para consensuar niveles 0–4 en sala"
+  ],
+  "agenda": [
+    {"minutos": "0–10", "actividad": "Presentación de MDeIA UCCuyo, fórmula IMD y objetivo de la sesión (línea de base)."},
+    {"minutos": "10–25", "actividad": "Bloque R7–R6: estrategia digital, gobierno TI y gobernanza de datos."},
+    {"minutos": "25–40", "actividad": "Bloque R4–R5: docencia híbrida, servicios al estudiante y satisfacción."},
+    {"minutos": "40–55", "actividad": "Bloque R3–R2: ciberseguridad, servicios digitalizados y recursos (presupuesto/personal)."},
+    {"minutos": "55–70", "actividad": "Dimensión IA (OIA): encuesta estudiantil, guía ética, observatorio, formación docente."},
+    {"minutos": "70–85", "actividad": "Cálculo del IMD de línea de base, revisión de brechas y acuerdo de 3 prioridades Fase 2."},
+    {"minutos": "85–90", "actividad": "Exportar informe ejecutivo y definir responsables y plazos."}
+  ],
+  "metricas_exito_piloto": [
+    "36/36 indicadores de la línea de base respondidos",
+    "IMD de línea de base calculado y documentado",
+    "Lista priorizada de al menos 3 acciones Fase 2",
+    "Informe HTML exportado para autoridades"
+  ],
+  "bloques": [
+    {"id": "B1", "titulo": "Visión y gobierno (R7)", "retos": ["R7"]},
+    {"id": "B2", "titulo": "Datos e inteligencia (R6)", "retos": ["R6"]},
+    {"id": "B3", "titulo": "Estudiantes y servicios (R5)", "retos": ["R5"]},
+    {"id": "B4", "titulo": "Docencia híbrida (R4)", "retos": ["R4"]},
+    {"id": "B5", "titulo": "Seguridad y servicios TI (R3)", "retos": ["R3"]},
+    {"id": "B6", "titulo": "Recursos e infraestructura (R2)", "retos": ["R2"]},
+    {"id": "B7", "titulo": "Cultura digital (R1)", "retos": ["R1"]},
+    {"id": "B8", "titulo": "Inteligencia Artificial (MDeIA)", "retos": []}
+  ],
+  "indicadores": [
+    {"codigo": "GOM_ESTRATEGIATI", "bloque": "B1", "prioridad": "alta"},
+    {"codigo": "GOS_ESTRATEGIAUNI", "bloque": "B1", "prioridad": "alta"},
+    {"codigo": "GOS_LIDERARECTORPLANEST", "bloque": "B1", "prioridad": "alta"},
+    {"codigo": "GOM_MODELOGOBIERNOTI", "bloque": "B1", "prioridad": "alta"},
+    {"codigo": "TDM_PLANTD", "bloque": "B1", "prioridad": "alta"},
+    {"codigo": "GOS_COMISIONESTRATEGIATI", "bloque": "B1", "prioridad": "media"},
+    {"codigo": "GES_BDUNICA", "bloque": "B2", "prioridad": "alta"},
+    {"codigo": "GEM_DATAWAREHOUSE", "bloque": "B2", "prioridad": "alta"},
+    {"codigo": "TDM_ANALISISPREDI", "bloque": "B2", "prioridad": "media"},
+    {"codigo": "INS_MAPADATOS", "bloque": "B2", "prioridad": "media"},
+    {"codigo": "INM_DATOSENABIERTO", "bloque": "B2", "prioridad": "media"},
+    {"codigo": "INM_APPUNIPERSONALIZADA", "bloque": "B3", "prioridad": "alta"},
+    {"codigo": "TDM_CRM", "bloque": "B3", "prioridad": "media"},
+    {"codigo": "GEN_PSERVTISATISFACCION", "bloque": "B3", "prioridad": "alta"},
+    {"codigo": "GEM_PSOPGESTIONCAU", "bloque": "B3", "prioridad": "media"},
+    {"codigo": "GEN_PSOPTIDOCENCIA", "bloque": "B4", "prioridad": "alta"},
+    {"codigo": "GOM_COMINNOVADOCENTE", "bloque": "B4", "prioridad": "alta"},
+    {"codigo": "TDM_LMSAEDA", "bloque": "B4", "prioridad": "alta"},
+    {"codigo": "TDS_TECPREABANDONO", "bloque": "B4", "prioridad": "media"},
+    {"codigo": "INM_MADUREZMOOCS", "bloque": "B4", "prioridad": "media"},
+    {"codigo": "GEN_PSOPTIGESTION", "bloque": "B5", "prioridad": "alta"},
+    {"codigo": "INS_PLANSEGURIDADINTEGRAL", "bloque": "B5", "prioridad": "alta"},
+    {"codigo": "GES_RESPONSABLESEGURIDAD", "bloque": "B5", "prioridad": "alta"},
+    {"codigo": "TDS_SEGURIDADIA", "bloque": "B5", "prioridad": "media"},
+    {"codigo": "GEC_PPRESUTIXTOTALUNI", "bloque": "B6", "prioridad": "alta"},
+    {"codigo": "GEN_PERSONALTICENTRAL", "bloque": "B6", "prioridad": "alta"},
+    {"codigo": "GOS_PLANFORMAPERSONALTI", "bloque": "B6", "prioridad": "media"},
+    {"codigo": "GEC_PRESUTIXESTUDIANTE", "bloque": "B6", "prioridad": "media"},
+    {"codigo": "GOM_PLANFORMACD", "bloque": "B7", "prioridad": "alta"},
+    {"codigo": "GOM_PLANSFA", "bloque": "B7", "prioridad": "media"},
+    {"codigo": "MDEIA_IA_ENCUESTA", "bloque": "B8", "prioridad": "alta"},
+    {"codigo": "MDEIA_IA_OBSERVATORIO", "bloque": "B8", "prioridad": "alta"},
+    {"codigo": "MDEIA_IA_GUIA_ETICA", "bloque": "B8", "prioridad": "alta"},
+    {"codigo": "MDEIA_IA_ALFABETIZACION", "bloque": "B8", "prioridad": "alta"},
+    {"codigo": "MDEIA_IA_INTEGRIDAD", "bloque": "B8", "prioridad": "alta"},
+    {"codigo": "MDEIA_IA_LEARNING_ANALYTICS", "bloque": "B8", "prioridad": "media"}
+  ]
+}

@@ -1,0 +1,116 @@
+[
+  {
+    "codigo": "MDEIA_IA_ENCUESTA",
+    "texto": "La institución dispone de encuesta periódica de uso de IA en la comunidad estudiantil (OIA) con tasa de respuesta ≥ 70 %",
+    "objetivo_num": null,
+    "objetivo": "Gobernanza ética e IA generativa",
+    "comun": false,
+    "dimension_ia": true,
+    "tipo": "umbral",
+    "umbral": 70,
+    "unidad": "%"
+  },
+  {
+    "codigo": "MDEIA_IA_GUIA_ETICA",
+    "texto": "Existe guía institucional de uso responsable de IA generativa aprobada por el Consejo Superior, con niveles de riesgo (mínimo, intermedio, alto)",
+    "objetivo_num": null,
+    "objetivo": "Gobernanza ética e IA generativa",
+    "comun": false,
+    "dimension_ia": true,
+    "tipo": "si_no"
+  },
+  {
+    "codigo": "MDEIA_IA_ALFABETIZACION",
+    "texto": "Programa formal de alfabetización algorítmica y pedagogía con IA para docentes",
+    "objetivo_num": null,
+    "objetivo": "Formación docente en IA",
+    "comun": false,
+    "dimension_ia": true,
+    "tipo": "nivel"
+  },
+  {
+    "codigo": "MDEIA_IA_INTEGRIDAD",
+    "texto": "Cátedras con guías explícitas de integridad académica que contemplan el uso de IA",
+    "objetivo_num": null,
+    "objetivo": "Integridad académica e IA",
+    "comun": false,
+    "dimension_ia": true,
+    "tipo": "porcentaje",
+    "umbral": 60,
+    "unidad": "%"
+  },
+  {
+    "codigo": "MDEIA_IA_EVAL_AUTENTICA",
+    "texto": "Diseño institucional de evaluaciones auténticas que reducen dependencia de IA generativa no declarada",
+    "objetivo_num": null,
+    "objetivo": "Evaluación auténtica",
+    "comun": false,
+    "dimension_ia": true,
+    "tipo": "nivel"
+  },
+  {
+    "codigo": "MDEIA_IA_DATAWAREHOUSE",
+    "texto": "Datawarehouse académico integrado (SIU-Wichi unificado con SIU-Guaraní) para analítica institucional",
+    "objetivo_num": 4,
+    "objetivo": "Apoyar la toma de decisiones gobernando los datos",
+    "comun": false,
+    "dimension_ia": true,
+    "tipo": "nivel"
+  },
+  {
+    "codigo": "MDEIA_IA_DESERCION",
+    "texto": "Modelo predictivo de deserción académica en producción con precisión (Acc) ≥ 80 %",
+    "objetivo_num": 4,
+    "objetivo": "Apoyar la toma de decisiones gobernando los datos",
+    "comun": false,
+    "dimension_ia": true,
+    "tipo": "umbral",
+    "umbral": 80,
+    "unidad": "%"
+  },
+  {
+    "codigo": "MDEIA_IA_OBSERVATORIO",
+    "texto": "Observatorio de IA activo con reportes públicos sobre adopción y riesgos de IA en la universidad",
+    "objetivo_num": null,
+    "objetivo": "Gobernanza ética e IA generativa",
+    "comun": false,
+    "dimension_ia": true,
+    "tipo": "nivel"
+  },
+  {
+    "codigo": "MDEIA_IA_CIBERSEG",
+    "texto": "Prevención de ciberamenazas con técnicas basadas en inteligencia artificial",
+    "objetivo_num": 9,
+    "objetivo": "Mantener la información segura",
+    "comun": false,
+    "dimension_ia": true,
+    "tipo": "nivel"
+  },
+  {
+    "codigo": "MDEIA_IA_LEARNING_ANALYTICS",
+    "texto": "Iniciativa de learning analytics / IA para personalización formativa y alertas tempranas",
+    "objetivo_num": 8,
+    "objetivo": "Universidad híbrida y personalización",
+    "comun": false,
+    "dimension_ia": true,
+    "tipo": "nivel"
+  },
+  {
+    "codigo": "MDEIA_IA_EMPRENDIMIENTO",
+    "texto": "Materias o reconocimientos transversales de emprendimiento e innovación con IA",
+    "objetivo_num": null,
+    "objetivo": "Emprendimiento con IA (MetaRed X)",
+    "comun": false,
+    "dimension_ia": true,
+    "tipo": "nivel"
+  },
+  {
+    "codigo": "MDEIA_IA_TRANSFERENCIA",
+    "texto": "Proyectos de transferencia tecnológica o incubación con componente de IA conectados a demanda regional",
+    "objetivo_num": null,
+    "objetivo": "Emprendimiento con IA (MetaRed X)",
+    "comun": false,
+    "dimension_ia": true,
+    "tipo": "nivel"
+  }
+]

@@ -1,0 +1,243 @@
+{
+  "meta": {
+    "nombre": "MDeIA UCCuyo",
+    "nombre_extendido": "Modelo de Madurez Digital e Inteligencia Artificial · UCCuyo",
+    "version": "1.0.0",
+    "institucion": "Universidad Católica de Cuyo",
+    "unidad": "Observatorio de Inteligencia Artificial · Secretaría de Investigación",
+    "referencias": [
+      "UDigital madurez (MetaRed Iberoamérica, 2022)",
+      "MDeIA — adaptación UCCuyo (OIA, 2026)"
+    ],
+    "formula_imd": "(P_satisfechas / P_totales) × 100",
+    "indicadores_obligatorios": 141,
+    "indicadores_comunes_metaestudio": 107,
+    "indicadores_catalogo_udigital": 117,
+    "indicadores_ia_extension": 12,
+    "buenas_practicas_referencia": 137
+  },
+  "areas": [
+    {
+      "id": "gestion",
+      "nombre": "Gestión digital",
+      "color": "#044A30"
+    },
+    {
+      "id": "gobierno",
+      "nombre": "Gobierno digital",
+      "color": "#0A5C3E"
+    },
+    {
+      "id": "innovacion",
+      "nombre": "Innovación digital",
+      "color": "#EAA958"
+    },
+    {
+      "id": "transformacion",
+      "nombre": "Transformación digital",
+      "color": "#934B3F"
+    },
+    {
+      "id": "ia",
+      "nombre": "Inteligencia Artificial (extensión MDeIA)",
+      "color": "#2D6A4F"
+    }
+  ],
+  "retos": [
+    {
+      "id": "R1",
+      "nombre": "Contar con la cultura y las competencias digitales necesarias para abordar la transformación digital",
+      "objetivos": ["O15", "O16"]
+    },
+    {
+      "id": "R2",
+      "nombre": "Invertir los recursos necesarios para madurar digitalmente",
+      "objetivos": ["O12", "O13", "O14"]
+    },
+    {
+      "id": "R3",
+      "nombre": "Obtener ventaja competitiva gracias a unos servicios innovadores, seguros y de calidad",
+      "objetivos": ["O9", "O10", "O11"]
+    },
+    {
+      "id": "R4",
+      "nombre": "Ofrecer formación de calidad y competitiva de manera híbrida",
+      "objetivos": ["O7", "O8"]
+    },
+    {
+      "id": "R5",
+      "nombre": "Conseguir una experiencia satisfactoria para nuestros estudiantes",
+      "objetivos": ["O5", "O6"]
+    },
+    {
+      "id": "R6",
+      "nombre": "Disponer del conocimiento e información adecuada para la toma de decisiones",
+      "objetivos": ["O4"]
+    },
+    {
+      "id": "R7",
+      "nombre": "Alcanzar los objetivos estratégicos de la universidad digital (visión)",
+      "objetivos": ["O1", "O2", "O3"]
+    }
+  ],
+  "objetivos": [
+    {
+      "id": "O1",
+      "numero": 1,
+      "nombre": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
+      "reto": "R7",
+      "area_principal": "gobierno"
+    },
+    {
+      "id": "O2",
+      "numero": 2,
+      "nombre": "Establecer un sistema de gobierno de las TI",
+      "reto": "R7",
+      "area_principal": "gobierno"
+    },
+    {
+      "id": "O3",
+      "numero": 3,
+      "nombre": "Colaborar con otras instituciones para mejorar nuestra madurez digital",
+      "reto": "R7",
+      "area_principal": "gestion"
+    },
+    {
+      "id": "O4",
+      "numero": 4,
+      "nombre": "Apoyar la toma de decisiones gobernando los datos e inteligencia de negocio",
+      "reto": "R6",
+      "area_principal": "transformacion"
+    },
+    {
+      "id": "O5",
+      "numero": 5,
+      "nombre": "Comunicarnos de forma personalizada con nuestros estudiantes",
+      "reto": "R5",
+      "area_principal": "gestion"
+    },
+    {
+      "id": "O6",
+      "numero": 6,
+      "nombre": "Satisfacer las expectativas emergentes de nuestros estudiantes",
+      "reto": "R5",
+      "area_principal": "transformacion"
+    },
+    {
+      "id": "O7",
+      "numero": 7,
+      "nombre": "Impulsar formación de calidad e innovadora con tecnologías emergentes",
+      "reto": "R4",
+      "area_principal": "innovacion"
+    },
+    {
+      "id": "O8",
+      "numero": 8,
+      "nombre": "Definir qué formación es presencial y cuál online (universidad híbrida)",
+      "reto": "R4",
+      "area_principal": "gestion"
+    },
+    {
+      "id": "O9",
+      "numero": 9,
+      "nombre": "Mantener la información segura y los servicios disponibles",
+      "reto": "R3",
+      "area_principal": "gobierno"
+    },
+    {
+      "id": "O10",
+      "numero": 10,
+      "nombre": "Ofrecer de manera eficiente los servicios universitarios digitalizados",
+      "reto": "R3",
+      "area_principal": "gestion"
+    },
+    {
+      "id": "O11",
+      "numero": 11,
+      "nombre": "Definir un plan de externalización que asegure la calidad de los servicios",
+      "reto": "R3",
+      "area_principal": "gobierno"
+    },
+    {
+      "id": "O12",
+      "numero": 12,
+      "nombre": "Disponer del presupuesto suficiente para impulsar la transformación digital",
+      "reto": "R2",
+      "area_principal": "gestion"
+    },
+    {
+      "id": "O13",
+      "numero": 13,
+      "nombre": "Disponer del personal suficiente y capacitado",
+      "reto": "R2",
+      "area_principal": "gestion"
+    },
+    {
+      "id": "O14",
+      "numero": 14,
+      "nombre": "Disponer de infraestructuras y tecnologías adecuadas",
+      "reto": "R2",
+      "area_principal": "innovacion"
+    },
+    {
+      "id": "O15",
+      "numero": 15,
+      "nombre": "Desarrollar competencias digitales en los universitarios",
+      "reto": "R1",
+      "area_principal": "gestion"
+    },
+    {
+      "id": "O16",
+      "numero": 16,
+      "nombre": "Incrementar cultura e innovación digital",
+      "reto": "R1",
+      "area_principal": "innovacion"
+    }
+  ],
+  "fases": [
+    {
+      "id": "F1",
+      "nombre": "Diagnóstico y sensibilización",
+      "meses": "1–6",
+      "enfoque_udigital": "Evaluar madurez tecnológica base y relevar uso de IA (OIA)",
+      "enfoque_emprendimiento": "Mapear actores, incubadoras y diplomaturas (MetaRed X)",
+      "metricas": [
+        "Índice de respuesta encuesta IA (R_IA ≥ 70 %)",
+        "Línea de base del IMD con indicadores comunes",
+        "Proyectos de emprendimiento internos identificados"
+      ]
+    },
+    {
+      "id": "F2",
+      "nombre": "Capacitación, normas y procesos",
+      "meses": "6–18",
+      "enfoque_udigital": "Guías éticas de IA y capacitación docente en alfabetización algorítmica",
+      "enfoque_emprendimiento": "Unidad de Emprendimiento y mentorías MetaRed X",
+      "metricas": [
+        "% docentes formados en pedagogía con IA",
+        "% cátedras con guías de integridad académica e IA",
+        "Mentores certificados (Toolkit MetaRed X)"
+      ]
+    },
+    {
+      "id": "F3",
+      "nombre": "Universidad data-driven e impacto externo",
+      "meses": "18–36",
+      "enfoque_udigital": "Integración SIU-Guaraní/Wichi y modelos predictivos de deserción",
+      "enfoque_emprendimiento": "Incubadora conectada al ecosistema regional",
+      "metricas": [
+        "Precisión modelo algorítmico de deserción (Acc ≥ 80 %)",
+        "IMD global > 60 % (referencia regional)",
+        "Empresas incubadas con transferencia o patentes"
+      ]
+    }
+  ],
+  "niveles_madurez": [
+    {"valor": 0, "etiqueta": "No implementado", "satisface": false},
+    {"valor": 1, "etiqueta": "Inicial / ad hoc", "satisface": false},
+    {"valor": 2, "etiqueta": "En desarrollo", "satisface": false},
+    {"valor": 3, "etiqueta": "Implementado", "satisface": true},
+    {"valor": 4, "etiqueta": "Optimizado / referente", "satisface": true}
+  ],
+  "umbral_satisfaccion": 3
+}

@@ -1,0 +1,15 @@
+{
+  "nombre": "Encuesta de uso de IA en estudiantes · OIA UCCuyo",
+  "descripcion": "Respuestas exportadas desde Google Forms (Excel/CSV) o planilla vinculada en Google Sheets.",
+  "google_sheet_id": "",
+  "google_sheet_gid": "0",
+  "google_sheet_opcional": true,
+  "nota_sin_sheet": "No hace falta Google Sheet: podés cargar cifras a mano o exportar Excel desde Google Forms cuando haya respuestas.",
+  "poblacion_objetivo_estudiantes": null,
+  "encuesta_clara_url": "https://cuantitativo-cualitativo-encuesta.streamlit.app/",
+  "observatorio_url": "https://claudiomlarrea.github.io/observatorio-ia/",
+  "indicadores_mdeia": {
+    "tasa_respuesta": "MDEIA_IA_ENCUESTA",
+    "observatorio_activo": "MDEIA_IA_OBSERVATORIO"
+  }
+}

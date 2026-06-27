@@ -1,44 +1,14 @@
 # -*- coding: utf-8 -*-
-"""Gemelo Digital Plan Institucional — Observatorio de IA · UCCuyo."""
+"""MDeIA UCCuyo — Madurez digital e IA · UCCuyo.
 
-import sys
+Ejecutar:
+    streamlit run streamlit_app.py
+
+(Gemelo Digital del PEI: streamlit run gemelo_streamlit_app.py)
+"""
+
 from pathlib import Path
+import runpy
 
-import streamlit as st
-
-REPO = Path(__file__).resolve().parent
-GEMELO = REPO / "gemelo_digital_plan_institucional"
-VIEWS = REPO / "views"
-for p in (str(GEMELO), str(REPO), str(VIEWS)):
-    if p not in sys.path:
-        sys.path.insert(0, p)
-
-from constants import APP_NAME
-from lib.app_tour import maybe_auto_start_tour, render_tour_sidebar
-from ui_theme import inject_theme
-
-st.set_page_config(
-    page_title=APP_NAME,
-    page_icon="🎓",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
-inject_theme()
-maybe_auto_start_tour()
-render_tour_sidebar()
-
-pages = [
-    st.Page(
-        str(VIEWS / "analisis_actividades.py"),
-        title="Análisis de actividades del plan",
-        icon="📊",
-        default=True,
-    ),
-    st.Page(
-        str(VIEWS / "gemelo_digital.py"),
-        title="Gemelo digital",
-        icon="🎓",
-    ),
-]
-
-st.navigation(pages).run()
+_APP = Path(__file__).resolve().parent / "modelo_mdeia" / "app.py"
+runpy.run_path(str(_APP), run_name="__main__")
