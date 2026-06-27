@@ -1,7 +1,7 @@
 [
   {
     "codigo": "GOM_ESTRATEGIATI",
-    "texto": "¿Dispone su institución de una estrategia",
+    "texto": "¿Dispone su institución de una estrategia digital incluida o alineada con la estrategia de la institución?",
     "objetivo_num": null,
     "objetivo": null,
     "comun": true,
@@ -9,7 +9,7 @@
   },
   {
     "codigo": "GOS_ESTRATEGIAUNI",
-    "texto": "¿Dispone su institución de una estrategia de negocio institucional",
+    "texto": "¿Dispone su institución de una estrategia de negocio institucional definida formalmente?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -17,7 +17,7 @@
   },
   {
     "codigo": "GOS_LIDERARECTORPLANEST",
-    "texto": "¿Lidera el Rector y su equipo de gobierno (EG) el diseño de la",
+    "texto": "¿Lidera el Rector y su equipo de gobierno (EG) el diseño de la planificación estratégica de las TI y la transformación digital?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -33,7 +33,7 @@
   },
   {
     "codigo": "TDM_PLANTD",
-    "texto": "¿Dispone su institución de un Plan de Transformación Digital",
+    "texto": "¿Dispone su institución de un Plan de Transformación Digital aprobado por el EG?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -41,7 +41,7 @@
   },
   {
     "codigo": "TDM_NIVELMAXRESTD",
-    "texto": "Nivel de responsabilidad que ocupa el máximo responsable de la",
+    "texto": "Nivel de responsabilidad que ocupa el máximo responsable de la Transformación Digital en su institución",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -49,7 +49,7 @@
   },
   {
     "codigo": "TDS_COMISIONTD",
-    "texto": "¿Existe una Comisión de Transformación Digital, compuesta por",
+    "texto": "¿Existe una Comisión de Transformación Digital, compuesta por expertos internos y/o externos?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -57,7 +57,7 @@
   },
   {
     "codigo": "TDC_PPROYECTOSTITD",
-    "texto": "% de proyectos de la Cartera implementados que son de",
+    "texto": "% de proyectos de la Cartera implementados que son de transformación digital",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -65,7 +65,7 @@
   },
   {
     "codigo": "TDC_PPRESUPROYECTOSTD",
-    "texto": "% de presupuesto destinado a proyectos de transformación digital",
+    "texto": "% de presupuesto destinado a proyectos de transformación digital de la Cartera de Proyectos",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -73,7 +73,7 @@
   },
   {
     "codigo": "TDN_PROCESOSTD",
-    "texto": "Número de procesos universitarios a los que se ha aplicado",
+    "texto": "Número de procesos universitarios a los que se ha aplicado tecnologías disruptivas para su transformación digital ",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -81,7 +81,7 @@
   },
   {
     "codigo": "GOM_MODELOGOBIERNOTI",
-    "texto": "¿Ha seleccionado el EG un modelo de gobierno TI y está en",
+    "texto": "¿Ha seleccionado el EG un modelo de gobierno TI y está en explotación?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -89,7 +89,7 @@
   },
   {
     "codigo": "GEN_PDIRTIPROYECTOS",
-    "texto": "% de su tiempo que dedica el director del Área TI centralizada a",
+    "texto": "% de su tiempo que dedica el director del Área TI centralizada a diseñar proyectos y supervisar la gestión de los servicios TI",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -97,7 +97,7 @@
   },
   {
     "codigo": "GEN_PDIRTINCIDENCIAS",
-    "texto": "% de su tiempo que dedica el director del Área TI centralizada a la",
+    "texto": "% de su tiempo que dedica el director del Área TI centralizada a la atención de usuarios, resolver incidencias y problemas de los Servicios TI",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -105,7 +105,7 @@
   },
   {
     "codigo": "INC_PDIRTIESTRATEGIA",
-    "texto": "% de su tiempo que dedica el director del Área TI al diseño de",
+    "texto": "% de su tiempo que dedica el director del Área TI al diseño de políticas y planificación de estrategias",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -113,7 +113,7 @@
   },
   {
     "codigo": "GOT_NIVELMAXRESTI",
-    "texto": "Nivel de responsabilidad que ocupa el máximo responsable de las TI",
+    "texto": "Nivel de responsabilidad que ocupa el máximo responsable de las TI de su institución",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -121,7 +121,7 @@
   },
   {
     "codigo": "GOS_COMISIONESTRATEGIATI",
-    "texto": "¿Ha creado el EG un Comité responsable del diseño de la estrategia",
+    "texto": "¿Ha creado el EG un Comité responsable del diseño de la estrategia de las TI y el gobierno de las TI?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -129,7 +129,7 @@
   },
   {
     "codigo": "INS_PRIORIZARPROYTI",
-    "texto": "¿Está definido y publicado el procedimiento que se utiliza para",
+    "texto": "¿Está definido y publicado el procedimiento que se utiliza para priorizar el orden de ejecución de los proyectos TI?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -153,7 +153,7 @@
   },
   {
     "codigo": "INM_GESTVIDAPROYTI",
-    "texto": "¿Se utiliza una metodología formal para gestionar el ciclo de vida de",
+    "texto": "¿Se utiliza una metodología formal para gestionar el ciclo de vida de cada proyecto?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -161,7 +161,7 @@
   },
   {
     "codigo": "GOM_INFORMEXITOEG",
-    "texto": "¿Al finalizar cada proyecto TI el EG recibe un informe que establece",
+    "texto": "¿Al finalizar cada proyecto TI el EG recibe un informe que establece su éxito en relación a los indicadores estratégicos establecidos?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -169,7 +169,7 @@
   },
   {
     "codigo": "TDS_PROYTDPRIORITARIOS",
-    "texto": "¿Se identifican los proyectos TI de transformación digital a la hora de",
+    "texto": "¿Se identifican los proyectos TI de transformación digital a la hora de priorizar los nuevos proyectos a ejecutar?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -177,7 +177,7 @@
   },
   {
     "codigo": "GES_COMPARTETI",
-    "texto": "¿Su institución provee, comparte o utiliza infraestructuras TI",
+    "texto": "¿Su institución provee, comparte o utiliza infraestructuras TI (sistemas o aplicaciones) de otras instituciones o entidades?",
     "objetivo_num": 2,
     "objetivo": "Establecer un sistema de gobierno de las TI",
     "comun": true,
@@ -185,7 +185,7 @@
   },
   {
     "codigo": "GON_NREDESTI",
-    "texto": "¿En cuantas redes nacionales o internacionales relacionadas con las",
+    "texto": "¿En cuantas redes nacionales o internacionales relacionadas con las TI participa de manera activa?",
     "objetivo_num": 2,
     "objetivo": "Establecer un sistema de gobierno de las TI",
     "comun": true,
@@ -193,7 +193,7 @@
   },
   {
     "codigo": "GES_BDUNICA",
-    "texto": "¿Dispone de una base de datos única e integrada para soportar",
+    "texto": "¿Dispone de una base de datos única e integrada para soportar todos los procesos de negocio?",
     "objetivo_num": 3,
     "objetivo": "Colaborar con otras instituciones para mejorar nuestra madurez digital",
     "comun": true,
@@ -217,7 +217,7 @@
   },
   {
     "codigo": "GOS_PLANDATOSENABIERTO",
-    "texto": "¿Existe una estrategia y se ha planificado la publicación de datos en",
+    "texto": "¿Existe una estrategia y se ha planificado la publicación de datos en abierto (opendata)?",
     "objetivo_num": 3,
     "objetivo": "Colaborar con otras instituciones para mejorar nuestra madurez digital",
     "comun": true,
@@ -241,7 +241,7 @@
   },
   {
     "codigo": "TDM_ANALISISPREDI",
-    "texto": "¿Utiliza el EG técnicas de big data y analytics para realizar análisis",
+    "texto": "¿Utiliza el EG técnicas de big data y analytics para realizar análisis predictivos sobre la evolución de la institución?",
     "objetivo_num": 3,
     "objetivo": "Colaborar con otras instituciones para mejorar nuestra madurez digital",
     "comun": true,
@@ -257,7 +257,7 @@
   },
   {
     "codigo": "INM_PREDSOCIAL",
-    "texto": "% de Redes Sociales que se utilizan para realizar una comunicación",
+    "texto": "% de Redes Sociales que se utilizan para realizar una comunicación institucional global",
     "objetivo_num": 4,
     "objetivo": "Apoyar la toma de decisiones y ofrecer mejores servicios gobernando los datos y obteniendo",
     "comun": true,
@@ -273,7 +273,7 @@
   },
   {
     "codigo": "GOS_PLANCOMUNICACION",
-    "texto": "¿Se dispone de un Plan de Comunicación global que garantiza que la",
+    "texto": "¿Se dispone de un Plan de Comunicación global que garantiza que la información fluye entre todos los grupos de interés de la institución?",
     "objetivo_num": 4,
     "objetivo": "Apoyar la toma de decisiones y ofrecer mejores servicios gobernando los datos y obteniendo",
     "comun": true,
@@ -281,7 +281,7 @@
   },
   {
     "codigo": "GEM_PSOPGESTIONCAU",
-    "texto": "¿Dispone la institución de un Centro de Atención al Usuario online",
+    "texto": "¿Dispone la institución de un Centro de Atención al Usuario online para dar soporte a los servicios de gestión?",
     "objetivo_num": 5,
     "objetivo": "Comunicarnos de forma personalizada con nuestros estudiantes",
     "comun": true,
@@ -297,7 +297,7 @@
   },
   {
     "codigo": "INM_GESEXPECTAUTI",
-    "texto": "¿Se gestionan activamente las expectativas de los usuarios de los",
+    "texto": "¿Se gestionan activamente las expectativas de los usuarios de los servicios TI?",
     "objetivo_num": 5,
     "objetivo": "Comunicarnos de forma personalizada con nuestros estudiantes",
     "comun": true,
@@ -305,7 +305,7 @@
   },
   {
     "codigo": "TDM_CRM",
-    "texto": "¿Dispone de una aplicación CRM para gestionar la relación con sus",
+    "texto": "¿Dispone de una aplicación CRM para gestionar la relación con sus estudiantes y otros grupos de interés?",
     "objetivo_num": 5,
     "objetivo": "Comunicarnos de forma personalizada con nuestros estudiantes",
     "comun": true,
@@ -337,7 +337,7 @@
   },
   {
     "codigo": "GEN_PAULASTIBASICAS",
-    "texto": "% de aulas con equipamiento TI BÁSICO (todos los puestos",
+    "texto": "% de aulas con equipamiento TI BÁSICO (todos los puestos conectados a internet y proyector multimedia)",
     "objetivo_num": 6,
     "objetivo": "Satisfacer las expectativas emergentes de nuestros estudiantes",
     "comun": true,
@@ -345,7 +345,7 @@
   },
   {
     "codigo": "INS_UNIDADMULTIMEDIA",
-    "texto": "¿Dispone su institución de una unidad de soporte a la producción de",
+    "texto": "¿Dispone su institución de una unidad de soporte a la producción de contenidos audiovisuales?",
     "objetivo_num": 6,
     "objetivo": "Satisfacer las expectativas emergentes de nuestros estudiantes",
     "comun": true,
@@ -353,7 +353,7 @@
   },
   {
     "codigo": "INS_AULASACTIVELEARN",
-    "texto": "¿Está su institución rediseñando los espacios físicos de aprendizaje",
+    "texto": "¿Está su institución rediseñando los espacios físicos de aprendizaje (aulas y laboratorios) para fomentar el 'Active Learning'?",
     "objetivo_num": 6,
     "objetivo": "Satisfacer las expectativas emergentes de nuestros estudiantes",
     "comun": true,
@@ -361,7 +361,7 @@
   },
   {
     "codigo": "GOM_COMINNOVADOCENTE",
-    "texto": "¿Recomienda la Comisión de Innovación Docente la implantación de",
+    "texto": "¿Recomienda la Comisión de Innovación Docente la implantación de nuevas tecnologías en la formación?",
     "objetivo_num": 6,
     "objetivo": "Satisfacer las expectativas emergentes de nuestros estudiantes",
     "comun": true,
@@ -369,7 +369,7 @@
   },
   {
     "codigo": "GOM_PLANMEJORAULAS",
-    "texto": "¿Dispone de un Plan de Mejora de la infraestructura tecnológica de",
+    "texto": "¿Dispone de un Plan de Mejora de la infraestructura tecnológica de las aulas y laboratorios de docencia a medio plazo?",
     "objetivo_num": 6,
     "objetivo": "Satisfacer las expectativas emergentes de nuestros estudiantes",
     "comun": true,
@@ -377,7 +377,7 @@
   },
   {
     "codigo": "TDS_ANALIZATENDENCIASTD",
-    "texto": "¿Dispone de responsables que analizan las tendencias TI para la",
+    "texto": "¿Dispone de responsables que analizan las tendencias TI para la transformación digital aplicables a la innovación docente?",
     "objetivo_num": 6,
     "objetivo": "Satisfacer las expectativas emergentes de nuestros estudiantes",
     "comun": true,
@@ -393,7 +393,7 @@
   },
   {
     "codigo": "TDM_LMSAEDA",
-    "texto": "¿Ha extendido su plataforma de formación (LMS) para convertirla",
+    "texto": "¿Ha extendido su plataforma de formación (LMS) para convertirla en Ecosistema Digital de Aprendizaje (EDA)?",
     "objetivo_num": 7,
     "objetivo": "Impulsar una formación de calidad e innovadora aprovechando las tecnologías emergentes",
     "comun": true,
@@ -401,7 +401,7 @@
   },
   {
     "codigo": "TDS_TECPREABANDONO",
-    "texto": "¿Se utilizan tecnologías de big data/learning/IA analytics para",
+    "texto": "¿Se utilizan tecnologías de big data/learning/IA analytics para detectar factores de abandono de los estudiantes?",
     "objetivo_num": 7,
     "objetivo": "Impulsar una formación de calidad e innovadora aprovechando las tecnologías emergentes",
     "comun": true,
@@ -409,7 +409,7 @@
   },
   {
     "codigo": "INM_PSOPTIGESNUBE",
-    "texto": "% de servicios de Soporte TI a la Gestión que se ofrecen en la",
+    "texto": "% de servicios de Soporte TI a la Gestión que se ofrecen en la NUBE",
     "objetivo_num": 8,
     "objetivo": "Definir, con criterios estratégicos, qué parte de nuestros productos formativos son",
     "comun": true,
@@ -417,7 +417,7 @@
   },
   {
     "codigo": "INS_POLITICACONTINUANEGOCIO",
-    "texto": "¿Se dispone de una estrategia de continuidad de negocio, al",
+    "texto": "¿Se dispone de una estrategia de continuidad de negocio, al menos para los servicios críticos basados en las TI?",
     "objetivo_num": 8,
     "objetivo": "Definir, con criterios estratégicos, qué parte de nuestros productos formativos son",
     "comun": true,
@@ -425,7 +425,7 @@
   },
   {
     "codigo": "INM_PROCERECUPERASERVICIOS",
-    "texto": "¿Se dispone de procedimientos formales para la recuperación de",
+    "texto": "¿Se dispone de procedimientos formales para la recuperación de los servicios TI en el mínimo tiempo posible?",
     "objetivo_num": 8,
     "objetivo": "Definir, con criterios estratégicos, qué parte de nuestros productos formativos son",
     "comun": true,
@@ -433,7 +433,7 @@
   },
   {
     "codigo": "TDS_CLOUDCONTINGENCIAS",
-    "texto": "¿Se utilizan servicios de cloud pública como respaldo en caso de",
+    "texto": "¿Se utilizan servicios de cloud pública como respaldo en caso de contingencias graves?",
     "objetivo_num": 8,
     "objetivo": "Definir, con criterios estratégicos, qué parte de nuestros productos formativos son",
     "comun": true,
@@ -441,7 +441,7 @@
   },
   {
     "codigo": "GES_RESPONSABLESEGURIDAD",
-    "texto": "¿Se ha designado a un responsable de seguridad que sea",
+    "texto": "¿Se ha designado a un responsable de seguridad que sea independiente del responsable de sistemas?",
     "objetivo_num": 8,
     "objetivo": "Definir, con criterios estratégicos, qué parte de nuestros productos formativos son",
     "comun": true,
@@ -449,7 +449,7 @@
   },
   {
     "codigo": "INS_PLANSEGURIDADINTEGRAL",
-    "texto": "¿Ha diseñado y ejecutado su institución un Plan de Seguridad",
+    "texto": "¿Ha diseñado y ejecutado su institución un Plan de Seguridad integral?",
     "objetivo_num": 8,
     "objetivo": "Definir, con criterios estratégicos, qué parte de nuestros productos formativos son",
     "comun": true,
@@ -457,7 +457,7 @@
   },
   {
     "codigo": "GOS_PLANMIGRANUBE",
-    "texto": "¿Ha aprobado el EG, y ya se está ejecutando, un plan de",
+    "texto": "¿Ha aprobado el EG, y ya se está ejecutando, un plan de migración de contenidos a la nube a corto/medio plazo?",
     "objetivo_num": 8,
     "objetivo": "Definir, con criterios estratégicos, qué parte de nuestros productos formativos son",
     "comun": true,
@@ -465,7 +465,7 @@
   },
   {
     "codigo": "TDS_SEGURIDADBLOCKCHAIN",
-    "texto": "¿Utiliza la institución técnicas de blockchain para la autenticación",
+    "texto": "¿Utiliza la institución técnicas de blockchain para la autenticación de identidades en procesos de acreditación y certificación?",
     "objetivo_num": 8,
     "objetivo": "Definir, con criterios estratégicos, qué parte de nuestros productos formativos son",
     "comun": true,
@@ -473,7 +473,7 @@
   },
   {
     "codigo": "TDS_SEGURIDADIA",
-    "texto": "¿Se previenen las ciberamenazas mediante técnicas basadas en",
+    "texto": "¿Se previenen las ciberamenazas mediante técnicas basadas en inteligencia artificial?",
     "objetivo_num": 8,
     "objetivo": "Definir, con criterios estratégicos, qué parte de nuestros productos formativos son",
     "comun": true,
@@ -481,7 +481,7 @@
   },
   {
     "codigo": "GEC_NSERVADMELECT",
-    "texto": "Número de servicios TI de soporte a la Administración Electrónica",
+    "texto": "Número de servicios TI de soporte a la Administración Electrónica en explotación",
     "objetivo_num": 9,
     "objetivo": "Mantener la información segura y los servicios disponibles",
     "comun": true,
@@ -489,7 +489,7 @@
   },
   {
     "codigo": "GEN_PSERVADMELECT",
-    "texto": "% de servicios TI de soporte a la Administración Electrónica en",
+    "texto": "% de servicios TI de soporte a la Administración Electrónica en explotación",
     "objetivo_num": 9,
     "objetivo": "Mantener la información segura y los servicios disponibles",
     "comun": true,
@@ -505,7 +505,7 @@
   },
   {
     "codigo": "INN_NINSTITUCINTEROPERA",
-    "texto": "Nº de instituciones con las que se relaciona la institución a través",
+    "texto": "Nº de instituciones con las que se relaciona la institución a través de servicios de interoperabilidad.",
     "objetivo_num": 9,
     "objetivo": "Mantener la información segura y los servicios disponibles",
     "comun": true,
@@ -537,7 +537,7 @@
   },
   {
     "codigo": "INM_CARTASERVICIOTI",
-    "texto": "¿La institución conoce las expectativas de los usuarios de servicios",
+    "texto": "¿La institución conoce las expectativas de los usuarios de servicios TI y lo plasma en catálogos y cartas de servicios?",
     "objetivo_num": 9,
     "objetivo": "Mantener la información segura y los servicios disponibles",
     "comun": true,
@@ -545,7 +545,7 @@
   },
   {
     "codigo": "INM_METODOGESTIONTI",
-    "texto": "¿Realiza la institución la gestión de sus TI mediante alguna",
+    "texto": "¿Realiza la institución la gestión de sus TI mediante alguna metodología formal (ITIL, ISO2000, etc.)?",
     "objetivo_num": 9,
     "objetivo": "Mantener la información segura y los servicios disponibles",
     "comun": true,
@@ -553,7 +553,7 @@
   },
   {
     "codigo": "INN_PSOPTIGESSLA",
-    "texto": "% de servicios TI a la gestión que se ofrecen mediante acuerdos de",
+    "texto": "% de servicios TI a la gestión que se ofrecen mediante acuerdos de nivel de servicio con los usuarios (SLAs)",
     "objetivo_num": 9,
     "objetivo": "Mantener la información segura y los servicios disponibles",
     "comun": true,
@@ -561,7 +561,7 @@
   },
   {
     "codigo": "GOS_PLANSATISFACCIONTI",
-    "texto": "¿Se dispone de un Plan de Análisis de la Satisfacción de los",
+    "texto": "¿Se dispone de un Plan de Análisis de la Satisfacción de los usuarios de los Servicios basados en TI?",
     "objetivo_num": 9,
     "objetivo": "Mantener la información segura y los servicios disponibles",
     "comun": true,
@@ -569,7 +569,7 @@
   },
   {
     "codigo": "TDS_SATISFACCIONTD",
-    "texto": "¿Se dispone de un procedimiento para analizar la satisfacción de",
+    "texto": "¿Se dispone de un procedimiento para analizar la satisfacción de los usuarios de los proyectos de transformación digital?",
     "objetivo_num": 9,
     "objetivo": "Mantener la información segura y los servicios disponibles",
     "comun": true,
@@ -577,7 +577,7 @@
   },
   {
     "codigo": "GES_CMANDOGESTIONTI",
-    "texto": "¿Existe un cuadro de mando de las TI con indicadores operativos",
+    "texto": "¿Existe un cuadro de mando de las TI con indicadores operativos que ayude a la dirección del Área TI a supervisar la gestión de las TI?",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -585,7 +585,7 @@
   },
   {
     "codigo": "INM_PBPGESTIONTI",
-    "texto": "% de buenas prácticas de Gestión de las TI que se estan aplicando",
+    "texto": "% de buenas prácticas de Gestión de las TI que se estan aplicando en su institución",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -593,7 +593,7 @@
   },
   {
     "codigo": "GOM_AUDITORIAGESTIONTI",
-    "texto": "¿Se realizan auditorias periódicas que verifiquen la efectividad y",
+    "texto": "¿Se realizan auditorias periódicas que verifiquen la efectividad y eficiencia de los servicios TI?",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -601,7 +601,7 @@
   },
   {
     "codigo": "GOS_PLANCERTIFICALIDADTI",
-    "texto": "¿Se dispone de un Plan de certificación de la calidad de los",
+    "texto": "¿Se dispone de un Plan de certificación de la calidad de los servicios TI?",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -609,7 +609,7 @@
   },
   {
     "codigo": "GEC_NSOPTIINVESTIGA",
-    "texto": "Número de servicios TI de soporte a la investigación que están en",
+    "texto": "Número de servicios TI de soporte a la investigación que están en explotación de manera centralizada",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -617,7 +617,7 @@
   },
   {
     "codigo": "GEN_PSOPTIINVESTIGA",
-    "texto": "% de servicios TI de soporte a la investigación que están en",
+    "texto": "% de servicios TI de soporte a la investigación que están en explotación de manera centralizada",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -633,7 +633,7 @@
   },
   {
     "codigo": "GES_PLANLEYESTI",
-    "texto": "¿Se ha diseñado un plan de cumplimiento normativo para todas las",
+    "texto": "¿Se ha diseñado un plan de cumplimiento normativo para todas las leyes y normas que afecten a las TI?",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -641,7 +641,7 @@
   },
   {
     "codigo": "INM_AUDITORIALEYESTI",
-    "texto": "¿Se realizan auditorias para asegurar el cumplimiento normativo",
+    "texto": "¿Se realizan auditorias para asegurar el cumplimiento normativo relacionado con las TI?",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -673,7 +673,7 @@
   },
   {
     "codigo": "GOM_POLITICAESTANDARESTI",
-    "texto": "¿Existe una política que recomiende la utilización de estándares a",
+    "texto": "¿Existe una política que recomiende la utilización de estándares a la hora de seleccionar la infraestructura TI?",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -681,7 +681,7 @@
   },
   {
     "codigo": "GEN_PRESUEXTERNA",
-    "texto": "Presupuesto para servicios TI centralizado que se dedica a contratar",
+    "texto": "Presupuesto para servicios TI centralizado que se dedica a contratar servicios externos",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -689,7 +689,7 @@
   },
   {
     "codigo": "GEC_PPRESUEXTERNA",
-    "texto": "% de presupuesto dedicado a contratar servicios externos en",
+    "texto": "% de presupuesto dedicado a contratar servicios externos en relación al presupuesto para servicios TI centralizados",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -697,7 +697,7 @@
   },
   {
     "codigo": "GEN_PSOPTIGESEXTERNA",
-    "texto": "% de servicios de TI de soporte a la gestión que están",
+    "texto": "% de servicios de TI de soporte a la gestión que están externalizados total o parcialmente",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -705,7 +705,7 @@
   },
   {
     "codigo": "GEM_ANALISISEXTERNATI",
-    "texto": "¿Se analiza periódicamente cuáles son los servicios suceptibles de",
+    "texto": "¿Se analiza periódicamente cuáles son los servicios suceptibles de ser o seguir externalizados?",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -713,7 +713,7 @@
   },
   {
     "codigo": "GOS_POLITICAPROVEEDORES",
-    "texto": "¿Dispone la institución de una política de relación con los",
+    "texto": "¿Dispone la institución de una política de relación con los proveedores?",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -721,7 +721,7 @@
   },
   {
     "codigo": "GEN_PRESUTOTALTI",
-    "texto": "Presupuesto TOTAL para TI (centralizado + no centralizado e",
+    "texto": "Presupuesto TOTAL para TI (centralizado + no centralizado e incluido personal)",
     "objetivo_num": 11,
     "objetivo": "Definir un plan de externalización que asegure la calidad de los servicios",
     "comun": true,
@@ -729,7 +729,7 @@
   },
   {
     "codigo": "GEC_PPRESUTIXTOTALUNI",
-    "texto": "% que representa el presupuesto TOTAL para TI sobre el",
+    "texto": "% que representa el presupuesto TOTAL para TI sobre el presupuesto TOTAL de la institución",
     "objetivo_num": 11,
     "objetivo": "Definir un plan de externalización que asegure la calidad de los servicios",
     "comun": true,
@@ -745,7 +745,7 @@
   },
   {
     "codigo": "GEN_PRESUTISINPCENTRAL",
-    "texto": "Presupuesto para SERVICIOS CENTRALES de TI, sin incluir gastos",
+    "texto": "Presupuesto para SERVICIOS CENTRALES de TI, sin incluir gastos en personal",
     "objetivo_num": 11,
     "objetivo": "Definir un plan de externalización que asegure la calidad de los servicios",
     "comun": true,
@@ -753,7 +753,7 @@
   },
   {
     "codigo": "GEC_PRESUTOTALTICENTRAL",
-    "texto": "Presupuesto total para SERVICIOS CENTRALES de TI (incluido",
+    "texto": "Presupuesto total para SERVICIOS CENTRALES de TI (incluido personal)",
     "objetivo_num": 11,
     "objetivo": "Definir un plan de externalización que asegure la calidad de los servicios",
     "comun": true,
@@ -761,7 +761,7 @@
   },
   {
     "codigo": "GEC_PPRESUCENTRALTITOTALTI",
-    "texto": "% que representa el presupuesto para SERVICIOS CENTRALES",
+    "texto": "% que representa el presupuesto para SERVICIOS CENTRALES de TI sobre el presupuesto TOTAL de TI",
     "objetivo_num": 11,
     "objetivo": "Definir un plan de externalización que asegure la calidad de los servicios",
     "comun": true,
@@ -769,7 +769,7 @@
   },
   {
     "codigo": "GEN_PRESUTOTALTINOCENTRAL",
-    "texto": "Presupuesto de TI para SERVICIOS NO CENTRALIZADOS",
+    "texto": "Presupuesto de TI para SERVICIOS NO CENTRALIZADOS (incluido personal) GEN_ PPRESUTICENTRALMANTIENE % de presupuesto de servicios TI centralizado dedicado a MANTENIMIENTO de infraestructuras ya en explotación GEC_ PPRESUTICENTRALINVERSION % de presupuesto de servicios TI centralizados dedicado a INVERSIONES en nuevos proyectos TI GOM_ PLANFINANCIAPLURIANUALTI ¿Se ha diseñado un plan de financiación plurianual de las TI que establezca los recursos necesarios para satisfacer la estrategia institucional?",
     "objetivo_num": 11,
     "objetivo": "Definir un plan de externalización que asegure la calidad de los servicios",
     "comun": true,
@@ -785,7 +785,7 @@
   },
   {
     "codigo": "GEN_PERSONALTIOTROS",
-    "texto": "Número de técnicos dedicados a tiempo completo a las TI en",
+    "texto": "Número de técnicos dedicados a tiempo completo a las TI en servicios no TI (Biblioteca, Docencia Virtual, Deportes, etc.)",
     "objetivo_num": 12,
     "objetivo": "Disponer del presupuesto suficiente y adecuado para impulsar la transformación digital",
     "comun": true,
@@ -793,7 +793,7 @@
   },
   {
     "codigo": "GEC_PPERSONALTIOTROS",
-    "texto": "% de técnicos dedicados a tiempo completo a las TI en servicios",
+    "texto": "% de técnicos dedicados a tiempo completo a las TI en servicios no TI (Biblioteca, Docencia Virtual, Deportes, etc.)",
     "objetivo_num": 12,
     "objetivo": "Disponer del presupuesto suficiente y adecuado para impulsar la transformación digital",
     "comun": true,
@@ -801,7 +801,7 @@
   },
   {
     "codigo": "GEC_ESTUDIANTESXTECNICOTI",
-    "texto": "Número de estudiantes por cada técnico TI en servicios centrales",
+    "texto": "Número de estudiantes por cada técnico TI en servicios centrales de TI",
     "objetivo_num": 12,
     "objetivo": "Disponer del presupuesto suficiente y adecuado para impulsar la transformación digital",
     "comun": true,
@@ -809,7 +809,7 @@
   },
   {
     "codigo": "GEC_TRABAJADORESXTECNICOTI",
-    "texto": "% de técnicos TI en servicios centrales de TI en relación al total de",
+    "texto": "% de técnicos TI en servicios centrales de TI en relación al total de personal TI en la institución",
     "objetivo_num": 12,
     "objetivo": "Disponer del presupuesto suficiente y adecuado para impulsar la transformación digital",
     "comun": true,
@@ -833,7 +833,7 @@
   },
   {
     "codigo": "GOS_PLANRRHHESTRATEGIA",
-    "texto": "¿Dispone su institución de un plan de dotación y distribución de",
+    "texto": "¿Dispone su institución de un plan de dotación y distribución de recursos humanos TI a largo plazo, alineado con su estrategia?",
     "objetivo_num": 12,
     "objetivo": "Disponer del presupuesto suficiente y adecuado para impulsar la transformación digital",
     "comun": true,
@@ -857,7 +857,7 @@
   },
   {
     "codigo": "GOS_PLANFORMAPERSONALTI",
-    "texto": "¿Existe un plan anual de formación en tecnologías específico para",
+    "texto": "¿Existe un plan anual de formación en tecnologías específico para el personal de TI de la institución?",
     "objetivo_num": 12,
     "objetivo": "Disponer del presupuesto suficiente y adecuado para impulsar la transformación digital",
     "comun": true,
@@ -865,7 +865,7 @@
   },
   {
     "codigo": "TDN_PRESUFORMATDPERSONALTI",
-    "texto": "Presupuesto total para formación en tecnologias para la",
+    "texto": "Presupuesto total para formación en tecnologias para la transformación digital del personal de TI",
     "objetivo_num": 12,
     "objetivo": "Disponer del presupuesto suficiente y adecuado para impulsar la transformación digital",
     "comun": true,
@@ -873,7 +873,7 @@
   },
   {
     "codigo": "TDS_PLANINFRAESTRUCTURATD",
-    "texto": "¿Incluye el Plan de Infraestructuras las tecnologias necesarias para",
+    "texto": "¿Incluye el Plan de Infraestructuras las tecnologias necesarias para la transformación digital?",
     "objetivo_num": 13,
     "objetivo": "Disponer del personal suficiente y capacitado para afrontar la transformación digital",
     "comun": true,
@@ -881,7 +881,7 @@
   },
   {
     "codigo": "TDS_LABTENDENCIASTI",
-    "texto": "¿Dispone de un laboratorio para analizar tecnologias emergentes y",
+    "texto": "¿Dispone de un laboratorio para analizar tecnologias emergentes y promover experiencias piloto en la institución?",
     "objetivo_num": 13,
     "objetivo": "Disponer del personal suficiente y capacitado para afrontar la transformación digital",
     "comun": true,
@@ -889,7 +889,7 @@
   },
   {
     "codigo": "GEN_PRESUTFORMACD",
-    "texto": "Presupuesto total dedicado a formar en competencias digitales a",
+    "texto": "Presupuesto total dedicado a formar en competencias digitales a la comunidad universitaria",
     "objetivo_num": 14,
     "objetivo": "Disponer de las infraestructuras y tecnologías adecuadas para incrementar",
     "comun": true,
@@ -897,7 +897,7 @@
   },
   {
     "codigo": "GEC_PRESUFORMACDXCOMUNIV",
-    "texto": "Presupuesto dedicado a formar en competencias digitales por",
+    "texto": "Presupuesto dedicado a formar en competencias digitales por cada miembro de la comunidad universitaria",
     "objetivo_num": 14,
     "objetivo": "Disponer de las infraestructuras y tecnologías adecuadas para incrementar",
     "comun": true,
@@ -905,7 +905,7 @@
   },
   {
     "codigo": "INS_MIDECDCOMUNIV",
-    "texto": "¿Mide la institución las competencias digitales de la comunidad",
+    "texto": "¿Mide la institución las competencias digitales de la comunidad universitaria en relación a DigComp?",
     "objetivo_num": 14,
     "objetivo": "Disponer de las infraestructuras y tecnologías adecuadas para incrementar",
     "comun": true,
@@ -913,7 +913,7 @@
   },
   {
     "codigo": "INM_TELETRABAJOCD",
-    "texto": "¿Promueve la institución el teletrabajo para el personal que",
+    "texto": "¿Promueve la institución el teletrabajo para el personal que dispone de las competencias digitales adecuadas?",
     "objetivo_num": 14,
     "objetivo": "Disponer de las infraestructuras y tecnologías adecuadas para incrementar",
     "comun": true,
@@ -921,7 +921,7 @@
   },
   {
     "codigo": "GOM_PLANFORMACD",
-    "texto": "¿Dispone la institución de un Plan de Formación en Competencias",
+    "texto": "¿Dispone la institución de un Plan de Formación en Competencias Digitales para toda la comunidad universitaria?",
     "objetivo_num": 14,
     "objetivo": "Disponer de las infraestructuras y tecnologías adecuadas para incrementar",
     "comun": true,
@@ -929,7 +929,7 @@
   },
   {
     "codigo": "GOM_PLANSFA",
-    "texto": "¿Dispone la institución de un plan que desarrolle la estrategia de",
+    "texto": "¿Dispone la institución de un plan que desarrolle la estrategia de uso de Sofware de Fuente Abierta?",
     "objetivo_num": 15,
     "objetivo": "Desarrollar en los universitarios las competencias necesarias para afrontar",
     "comun": true,
