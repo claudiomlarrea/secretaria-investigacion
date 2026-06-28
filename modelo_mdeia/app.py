@@ -70,6 +70,7 @@ from lib.unidades import (
     meta_informe_activa,
     metricas_sidebar_activa,
     render_comparativa_referencia,
+    render_comparativa_facultades_sede,
     reemplazar_respuestas_activas,
     render_selector_unidades_sidebar,
     respuestas_activas,

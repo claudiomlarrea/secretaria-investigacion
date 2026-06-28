@@ -234,6 +234,22 @@ def inject_theme() -> None:
         [data-testid="stSlider"] {{
             overflow: visible !important;
         }}
+
+        /* —— Botones primarios (verde institucional, texto blanco) —— */
+        [data-testid="stBaseButton-primary"],
+        [data-testid="stBaseButton-primary"] p,
+        [data-testid="stBaseButton-primary"] span,
+        .stButton button[kind="primary"],
+        .stButton button[kind="primary"] p,
+        .stButton button[kind="primary"] span {{
+            color: {SURFACE} !important;
+            -webkit-text-fill-color: {SURFACE} !important;
+        }}
+        [data-testid="stBaseButton-primary"]:hover,
+        .stButton button[kind="primary"]:hover {{
+            color: {SURFACE} !important;
+            border-color: {GREEN_DARK} !important;
+        }}
         </style>
         """,
         unsafe_allow_html=True,
