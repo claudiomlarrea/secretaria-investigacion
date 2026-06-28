@@ -48,15 +48,89 @@ def inject_theme() -> None:
         f"""
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
         html, body, [class*="css"] {{
             font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+            color-scheme: light;
         }}
-        [data-testid="stAppViewContainer"] {{ background-color: {GRAY_INST}; }}
+
+        /* —— Contenedor principal (tema claro forzado) —— */
+        [data-testid="stAppViewContainer"] {{
+            background-color: {GRAY_INST};
+            color: {TEXT};
+        }}
+        [data-testid="stHeader"] {{
+            background-color: {GRAY_INST_SOFT};
+        }}
         [data-testid="stAppViewContainer"] [data-testid="stMain"] .block-container {{
-            padding-top: 2.75rem; padding-bottom: 2.5rem; max-width: 1180px;
+            padding-top: 2.75rem;
+            padding-bottom: 2.5rem;
+            max-width: 1180px;
         }}
+        [data-testid="stMain"],
+        [data-testid="stMain"] p,
+        [data-testid="stMain"] li,
+        [data-testid="stMain"] span,
+        [data-testid="stMain"] [data-testid="stMarkdownContainer"] p,
+        [data-testid="stMain"] [data-testid="stMarkdownContainer"] li {{
+            color: {TEXT} !important;
+        }}
+        [data-testid="stMain"] strong,
+        [data-testid="stMain"] h1,
+        [data-testid="stMain"] h2,
+        [data-testid="stMain"] h3,
+        [data-testid="stMain"] h4,
+        [data-testid="stMain"] h5 {{
+            color: {GREEN_DARK} !important;
+        }}
+
+        /* —— Barra lateral (fondo claro, texto oscuro) —— */
+        [data-testid="stSidebar"] {{
+            background: linear-gradient(180deg, {GRAY_INST_SOFT} 0%, {GRAY_INST} 100%) !important;
+            border-right: 1px solid #C8C8C8;
+        }}
+        [data-testid="stSidebar"] *,
+        [data-testid="stSidebar"] label,
+        [data-testid="stSidebar"] p,
+        [data-testid="stSidebar"] span,
+        [data-testid="stSidebar"] .stMarkdown p,
+        [data-testid="stSidebar"] h1,
+        [data-testid="stSidebar"] h2,
+        [data-testid="stSidebar"] h3 {{
+            color: {TEXT} !important;
+        }}
+        [data-testid="stSidebar"] h3 {{
+            color: {GREEN_DARK} !important;
+            font-weight: 700 !important;
+        }}
+        [data-testid="stSidebar"] [data-testid="stRadio"] label,
+        [data-testid="stSidebar"] [data-testid="stRadio"] label span,
+        [data-testid="stSidebar"] [data-testid="stRadio"] label p {{
+            color: {TEXT} !important;
+        }}
+        [data-testid="stSidebar"] [data-testid="stMetric"] {{
+            background: {SURFACE} !important;
+            border: 1px solid #C5D9CE;
+            border-top: 3px solid {GREEN};
+            border-radius: 10px;
+        }}
+        [data-testid="stSidebar"] [data-testid="stMetric"] label {{
+            color: {TEXT_MUTED} !important;
+        }}
+        [data-testid="stSidebar"] [data-testid="stMetric"] [data-testid="stMetricValue"],
+        [data-testid="stSidebar"] [data-testid="stMetric"] [data-testid="stMetricDelta"] {{
+            color: {GREEN_DARK} !important;
+        }}
+        [data-testid="stSidebar"] .stCaption,
+        [data-testid="stSidebar"] [data-testid="stCaptionContainer"] {{
+            color: {TEXT_MUTED} !important;
+        }}
+
+        /* —— Encabezado institucional —— */
         .mdeia-header-box {{
-            border-bottom: 3px solid {GREEN}; margin: 0.5rem 0 0.85rem 0; padding-bottom: 0.85rem;
+            border-bottom: 3px solid {GREEN};
+            margin: 0.5rem 0 0.85rem 0;
+            padding-bottom: 0.85rem;
         }}
         .mdeia-header-inner {{ display: flex; align-items: center; gap: 1rem; }}
         .mdeia-header-inner img {{ width: 84px; height: 84px; object-fit: contain; }}
@@ -64,36 +138,98 @@ def inject_theme() -> None:
         .mdeia-sub {{ margin: 0.25rem 0 0; font-size: 0.88rem; color: {TEXT_MUTED}; font-weight: 600; }}
         .mdeia-hero {{
             background: linear-gradient(135deg, {SURFACE} 0%, {GREEN_LIGHT} 45%, {GRAY_INST_SOFT} 100%);
-            border: 1px solid #B8D4C8; border-left: 5px solid {GREEN}; border-radius: 14px;
-            padding: 1.2rem 1.5rem; margin-bottom: 1.25rem;
+            border: 1px solid #B8D4C8;
+            border-left: 5px solid {GREEN};
+            border-radius: 14px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.25rem;
         }}
         .mdeia-hero h1 {{ margin: 0 0 0.35rem; font-size: 1.65rem; color: {GREEN_DARK}; }}
         .mdeia-hero p {{ margin: 0; color: {TEXT_MUTED}; line-height: 1.55; }}
+
+        /* —— Métricas, títulos, captions —— */
         [data-testid="stMetric"] {{
-            background: {SURFACE}; border: 1px solid #C5D9CE; border-top: 3px solid {GREEN};
-            border-radius: 12px; padding: 0.65rem 0.85rem;
+            background: {SURFACE};
+            border: 1px solid #C5D9CE;
+            border-top: 3px solid {GREEN};
+            border-radius: 12px;
+            padding: 0.65rem 0.85rem;
         }}
-        h2, h3, h4 {{ color: {GREEN_DARK} !important; }}
+        [data-testid="stMetric"] label {{
+            color: {TEXT_MUTED} !important;
+        }}
+        [data-testid="stMetric"] [data-testid="stMetricValue"] {{
+            color: {GREEN_DARK} !important;
+        }}
+        h1, h2, h3, h4, h5 {{
+            color: {GREEN_DARK} !important;
+        }}
+        .stCaption,
+        [data-testid="stCaptionContainer"] {{
+            color: {TEXT_MUTED} !important;
+        }}
+
+        /* —— Expanders, inputs, tablas —— */
+        [data-testid="stExpander"] summary,
+        [data-testid="stExpander"] summary span,
+        [data-testid="stExpanderDetails"] p,
+        [data-testid="stExpanderDetails"] li,
+        [data-testid="stExpanderDetails"] span {{
+            color: {TEXT} !important;
+        }}
+        [data-testid="stExpander"] summary {{
+            color: {GREEN_DARK} !important;
+            font-weight: 600 !important;
+        }}
+        label, [data-testid="stWidgetLabel"] p {{
+            color: {TEXT} !important;
+        }}
+        [data-testid="stSelectbox"] [data-baseweb="select"],
+        [data-testid="stTextInput"] input,
+        [data-testid="stNumberInput"] input {{
+            color: {TEXT} !important;
+            background-color: {SURFACE} !important;
+        }}
+        [data-testid="stAlert"] p,
+        [data-testid="stAlert"] [data-testid="stMarkdownContainer"] p {{
+            color: {TEXT} !important;
+        }}
+
+        /* —— Indicadores del autodiagnóstico —— */
         .mdeia-indicador {{ margin-bottom: 0.35rem; }}
         .mdeia-indicador-codigo {{
-            margin: 0 0 0.25rem 0; font-size: 0.82rem; color: {TEXT_MUTED};
+            margin: 0 0 0.25rem 0;
+            font-size: 0.82rem;
+            color: {TEXT_MUTED};
         }}
         .mdeia-indicador-codigo code {{
-            background: {GREEN_LIGHT}; padding: 0.1rem 0.35rem; border-radius: 4px;
+            background: {GREEN_LIGHT};
+            color: {GREEN_DARK};
+            padding: 0.1rem 0.35rem;
+            border-radius: 4px;
             white-space: nowrap;
         }}
         .mdeia-indicador-texto {{
-            margin: 0 0 0.5rem 0; color: {TEXT}; font-size: 0.95rem; line-height: 1.55;
-            white-space: normal !important; overflow: visible !important;
-            word-wrap: break-word; overflow-wrap: anywhere;
+            margin: 0 0 0.5rem 0;
+            color: {TEXT};
+            font-size: 0.95rem;
+            line-height: 1.55;
+            white-space: normal !important;
+            overflow: visible !important;
+            word-wrap: break-word;
+            overflow-wrap: anywhere;
         }}
         [data-testid="stExpanderDetails"] [data-testid="stMarkdownContainer"] p {{
-            white-space: normal !important; overflow: visible !important;
+            white-space: normal !important;
+            overflow: visible !important;
             text-overflow: unset !important;
         }}
         [data-testid="stSlider"] [data-baseweb="slider"] div {{
-            white-space: normal !important; overflow: visible !important;
-            font-size: 0.78rem !important; line-height: 1.3 !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            font-size: 0.78rem !important;
+            line-height: 1.3 !important;
+            color: {TEXT_MUTED} !important;
         }}
         [data-testid="stSlider"] {{
             overflow: visible !important;
