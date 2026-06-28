@@ -72,6 +72,7 @@ from lib.unidades import (
     render_comparativa_referencia,
     render_comparativa_facultades_sede,
     reemplazar_respuestas_activas,
+    solicitar_seccion,
     render_selector_unidades_sidebar,
     respuestas_activas,
     resumen_unidad,
@@ -213,7 +214,45 @@ def _panel_imd(resp: dict, *, modo_piloto: bool = False) -> None:
     if modo_piloto:
         resp = respuestas_piloto(resp)
     if not resp:
-        st.info("Completá el autodiagnóstico para visualizar el panel IMD.")
+        n_pil, tot_pil = progreso_piloto(respuestas_activas())
+        st.warning(
+            "El Panel IMD muestra resultados **después** de cargar respuestas. "
+            "Todavía no hay indicadores en el ámbito activo."
+        )
+        st.markdown("#### Pasos para ver el IMD")
+        st.markdown(
+            f"""
+            1. **Unidades académicas** — elegí el ámbito (UCCuyo completa, una sede o una facultad) con **Elegir**.
+            2. **{FASE1_MENU}** — respondé los **36 indicadores** (sesión ~90 min con el equipo).
+               - Opcional: en **Encuesta estudiantil** subí el Excel de alumnos y **Aplicar al diagnóstico** (bloque B8 · IA).
+            3. Volvé a **Panel IMD** para ver el índice, gráficos por área/reto y brechas.
+            """
+        )
+        if not hay_unidad_activa():
+            st.error("Paso pendiente: todavía no elegiste un ámbito de evaluación.")
+        elif n_pil == 0:
+            st.info(
+                f"Ámbito activo: **{unidad_label(st.session_state.mdeia_unidad_activa)}**. "
+                f"Falta completar indicadores ({n_pil}/{tot_pil} en línea de base)."
+            )
+        if st.session_state.get("mdeia_oia_metricas"):
+            st.warning(
+                "Hay una encuesta de alumnos **analizada** pero no aplicada al diagnóstico. "
+                "Andá a **Encuesta estudiantil → Resultado y aplicar → Aplicar al diagnóstico MDeIA**."
+            )
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            if st.button("1 · Unidades académicas", use_container_width=True):
+                solicitar_seccion("Unidades académicas")
+                st.rerun()
+        with c2:
+            if st.button(f"2 · {FASE1_MENU}", type="primary", use_container_width=True):
+                solicitar_seccion(FASE1_MENU)
+                st.rerun()
+        with c3:
+            if st.button("Encuesta estudiantil", use_container_width=True):
+                solicitar_seccion("Encuesta estudiantil")
+                st.rerun()
         return
 
     resultado = calcular_imd(resp, codigos=codes)
@@ -685,6 +724,10 @@ elif seccion == "Autodiagnóstico completo":
 
 elif seccion == "Panel IMD":
     st.subheader("Panel IMD")
+    st.caption(
+        "Visualizá el IMD, gráficos y brechas del ámbito elegido en el sidebar. "
+        "Requiere respuestas cargadas en Línea de base o catálogo completo."
+    )
     modo = st.radio("Modo", [FASE1_MENU, "Catálogo completo"], horizontal=True)
     _panel_imd(respuestas_activas(), modo_piloto=(modo == FASE1_MENU))
     render_comparativa_facultades_sede()
