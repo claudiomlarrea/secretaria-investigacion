@@ -9,12 +9,21 @@ Detalle en [`MODELO-MDEIA.md`](MODELO-MDEIA.md).
 
 ```bash
 cd ~/Documents/secretaria-investigacion
-streamlit run streamlit_app.py
+python3 -m venv .venv-gemelo          # solo la primera vez
+.venv-gemelo/bin/pip install -r requirements.txt
+.venv-gemelo/bin/streamlit run streamlit_app.py
 ```
 
 Abrí: http://localhost:8501
 
-> El **Gemelo Digital del PEI** es otro sistema: `streamlit run gemelo_streamlit_app.py`
+> El **Gemelo Digital del PEI** — usar **siempre** el script (incluye plotly):
+
+```bash
+cd ~/Documents/secretaria-investigacion
+./run-gemelo.sh
+```
+
+No uses `streamlit run` suelto: el Python del sistema suele no tener **plotly** y rompe el gemelo.
 
 ---
 

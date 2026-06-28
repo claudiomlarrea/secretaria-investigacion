@@ -8,6 +8,7 @@ from datetime import date
 import streamlit as st
 
 from constants import FASE1_CORTO, FASE1_TITULO, IMD_FASE1_LABEL, PLANTILLA_FASE1_FILENAME
+from lib.export_informes import generar_excel_bytes, generar_html_bytes, generar_word_bytes
 from lib.importar_datos import (
     generar_plantilla_excel,
     load_sheet_indicadores,
@@ -17,10 +18,15 @@ from lib.importar_datos import (
 from lib.mdeia_model import calcular_imd, guia_indices, pilot_codigos, progreso_piloto
 from lib.unidades import (
     actualizar_meta_informe_activa,
+    es_ambito_macro,
+    es_seleccion_institucional,
+    hay_unidad_activa,
     meta_informe_activa,
     reemplazar_respuestas_activas,
+    render_comparativa_referencia,
     respuestas_activas,
     unidad_label,
+    unidad_por_id,
 )
 
 
@@ -72,25 +78,41 @@ def _panel_resultado_automatico(resp: dict, meta: dict) -> None:
         st.download_button(
             "HTML (PDF)",
             data=generar_html_bytes(resp, meta=meta, modo="piloto"),
-            file_name=f"mdeia-{slug}-{fecha}.html",
             mime="text/html",
             use_container_width=True,
         )
 
 
 def render_informe_automatico() -> None:
+    if not hay_unidad_activa():
+        st.warning("Elegí un ámbito en **Unidades académicas** (institución, sede o facultad) antes de continuar.")
+        return
+
     uid = st.session_state.mdeia_unidad_activa
     label = unidad_label(uid)
     meta = dict(meta_informe_activa())
     meta["unidad_id"] = uid
     meta["unidad_label"] = label
-    meta["sede"] = label
+    u = unidad_por_id(uid)
+    meta["sede"] = u.get("grupo_nombre", label) if u else label
     actualizar_meta_informe_activa(meta)
 
-    st.warning(
-        "Los datos y el informe se guardan para la **unidad activa** del menú lateral. "
-        "Elegí FDCSSL (u otra facultad) **antes** de subir el Excel y de descargar el Word."
-    )
+    if es_seleccion_institucional(uid):
+        st.info(
+            f"**{label}** — cargá el Excel con respuestas al nivel **institucional** "
+            "(mismos 36 indicadores; evaluá toda la UCCuyo en su conjunto)."
+        )
+    elif es_ambito_macro(uid):
+        st.info(
+            f"**{label}** — cargá el Excel con respuestas al nivel **sede** "
+            "(mismos 36 indicadores; evaluá la sede en su conjunto)."
+        )
+    else:
+        st.warning(
+            "Los datos y el informe se guardan para la **unidad activa** del menú lateral. "
+            "Elegí la unidad académica en el menú lateral **antes** de subir el Excel y de descargar el Word."
+        )
+
     st.markdown(
         f"""
         **Unidad activa:** {meta['unidad_label']}
@@ -123,7 +145,7 @@ def render_informe_automatico() -> None:
                     {
                         "unidad_id": uid,
                         "unidad_label": label,
-                        "sede": label,
+                        "sede": meta["sede"],
                     }
                 )
                 st.session_state.mdeia_ultima_carga = len(incoming)
@@ -165,7 +187,7 @@ def render_informe_automatico() -> None:
                     {
                         "unidad_id": uid,
                         "unidad_label": label,
-                        "sede": label,
+                        "sede": meta["sede"],
                     }
                 )
                 st.session_state.mdeia_ultima_carga = len(incoming)
@@ -177,3 +199,4 @@ def render_informe_automatico() -> None:
 
     with tab_resultado:
         _panel_resultado_automatico(respuestas_activas(), meta)
+        render_comparativa_referencia(uid)

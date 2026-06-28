@@ -1,28 +1,37 @@
 {
-  "fuente": "Lista unificada Consejo de Investigación · Producción Científica · Publicaciones UCCuyo",
+  "fuente": "Consejo de Investigación · Producción Científica · Publicaciones UCCuyo · estructura por sede acordada 2026",
   "grupos": [
     {
       "id": "institucional",
       "nombre": "Institucional",
+      "tipo": "institucional",
       "unidades": [
         {
           "id": "INSTITUCIONAL",
           "sigla": "UCCuyo",
-          "nombre": "Diagnóstico institucional (línea de base)",
-          "label": "Institucional — Universidad Católica de Cuyo"
+          "nombre": "Universidad Católica de Cuyo — institución completa",
+          "label": "UCCuyo — Universidad Católica de Cuyo (institución completa)"
+        }
+      ]
+    },
+    {
+      "id": "mendoza",
+      "nombre": "Sede Mendoza",
+      "tipo": "sede",
+      "unidades": [
+        {
+          "id": "FBOSCO",
+          "sigla": "FBOSCO",
+          "nombre": "Facultad Don Bosco — Sede Mendoza",
+          "label": "FBOSCO- Facultad Don Bosco Sede Mendoza"
         }
       ]
     },
     {
       "id": "san_luis",
       "nombre": "Sede San Luis",
+      "tipo": "sede",
       "unidades": [
-        {
-          "id": "FDCSSL",
-          "sigla": "FDCSSL",
-          "nombre": "Facultad de Derecho y Ciencias Sociales Sede San Luis",
-          "label": "FDCSSL- Facultad de Derecho y Ciencias Sociales Sede San Luis"
-        },
         {
           "id": "FCMSL",
           "sigla": "FCMSL",
@@ -42,17 +51,36 @@
           "label": "FCEESL- Facultad de Ciencias Económicas y Empresariales Sede San Luis"
         },
         {
-          "id": "FBOSCO",
-          "sigla": "FBOSCO",
-          "nombre": "Facultad Don Bosco",
-          "label": "FBOSCO- Facultad Don Bosco"
+          "id": "FDCSSL",
+          "sigla": "FDCSSL",
+          "nombre": "Facultad de Derecho y Ciencias Sociales Sede San Luis",
+          "label": "FDCSSL- Facultad de Derecho y Ciencias Sociales Sede San Luis"
+        },
+        {
+          "id": "DEPT_ADMIN_SL",
+          "sigla": "D.A. SL",
+          "nombre": "Departamento Administrativo Sede San Luis",
+          "label": "Departamento Administrativo Sede San Luis"
         }
       ]
     },
     {
       "id": "san_juan",
       "nombre": "Sede San Juan",
+      "tipo": "sede",
       "unidades": [
+        {
+          "id": "FCMSJ",
+          "sigla": "FCMSJ",
+          "nombre": "Facultad de Ciencias Médicas Sede San Juan",
+          "label": "FCMSJ- Facultad de Ciencias Médicas Sede San Juan"
+        },
+        {
+          "id": "FCQyTSJ",
+          "sigla": "FCQyTSJ",
+          "nombre": "Facultad de Ciencias Químicas y Tecnológicas Sede San Juan",
+          "label": "FCQyTSJ- Facultad de Ciencias Químicas y Tecnológicas Sede San Juan"
+        },
         {
           "id": "FCEESJ",
           "sigla": "FCEESJ",
@@ -62,20 +90,8 @@
         {
           "id": "FFyHSJ",
           "sigla": "FFyHSJ",
-          "nombre": "Facultad de Filosofía y Humanidades",
-          "label": "FFyHSJ- Facultad de Filosofía y Humanidades"
-        },
-        {
-          "id": "ISDSM",
-          "sigla": "ISDSM",
-          "nombre": "Instituto Universitario Santa María",
-          "label": "ISDSM- Instituto Universitario Santa María"
-        },
-        {
-          "id": "ECRyPSJ",
-          "sigla": "ECRyPSJ",
-          "nombre": "Escuela Cultura Religiosa y Pastoral",
-          "label": "ECRyPSJ- Escuela Cultura Religiosa y Pastoral"
+          "nombre": "Facultad de Filosofía y Humanidades Sede San Juan",
+          "label": "FFyHSJ- Facultad de Filosofía y Humanidades Sede San Juan"
         },
         {
           "id": "FDCSSJ",
@@ -84,40 +100,41 @@
           "label": "FDCSSJ- Facultad de Derecho y Ciencias Sociales Sede San Juan"
         },
         {
-          "id": "FCMSJ",
-          "sigla": "FCMSJ",
-          "nombre": "Facultad de Ciencias Médicas San Juan",
-          "label": "FCMSJ- Facultad de Ciencias Médicas San Juan"
-        },
-        {
-          "id": "FEDSJ",
-          "sigla": "FEDSJ",
-          "nombre": "Facultad de Educación",
-          "label": "FEDSJ- Facultad de Educación"
-        },
-        {
           "id": "ESEGSJ",
           "sigla": "ESEGSJ",
-          "nombre": "Escuela de Seguridad",
-          "label": "ESEGSJ- Escuela de Seguridad"
+          "nombre": "Escuela de Seguridad Sede San Juan",
+          "label": "ESEGSJ- Escuela de Seguridad Sede San Juan"
         },
         {
-          "id": "FCQyTSJ",
-          "sigla": "FCQyTSJ",
-          "nombre": "Facultad de Ciencias Químicas y Tecnológicas",
-          "label": "FCQyTSJ- Facultad de Ciencias Químicas y Tecnológicas"
+          "id": "ECRyPSJ",
+          "sigla": "ECRyPSJ",
+          "nombre": "Escuela de Cultura Religiosa y Pastoral Sede San Juan",
+          "label": "ECRyPSJ- Escuela de Cultura Religiosa y Pastoral Sede San Juan"
+        },
+        {
+          "id": "ISDSM",
+          "sigla": "ISDSM",
+          "nombre": "Instituto de Formación Docente Santa María Sede San Juan",
+          "label": "ISDSM- Instituto de Formación Docente Santa María Sede San Juan"
         },
         {
           "id": "ISB",
           "sigla": "ISB",
-          "nombre": "Instituto San Buenaventura",
-          "label": "ISB- Instituto San Buenaventura"
+          "nombre": "Instituto de Formación Docente San Buenaventura Sede San Juan",
+          "label": "ISB- Instituto de Formación Docente San Buenaventura Sede San Juan"
+        },
+        {
+          "id": "DEPT_ADMIN_SJ",
+          "sigla": "D.A. SJ",
+          "nombre": "Departamento Administrativo Sede San Juan",
+          "label": "Departamento Administrativo Sede San Juan"
         }
       ]
     },
     {
       "id": "transversal",
       "nombre": "Unidades transversales",
+      "tipo": "transversal",
       "unidades": [
         {
           "id": "SEC_INV",
@@ -126,28 +143,16 @@
           "label": "Secretaría de Investigación"
         },
         {
-          "id": "UVT",
-          "sigla": "UVT",
-          "nombre": "Unidad de Vinculación Tecnológica",
-          "label": "Unidad de Vinculación Tecnológica"
+          "id": "SEC_EXT",
+          "sigla": "Sec. Ext.",
+          "nombre": "Secretaría de Extensión",
+          "label": "Secretaría de Extensión"
         },
         {
           "id": "OIA",
           "sigla": "OIA",
           "nombre": "Observatorio de Inteligencia Artificial",
           "label": "OIA- Observatorio de Inteligencia Artificial"
-        },
-        {
-          "id": "VIC_FORM",
-          "sigla": "Vice. Form.",
-          "nombre": "Vicerrectora de Formación",
-          "label": "Vicerrectora de Formación"
-        },
-        {
-          "id": "DED",
-          "sigla": "DED",
-          "nombre": "Departamento de Educación a Distancia",
-          "label": "Departamento de Educación a Distancia"
         }
       ]
     }

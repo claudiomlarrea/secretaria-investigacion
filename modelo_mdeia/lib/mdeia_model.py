@@ -266,7 +266,7 @@ def detalle_evaluacion(respuestas: dict[str, Any]) -> pd.DataFrame:
         rows.append(
             {
                 "Código": ind["codigo"],
-                "Indicador": ind["texto"][:120],
+                "Indicador": ind["texto"],
                 "Área": ind["area"],
                 "Reto": ind.get("reto_id") or "—",
                 "IA": "Sí" if ind.get("dimension_ia") else "No",

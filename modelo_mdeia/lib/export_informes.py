@@ -225,7 +225,7 @@ def generar_word_bytes(
         for _, row in det.head(40).iterrows():
             cells = table.add_row().cells
             cells[0].text = str(row["Código"])
-            cells[1].text = str(row["Indicador"])[:120]
+            cells[1].text = str(row["Indicador"])
             cells[2].text = str(row["Valor"])
             cells[3].text = str(row["Satisface"])
 

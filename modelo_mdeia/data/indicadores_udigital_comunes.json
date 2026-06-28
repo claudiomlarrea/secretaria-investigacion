@@ -81,7 +81,7 @@
   },
   {
     "codigo": "GOM_MODELOGOBIERNOTI",
-    "texto": "¿Ha seleccionado el EG un modelo de gobierno TI y está en explotación?",
+    "texto": "¿Ha seleccionado el EG un modelo de gobierno TI y está en operación?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -233,7 +233,7 @@
   },
   {
     "codigo": "GEM_DATAWAREHOUSE",
-    "texto": "¿Dispone de un datawarehouse en explotación?",
+    "texto": "¿Dispone de un datawarehouse en operación?",
     "objetivo_num": 3,
     "objetivo": "Colaborar con otras instituciones para mejorar nuestra madurez digital",
     "comun": true,
@@ -249,7 +249,7 @@
   },
   {
     "codigo": "GEN_PMEDIOSCOMUNICA",
-    "texto": "% de medios de comunicación en explotación",
+    "texto": "% de medios de comunicación en operación",
     "objetivo_num": 4,
     "objetivo": "Apoyar la toma de decisiones y ofrecer mejores servicios gobernando los datos y obteniendo",
     "comun": true,
@@ -313,7 +313,7 @@
   },
   {
     "codigo": "GEC_NSOPTIDOCENCIA",
-    "texto": "Número de servicios de soporte TI a la docencia en explotación",
+    "texto": "Número de servicios de soporte TI a la docencia en operación",
     "objetivo_num": 6,
     "objetivo": "Satisfacer las expectativas emergentes de nuestros estudiantes",
     "comun": true,
@@ -321,7 +321,7 @@
   },
   {
     "codigo": "GEN_PSOPTIDOCENCIA",
-    "texto": "% de servicios de soporte TI a la docencia en explotación",
+    "texto": "% de servicios de soporte TI a la docencia en operación",
     "objetivo_num": 6,
     "objetivo": "Satisfacer las expectativas emergentes de nuestros estudiantes",
     "comun": true,
@@ -481,7 +481,7 @@
   },
   {
     "codigo": "GEC_NSERVADMELECT",
-    "texto": "Número de servicios TI de soporte a la Administración Electrónica en explotación",
+    "texto": "Número de servicios TI de soporte a la Administración Electrónica en operación",
     "objetivo_num": 9,
     "objetivo": "Mantener la información segura y los servicios disponibles",
     "comun": true,
@@ -489,7 +489,7 @@
   },
   {
     "codigo": "GEN_PSERVADMELECT",
-    "texto": "% de servicios TI de soporte a la Administración Electrónica en explotación",
+    "texto": "% de servicios TI de soporte a la Administración Electrónica en operación",
     "objetivo_num": 9,
     "objetivo": "Mantener la información segura y los servicios disponibles",
     "comun": true,
@@ -513,7 +513,7 @@
   },
   {
     "codigo": "GEC_NSOPTIGESTION",
-    "texto": "Número de servicios TI de soporte a la Gestión en explotación",
+    "texto": "Número de servicios TI de soporte a la Gestión en operación",
     "objetivo_num": 9,
     "objetivo": "Mantener la información segura y los servicios disponibles",
     "comun": true,
@@ -521,7 +521,7 @@
   },
   {
     "codigo": "GEN_PSOPTIGESTION",
-    "texto": "% de servicios TI de soporte a la Gestión en explotación",
+    "texto": "% de servicios TI de soporte a la Gestión en operación",
     "objetivo_num": 9,
     "objetivo": "Mantener la información segura y los servicios disponibles",
     "comun": true,
@@ -529,7 +529,7 @@
   },
   {
     "codigo": "GEC_PSERVICIOSTI",
-    "texto": "% de servicios TI TOTAL en explotación",
+    "texto": "% de servicios TI TOTAL en operación",
     "objetivo_num": 9,
     "objetivo": "Mantener la información segura y los servicios disponibles",
     "comun": true,
@@ -609,7 +609,7 @@
   },
   {
     "codigo": "GEC_NSOPTIINVESTIGA",
-    "texto": "Número de servicios TI de soporte a la investigación que están en explotación de manera centralizada",
+    "texto": "Número de servicios TI de soporte a la investigación que están en operación de manera centralizada",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -617,7 +617,7 @@
   },
   {
     "codigo": "GEN_PSOPTIINVESTIGA",
-    "texto": "% de servicios TI de soporte a la investigación que están en explotación de manera centralizada",
+    "texto": "% de servicios TI de soporte a la investigación que están en operación de manera centralizada",
     "objetivo_num": 10,
     "objetivo": "Ofrecer de manera eficiente y satisfactoria los servicios universitarios digitalizados",
     "comun": true,
@@ -769,7 +769,7 @@
   },
   {
     "codigo": "GEN_PRESUTOTALTINOCENTRAL",
-    "texto": "Presupuesto de TI para SERVICIOS NO CENTRALIZADOS (incluido personal) GEN_ PPRESUTICENTRALMANTIENE % de presupuesto de servicios TI centralizado dedicado a MANTENIMIENTO de infraestructuras ya en explotación GEC_ PPRESUTICENTRALINVERSION % de presupuesto de servicios TI centralizados dedicado a INVERSIONES en nuevos proyectos TI GOM_ PLANFINANCIAPLURIANUALTI ¿Se ha diseñado un plan de financiación plurianual de las TI que establezca los recursos necesarios para satisfacer la estrategia institucional?",
+    "texto": "Presupuesto de TI para SERVICIOS NO CENTRALIZADOS (incluido personal) GEN_ PPRESUTICENTRALMANTIENE % de presupuesto de servicios TI centralizado dedicado a MANTENIMIENTO de infraestructuras ya en operación GEC_ PPRESUTICENTRALINVERSION % de presupuesto de servicios TI centralizados dedicado a INVERSIONES en nuevos proyectos TI GOM_ PLANFINANCIAPLURIANUALTI ¿Se ha diseñado un plan de financiación plurianual de las TI que establezca los recursos necesarios para satisfacer la estrategia institucional?",
     "objetivo_num": 11,
     "objetivo": "Definir un plan de externalización que asegure la calidad de los servicios",
     "comun": true,

@@ -26,7 +26,9 @@ Abrí en **Safari o Chrome**: http://localhost:8501
 ## Gemelo Digital del PEI (app aparte)
 
 ```bash
-streamlit run gemelo_streamlit_app.py
+cd ~/Documents/secretaria-investigacion
+.venv-gemelo/bin/pip install -r requirements.txt
+.venv-gemelo/bin/streamlit run gemelo_streamlit_app.py
 ```
 
 ## Estructura

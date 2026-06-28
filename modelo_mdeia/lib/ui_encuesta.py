@@ -3,10 +3,20 @@
 
 from __future__ import annotations
 
+import html
 from typing import Any
 
 import pandas as pd
 import streamlit as st
+
+
+_NIVEL_SLIDER = {
+    0: "No implementado",
+    1: "Inicial",
+    2: "En desarrollo",
+    3: "Implementado",
+    4: "Optimizado",
+}
 
 
 def render_encuesta(
@@ -16,8 +26,11 @@ def render_encuesta(
     *,
     agrupar_por: str = "objetivo_num",
     titulo_grupo_fn=None,
+    ambito_unidad_id: str | None = None,
 ) -> None:
     """Renderiza controles de encuesta y actualiza respuestas en session_state."""
+    from lib.unidades import texto_indicador_para_ambito
+
     if df_ind.empty:
         st.warning("No hay indicadores para mostrar con los filtros actuales.")
         return
@@ -37,7 +50,15 @@ def render_encuesta(
                 codigo = row["codigo"]
                 tipo = row.get("tipo", "nivel")
                 texto = str(row.get("texto", "")).strip()
-                st.markdown(f"**`{codigo}`** — {texto}")
+                if ambito_unidad_id:
+                    texto = texto_indicador_para_ambito(texto, ambito_unidad_id)
+                st.markdown(
+                    f'<div class="mdeia-indicador">'
+                    f'<p class="mdeia-indicador-codigo"><code>{html.escape(codigo)}</code></p>'
+                    f'<p class="mdeia-indicador-texto">{html.escape(texto)}</p>'
+                    f"</div>",
+                    unsafe_allow_html=True,
+                )
                 if tipo == "si_no":
                     val = st.radio(
                         "Respuesta",
@@ -65,7 +86,7 @@ def render_encuesta(
                     val = st.select_slider(
                         "Nivel de madurez",
                         options=list(niveles.keys()),
-                        format_func=lambda x, n=niveles: f"{x} — {n[x]}",
+                        format_func=lambda x, n=niveles: f"{x} — {_NIVEL_SLIDER.get(x, n[x])}",
                         value=default,
                         key=f"mdeia_{codigo}",
                         label_visibility="collapsed",

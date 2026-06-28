@@ -74,6 +74,30 @@ def inject_theme() -> None:
             border-radius: 12px; padding: 0.65rem 0.85rem;
         }}
         h2, h3, h4 {{ color: {GREEN_DARK} !important; }}
+        .mdeia-indicador {{ margin-bottom: 0.35rem; }}
+        .mdeia-indicador-codigo {{
+            margin: 0 0 0.25rem 0; font-size: 0.82rem; color: {TEXT_MUTED};
+        }}
+        .mdeia-indicador-codigo code {{
+            background: {GREEN_LIGHT}; padding: 0.1rem 0.35rem; border-radius: 4px;
+            white-space: nowrap;
+        }}
+        .mdeia-indicador-texto {{
+            margin: 0 0 0.5rem 0; color: {TEXT}; font-size: 0.95rem; line-height: 1.55;
+            white-space: normal !important; overflow: visible !important;
+            word-wrap: break-word; overflow-wrap: anywhere;
+        }}
+        [data-testid="stExpanderDetails"] [data-testid="stMarkdownContainer"] p {{
+            white-space: normal !important; overflow: visible !important;
+            text-overflow: unset !important;
+        }}
+        [data-testid="stSlider"] [data-baseweb="slider"] div {{
+            white-space: normal !important; overflow: visible !important;
+            font-size: 0.78rem !important; line-height: 1.3 !important;
+        }}
+        [data-testid="stSlider"] {{
+            overflow: visible !important;
+        }}
         </style>
         """,
         unsafe_allow_html=True,

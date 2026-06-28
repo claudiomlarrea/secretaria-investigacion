@@ -59,13 +59,22 @@ from lib.ui_informe_auto import render_informe_automatico
 from lib.ui_unidades import render_panel_unidades
 from lib.unidades import (
     actualizar_meta_informe_activa,
+    aplicar_navegacion_pendiente,
     exportar_todas_unidades,
+    es_ambito_macro,
+    es_seleccion_institucional,
     fusionar_carga_json,
+    hay_unidad_activa,
     init_session_store,
+    limpiar_respuestas_activas,
     meta_informe_activa,
+    metricas_sidebar_activa,
+    render_comparativa_referencia,
     reemplazar_respuestas_activas,
     render_selector_unidades_sidebar,
     respuestas_activas,
+    resumen_unidad,
+    sincronizar_respuestas_widgets,
     unidad_label,
 )
 from ui_theme import estilizar_escala_cantidad, inject_theme, render_header
@@ -89,6 +98,7 @@ render_header(
 )
 
 init_session_store()
+sincronizar_respuestas_widgets()
 
 SECCIONES = [
     "Informe automático",
@@ -110,27 +120,35 @@ if "mdeia_seccion" not in st.session_state:
 elif st.session_state.mdeia_seccion == "Piloto Fase 1":
     st.session_state.mdeia_seccion = FASE1_MENU
 
+aplicar_navegacion_pendiente(secciones=SECCIONES)
+
+res_ctx = (
+    resumen_unidad(st.session_state.mdeia_unidad_activa)
+    if hay_unidad_activa()
+    else {"piloto_n": 0, "piloto_total": len(pilot_codigos())}
+)
+if hay_unidad_activa():
+    n_piloto, total_piloto = progreso_piloto(respuestas_activas())
+else:
+    n_piloto, total_piloto = 0, len(pilot_codigos())
+
 with st.sidebar:
     st.markdown(f"### {APP_NAME}")
     st.caption(APP_SUBTITLE)
     st.markdown("---")
-    try:
-        sec_idx = SECCIONES.index(st.session_state.mdeia_seccion)
-    except ValueError:
-        sec_idx = 0
-    # Sin key=: permite cambiar sección desde botones del panel (p. ej. «Continuar con Informe automático»)
-    seccion_radio = st.radio(
+    st.radio(
         "Secciones",
         SECCIONES,
-        index=sec_idx,
+        key="mdeia_seccion",
         label_visibility="collapsed",
     )
-    if seccion_radio != st.session_state.mdeia_seccion:
-        st.session_state.mdeia_seccion = seccion_radio
     st.markdown("---")
+    m = metricas_sidebar_activa()
+    st.metric(FASE1_CORTO, m["linea_base"])
+    if m["imd"] is not None:
+        st.metric(IMD_FASE1_LABEL, f"{m['imd']} %")
+    st.metric("Catálogo completo", f"{m['catalogo']} / {m['catalogo_total']}")
     n_piloto, total_piloto = progreso_piloto(respuestas_activas())
-    st.metric(FASE1_CORTO, f"{n_piloto} / {total_piloto}")
-    st.metric("Catálogo completo", f"{len(respuestas_activas())} / {len(load_indicadores())}")
     if n_piloto == total_piloto and total_piloto:
         st.success("Línea de base completa. Exportá el informe ejecutivo.")
 
@@ -521,6 +539,16 @@ elif seccion == "Guía del diagnóstico":
 elif seccion == FASE1_MENU:
     st.subheader(FASE1_TITULO)
     st.caption(f"Unidad activa: **{unidad_label(st.session_state.mdeia_unidad_activa)}**")
+    if es_seleccion_institucional(st.session_state.mdeia_unidad_activa):
+        st.info(
+            "Respondé los **36 indicadores** evaluando **toda la Universidad Católica de Cuyo** "
+            "(políticas, servicios y recursos institucionales en todas las sedes)."
+        )
+    elif es_ambito_macro(st.session_state.mdeia_unidad_activa):
+        st.info(
+            "Respondé los **36 indicadores** evaluando **toda la sede** "
+            "(políticas, servicios y recursos compartidos de la sede, no una sola facultad)."
+        )
     st.markdown(piloto["descripcion"])
 
     c1, c2, c3 = st.columns(3)
@@ -565,7 +593,9 @@ elif seccion == FASE1_MENU:
             niveles,
             agrupar_por="bloque_piloto",
             titulo_grupo_fn=lambda k, _g: f"{k} · {bloques.get(k, k)}",
+            ambito_unidad_id=st.session_state.mdeia_unidad_activa,
         )
+        render_comparativa_referencia()
         st.divider()
         if st.button(f"Calcular {IMD_FASE1_LABEL}", type="primary"):
             st.session_state.mdeia_resultado_piloto = calcular_imd(
@@ -590,6 +620,7 @@ elif seccion == FASE1_MENU:
             )
         if resp_p:
             _panel_imd(respuestas_activas(), modo_piloto=True)
+            render_comparativa_referencia()
             html_inf = generar_informe_html(
                 respuestas_activas(), modo="piloto", meta_encuesta=meta_inf
             )
@@ -624,7 +655,13 @@ elif seccion == "Autodiagnóstico completo":
         min(1.0, len(respuestas_activas()) / max(n_total, 1)),
         text=f"{len(respuestas_activas())} indicadores respondidos",
     )
-    render_encuesta(df_ind, respuestas_activas(), niveles)
+    render_encuesta(
+        df_ind,
+        respuestas_activas(),
+        niveles,
+        ambito_unidad_id=st.session_state.mdeia_unidad_activa,
+    )
+    render_comparativa_facultades_sede()
 
     st.divider()
     b1, b2, b3 = st.columns(3)
@@ -634,8 +671,7 @@ elif seccion == "Autodiagnóstico completo":
             st.success("IMD calculado. Ver **Panel IMD**.")
     with b2:
         if st.button("Limpiar respuestas"):
-            respuestas_activas().clear()
-            st.session_state.pop("mdeia_resultado", None)
+            limpiar_respuestas_activas()
             st.rerun()
     with b3:
         payload = exportar_diagnostico(respuestas_activas())
@@ -650,6 +686,7 @@ elif seccion == "Panel IMD":
     st.subheader("Panel IMD")
     modo = st.radio("Modo", [FASE1_MENU, "Catálogo completo"], horizontal=True)
     _panel_imd(respuestas_activas(), modo_piloto=(modo == FASE1_MENU))
+    render_comparativa_facultades_sede()
     if respuestas_activas():
         meta_inf = _meta_informe_widgets()
         html_inf = generar_informe_html(
