@@ -224,16 +224,6 @@ def inject_theme() -> None:
             overflow: visible !important;
             text-overflow: unset !important;
         }}
-        [data-testid="stSlider"] [data-baseweb="slider"] div {{
-            white-space: normal !important;
-            overflow: visible !important;
-            font-size: 0.78rem !important;
-            line-height: 1.3 !important;
-            color: {TEXT_MUTED} !important;
-        }}
-        [data-testid="stSlider"] {{
-            overflow: visible !important;
-        }}
 
         /* —— Botones primarios (verde institucional, texto blanco) —— */
         [data-testid="stBaseButton-primary"],

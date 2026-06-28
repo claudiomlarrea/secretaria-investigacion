@@ -45,6 +45,10 @@ def render_encuesta(
 
         n_ok = sum(1 for c in grupo["codigo"] if c in respuestas)
         with st.expander(f"{titulo} ({n_ok}/{len(grupo)})", expanded=len(grupo) <= 6):
+            st.caption(
+                "Escala: 0 No implementado · 1 Inicial · 2 En desarrollo · "
+                "3 Implementado · 4 Optimizado"
+            )
             grupo_rows = list(grupo.iterrows())
             for idx, (_, row) in enumerate(grupo_rows):
                 codigo = row["codigo"]
@@ -82,15 +86,19 @@ def render_encuesta(
                     )
                     respuestas[codigo] = val
                 else:
+                    opciones = list(niveles.keys())
                     default = int(respuestas.get(codigo, 0) or 0)
-                    val = st.select_slider(
+                    idx = opciones.index(default) if default in opciones else 0
+                    val = st.radio(
                         "Nivel de madurez",
-                        options=list(niveles.keys()),
-                        format_func=lambda x, n=niveles: f"{x} — {_NIVEL_SLIDER.get(x, n[x])}",
-                        value=default,
+                        options=opciones,
+                        index=idx,
+                        format_func=lambda x: str(x),
                         key=f"mdeia_{codigo}",
                         label_visibility="collapsed",
+                        horizontal=True,
                     )
+                    st.caption(f"Nivel elegido: **{val} — {_NIVEL_SLIDER.get(val, niveles.get(val, ''))}**")
                     respuestas[codigo] = val
                 if idx < len(grupo_rows) - 1:
                     st.markdown("---")
