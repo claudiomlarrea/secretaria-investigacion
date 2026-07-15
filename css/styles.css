@@ -685,11 +685,26 @@ header.section-head--bar h2 {
 .tool-card .tile-actions {
   margin-top: auto;
   padding-top: 0.15rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
 }
 
 .tool-card .btn {
   padding: 0.45rem 0.85rem;
   font-size: 0.88rem;
+}
+
+.tool-card .btn-ghost {
+  background: transparent;
+  color: var(--color-institutional);
+  border: 1.5px solid var(--color-institutional);
+}
+
+.tool-card .btn-ghost:hover {
+  background: rgba(var(--rgb-inst), 0.08);
+  color: var(--color-institutional-dark);
 }
 
 .contact-layout {
