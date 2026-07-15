@@ -686,9 +686,10 @@ header.section-head--bar h2 {
   margin-top: auto;
   padding-top: 0.15rem;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  flex-wrap: nowrap;
   gap: 0.45rem;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .tool-card .btn {
