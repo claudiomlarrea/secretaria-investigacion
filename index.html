@@ -12,7 +12,7 @@
     />
     <title>Secretaría de Investigación | Universidad Católica de Cuyo</title>
     <link rel="icon" type="image/png" href="assets/logo-uccuyo.png" />
-    <link rel="stylesheet" href="css/styles.css?v=31" />
+    <link rel="stylesheet" href="css/styles.css?v=32" />
     <script>
       if (location.hash === "#investigaciones") {
         history.replaceState(null, "", location.pathname + "#inicio");
@@ -86,6 +86,7 @@
               <li><a href="#publicaciones">Publicaciones</a></li>
               <li><a href="#herramientas">Herramientas de Análisis</a></li>
               <li><a href="#observatorio-ia">Observatorio de IA</a></li>
+              <li><a href="#visitas">Visitas a la Secretaría</a></li>
               <li><a href="#contacto">Contacto</a></li>
             </ul>
           </nav>
@@ -132,6 +133,7 @@
               >Herramientas de Análisis</a
             >
             <a class="btn btn-ghost" href="#observatorio-ia">Observatorio de IA</a>
+            <a class="btn btn-ghost" href="#visitas">Visitas a la Secretaría</a>
             <a class="btn btn-ghost" href="#contacto">Contacto</a>
           </div>
           <div class="hero-mail-row">
@@ -971,6 +973,38 @@
         </div>
       </section>
 
+      <section class="section section--visitas" id="visitas" aria-labelledby="sec-visitas">
+        <div class="section-inner">
+          <header class="section-head section-head--bar section-head--green">
+            <p class="section-kicker">Alcance</p>
+            <h2 id="sec-visitas">Visitas a la Secretaría</h2>
+          </header>
+          <p class="text-intro">
+            Estimación del país y, cuando está disponible, de la provincia o
+            región desde donde se consulta el sitio de la Secretaría de
+            Investigación. El dato es aproximado (geolocalización por IP): no
+            identifica personas ni guarda la dirección IP.
+          </p>
+          <p id="visitas-total" class="visitas-total" hidden></p>
+          <p id="visitas-status" class="visitas-status" aria-live="polite"></p>
+          <div class="visitas-layout">
+            <div
+              id="visitas-mapa"
+              class="visitas-mapa"
+              role="img"
+              aria-label="Mapa de origen estimado de las visitas a la Secretaría"
+            ></div>
+            <div id="visitas-lista" class="visitas-lista"></div>
+          </div>
+          <p class="visitas-note">
+            El origen es una estimación por IP. Las visitas anteriores al mapa
+            se pueden repartir con las proporciones de Google Analytics (backfill
+            en Apps Script). Redes móviles, VPN y campus universitarios pueden
+            desplazar la ubicación estimada.
+          </p>
+        </div>
+      </section>
+
       <section class="section" aria-labelledby="sec-contacto">
         <div class="section-inner">
           <header id="contacto" class="section-head section-head--bar section-head--red">
@@ -1028,6 +1062,7 @@
         <a href="#tablero-investigacion">Tablero de Investigación</a>
         <a href="#publicaciones">Publicaciones</a>
         <a href="#herramientas">Herramientas de Análisis</a>
+        <a href="#visitas">Visitas a la Secretaría</a>
         <a href="#contacto">Contacto</a>
         <a
           href="https://claudiomlarrea.github.io/observatorio-ia/"
@@ -1042,6 +1077,7 @@
     <script src="js/publicaciones-config.js?v=4" defer></script>
     <script src="js/visitantes-config.js?v=1" defer></script>
     <script src="js/visitantes.js?v=2" defer></script>
+    <script src="js/visitas-mapa.js?v=2" defer></script>
     <script src="js/publicaciones.js?v=5" defer></script>
     <script src="js/publicaciones-fuentes-abiertas.js?v=1" defer></script>
     <script src="js/publicaciones-index.js?v=5" defer></script>

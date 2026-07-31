@@ -1877,3 +1877,118 @@ form.simple-form small {
   transform: none;
   filter: none;
 }
+.section--visitas {
+  background: linear-gradient(180deg, #f4f8f6 0%, #faf8f8 100%);
+}
+
+.section--visitas .text-intro {
+  max-width: 44rem;
+}
+
+.visitas-total {
+  margin: 0 0 0.75rem;
+  font-size: 0.98rem;
+  color: var(--color-text);
+}
+
+.visitas-status {
+  margin: 0 0 1rem;
+  color: var(--color-text-soft);
+  font-size: 0.95rem;
+}
+
+.visitas-layout {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
+  .visitas-layout {
+    grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.85fr);
+    align-items: start;
+  }
+}
+
+.visitas-mapa {
+  min-height: 22rem;
+  height: clamp(22rem, 48vw, 28rem);
+  border-radius: var(--radius);
+  border: 1px solid rgba(var(--rgb-green), 0.22);
+  background: #e8f0ec;
+  box-shadow: 0 8px 24px rgba(4, 74, 48, 0.08);
+  overflow: hidden;
+  z-index: 0;
+}
+
+.visitas-mapa .leaflet-container {
+  width: 100%;
+  height: 100%;
+  font: inherit;
+}
+
+.visitas-lista {
+  min-width: 0;
+}
+
+.visitas-tables {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.visitas-tables h3 {
+  margin: 0 0 0.55rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--color-green-dark);
+}
+
+.visitas-rank {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid rgba(var(--rgb-inst), 0.1);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.visitas-rank li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.85rem;
+  border-top: 1px solid rgba(var(--rgb-inst), 0.08);
+  font-size: 0.92rem;
+}
+
+.visitas-rank li:first-child {
+  border-top: 0;
+}
+
+.visitas-rank span {
+  color: var(--color-text);
+  min-width: 0;
+}
+
+.visitas-rank strong {
+  color: var(--color-institutional);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.visitas-empty {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  color: var(--color-text-soft);
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px dashed rgba(var(--rgb-green), 0.28);
+  border-radius: var(--radius);
+}
+
+.visitas-note {
+  margin: 1.25rem 0 0;
+  font-size: 0.88rem;
+  color: var(--color-text-soft);
+  max-width: 46rem;
+}
+
