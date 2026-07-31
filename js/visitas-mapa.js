@@ -526,6 +526,8 @@
             try {
               sessionStorage.setItem(GEO_SESSION_KEY, "1");
             } catch (e2) {}
+          } else if (res && res.error === "invalid_site") {
+            window.__visitasGeoBackendPendiente = true;
           }
           return res;
         });
@@ -541,7 +543,19 @@
     .then(function () {
       return fetchApps("visitmap");
     })
-    .then(paint, function () {
+    .then(function (data) {
+      paint(data);
+      if (
+        window.__visitasGeoBackendPendiente &&
+        data &&
+        data.ok &&
+        !(data.total > 0)
+      ) {
+        setStatus(
+          "El mapa está listo, pero Apps Script aún no acepta este sitio. En Publicaciones Página Web hay que pegar PublicacionesWeb.gs actualizado y publicar Nueva versión (ver PARCHE-VISITGEO-SECRETARIA.txt)."
+        );
+      }
+    }, function () {
       setStatus("No se pudo cargar el origen de las visitas.");
     });
 })();
