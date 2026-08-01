@@ -647,6 +647,28 @@ header.section-head--bar h2 {
 
 .tile-actions {
   margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.tile-actions .btn {
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.35;
+}
+
+@media (max-width: 719px) {
+  .tile-actions {
+    flex-direction: column;
+  }
+
+  .tile-actions .btn {
+    width: 100%;
+  }
 }
 
 .tile-actions--row {
