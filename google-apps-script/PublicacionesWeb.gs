@@ -5,10 +5,10 @@
  * Proyecto Apps Script NUEVO (no reemplazar el del Observatorio).
  *
  * Diferencias con OIA:
- * - Clave de panel: SEC-Investigacion-2026 (OIA usa OIA-Privado-2026).
  * - Unidad por defecto al cargar: Secretaría de Investigación.
  * - La web Secretaría lista todo lo publicado en la planilla (todas las unidades);
  *   en cada fila se ve la unidad académica. OIA sigue filtrando solo filas OIA.
+ * - Acceso equipo: solo correos Google autorizados (sin clave en el frontend).
  *
  * Endpoints:
  * - GET  (sin action): JSON para la web pública.
@@ -29,19 +29,16 @@ var LOOKER_SHEET_ID = "10SKDfZJIZGSTOaOWgGmB46WPM0Bd0BvLe4aZ9jilA34";
 var LOOKER_TAB = "indice_openalex";
 var LOOKER_HEADERS = ["anio", "titulo", "autores", "doi", "url", "fuente", "fecha_sync"];
 
-var ADMIN_ACCESS_KEY = "SEC-Investigacion-2026";
-
+/** Acceso equipo: solo correos Google autorizados (sin clave en el frontend). */
 var AUTHORIZED_EMAILS = [
-  "claudio.larrea@hotmail.com",
-  "claudio17larrea@gmail.com",
   "investigacion@uccuyo.edu.ar",
-  "observatorioia@uccuyo.edu.ar",
-  "barias@uccuyo.edu.ar",
-  "vincutec@uccuyo.edu.ar",
-  "asistente.inv@uccuyo.edu.ar",
   "jose.lamalfa@uccuyosl.edu.ar",
-  "laurapizarro92@gmail.com",
-  "lpizarro@uccuyo.edu.ar"
+  "asistente.inv@uccuyo.edu.ar",
+  "vincutec@uccuyo.edu.ar",
+  "lpizarro@uccuyo.edu.ar",
+  "barias@uccuyo.edu.ar",
+  "claudio17larrea@gmail.com",
+  "observatorioia@uccuyo.edu.ar"
 ];
 
 /** Misma lista que Consejo / Producción Científica (Streamlit) + unidades transversales. */
@@ -210,7 +207,6 @@ function lookerHasDoi_(sh, doi) {
 
 function authorizeSavePanel() {
   var r = savePublicationAdmin_({
-    key: ADMIN_ACCESS_KEY,
     tipo: "Diario",
     titulo: "Prueba permisos panel",
     unidad: "Secretaría de Investigación",
@@ -222,28 +218,23 @@ function authorizeSavePanel() {
 
 function isAuthorizedForPayload_(p) {
   var email = getEmail_();
-  if (email && AUTHORIZED_EMAILS.indexOf(email) >= 0) return true;
-  return val_(p && p.key) === ADMIN_ACCESS_KEY;
+  return !!(email && AUTHORIZED_EMAILS.indexOf(email) >= 0);
 }
 
 function renderAdmin_(e) {
   if (!isAuthorized_(e)) {
     return HtmlService.createHtmlOutput(
       "<h3>Acceso denegado</h3>" +
-        "<p>No se pudo validar el acceso. En las apps web de Google el correo con el que entraste " +
-        "casi nunca se detecta automáticamente.</p>" +
-        "<p><strong>Cómo entrar:</strong> usá el botón " +
-        "<em>Ingreso equipo · Cargar publicaciones</em> en la sección Publicaciones del sitio " +
-        "(ese enlace incluye la clave de acceso).</p>" +
-        "<p>Si abriste esta página a mano, la URL debe terminar en " +
-        "<code>?action=admin&amp;key=SEC-Investigacion-2026</code> " +
-        "(clave del proyecto Secretaría, no la del Observatorio).</p>"
+        "<p>Iniciá sesión en Google con un correo autorizado del equipo " +
+        "(por ejemplo <code>investigacion@uccuyo.edu.ar</code>) y volvé a abrir " +
+        "<em>Ingreso equipo · Cargar publicaciones</em>.</p>" +
+        "<p>En la implementación de Apps Script, «Quién tiene acceso» debe ser " +
+        "<strong>Cualquier usuario de Google</strong> para que se detecte tu correo.</p>"
     ).setTitle("Secretaría - Acceso denegado");
   }
   var t = HtmlService.createTemplateFromFile("PublicacionesAdmin");
   t.apiUrl = ScriptApp.getService().getUrl();
-  var keyFromUrl = adminKeyFromRequest_(e);
-  t.adminKey = keyFromUrl === ADMIN_ACCESS_KEY ? keyFromUrl : ADMIN_ACCESS_KEY;
+  t.adminKey = "";
   t.unidades = getUnidadesAcademicas_();
   t.defaultUnidad = "Secretaría de Investigación";
   return t
@@ -446,27 +437,21 @@ function normalizar_(x) {
 }
 
 function getEmail_() {
+  var email = "";
   try {
-    return String(Session.getActiveUser().getEmail() || "").toLowerCase().trim();
-  } catch (_e) {
-    return "";
+    email = String(Session.getActiveUser().getEmail() || "").toLowerCase().trim();
+  } catch (_e) {}
+  if (!email) {
+    try {
+      email = String(Session.getEffectiveUser().getEmail() || "").toLowerCase().trim();
+    } catch (_e2) {}
   }
+  return email;
 }
 
 function isAuthorized_(e) {
   var email = getEmail_();
-  if (email && AUTHORIZED_EMAILS.indexOf(email) >= 0) return true;
-  if (adminKeyFromRequest_(e) === ADMIN_ACCESS_KEY) return true;
-  if (e) {
-    var payload = mergePostParams_(e);
-    if (val_(payload.key) === ADMIN_ACCESS_KEY) return true;
-  }
-  return false;
-}
-
-function adminKeyFromRequest_(e) {
-  if (!e || !e.parameter) return "";
-  return val_(e.parameter.key);
+  return !!(email && AUTHORIZED_EMAILS.indexOf(email) >= 0);
 }
 
 function registrarVisita_(site) {

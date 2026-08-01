@@ -10,18 +10,18 @@ PUBLICACIONES SECRETARÍA — un solo paso en Google (5 minutos)
    Pegá TODO PublicacionesAdmin.html
 
 4. Implementar → Nueva implementación → Aplicación web
-   Ejecutar como: Yo | Acceso: Cualquier usuario → Implementar
+   Ejecutar como: Yo | Acceso: Cualquier usuario de Google → Implementar
 
 5. Copiá la URL que termina en /exec
 
-6. En tu Mac, abrí js/publicaciones-config.js y pegá en SEC_APPS_SCRIPT_PRODUCCION:
+6. En tu Mac, abrí js/publicaciones-config.js:
 
    APPS_SCRIPT_URL: "LA_URL_QUE_COPIASTE",
-   ADMIN_URL: "LA_URL_QUE_COPIASTE?action=admin&key=SEC-Investigacion-2026"
+   ADMIN_URL: ""
 
 7. git add js/publicaciones-config.js && git commit -m "Conectar API publicaciones Secretaría" && git push
 
    (O avisame y lo subo yo.)
 
-NO pegues estos archivos en el proyecto del Observatorio.
-Misma planilla, dos proyectos distintos.
+NO pegues estos archivos en el proyecto del Observatorio salvo que quieras unificar.
+Misma planilla; acceso panel solo por correo Google autorizado.

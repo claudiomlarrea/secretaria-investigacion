@@ -9,8 +9,7 @@
     if (CFG.ADMIN_URL && String(CFG.ADMIN_URL).trim()) return String(CFG.ADMIN_URL).trim();
     if (!CFG.APPS_SCRIPT_URL || !String(CFG.APPS_SCRIPT_URL).trim()) return "";
     var base = String(CFG.APPS_SCRIPT_URL).trim();
-    var key = String(CFG.ADMIN_ACCESS_KEY || "OIA-Privado-2026").trim();
-    return base + (base.indexOf("?") >= 0 ? "&" : "?") + "action=admin&key=" + encodeURIComponent(key);
+    return base + (base.indexOf("?") >= 0 ? "&" : "?") + "action=admin";
   }
 
   function dibujarIngresoEquipo() {
@@ -26,7 +25,7 @@
       "<a class=\"btn btn-ghost\" href=\"" +
       esc(url) +
       "\" target=\"_blank\" rel=\"noopener noreferrer\">Ingreso equipo · Cargar publicaciones</a> " +
-      "<small>(solo miembros autorizados)</small></p>";
+      "<small>(iniciá sesión en Google con un correo autorizado)</small></p>";
   }
 
   function esc(s) {
