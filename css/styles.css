@@ -1891,6 +1891,55 @@ form.simple-form small {
   color: var(--color-text);
 }
 
+.visitas-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 0.65rem;
+  margin: 0 0 1rem;
+}
+
+.visitas-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.7rem 0.85rem;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(var(--rgb-green), 0.16);
+  border-radius: var(--radius);
+}
+
+.visitas-stat--wide {
+  grid-column: span 2;
+}
+
+@media (max-width: 560px) {
+  .visitas-stat--wide {
+    grid-column: span 1;
+  }
+}
+
+.visitas-stat__k {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-text-soft);
+}
+
+.visitas-stat strong {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--color-text);
+  line-height: 1.25;
+}
+
+.visitas-stat em {
+  font-style: normal;
+  font-size: 0.88rem;
+  color: var(--color-institutional);
+  font-variant-numeric: tabular-nums;
+}
+
 .visitas-status {
   margin: 0 0 1rem;
   color: var(--color-text-soft);
@@ -1904,14 +1953,83 @@ form.simple-form small {
 
 @media (min-width: 900px) {
   .visitas-layout {
-    grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.85fr);
+    grid-template-columns: minmax(0, 1.45fr) minmax(16rem, 0.9fr);
     align-items: start;
   }
 }
 
+.visitas-map-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.visitas-map-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem 1rem;
+}
+
+.visitas-map-actions {
+  display: inline-flex;
+  gap: 0.35rem;
+  padding: 0.2rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(var(--rgb-green), 0.18);
+}
+
+.visitas-map-btn {
+  appearance: none;
+  border: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  color: var(--color-green-dark);
+  background: transparent;
+}
+
+.visitas-map-btn:hover {
+  background: rgba(var(--rgb-green), 0.1);
+}
+
+.visitas-map-btn.is-active {
+  background: var(--color-banner-green-dark);
+  color: var(--color-on-dark);
+}
+
+.visitas-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.75rem;
+  font-size: 0.8rem;
+  color: var(--color-text-soft);
+}
+
+.visitas-legend__swatches {
+  display: inline-flex;
+  gap: 0.2rem;
+}
+
+.visitas-legend__swatches i {
+  display: block;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  border: 1px solid rgba(4, 47, 35, 0.25);
+}
+
 .visitas-mapa {
-  min-height: 22rem;
-  height: clamp(22rem, 48vw, 28rem);
+  min-height: 24rem;
+  height: clamp(24rem, 52vw, 32rem);
   border-radius: var(--radius);
   border: 1px solid rgba(var(--rgb-green), 0.22);
   background: #e8f0ec;
@@ -1924,6 +2042,11 @@ form.simple-form small {
   width: 100%;
   height: 100%;
   font: inherit;
+}
+
+.visitas-popup-pct {
+  color: #5c4f54;
+  font-size: 0.92em;
 }
 
 .visitas-lista {
@@ -1953,27 +2076,106 @@ form.simple-form small {
 }
 
 .visitas-rank li {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.55rem 0.85rem;
   border-top: 1px solid rgba(var(--rgb-inst), 0.08);
-  font-size: 0.92rem;
 }
 
 .visitas-rank li:first-child {
   border-top: 0;
 }
 
-.visitas-rank span {
-  color: var(--color-text);
-  min-width: 0;
+.visitas-rank__btn {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.55rem 0.75rem;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
 }
 
-.visitas-rank strong {
+.visitas-rank__btn:hover:not(:disabled) {
+  background: rgba(var(--rgb-green), 0.07);
+}
+
+.visitas-rank__btn.is-active {
+  background: rgba(var(--rgb-inst), 0.08);
+}
+
+.visitas-rank__btn:disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+
+.visitas-rank__pos {
+  flex-shrink: 0;
+  width: 1.35rem;
+  height: 1.35rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-green-dark);
+  background: rgba(var(--rgb-green), 0.12);
+}
+
+.visitas-rank__meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.visitas-rank__name {
+  font-size: 0.92rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.visitas-rank__bar {
+  display: block;
+  height: 0.28rem;
+  border-radius: 999px;
+  background: rgba(var(--rgb-green), 0.12);
+  overflow: hidden;
+}
+
+.visitas-rank__bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    var(--color-green),
+    var(--color-institutional-mid)
+  );
+}
+
+.visitas-rank__btn strong {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.05rem;
   color: var(--color-institutional);
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.visitas-rank__btn strong em {
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-soft);
 }
 
 .visitas-empty {

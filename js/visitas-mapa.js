@@ -1,3 +1,7 @@
+/**
+ * Mapa de origen de visitas (país / provincia estimada por IP).
+ * Lista clicable, resumen, leyenda y foco Mundo / Argentina.
+ */
 (function () {
   var CFG = window.SEC_VISITANTES || {};
   var PUB = window.SEC_PUBLICACIONES || window.OBS_PUBLICACIONES || {};
@@ -14,6 +18,9 @@
   }
 
   var GEO_SESSION_KEY = "visitgeo_" + site;
+  var mapApi = null;
+  var markerIndex = {};
+
   var COUNTRY_CENTROIDS = {
     AF: [-65.2, 33.9],
     AL: [20.2, 41.2],
@@ -233,12 +240,25 @@
     }
   }
 
+  function pct(part, total) {
+    if (!total) return "0%";
+    return Math.round((1000 * part) / total) / 10 + "%";
+  }
+
   function normKey(s) {
     return String(s || "")
       .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .trim();
+  }
+
+  function escapeHtml(s) {
+    return String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
   }
 
   function appsUrl(action, extra) {
@@ -339,76 +359,286 @@
   }
 
   function radiusForCount(count, max) {
-    var t = max > 0 ? count / max : 0;
-    return 8 + Math.round(t * 22);
+    var t = max > 0 ? Math.sqrt(count / max) : 0;
+    return 9 + Math.round(t * 26);
   }
 
   function provinceCentroid(region) {
     return AR_PROVINCE_CENTROIDS[normKey(region)] || null;
   }
 
+  function ensureChrome() {
+    var layout = mapRoot.parentElement;
+    if (!layout) return;
+
+    if (!document.getElementById("visitas-stats")) {
+      var stats = document.createElement("div");
+      stats.id = "visitas-stats";
+      stats.className = "visitas-stats";
+      stats.hidden = true;
+      layout.parentNode.insertBefore(stats, layout);
+    }
+
+    if (!document.getElementById("visitas-map-tools")) {
+      var tools = document.createElement("div");
+      tools.className = "visitas-map-wrap";
+      mapRoot.parentNode.insertBefore(tools, mapRoot);
+      tools.appendChild(mapRoot);
+
+      var bar = document.createElement("div");
+      bar.id = "visitas-map-tools";
+      bar.className = "visitas-map-tools";
+      bar.innerHTML =
+        '<div class="visitas-map-actions" role="group" aria-label="Enfoque del mapa">' +
+        '<button type="button" class="visitas-map-btn is-active" data-focus="all">Mundo</button>' +
+        '<button type="button" class="visitas-map-btn" data-focus="ar">Argentina</button>' +
+        "</div>" +
+        '<div class="visitas-legend" aria-hidden="true">' +
+        '<span class="visitas-legend__label">Más visitas → círculo más grande y tono más intenso</span>' +
+        '<span class="visitas-legend__swatches">' +
+        '<i style="background:#a8cfc0"></i><i style="background:#5fa88c"></i>' +
+        '<i style="background:#0d6e4f"></i><i style="background:#7a1532"></i>' +
+        "</span></div>";
+      tools.insertBefore(bar, mapRoot);
+    }
+  }
+
+  function renderStats(data) {
+    var el = document.getElementById("visitas-stats");
+    var totalNote = document.getElementById("visitas-total");
+    if (totalNote) totalNote.hidden = true;
+    if (!el) return;
+
+    var countries = data.countries || [];
+    var regions = data.regions || [];
+    var total = Number(data.total) || 0;
+    if (!countries.length) {
+      el.hidden = true;
+      el.innerHTML = "";
+      return;
+    }
+
+    var top = countries[0];
+    var arRegions = regions.filter(function (r) {
+      return String(r.country || "").toUpperCase() === "AR";
+    });
+    var topRegion = arRegions[0] || regions[0] || null;
+
+    el.hidden = false;
+    el.innerHTML =
+      '<div class="visitas-stat"><span class="visitas-stat__k">Con origen</span><strong>' +
+      fmt(total) +
+      "</strong></div>" +
+      '<div class="visitas-stat"><span class="visitas-stat__k">Países</span><strong>' +
+      fmt(countries.length) +
+      "</strong></div>" +
+      '<div class="visitas-stat"><span class="visitas-stat__k">Provincias / regiones</span><strong>' +
+      fmt(regions.length) +
+      "</strong></div>" +
+      '<div class="visitas-stat visitas-stat--wide"><span class="visitas-stat__k">Principal</span><strong>' +
+      escapeHtml(top.name || top.code) +
+      "</strong><em>" +
+      fmt(top.count) +
+      " · " +
+      pct(top.count, total) +
+      "</em></div>" +
+      (topRegion
+        ? '<div class="visitas-stat visitas-stat--wide"><span class="visitas-stat__k">Provincia destacada</span><strong>' +
+          escapeHtml(topRegion.region) +
+          "</strong><em>" +
+          fmt(topRegion.count) +
+          " · " +
+          pct(topRegion.count, total) +
+          "</em></div>"
+        : "");
+  }
+
+  function popupHtml(title, count, total) {
+    return (
+      "<strong>" +
+      escapeHtml(title) +
+      "</strong><br>" +
+      fmt(count) +
+      " visita" +
+      (count === 1 ? "" : "s") +
+      " <span class=\"visitas-popup-pct\">(" +
+      pct(count, total) +
+      ")</span>"
+    );
+  }
+
+  function focusMarker(key) {
+    var entry = markerIndex[key];
+    if (!entry || !mapApi) return;
+    var zoom = entry.kind === "province" ? 5 : entry.kind === "country-ar" ? 4 : 3;
+    mapApi.setView(entry.latlng, Math.max(mapApi.getZoom(), zoom), { animate: true });
+    entry.marker.openPopup();
+    setActiveListItem(key);
+  }
+
+  function setActiveListItem(key) {
+    if (!listRoot) return;
+    var items = listRoot.querySelectorAll("[data-marker-key]");
+    for (var i = 0; i < items.length; i++) {
+      items[i].classList.toggle("is-active", items[i].getAttribute("data-marker-key") === key);
+    }
+  }
+
+  function bindListClicks() {
+    if (!listRoot) return;
+    listRoot.onclick = function (e) {
+      var btn = e.target.closest("[data-marker-key]");
+      if (!btn) return;
+      focusMarker(btn.getAttribute("data-marker-key"));
+    };
+  }
+
   function renderList(data) {
     if (!listRoot) return;
     var countries = data.countries || [];
     var regions = data.regions || [];
+    var total = Number(data.total) || 0;
     if (!countries.length) {
       listRoot.innerHTML =
-        "<p class=\"visitas-empty\">Todavía no hay orígenes registrados. El mapa se irá completando con las nuevas visitas.</p>";
+        '<p class="visitas-empty">Todavía no hay orígenes registrados. El mapa se irá completando con las nuevas visitas.</p>';
       return;
     }
 
-    var html = "<div class=\"visitas-tables\">";
+    var html = '<div class="visitas-tables">';
     html += "<div><h3>Países</h3><ol class=\"visitas-rank\">";
-    countries.slice(0, 12).forEach(function (c) {
+    countries.slice(0, 12).forEach(function (c, idx) {
+      var code = String(c.code || "").toUpperCase();
+      var key = "c:" + code;
+      var hasMarker = !!markerIndex[key] || (code === "AR" && Object.keys(markerIndex).some(function (k) {
+        return k.indexOf("p:AR:") === 0;
+      }));
+      var markKey = markerIndex[key]
+        ? key
+        : code === "AR"
+          ? Object.keys(markerIndex).filter(function (k) {
+              return k.indexOf("p:AR:") === 0;
+            })[0] || ""
+          : "";
       html +=
-        "<li><span>" +
-        escapeHtml(c.name || c.code) +
-        "</span><strong>" +
+        '<li><button type="button" class="visitas-rank__btn" data-marker-key="' +
+        escapeHtml(markKey || key) +
+        '"' +
+        (hasMarker || markKey ? "" : " disabled") +
+        ">" +
+        '<span class="visitas-rank__pos">' +
+        (idx + 1) +
+        "</span>" +
+        '<span class="visitas-rank__meta"><span class="visitas-rank__name">' +
+        escapeHtml(c.name || code) +
+        '</span><span class="visitas-rank__bar" aria-hidden="true"><i style="width:' +
+        Math.max(6, Math.round((100 * c.count) / (countries[0].count || 1))) +
+        '%"></i></span></span>' +
+        '<strong><em>' +
+        pct(c.count, total) +
+        "</em>" +
         fmt(c.count) +
-        "</strong></li>";
+        "</strong></button></li>";
     });
     html += "</ol></div>";
 
     if (regions.length) {
       html += "<div><h3>Provincias / regiones</h3><ol class=\"visitas-rank\">";
-      regions.slice(0, 12).forEach(function (r) {
+      regions.slice(0, 12).forEach(function (r, idx) {
+        var code = String(r.country || "").toUpperCase();
+        var key = "p:" + code + ":" + normKey(r.region);
         var label = r.region;
-        if (r.countryName) label += " (" + r.countryName + ")";
+        if (r.countryName && code !== "AR") label += " (" + r.countryName + ")";
         html +=
-          "<li><span>" +
+          '<li><button type="button" class="visitas-rank__btn" data-marker-key="' +
+          escapeHtml(key) +
+          '"' +
+          (markerIndex[key] ? "" : " disabled") +
+          ">" +
+          '<span class="visitas-rank__pos">' +
+          (idx + 1) +
+          "</span>" +
+          '<span class="visitas-rank__meta"><span class="visitas-rank__name">' +
           escapeHtml(label) +
-          "</span><strong>" +
+          '</span><span class="visitas-rank__bar" aria-hidden="true"><i style="width:' +
+          Math.max(6, Math.round((100 * r.count) / (regions[0].count || 1))) +
+          '%"></i></span></span>' +
+          '<strong><em>' +
+          pct(r.count, total) +
+          "</em>" +
           fmt(r.count) +
-          "</strong></li>";
+          "</strong></button></li>";
       });
       html += "</ol></div>";
     }
     html += "</div>";
     listRoot.innerHTML = html;
+    bindListClicks();
   }
 
-  function escapeHtml(s) {
-    return String(s || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
+  function applyFocus(mode) {
+    if (!mapApi) return;
+    var buttons = document.querySelectorAll(".visitas-map-btn");
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].classList.toggle(
+        "is-active",
+        buttons[i].getAttribute("data-focus") === mode
+      );
+    }
+    if (mode === "ar") {
+      mapApi.fitBounds(
+        [
+          [-55.2, -73.6],
+          [-21.5, -53.4]
+        ],
+        { padding: [28, 28], maxZoom: 5 }
+      );
+      return;
+    }
+    if (mapApi._visitasBounds && mapApi._visitasBounds.length > 1) {
+      mapApi.fitBounds(mapApi._visitasBounds, {
+        padding: [36, 36],
+        maxZoom: 4
+      });
+    } else if (mapApi._visitasBounds && mapApi._visitasBounds.length === 1) {
+      mapApi.setView(mapApi._visitasBounds[0], 3);
+    } else {
+      mapApi.setView([-15, -40], 2);
+    }
+  }
+
+  function bindFocusButtons() {
+    var bar = document.getElementById("visitas-map-tools");
+    if (!bar || bar._bound) return;
+    bar._bound = true;
+    bar.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-focus]");
+      if (!btn) return;
+      applyFocus(btn.getAttribute("data-focus"));
+    });
   }
 
   function renderMap(L, data) {
+    ensureChrome();
+    bindFocusButtons();
+    markerIndex = {};
     mapRoot.innerHTML = "";
+
     var map = L.map(mapRoot, {
       scrollWheelZoom: false,
-      worldCopyJump: true
+      worldCopyJump: true,
+      zoomControl: true
     }).setView([-15, -40], 2);
+    mapApi = map;
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
       maxZoom: 8,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
     }).addTo(map);
 
     var countries = data.countries || [];
     var regions = data.regions || [];
+    var total = Number(data.total) || 0;
     var max = 0;
     countries.forEach(function (c) {
       if (c.count > max) max = c.count;
@@ -424,44 +654,43 @@
       if (code === "AR" && arRegions.length) return;
       var centroid = COUNTRY_CENTROIDS[code];
       if (!centroid) return;
-      var marker = L.circleMarker([centroid[1], centroid[0]], {
+      var latlng = [centroid[1], centroid[0]];
+      var key = "c:" + code;
+      var marker = L.circleMarker(latlng, {
         radius: radiusForCount(c.count, max),
         color: "#042f23",
-        weight: 1,
+        weight: 1.5,
         fillColor: colorForCount(c.count, max),
-        fillOpacity: 0.78
+        fillOpacity: 0.82
       }).addTo(map);
-      marker.bindPopup(
-        "<strong>" +
-          escapeHtml(c.name || code) +
-          "</strong><br>" +
-          fmt(c.count) +
-          " visita" +
-          (c.count === 1 ? "" : "s")
-      );
-      bounds.push([centroid[1], centroid[0]]);
+      marker.bindPopup(popupHtml(c.name || code, c.count, total));
+      marker.on("click", function () {
+        setActiveListItem(key);
+      });
+      markerIndex[key] = { marker: marker, latlng: latlng, kind: "country" };
+      bounds.push(latlng);
     });
 
     arRegions.forEach(function (r) {
       var c = provinceCentroid(r.region);
-      var marker = L.circleMarker([c[1], c[0]], {
+      var latlng = [c[1], c[0]];
+      var key = "p:AR:" + normKey(r.region);
+      var marker = L.circleMarker(latlng, {
         radius: radiusForCount(r.count, max),
         color: "#4a0c1f",
-        weight: 1,
+        weight: 1.5,
         fillColor: colorForCount(r.count, max),
-        fillOpacity: 0.78
+        fillOpacity: 0.82
       }).addTo(map);
-      marker.bindPopup(
-        "<strong>" +
-          escapeHtml(r.region) +
-          "</strong><br>" +
-          fmt(r.count) +
-          " visita" +
-          (r.count === 1 ? "" : "s")
-      );
-      bounds.push([c[1], c[0]]);
+      marker.bindPopup(popupHtml(r.region, r.count, total));
+      marker.on("click", function () {
+        setActiveListItem(key);
+      });
+      markerIndex[key] = { marker: marker, latlng: latlng, kind: "province" };
+      bounds.push(latlng);
     });
 
+    map._visitasBounds = bounds;
     if (bounds.length === 1) {
       map.setView(bounds[0], arRegions.length ? 5 : 3);
     } else if (bounds.length > 1) {
@@ -478,23 +707,18 @@
       setStatus("No se pudo obtener el origen de las visitas.");
       return;
     }
-    var totalNote = document.getElementById("visitas-total");
-    if (totalNote) {
-      totalNote.hidden = false;
-      totalNote.innerHTML =
-        "Visitas con origen registrado: <strong>" +
-        fmt(data.total || 0) +
-        "</strong>";
-    }
+    ensureChrome();
+    renderStats(data);
     setStatus("");
-    renderList(data);
     loadLeaflet()
       .then(function (L) {
         renderMap(L, data);
+        renderList(data);
       })
       .catch(function () {
+        renderList(data);
         mapRoot.innerHTML =
-          "<p class=\"visitas-empty\">No se pudo cargar el mapa interactivo. La lista de orígenes sigue disponible.</p>";
+          '<p class="visitas-empty">No se pudo cargar el mapa interactivo. La lista de orígenes sigue disponible.</p>';
       });
   }
 
@@ -543,19 +767,22 @@
     .then(function () {
       return fetchApps("visitmap");
     })
-    .then(function (data) {
-      paint(data);
-      if (
-        window.__visitasGeoBackendPendiente &&
-        data &&
-        data.ok &&
-        !(data.total > 0)
-      ) {
-        setStatus(
-          "El mapa está listo, pero Apps Script aún no acepta este sitio. En Publicaciones Página Web hay que pegar PublicacionesWeb.gs actualizado y publicar Nueva versión (ver PARCHE-VISITGEO-SECRETARIA.txt)."
-        );
+    .then(
+      function (data) {
+        paint(data);
+        if (
+          window.__visitasGeoBackendPendiente &&
+          data &&
+          data.ok &&
+          !(data.total > 0)
+        ) {
+          setStatus(
+            "El mapa está listo, pero Apps Script aún no acepta este sitio. Pegá PublicacionesWeb.gs actualizado y publicá Nueva versión."
+          );
+        }
+      },
+      function () {
+        setStatus("No se pudo cargar el origen de las visitas.");
       }
-    }, function () {
-      setStatus("No se pudo cargar el origen de las visitas.");
-    });
+    );
 })();
