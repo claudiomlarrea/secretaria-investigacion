@@ -1,0 +1,870 @@
+{
+  "meta.description": {
+    "es": "Secretaría de Investigación de la Universidad Católica de Cuyo. Normativa, trámites, actas y recursos para la comunidad investigadora.",
+    "en": "Research Secretariat of Universidad Católica de Cuyo. Regulations, procedures, minutes, and resources for the research community."
+  },
+  "meta.title": {
+    "es": "Secretaría de Investigación | Universidad Católica de Cuyo",
+    "en": "Research Secretariat | Universidad Católica de Cuyo"
+  },
+  "skip": {
+    "es": "Ir al contenido",
+    "en": "Skip to content"
+  },
+  "banner": {
+    "es": "Universidad Católica de Cuyo · Secretaría de Investigación",
+    "en": "Universidad Católica de Cuyo · Research Secretariat"
+  },
+  "brand.logo.alt": {
+    "es": "Escudo de la Universidad Católica de Cuyo",
+    "en": "Coat of arms of Universidad Católica de Cuyo"
+  },
+  "brand.kicker": {
+    "es": "Universidad Católica de Cuyo",
+    "en": "Universidad Católica de Cuyo"
+  },
+  "brand.title": {
+    "es": "Secretaría de Investigación",
+    "en": "Research Secretariat"
+  },
+  "nav.toggle": {
+    "es": "Abrir menú",
+    "en": "Open menu"
+  },
+  "nav.aria": {
+    "es": "Principal",
+    "en": "Main"
+  },
+  "nav.inicio": {
+    "es": "Inicio",
+    "en": "Home"
+  },
+  "nav.secretaria": {
+    "es": "La Secretaría",
+    "en": "The Secretariat"
+  },
+  "nav.equipo": {
+    "es": "Equipo",
+    "en": "Team"
+  },
+  "nav.uvt": {
+    "es": "UVT",
+    "en": "UVT"
+  },
+  "nav.consejo": {
+    "es": "Consejo de Investigación",
+    "en": "Research Council"
+  },
+  "nav.actas": {
+    "es": "Actas de Consejo de Investigación",
+    "en": "Research Council Minutes (Spanish)"
+  },
+  "nav.resoluciones": {
+    "es": "Resoluciones de Consejo Superior",
+    "en": "Superior Council Resolutions (Spanish)"
+  },
+  "nav.ordenanza": {
+    "es": "Ordenanza",
+    "en": "Ordinance"
+  },
+  "nav.financiamiento": {
+    "es": "Financiamiento externo",
+    "en": "External funding"
+  },
+  "nav.tablero": {
+    "es": "Tablero de Investigación",
+    "en": "Research Dashboard"
+  },
+  "nav.publicaciones": {
+    "es": "Publicaciones",
+    "en": "Publications"
+  },
+  "nav.herramientas": {
+    "es": "Herramientas de Análisis",
+    "en": "Analysis Tools"
+  },
+  "nav.observatorio": {
+    "es": "Observatorio de IA",
+    "en": "AI Observatory"
+  },
+  "nav.visitas": {
+    "es": "Visitas a la Secretaría",
+    "en": "Secretariat visits"
+  },
+  "nav.contacto": {
+    "es": "Contacto",
+    "en": "Contact"
+  },
+  "hero.title": {
+    "es": "Secretaría de Investigación",
+    "en": "Research Secretariat"
+  },
+  "hero.lead": {
+    "es": "Puerta de entrada al portal institucional de la Secretaría de Investigación de la Universidad Católica de Cuyo: normativa, trámites, indicadores, recursos y herramientas para la comunidad investigadora.",
+    "en": "Gateway to the institutional portal of the Research Secretariat of Universidad Católica de Cuyo: regulations, procedures, indicators, resources, and tools for the research community."
+  },
+  "hero.cta.secretaria": {
+    "es": "La Secretaría",
+    "en": "The Secretariat"
+  },
+  "hero.cta.equipo": {
+    "es": "Equipo",
+    "en": "Team"
+  },
+  "hero.cta.uvt": {
+    "es": "UVT",
+    "en": "UVT"
+  },
+  "hero.cta.consejo": {
+    "es": "Consejo de Investigación",
+    "en": "Research Council"
+  },
+  "hero.cta.ordenanza": {
+    "es": "Ordenanza",
+    "en": "Ordinance"
+  },
+  "hero.cta.financiamiento": {
+    "es": "Financiamiento externo",
+    "en": "External funding"
+  },
+  "hero.cta.tablero": {
+    "es": "Tablero de Investigación",
+    "en": "Research Dashboard"
+  },
+  "hero.cta.publicaciones": {
+    "es": "Publicaciones",
+    "en": "Publications"
+  },
+  "hero.cta.herramientas": {
+    "es": "Herramientas de Análisis",
+    "en": "Analysis Tools"
+  },
+  "hero.cta.observatorio": {
+    "es": "Observatorio de IA",
+    "en": "AI Observatory"
+  },
+  "hero.cta.visitas": {
+    "es": "Visitas a la Secretaría",
+    "en": "Secretariat visits"
+  },
+  "hero.cta.contacto": {
+    "es": "Contacto",
+    "en": "Contact"
+  },
+  "sec.secretaria.kicker": {
+    "es": "Identidad",
+    "en": "Identity"
+  },
+  "sec.secretaria.title": {
+    "es": "La Secretaría de Investigación",
+    "en": "The Research Secretariat"
+  },
+  "sec.secretaria.intro": {
+    "es": "Quiénes somos, misión, visión, funciones, organigrama y líneas estratégicas de la Secretaría.",
+    "en": "Who we are, mission, vision, functions, organizational chart, and strategic lines of the Secretariat."
+  },
+  "sec.secretaria.card.title": {
+    "es": "Secretaría de Investigación — Universidad Católica de Cuyo (UCCuyo)",
+    "en": "Research Secretariat — Universidad Católica de Cuyo (UCCuyo)"
+  },
+  "sec.secretaria.card.body": {
+    "es": "La Secretaría de Investigación de la Universidad Católica de Cuyo es el motor de innovación y desarrollo académico que impulsa la excelencia científica dentro de la institución. Desde este espacio, se fomenta el diseño, implementación y difusión de proyectos de investigación de impacto regional, nacional e internacional, alineados con los valores y misión de la UCCuyo.",
+    "en": "The Research Secretariat of Universidad Católica de Cuyo is the engine of innovation and academic development that drives scientific excellence within the institution. From this space, we foster the design, implementation, and dissemination of research projects with regional, national, and international impact, aligned with UCCuyo’s values and mission."
+  },
+  "sec.secretaria.funciones.title": {
+    "es": "Nuestras funciones",
+    "en": "Our functions"
+  },
+  "sec.secretaria.funciones.apoyo.label": {
+    "es": "Apoyo y acompañamiento:",
+    "en": "Support and guidance:"
+  },
+  "sec.secretaria.funciones.apoyo.body": {
+    "es": "Asesoramos a investigadores, docentes y estudiantes en la planificación y ejecución de sus proyectos de investigación, asegurando un enfoque ético y riguroso.",
+    "en": "We advise researchers, faculty, and students in planning and carrying out their research projects, ensuring an ethical and rigorous approach."
+  },
+  "sec.secretaria.funciones.recursos.label": {
+    "es": "Gestión de recursos:",
+    "en": "Resource management:"
+  },
+  "sec.secretaria.funciones.recursos.body": {
+    "es": "Facilitamos el acceso a fondos de investigación, promoviendo la presentación de proyectos competitivos en convocatorias nacionales e internacionales.",
+    "en": "We facilitate access to research funding, promoting the submission of competitive projects to national and international calls."
+  },
+  "sec.secretaria.funciones.divulgacion.label": {
+    "es": "Divulgación y transparencia:",
+    "en": "Outreach and transparency:"
+  },
+  "sec.secretaria.funciones.divulgacion.body": {
+    "es": "A través de herramientas como Looker Studio, compartimos de forma transparente datos sobre el impacto de nuestras investigaciones y el uso eficiente de los recursos.",
+    "en": "Through tools such as Looker Studio, we share transparent data on the impact of our research and the efficient use of resources."
+  },
+  "sec.secretaria.funciones.formacion.label": {
+    "es": "Formación y capacitación:",
+    "en": "Training and capacity building:"
+  },
+  "sec.secretaria.funciones.formacion.body": {
+    "es": "Ofrecemos programas y actividades orientadas a fortalecer las competencias investigativas de nuestra comunidad universitaria.",
+    "en": "We offer programs and activities aimed at strengthening the research skills of our university community."
+  },
+  "sec.secretaria.datos.title": {
+    "es": "Datos clave",
+    "en": "Key facts"
+  },
+  "sec.secretaria.datos.proyectos.title": {
+    "es": "Proyectos activos",
+    "en": "Active projects"
+  },
+  "sec.secretaria.datos.proyectos.body": {
+    "es": "Un amplio portafolio de investigaciones en diversas disciplinas, destacando el compromiso con la sostenibilidad, la innovación tecnológica y la mejora de la calidad de vida.",
+    "en": "A broad portfolio of research across diverse disciplines, highlighting our commitment to sustainability, technological innovation, and improving quality of life."
+  },
+  "sec.secretaria.datos.colaboracion.title": {
+    "es": "Colaboración interinstitucional",
+    "en": "Interinstitutional collaboration"
+  },
+  "sec.secretaria.datos.colaboracion.body": {
+    "es": "Trabajamos con redes académicas y científicas que enriquecen el desarrollo de investigaciones conjuntas de alto impacto.",
+    "en": "We work with academic and scientific networks that enrich the development of high-impact joint research."
+  },
+  "sec.secretaria.cierre": {
+    "es": "La Secretaría de Investigación de la UCCuyo se erige como un pilar estratégico para la formación integral, la transferencia de conocimiento y la creación de soluciones que contribuyen al desarrollo social y académico. Conocé más sobre nuestras actividades y resultados navegando este portal.",
+    "en": "The Research Secretariat of UCCuyo stands as a strategic pillar for comprehensive education, knowledge transfer, and the creation of solutions that contribute to social and academic development. Learn more about our activities and results by exploring this portal."
+  },
+  "sec.equipo.kicker": {
+    "es": "Personas",
+    "en": "People"
+  },
+  "sec.equipo.title": {
+    "es": "Equipo",
+    "en": "Team"
+  },
+  "sec.equipo.intro": {
+    "es": "Autoridades, coordinadores, referentes y estructura operativa de la Secretaría de Investigación.",
+    "en": "Authorities, coordinators, key contacts, and the operational structure of the Research Secretariat."
+  },
+  "sec.equipo.role.secretario": {
+    "es": "Secretario de Investigación",
+    "en": "Secretary for Research"
+  },
+  "sec.equipo.role.director_uvt": {
+    "es": "Director de la Unidad de Vinculación Tecnológica",
+    "en": "Director of the Technology Transfer Unit"
+  },
+  "sec.equipo.role.coordinador_san_luis": {
+    "es": "Coordinador de Investigación Sede San Luis",
+    "en": "Research Coordinator, San Luis Campus"
+  },
+  "sec.equipo.role.ejecutivo": {
+    "es": "Equipo ejecutivo",
+    "en": "Executive team"
+  },
+  "sec.equipo.universidad": {
+    "es": "Universidad Católica de Cuyo",
+    "en": "Universidad Católica de Cuyo"
+  },
+  "sec.uvt.kicker": {
+    "es": "Vinculación",
+    "en": "Engagement"
+  },
+  "sec.uvt.title": {
+    "es": "UVT",
+    "en": "UVT"
+  },
+  "sec.uvt.intro": {
+    "es": "Unidad de Vinculación Tecnológica de la Universidad Católica de Cuyo: transferencia, innovación y articulación con el entorno.",
+    "en": "Technology Transfer Unit of Universidad Católica de Cuyo: transfer, innovation, and engagement with the wider community."
+  },
+  "sec.uvt.naturaleza.title": {
+    "es": "Naturaleza y finalidad",
+    "en": "Nature and purpose"
+  },
+  "sec.uvt.naturaleza.body": {
+    "es": "La Unidad de Vinculación Tecnológica (UVT) es el organismo técnico-administrativo de la Universidad Católica de Cuyo encargado de promover, gestionar y formalizar las acciones de vinculación, transferencia e innovación derivadas de los proyectos de investigación y desarrollo institucional.",
+    "en": "The Technology Transfer Unit (UVT) is the technical-administrative body of Universidad Católica de Cuyo responsible for promoting, managing, and formalizing engagement, transfer, and innovation activities arising from institutional research and development projects."
+  },
+  "sec.uvt.funciones.title": {
+    "es": "Funciones",
+    "en": "Functions"
+  },
+  "sec.uvt.funciones.item1": {
+    "es": "Asistir a la Secretaría de Investigación y Vinculación Tecnológica en la identificación y articulación de oportunidades de transferencia científica, tecnológica, educativa o social.",
+    "en": "Support the Secretariat for Research and Technology Transfer in identifying and coordinating opportunities for scientific, technological, educational, or social transfer."
+  },
+  "sec.uvt.funciones.item2": {
+    "es": "Coordinar la presentación, registro y seguimiento de convenios, contratos, patentes, asesorías y servicios tecnológicos.",
+    "en": "Coordinate the submission, registration, and follow-up of agreements, contracts, patents, consulting, and technology services."
+  },
+  "sec.uvt.funciones.item3": {
+    "es": "Facilitar la vinculación con organismos públicos, privados y de cooperación internacional.",
+    "en": "Facilitate engagement with public, private, and international cooperation organizations."
+  },
+  "sec.uvt.funciones.item4": {
+    "es": "Promover la propiedad intelectual, el emprendedurismo científico y la valorización de resultados de investigación.",
+    "en": "Promote intellectual property, scientific entrepreneurship, and the valorization of research results."
+  },
+  "sec.uvt.funciones.item5": {
+    "es": "Consolidar indicadores institucionales de transferencia e innovación, en coordinación con la Secretaría de Investigación y el Consejo de Investigación.",
+    "en": "Consolidate institutional indicators of transfer and innovation, in coordination with the Research Secretariat and the Research Council."
+  },
+  "sec.uvt.dependencia.title": {
+    "es": "Dependencia funcional",
+    "en": "Functional reporting line"
+  },
+  "sec.uvt.dependencia.body": {
+    "es": "La UVT depende de la Secretaría de Investigación y Vinculación Tecnológica, que supervisa su funcionamiento y aprueba sus políticas y procedimientos.",
+    "en": "The UVT reports to the Secretariat for Research and Technology Transfer, which oversees its operations and approves its policies and procedures."
+  },
+  "sec.uvt.contacto.title": {
+    "es": "Contacto UVT",
+    "en": "UVT contact"
+  },
+  "sec.uvt.contacto.director.label": {
+    "es": "Director",
+    "en": "Director"
+  },
+  "sec.uvt.contacto.director.name": {
+    "es": "Mg. Javier Coria",
+    "en": "Mg. Javier Coria"
+  },
+  "sec.uvt.contacto.correo.label": {
+    "es": "Correo",
+    "en": "Email"
+  },
+  "sec.uvt.contacto.lead": {
+    "es": "Para consultas sobre vinculación tecnológica, convenios, transferencia o propiedad intelectual, escribinos por correo electrónico.",
+    "en": "For inquiries about technology transfer, agreements, knowledge transfer, or intellectual property, write to us by email."
+  },
+  "sec.uvt.contacto.cta": {
+    "es": "Escribir a coordi.investigacion@uccuyo.edu.ar",
+    "en": "Email coordi.investigacion@uccuyo.edu.ar"
+  },
+  "sec.consejo.kicker": {
+    "es": "Gobernanza",
+    "en": "Governance"
+  },
+  "sec.consejo.title": {
+    "es": "Consejo de Investigación",
+    "en": "Research Council"
+  },
+  "sec.consejo.body": {
+    "es": "Órgano colegiado de gobierno académico de la investigación. Reuniones, orden del día y documentación del Consejo de Investigación de la Universidad Católica de Cuyo.",
+    "en": "Collegiate body for the academic governance of research. Meetings, agendas, and documentation of the Research Council of Universidad Católica de Cuyo."
+  },
+  "sec.consejo.cta.orden_dia": {
+    "es": "Sistema de gestión de temas — Orden del día",
+    "en": "Topic management system — Agenda"
+  },
+  "sec.consejo.cta.actas": {
+    "es": "Actas de Consejo de Investigación",
+    "en": "Research Council Minutes (Spanish)"
+  },
+  "sec.consejo.cta.resoluciones": {
+    "es": "Resoluciones de Consejo Superior",
+    "en": "Superior Council Resolutions (Spanish)"
+  },
+  "sec.ordenanza.kicker": {
+    "es": "Normativa",
+    "en": "Regulations"
+  },
+  "sec.ordenanza.title": {
+    "es": "Ordenanza",
+    "en": "Ordinance"
+  },
+  "sec.ordenanza.intro": {
+    "es": "Marco normativo institucional: ordenanza general, anexos, instructivos y documentación oficial. Cada enlace se abre en una pestaña nueva.",
+    "en": "Institutional regulatory framework: general ordinance, annexes, guides, and official documentation. Each link opens in a new tab."
+  },
+  "sec.ordenanza.anexos.aria": {
+    "es": "Anexos",
+    "en": "Annexes"
+  },
+  "sec.ordenanza.instructivos.aria": {
+    "es": "Instructivos y manual",
+    "en": "Guides and manual"
+  },
+  "sec.ordenanza.doc.general": {
+    "es": "ORDENANZA GENERAL DE INVESTIGACION",
+    "en": "GENERAL RESEARCH ORDINANCE (Spanish)"
+  },
+  "sec.ordenanza.doc.anexo1": {
+    "es": "Anexo I — Presentación de proyectos de investigación",
+    "en": "Annex I — Submission of research projects (Spanish)"
+  },
+  "sec.ordenanza.doc.anexo2": {
+    "es": "Anexo II — Presentación de informes de avances",
+    "en": "Annex II — Submission of progress reports (Spanish)"
+  },
+  "sec.ordenanza.doc.anexo3": {
+    "es": "Anexo III — Presentación de informes finales",
+    "en": "Annex III — Submission of final reports (Spanish)"
+  },
+  "sec.ordenanza.doc.anexo4": {
+    "es": "Anexo IV — Valorador de proyectos de investigación",
+    "en": "Annex IV — Research project assessment form (Spanish)"
+  },
+  "sec.ordenanza.doc.anexo5": {
+    "es": "Anexo V — Valorador de informes de avance",
+    "en": "Annex V — Progress report assessment form (Spanish)"
+  },
+  "sec.ordenanza.doc.anexo6": {
+    "es": "Anexo VI — Valorador de informes finales",
+    "en": "Annex VI — Final report assessment form (Spanish)"
+  },
+  "sec.ordenanza.doc.anexo7": {
+    "es": "Anexo VII — Valorador de currículum docente",
+    "en": "Annex VII — Faculty curriculum assessment form (Spanish)"
+  },
+  "sec.ordenanza.doc.instructivo_proyectos": {
+    "es": "Instructivo — Presentación de proyectos de investigación",
+    "en": "Guide — Submission of research projects (Spanish)"
+  },
+  "sec.ordenanza.doc.instructivo_avances": {
+    "es": "Instructivo — Presentación de informes de avances",
+    "en": "Guide — Submission of progress reports (Spanish)"
+  },
+  "sec.ordenanza.doc.instructivo_finales": {
+    "es": "Instructivo — Presentación de informes finales",
+    "en": "Guide — Submission of final reports (Spanish)"
+  },
+  "sec.ordenanza.doc.manual": {
+    "es": "Manual de procedimientos de investigación",
+    "en": "Research procedures manual (Spanish)"
+  },
+  "sec.financiamiento.kicker": {
+    "es": "Convocatorias",
+    "en": "Calls"
+  },
+  "sec.financiamiento.title": {
+    "es": "Financiamiento externo",
+    "en": "External funding"
+  },
+  "sec.financiamiento.intro": {
+    "es": "Programas y premios de financiamiento externo vigentes. Cada enlace se abre en una pestaña nueva.",
+    "en": "Current external funding programs and awards. Each link opens in a new tab."
+  },
+  "sec.financiamiento.impulsa.title": {
+    "es": "Programa Impulsa Ciencia",
+    "en": "Impulsa Ciencia Program"
+  },
+  "sec.financiamiento.impulsa.body": {
+    "es": "Convocatoria del Programa Impulsa Ciencia. Consultá la documentación oficial del programa.",
+    "en": "Call for the Impulsa Ciencia Program. See the program’s official documentation."
+  },
+  "sec.financiamiento.impulsa.cta": {
+    "es": "Ver Programa Impulsa Ciencia",
+    "en": "View Impulsa Ciencia Program (Spanish)"
+  },
+  "sec.financiamiento.sarmiento.title": {
+    "es": "Premio Domingo Faustino Sarmiento 2026",
+    "en": "Domingo Faustino Sarmiento Award 2026"
+  },
+  "sec.financiamiento.sarmiento.body": {
+    "es": "Se adjuntan las Bases y Condiciones del premio. También podés consultarlas en el enlace siguiente.",
+    "en": "The award’s terms and conditions are attached. You can also review them via the link below."
+  },
+  "sec.financiamiento.sarmiento.cta": {
+    "es": "Bases y Condiciones — Premio Sarmiento 2026",
+    "en": "Terms and Conditions — Sarmiento Award 2026 (Spanish)"
+  },
+  "sec.tablero.kicker": {
+    "es": "Transparencia",
+    "en": "Transparency"
+  },
+  "sec.tablero.title": {
+    "es": "Tablero de Investigación",
+    "en": "Research Dashboard"
+  },
+  "sec.tablero.intro": {
+    "es": "Indicadores, estadísticas, proyectos, investigadores, producción científica y métricas de la actividad investigadora de la UCCuyo.",
+    "en": "Indicators, statistics, projects, researchers, scientific output, and metrics of UCCuyo’s research activity."
+  },
+  "sec.tablero.iframe.title": {
+    "es": "Tablero de Investigación — Looker Studio",
+    "en": "Research Dashboard — Looker Studio"
+  },
+  "sec.tablero.cta": {
+    "es": "Abrir tablero en pantalla completa",
+    "en": "Open dashboard in full screen"
+  },
+  "sec.publicaciones.kicker": {
+    "es": "Difusión",
+    "en": "Dissemination"
+  },
+  "sec.publicaciones.title": {
+    "es": "Publicaciones",
+    "en": "Publications"
+  },
+  "sec.publicaciones.intro": {
+    "es": "Boletines, informes, revistas, documentos técnicos y resultados. Consultá la producción registrada por la universidad o explorá un índice académico automático en fuentes abiertas (OpenAlex, Crossref, Semantic Scholar, Europe PMC y enlaces de acceso abierto vía Unpaywall), por afiliación UCCuyo.",
+    "en": "Bulletins, reports, journals, technical documents, and results. Browse output recorded by the university or explore an automatic academic index from open sources (OpenAlex, Crossref, Semantic Scholar, Europe PMC, and open-access links via Unpaywall), by UCCuyo affiliation."
+  },
+  "sec.publicaciones.intro.registrada": {
+    "es": "registrada por la universidad",
+    "en": "recorded by the university"
+  },
+  "sec.publicaciones.intro.indice": {
+    "es": "índice académico automático",
+    "en": "automatic academic index"
+  },
+  "sec.publicaciones.intro.afiliacion": {
+    "es": "por afiliación UCCuyo",
+    "en": "by UCCuyo affiliation"
+  },
+  "sec.publicaciones.tabs.aria": {
+    "es": "Vistas de publicaciones",
+    "en": "Publication views"
+  },
+  "sec.publicaciones.tab.registradas": {
+    "es": "Producción registrada",
+    "en": "Recorded output"
+  },
+  "sec.publicaciones.tab.indice": {
+    "es": "Publicaciones UCCuyo (índice)",
+    "en": "UCCuyo publications (index)"
+  },
+  "sec.publicaciones.panel.registradas.intro": {
+    "es": "Misma planilla que Producción Científica. En cada fila se indica la unidad académica que publicó el registro.",
+    "en": "Same spreadsheet as Scientific Output. Each row shows the academic unit that published the record."
+  },
+  "sec.publicaciones.panel.registradas.mostrando": {
+    "es": "Mostrando {count} en esta vista.",
+    "en": "Showing {count} in this view."
+  },
+  "sec.publicaciones.filters.aria": {
+    "es": "Filtrar por tipo",
+    "en": "Filter by type"
+  },
+  "sec.publicaciones.panel.indice.intro": {
+    "es": "Listado aproximado desde OpenAlex, Crossref, Semantic Scholar y Europe PMC (incluye PubMed), con enlaces de acceso abierto vía Unpaywall. Publicaciones de investigadoras e investigadores de la Universidad Católica de Cuyo (según afiliación UCCuyo en la base). Puede faltar producción sin DOI o incluir registros a revisar. Datos actualizados por las bases, no por la Secretaría.",
+    "en": "Approximate listing from OpenAlex, Crossref, Semantic Scholar, and Europe PMC (including PubMed), with open-access links via Unpaywall. Publications by researchers of Universidad Católica de Cuyo (according to UCCuyo affiliation in the database). Output without a DOI may be missing, or some records may need review. Data is updated by the databases, not by the Secretariat."
+  },
+  "sec.publicaciones.panel.indice.badge": {
+    "es": "Resultados aproximados",
+    "en": "Approximate results"
+  },
+  "sec.publicaciones.panel.indice.count": {
+    "es": "{count} trabajos aproximados (referencia OpenAlex)",
+    "en": "{count} approximate works (OpenAlex reference)"
+  },
+  "sec.publicaciones.search.label": {
+    "es": "Buscar por título, DOI o autor/a",
+    "en": "Search by title, DOI, or author"
+  },
+  "sec.publicaciones.search.type.aria": {
+    "es": "Tipo de búsqueda",
+    "en": "Search type"
+  },
+  "sec.publicaciones.search.mode.auto": {
+    "es": "Auto",
+    "en": "Auto"
+  },
+  "sec.publicaciones.search.mode.title": {
+    "es": "Título",
+    "en": "Title"
+  },
+  "sec.publicaciones.search.mode.author": {
+    "es": "Autor/a",
+    "en": "Author"
+  },
+  "sec.publicaciones.search.mode.doi": {
+    "es": "DOI",
+    "en": "DOI"
+  },
+  "sec.publicaciones.year.label": {
+    "es": "Filtrar por año",
+    "en": "Filter by year"
+  },
+  "sec.publicaciones.year.aria": {
+    "es": "Filtrar publicaciones por año",
+    "en": "Filter publications by year"
+  },
+  "sec.publicaciones.year.all": {
+    "es": "Todos los años",
+    "en": "All years"
+  },
+  "sec.publicaciones.search.placeholder": {
+    "es": "Título, 10.1234/…, Apellido Nombre o Apellido, Nombre",
+    "en": "Title, 10.1234/…, Last Name First Name or Last Name, First Name"
+  },
+  "sec.publicaciones.search.clear": {
+    "es": "Limpiar",
+    "en": "Clear"
+  },
+  "sec.publicaciones.search.clear_all": {
+    "es": "Limpiar todo",
+    "en": "Clear all"
+  },
+  "sec.publicaciones.page_size.label": {
+    "es": "Por página",
+    "en": "Per page"
+  },
+  "sec.publicaciones.page_size.aria": {
+    "es": "Cantidad por página",
+    "en": "Items per page"
+  },
+  "sec.publicaciones.sort.label": {
+    "es": "Orden",
+    "en": "Sort"
+  },
+  "sec.publicaciones.sort.aria": {
+    "es": "Ordenar publicaciones",
+    "en": "Sort publications"
+  },
+  "sec.publicaciones.sort.date_desc": {
+    "es": "Fecha: más reciente",
+    "en": "Date: newest first"
+  },
+  "sec.publicaciones.sort.date_asc": {
+    "es": "Fecha: más antigua",
+    "en": "Date: oldest first"
+  },
+  "sec.publicaciones.sort.relevance": {
+    "es": "Relevancia (si hay búsqueda)",
+    "en": "Relevance (when searching)"
+  },
+  "sec.herramientas.kicker": {
+    "es": "Productos",
+    "en": "Products"
+  },
+  "sec.herramientas.title": {
+    "es": "Herramientas de Análisis",
+    "en": "Analysis Tools"
+  },
+  "sec.herramientas.intro": {
+    "es": "Calculadoras, valoradores, dashboards y sistemas desarrollados por la Secretaría para el análisis de datos institucionales, la Encuesta Permanente de Hogares (INDEC), la pre-auditoría de tesis y la evaluación de exámenes presenciales. Se amplían a medida que se incorporen nuevas herramientas.",
+    "en": "Calculators, assessment tools, dashboards, and systems developed by the Secretariat for institutional data analysis, the Permanent Household Survey (EPH / INDEC), thesis pre-audit, and in-person exam assessment. The list grows as new tools are added."
+  },
+  "sec.herramientas.badge.disponible": {
+    "es": "Disponible",
+    "en": "Available"
+  },
+  "sec.herramientas.encuesta_clara.title": {
+    "es": "Encuesta Clara",
+    "en": "Encuesta Clara"
+  },
+  "sec.herramientas.encuesta_clara.lead": {
+    "es": "Del Excel de Google Forms a tablas, cruces y temas del texto libre: análisis cuantitativo y cualitativo en español, pensado para encuestas institucionales.",
+    "en": "From Google Forms Excel exports to tables, cross-tabs, and free-text themes: quantitative and qualitative analysis in Spanish, designed for institutional surveys."
+  },
+  "sec.herramientas.encuesta_clara.item1": {
+    "es": "Carga de respuestas en Excel (.xlsx)",
+    "en": "Upload responses as Excel (.xlsx)"
+  },
+  "sec.herramientas.encuesta_clara.item2": {
+    "es": "Resumen de ítems, cruces y análisis guiado",
+    "en": "Item summaries, cross-tabs, and guided analysis"
+  },
+  "sec.herramientas.encuesta_clara.item3": {
+    "es": "Lectura de respuestas abiertas y sentimiento",
+    "en": "Open-ended response reading and sentiment"
+  },
+  "sec.herramientas.encuesta_clara.cta": {
+    "es": "Abrir Encuesta Clara",
+    "en": "Open Encuesta Clara"
+  },
+  "sec.herramientas.instructivo_pdf": {
+    "es": "Instructivo (PDF)",
+    "en": "Guide (PDF, Spanish)"
+  },
+  "sec.herramientas.eph.title": {
+    "es": "Análisis EPH (INDEC)",
+    "en": "EPH analysis (INDEC)"
+  },
+  "sec.herramientas.eph.lead": {
+    "es": "Microdatos de la Encuesta Permanente de Hogares: descriptivos, desigualdad, correlaciones, índice de exclusión digital, regresión logística, modelos predictivos e interpretabilidad (SHAP).",
+    "en": "Permanent Household Survey (EPH) microdata: descriptives, inequality, correlations, digital exclusion index, logistic regression, predictive models, and interpretability (SHAP)."
+  },
+  "sec.herramientas.eph.item1": {
+    "es": "Hogares, individuos y módulo TIC (.xlsx, .txt, .csv, .dbf)",
+    "en": "Households, individuals, and ICT module (.xlsx, .txt, .csv, .dbf)"
+  },
+  "sec.herramientas.eph.item2": {
+    "es": "Modo guiado y modo experto",
+    "en": "Guided mode and expert mode"
+  },
+  "sec.herramientas.eph.item3": {
+    "es": "Exportación de resultados",
+    "en": "Export results"
+  },
+  "sec.herramientas.eph.cta": {
+    "es": "Abrir análisis EPH",
+    "en": "Open EPH analysis"
+  },
+  "sec.herramientas.savt.title": {
+    "es": "SAVT — Auditoría de Tesis",
+    "en": "SAVT — Thesis Audit"
+  },
+  "sec.herramientas.savt.lead": {
+    "es": "Pre-auditoría académica integral de tesis y trabajos finales: estructura, bibliografía, citas, integridad, ética y profundidad, con orientación antes de la evaluación del jurado.",
+    "en": "Comprehensive academic pre-audit of theses and final papers: structure, bibliography, citations, integrity, ethics, and depth, with guidance before jury evaluation."
+  },
+  "sec.herramientas.savt.item1": {
+    "es": "Carga de tesis en Word (.docx) o PDF",
+    "en": "Upload theses as Word (.docx) or PDF"
+  },
+  "sec.herramientas.savt.item2": {
+    "es": "Índice ICAI, checklist y apartados con observaciones",
+    "en": "ICAI index, checklist, and sections with comments"
+  },
+  "sec.herramientas.savt.item3": {
+    "es": "Informe descargable en CSV y Word (.docx)",
+    "en": "Downloadable report in CSV and Word (.docx)"
+  },
+  "sec.herramientas.savt.cta": {
+    "es": "Abrir SAVT",
+    "en": "Open SAVT"
+  },
+  "sec.herramientas.evaluar.title": {
+    "es": "EvaluAR",
+    "en": "EvaluAR"
+  },
+  "sec.herramientas.evaluar.lead": {
+    "es": "Examen en papel y corrección digital: los alumnos cargan sus respuestas desde el celular y el docente obtiene la planilla de notas al instante, con clave de respuestas configurable.",
+    "en": "Paper exam with digital grading: students submit answers from their phones and the instructor gets the grade sheet instantly, with a configurable answer key."
+  },
+  "sec.herramientas.evaluar.item1": {
+    "es": "Exámenes de opción múltiple, V/F y emparejamiento",
+    "en": "Multiple-choice, true/false, and matching exams"
+  },
+  "sec.herramientas.evaluar.item2": {
+    "es": "Código o QR por comisión; corrección automática",
+    "en": "Code or QR per section; automatic grading"
+  },
+  "sec.herramientas.evaluar.item3": {
+    "es": "Planilla de notas y exportación a Excel (.xlsx)",
+    "en": "Grade sheet and Excel (.xlsx) export"
+  },
+  "sec.herramientas.evaluar.cta": {
+    "es": "Abrir EvaluAR",
+    "en": "Open EvaluAR"
+  },
+  "sec.observatorio.kicker": {
+    "es": "Vinculación",
+    "en": "Engagement"
+  },
+  "sec.observatorio.title": {
+    "es": "Observatorio de Inteligencia Artificial",
+    "en": "Artificial Intelligence Observatory"
+  },
+  "sec.observatorio.intro": {
+    "es": "Unidad especializada dependiente de la Secretaría de Investigación.",
+    "en": "Specialized unit under the Research Secretariat."
+  },
+  "sec.observatorio.body": {
+    "es": "El Observatorio de Inteligencia Artificial de la UCCuyo promueve análisis, formación, investigación y vinculación sobre el impacto y las aplicaciones de la IA, con enfoque académico, ético y regional.",
+    "en": "UCCuyo’s Artificial Intelligence Observatory promotes analysis, training, research, and engagement on the impact and applications of AI, with an academic, ethical, and regional focus."
+  },
+  "sec.observatorio.cta": {
+    "es": "Visitar el Observatorio de Inteligencia Artificial",
+    "en": "Visit the Artificial Intelligence Observatory"
+  },
+  "sec.visitas.kicker": {
+    "es": "Alcance",
+    "en": "Reach"
+  },
+  "sec.visitas.title": {
+    "es": "Visitas a la Secretaría",
+    "en": "Secretariat visits"
+  },
+  "sec.visitas.intro": {
+    "es": "Estimación del país y, cuando está disponible, de la provincia o región desde donde se consulta el sitio de la Secretaría de Investigación. Tocá un origen en la lista para enfocarlo en el mapa. El dato es aproximado (geolocalización por IP): no identifica personas ni guarda la dirección IP.",
+    "en": "Estimated country and, when available, province or region from which the Research Secretariat site is being viewed. Tap an origin in the list to focus it on the map. The data is approximate (IP geolocation): it does not identify individuals or store IP addresses."
+  },
+  "sec.visitas.map.aria": {
+    "es": "Mapa de origen estimado de las visitas a la Secretaría",
+    "en": "Map of estimated origin of visits to the Secretariat"
+  },
+  "sec.visitas.note": {
+    "es": "El origen es una estimación por IP. Las visitas anteriores al mapa se pueden repartir con las proporciones de Google Analytics (backfill en Apps Script). Redes móviles, VPN y campus universitarios pueden desplazar la ubicación estimada.",
+    "en": "Origin is an IP-based estimate. Visits before the map may be allocated using Google Analytics proportions (backfill in Apps Script). Mobile networks, VPNs, and university campuses can shift the estimated location."
+  },
+  "sec.contacto.kicker": {
+    "es": "Escríbenos",
+    "en": "Write to us"
+  },
+  "sec.contacto.title": {
+    "es": "Datos de contacto",
+    "en": "Contact details"
+  },
+  "sec.contacto.box.title": {
+    "es": "Secretaría de Investigación",
+    "en": "Research Secretariat"
+  },
+  "sec.contacto.correo.label": {
+    "es": "Correo",
+    "en": "Email"
+  },
+  "sec.contacto.universidad.label": {
+    "es": "Universidad",
+    "en": "University"
+  },
+  "sec.contacto.universidad.value": {
+    "es": "Universidad Católica de Cuyo",
+    "en": "Universidad Católica de Cuyo"
+  },
+  "sec.contacto.telefono.label": {
+    "es": "Teléfono",
+    "en": "Phone"
+  },
+  "sec.contacto.lead": {
+    "es": "Para consultas sobre trámites, proyectos, informes o reuniones del Consejo de Investigación, escribinos por correo electrónico.",
+    "en": "For inquiries about procedures, projects, reports, or Research Council meetings, write to us by email."
+  },
+  "sec.contacto.cta": {
+    "es": "Escribir a investigacion@uccuyo.edu.ar",
+    "en": "Email investigacion@uccuyo.edu.ar"
+  },
+  "footer.brand": {
+    "es": "Secretaría de Investigación · UCCuyo",
+    "en": "Research Secretariat · UCCuyo"
+  },
+  "footer.secretaria": {
+    "es": "La Secretaría",
+    "en": "The Secretariat"
+  },
+  "footer.equipo": {
+    "es": "Equipo",
+    "en": "Team"
+  },
+  "footer.uvt": {
+    "es": "UVT",
+    "en": "UVT"
+  },
+  "footer.consejo": {
+    "es": "Consejo",
+    "en": "Council"
+  },
+  "footer.ordenanza": {
+    "es": "Ordenanza",
+    "en": "Ordinance"
+  },
+  "footer.financiamiento": {
+    "es": "Financiamiento externo",
+    "en": "External funding"
+  },
+  "footer.tablero": {
+    "es": "Tablero de Investigación",
+    "en": "Research Dashboard"
+  },
+  "footer.publicaciones": {
+    "es": "Publicaciones",
+    "en": "Publications"
+  },
+  "footer.herramientas": {
+    "es": "Herramientas de Análisis",
+    "en": "Analysis Tools"
+  },
+  "footer.visitas": {
+    "es": "Visitas a la Secretaría",
+    "en": "Secretariat visits"
+  },
+  "footer.contacto": {
+    "es": "Contacto",
+    "en": "Contact"
+  },
+  "footer.observatorio": {
+    "es": "Observatorio de IA",
+    "en": "AI Observatory"
+  }
+}

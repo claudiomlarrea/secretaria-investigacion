@@ -13,11 +13,20 @@
   var base = PUB.APPS_SCRIPT_URL && String(PUB.APPS_SCRIPT_URL).trim();
   var site = (CFG.SITE && String(CFG.SITE).trim()) || "observatorio";
   if (!base) {
-    setStatus("No se pudo cargar el mapa de visitas.");
+    setStatus(tt("dyn.visitas.errorMap", "No se pudo cargar el mapa de visitas."));
     return;
   }
 
   var GEO_SESSION_KEY = "visitgeo_" + site;
+
+  function tt(key, fallback) {
+    if (window.I18N && typeof window.I18N.t === "function") {
+      var v = window.I18N.t(key);
+      if (v && v !== key) return v;
+    }
+    return fallback;
+  }
+
   var mapApi = null;
   var markerIndex = {};
 
@@ -458,11 +467,11 @@
       bar.className = "visitas-map-tools";
       bar.innerHTML =
         '<div class="visitas-map-actions" role="group" aria-label="Enfoque del mapa">' +
-        '<button type="button" class="visitas-map-btn is-active" data-focus="all">Mundo</button>' +
-        '<button type="button" class="visitas-map-btn" data-focus="ar">Argentina</button>' +
+        '<button type="button" class="visitas-map-btn is-active" data-focus="all">' + tt("dyn.visitas.world", "Mundo") + '</button>' +
+        '<button type="button" class="visitas-map-btn" data-focus="ar">' + tt("dyn.visitas.argentina", "Argentina") + '</button>' +
         "</div>" +
         '<div class="visitas-legend" aria-hidden="true">' +
-        '<span class="visitas-legend__label">Más visitas → círculo más grande y tono más intenso</span>' +
+        '<span class="visitas-legend__label">' + tt("dyn.visitas.legend", "Más visitas → círculo más grande y tono más intenso") + '</span>' +
         '<span class="visitas-legend__swatches">' +
         '<i style="background:#a8cfc0"></i><i style="background:#5fa88c"></i>' +
         '<i style="background:#0d6e4f"></i><i style="background:#7a1532"></i>' +
@@ -494,16 +503,16 @@
 
     el.hidden = false;
     el.innerHTML =
-      '<div class="visitas-stat"><span class="visitas-stat__k">Con origen</span><strong>' +
+      '<div class="visitas-stat"><span class="visitas-stat__k">' + tt("dyn.visitas.withOrigin", "Con origen") + '</span><strong>' +
       fmt(total) +
       "</strong></div>" +
-      '<div class="visitas-stat"><span class="visitas-stat__k">Países</span><strong>' +
+      '<div class="visitas-stat"><span class="visitas-stat__k">' + tt("dyn.visitas.countries", "Países") + '</span><strong>' +
       fmt(countries.length) +
       "</strong></div>" +
-      '<div class="visitas-stat"><span class="visitas-stat__k">Provincias / regiones</span><strong>' +
+      '<div class="visitas-stat"><span class="visitas-stat__k">' + tt("dyn.visitas.regions", "Provincias / regiones") + '</span><strong>' +
       fmt(regions.length) +
       "</strong></div>" +
-      '<div class="visitas-stat visitas-stat--wide"><span class="visitas-stat__k">Principal</span><strong>' +
+      '<div class="visitas-stat visitas-stat--wide"><span class="visitas-stat__k">' + tt("dyn.visitas.main", "Principal") + '</span><strong>' +
       escapeHtml(top.name || top.code) +
       "</strong><em>" +
       fmt(top.count) +
@@ -511,7 +520,7 @@
       pct(top.count, total) +
       "</em></div>" +
       (topRegion
-        ? '<div class="visitas-stat visitas-stat--wide"><span class="visitas-stat__k">Provincia destacada</span><strong>' +
+        ? '<div class="visitas-stat visitas-stat--wide"><span class="visitas-stat__k">' + tt("dyn.visitas.topRegion", "Provincia destacada") + '</span><strong>' +
           escapeHtml(topRegion.region) +
           "</strong><em>" +
           fmt(topRegion.count) +
@@ -568,12 +577,12 @@
     var total = Number(data.total) || 0;
     if (!countries.length) {
       listRoot.innerHTML =
-        '<p class="visitas-empty">Todavía no hay orígenes registrados. El mapa se irá completando con las nuevas visitas.</p>';
+        '<p class="visitas-empty">' + tt("dyn.visitas.empty", "Todavía no hay orígenes registrados. El mapa se irá completando con las nuevas visitas.") + '</p>';
       return;
     }
 
     var html = '<div class="visitas-tables">';
-    html += "<div><h3>Países</h3><ol class=\"visitas-rank\">";
+    html += "<div><h3>" + tt("dyn.visitas.countries", "Países") + "</h3><ol class=\"visitas-rank\">";
     countries.slice(0, 12).forEach(function (c, idx) {
       var code = String(c.code || "").toUpperCase();
       var key = resolveListMarkerKey("c:" + code, code);
@@ -601,7 +610,7 @@
     html += "</ol></div>";
 
     if (regions.length) {
-      html += "<div><h3>Provincias / regiones</h3><ol class=\"visitas-rank\">";
+      html += "<div><h3>" + tt("dyn.visitas.regions", "Provincias / regiones") + "</h3><ol class=\"visitas-rank\">";
       regions.slice(0, 12).forEach(function (r, idx) {
         var code = String(r.country || "").toUpperCase();
         var preferred = regionMarkerKey(code, r.region);
@@ -807,7 +816,7 @@
 
   function paint(data) {
     if (!data || !data.ok) {
-      setStatus("No se pudo obtener el origen de las visitas.");
+      setStatus(tt("dyn.visitas.errorOrigin", "No se pudo obtener el origen de las visitas."));
       return;
     }
     ensureChrome();
@@ -821,7 +830,7 @@
       .catch(function () {
         renderList(data);
         mapRoot.innerHTML =
-          '<p class="visitas-empty">No se pudo cargar el mapa interactivo. La lista de orígenes sigue disponible.</p>';
+          '<p class="visitas-empty">' + tt("dyn.visitas.mapFail", "No se pudo cargar el mapa interactivo. La lista de orígenes sigue disponible.") + '</p>';
       });
   }
 
@@ -864,7 +873,7 @@
       });
   }
 
-  setStatus("Cargando origen de visitas…");
+  setStatus(tt("dyn.visitas.loading", "Cargando origen de visitas…"));
 
   registerGeoOnce()
     .then(function () {
@@ -885,7 +894,7 @@
         }
       },
       function () {
-        setStatus("No se pudo cargar el origen de las visitas.");
+        setStatus(tt("dyn.visitas.error", "No se pudo cargar el origen de las visitas."));
       }
     );
 })();

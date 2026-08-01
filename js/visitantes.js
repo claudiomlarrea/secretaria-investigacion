@@ -8,29 +8,52 @@
   var site = CFG.SITE && String(CFG.SITE).trim();
   if (!base || !site) return;
 
+  var lastData = null;
+
+  function t(key, fallback) {
+    if (window.I18N && typeof window.I18N.t === "function") {
+      return window.I18N.t(key);
+    }
+    return fallback || key;
+  }
+
   function fmt(n) {
     var x = Number(n);
     if (!isFinite(x)) return "—";
+    var loc =
+      window.I18N && window.I18N.getLang && window.I18N.getLang() === "en"
+        ? "en-US"
+        : "es-AR";
     try {
-      return x.toLocaleString("es-AR");
+      return x.toLocaleString(loc);
     } catch (e) {
       return String(x);
     }
   }
 
   function esContador(data) {
-    return data && data.ok && data.secretaria != null && data.observatorio != null && !Array.isArray(data.items);
+    return (
+      data &&
+      data.ok &&
+      data.secretaria != null &&
+      data.observatorio != null &&
+      !Array.isArray(data.items)
+    );
   }
 
   function pintar(data) {
     if (!esContador(data)) return;
+    lastData = data;
     root.hidden = false;
-    root.innerHTML =
-      "Visitas a las páginas web: Secretaría <strong>" +
-      fmt(data.secretaria) +
-      "</strong> · Observatorio <strong>" +
-      fmt(data.observatorio) +
-      "</strong>";
+    var template = t(
+      "dyn.visitantes",
+      "Visitas a las páginas web: Secretaría {sec} · Observatorio {obs}"
+    );
+    root.innerHTML = template
+      .split("{sec}")
+      .join("<strong>" + fmt(data.secretaria) + "</strong>")
+      .split("{obs}")
+      .join("<strong>" + fmt(data.observatorio) + "</strong>");
   }
 
   function fetchJson(url) {
@@ -69,6 +92,10 @@
       }, 20000);
     });
   }
+
+  window.addEventListener("oia:langchange", function () {
+    if (lastData) pintar(lastData);
+  });
 
   var url =
     base +

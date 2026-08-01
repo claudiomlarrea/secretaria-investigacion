@@ -9,10 +9,11 @@
     <meta
       name="description"
       content="Secretaría de Investigación de la Universidad Católica de Cuyo. Normativa, trámites, actas y recursos para la comunidad investigadora."
+      data-i18n-attr="content:meta.description"
     />
     <title>Secretaría de Investigación | Universidad Católica de Cuyo</title>
     <link rel="icon" type="image/png" href="assets/logo-uccuyo.png" />
-    <link rel="stylesheet" href="css/styles.css?v=35" />
+    <link rel="stylesheet" href="css/styles.css?v=36" />
     <script>
       if (location.hash === "#investigaciones") {
         history.replaceState(null, "", location.pathname + "#inicio");
@@ -20,10 +21,10 @@
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#contenido">Ir al contenido</a>
+    <a class="skip-link" href="#contenido" data-i18n="skip">Ir al contenido</a>
 
     <div class="site-top" id="inicio">
-      <div class="top-banner">
+      <div class="top-banner" data-i18n="banner">
         Universidad Católica de Cuyo · Secretaría de Investigación
       </div>
       <header class="site-header">
@@ -36,12 +37,11 @@
                 width="128"
                 height="128"
                 alt="Escudo de la Universidad Católica de Cuyo"
-                decoding="async"
-              />
+                decoding="async" data-i18n-attr="alt:brand.logo.alt" />
             </span>
             <span class="brand-text">
-              <span class="brand-kicker">Universidad Católica de Cuyo</span>
-              <span class="brand-title">Secretaría de Investigación</span>
+              <span class="brand-kicker" data-i18n="brand.kicker">Universidad Católica de Cuyo</span>
+              <span class="brand-title" data-i18n="brand.title">Secretaría de Investigación</span>
             </span>
           </a>
           <button
@@ -50,44 +50,42 @@
             aria-expanded="false"
             aria-controls="site-nav"
             aria-label="Abrir menú"
-          >
+           data-i18n-attr="aria-label:nav.toggle">
             <span class="nav-toggle-icon"></span>
           </button>
           <!--
             REGLA: cada banda de sección lleva id en <header id="..."> y su <li><a href="#...">
             Orden = orden de las secciones en la página.
           -->
-          <nav class="site-nav" id="site-nav" aria-label="Principal">
+          <nav class="site-nav" id="site-nav" aria-label="Principal" data-i18n-attr="aria-label:nav.aria">
             <ul>
-              <li><a href="#inicio">Inicio</a></li>
-              <li><a href="#la-secretaria">La Secretaría</a></li>
-              <li><a href="#equipo">Equipo</a></li>
-              <li><a href="#uvt">UVT</a></li>
-              <li><a href="#consejo-investigacion">Consejo de Investigación</a></li>
+              <li><a href="#inicio" data-i18n="nav.inicio">Inicio</a></li>
+              <li><a href="#la-secretaria" data-i18n="nav.secretaria">La Secretaría</a></li>
+              <li><a href="#equipo" data-i18n="nav.equipo">Equipo</a></li>
+              <li><a href="#uvt" data-i18n="nav.uvt">UVT</a></li>
+              <li><a href="#consejo-investigacion" data-i18n="nav.consejo">Consejo de Investigación</a></li>
               <li>
                 <a
                   href="https://drive.google.com/drive/folders/14_QJAYZPCPkB_zCj0bBF1m1PssGNwE-S"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >Actas de Consejo de Investigación</a
-                >
+                   data-i18n="nav.actas">Actas de Consejo de Investigación</a>
               </li>
               <li>
                 <a
                   href="https://drive.google.com/drive/folders/11VLTghKYjxuAxXRMiPIuvdT8gMlokBrr"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >Resoluciones de Consejo Superior</a
-                >
+                   data-i18n="nav.resoluciones">Resoluciones de Consejo Superior</a>
               </li>
-              <li><a href="#ordenanza-general">Ordenanza</a></li>
-              <li><a href="#financiamiento-externo">Financiamiento externo</a></li>
-              <li><a href="#tablero-investigacion">Tablero de Investigación</a></li>
-              <li><a href="#publicaciones">Publicaciones</a></li>
-              <li><a href="#herramientas">Herramientas de Análisis</a></li>
-              <li><a href="#observatorio-ia">Observatorio de IA</a></li>
-              <li><a href="#visitas">Visitas a la Secretaría</a></li>
-              <li><a href="#contacto">Contacto</a></li>
+              <li><a href="#ordenanza-general" data-i18n="nav.ordenanza">Ordenanza</a></li>
+              <li><a href="#financiamiento-externo" data-i18n="nav.financiamiento">Financiamiento externo</a></li>
+              <li><a href="#tablero-investigacion" data-i18n="nav.tablero">Tablero de Investigación</a></li>
+              <li><a href="#publicaciones" data-i18n="nav.publicaciones">Publicaciones</a></li>
+              <li><a href="#herramientas" data-i18n="nav.herramientas">Herramientas de Análisis</a></li>
+              <li><a href="#observatorio-ia" data-i18n="nav.observatorio">Observatorio de IA</a></li>
+              <li><a href="#visitas" data-i18n="nav.visitas">Visitas a la Secretaría</a></li>
+              <li><a href="#contacto" data-i18n="nav.contacto">Contacto</a></li>
             </ul>
           </nav>
         </div>
@@ -104,37 +102,32 @@
               width="256"
               height="256"
               alt="Escudo de la Universidad Católica de Cuyo"
-              decoding="async"
-            />
+              decoding="async" data-i18n-attr="alt:brand.logo.alt" />
           </div>
-          <h1 id="titulo-principal">Secretaría de Investigación</h1>
-          <p class="hero-lead">
+          <h1 id="titulo-principal" data-i18n="brand.title">Secretaría de Investigación</h1>
+          <p class="hero-lead" data-i18n="hero.lead">
             Puerta de entrada al portal institucional de la Secretaría de
             Investigación de la Universidad Católica de Cuyo: normativa,
             trámites, indicadores, recursos y herramientas para la comunidad
             investigadora.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#la-secretaria">La Secretaría</a>
-            <a class="btn btn-ghost" href="#equipo">Equipo</a>
-            <a class="btn btn-ghost" href="#uvt">UVT</a>
+            <a class="btn btn-primary" href="#la-secretaria" data-i18n="nav.secretaria">La Secretaría</a>
+            <a class="btn btn-ghost" href="#equipo" data-i18n="nav.equipo">Equipo</a>
+            <a class="btn btn-ghost" href="#uvt" data-i18n="nav.uvt">UVT</a>
             <a class="btn btn-ghost" href="#consejo-investigacion"
-              >Consejo de Investigación</a
-            >
-            <a class="btn btn-ghost" href="#ordenanza-general">Ordenanza</a>
+               data-i18n="nav.consejo">Consejo de Investigación</a>
+            <a class="btn btn-ghost" href="#ordenanza-general" data-i18n="nav.ordenanza">Ordenanza</a>
             <a class="btn btn-ghost" href="#financiamiento-externo"
-              >Financiamiento externo</a
-            >
+               data-i18n="nav.financiamiento">Financiamiento externo</a>
             <a class="btn btn-ghost" href="#tablero-investigacion"
-              >Tablero de Investigación</a
-            >
-            <a class="btn btn-ghost" href="#publicaciones">Publicaciones</a>
+               data-i18n="nav.tablero">Tablero de Investigación</a>
+            <a class="btn btn-ghost" href="#publicaciones" data-i18n="nav.publicaciones">Publicaciones</a>
             <a class="btn btn-ghost" href="#herramientas"
-              >Herramientas de Análisis</a
-            >
-            <a class="btn btn-ghost" href="#observatorio-ia">Observatorio de IA</a>
-            <a class="btn btn-ghost" href="#visitas">Visitas a la Secretaría</a>
-            <a class="btn btn-ghost" href="#contacto">Contacto</a>
+               data-i18n="nav.herramientas">Herramientas de Análisis</a>
+            <a class="btn btn-ghost" href="#observatorio-ia" data-i18n="nav.observatorio">Observatorio de IA</a>
+            <a class="btn btn-ghost" href="#visitas" data-i18n="nav.visitas">Visitas a la Secretaría</a>
+            <a class="btn btn-ghost" href="#contacto" data-i18n="nav.contacto">Contacto</a>
           </div>
           <div class="hero-mail-row">
             <p class="hero-mail">
@@ -151,16 +144,16 @@
             id="la-secretaria"
             class="section-head section-head--bar section-head--green"
           >
-            <p class="section-kicker">Identidad</p>
-            <h2 id="sec-secretaria">La Secretaría de Investigación</h2>
+            <p class="section-kicker" data-i18n="sec.secretaria.kicker">Identidad</p>
+            <h2 id="sec-secretaria" data-i18n="sec.secretaria.title">La Secretaría de Investigación</h2>
           </header>
-          <p class="text-intro">
+          <p class="text-intro" data-i18n="sec.secretaria.intro">
             Quiénes somos, misión, visión, funciones, organigrama y líneas
             estratégicas de la Secretaría.
           </p>
           <article class="card">
-            <h3>Secretaría de Investigación — Universidad Católica de Cuyo (UCCuyo)</h3>
-            <p>
+            <h3 data-i18n="sec.secretaria.card.title">Secretaría de Investigación — Universidad Católica de Cuyo (UCCuyo)</h3>
+            <p data-i18n="sec.secretaria.card.body">
               La Secretaría de Investigación de la Universidad Católica de Cuyo es
               el motor de innovación y desarrollo académico que impulsa la
               excelencia científica dentro de la institución. Desde este espacio, se
@@ -170,55 +163,55 @@
             </p>
           </article>
           <article class="card stack-gap-top">
-            <h3>Nuestras funciones</h3>
+            <h3 data-i18n="sec.secretaria.funciones.title">Nuestras funciones</h3>
             <ul class="info-list">
               <li>
-                <strong>Apoyo y acompañamiento:</strong>
+                <strong data-i18n="sec.secretaria.funciones.apoyo.label">Apoyo y acompañamiento:</strong>
                 Asesoramos a investigadores, docentes y estudiantes en la
                 planificación y ejecución de sus proyectos de investigación,
                 asegurando un enfoque ético y riguroso.
               </li>
               <li>
-                <strong>Gestión de recursos:</strong>
+                <strong data-i18n="sec.secretaria.funciones.recursos.label">Gestión de recursos:</strong>
                 Facilitamos el acceso a fondos de investigación, promoviendo la
                 presentación de proyectos competitivos en convocatorias nacionales
                 e internacionales.
               </li>
               <li>
-                <strong>Divulgación y transparencia:</strong>
+                <strong data-i18n="sec.secretaria.funciones.divulgacion.label">Divulgación y transparencia:</strong>
                 A través de herramientas como Looker Studio, compartimos de forma
                 transparente datos sobre el impacto de nuestras investigaciones y el
                 uso eficiente de los recursos.
               </li>
               <li>
-                <strong>Formación y capacitación:</strong>
+                <strong data-i18n="sec.secretaria.funciones.formacion.label">Formación y capacitación:</strong>
                 Ofrecemos programas y actividades orientadas a fortalecer las
                 competencias investigativas de nuestra comunidad universitaria.
               </li>
             </ul>
           </article>
           <header class="section-subhead">
-            <h3>Datos clave</h3>
+            <h3 data-i18n="sec.secretaria.datos.title">Datos clave</h3>
           </header>
           <div class="grid-2">
             <article class="card">
-              <h3>Proyectos activos</h3>
-              <p>
+              <h3 data-i18n="sec.secretaria.datos.proyectos.title">Proyectos activos</h3>
+              <p data-i18n="sec.secretaria.datos.proyectos.body">
                 Un amplio portafolio de investigaciones en diversas disciplinas,
                 destacando el compromiso con la sostenibilidad, la innovación
                 tecnológica y la mejora de la calidad de vida.
               </p>
             </article>
             <article class="card">
-              <h3>Colaboración interinstitucional</h3>
-              <p>
+              <h3 data-i18n="sec.secretaria.datos.colaboracion.title">Colaboración interinstitucional</h3>
+              <p data-i18n="sec.secretaria.datos.colaboracion.body">
                 Trabajamos con redes académicas y científicas que enriquecen el
                 desarrollo de investigaciones conjuntas de alto impacto.
               </p>
             </article>
           </div>
           <article class="card stack-gap-top">
-            <p>
+            <p data-i18n="sec.secretaria.cierre">
               La Secretaría de Investigación de la UCCuyo se erige como un pilar
               estratégico para la formación integral, la transferencia de
               conocimiento y la creación de soluciones que contribuyen al
@@ -232,43 +225,43 @@
       <section class="section" aria-labelledby="sec-equipo">
         <div class="section-inner">
           <header id="equipo" class="section-head section-head--bar section-head--red">
-            <p class="section-kicker">Personas</p>
-            <h2 id="sec-equipo">Equipo</h2>
+            <p class="section-kicker" data-i18n="sec.equipo.kicker">Personas</p>
+            <h2 id="sec-equipo" data-i18n="nav.equipo">Equipo</h2>
           </header>
-          <p class="text-intro">
+          <p class="text-intro" data-i18n="sec.equipo.intro">
             Autoridades, coordinadores, referentes y estructura operativa de la
             Secretaría de Investigación.
           </p>
           <div class="team-grid">
             <div class="team-card">
               <strong>Claudio Larrea Arnau</strong>
-              <span>Secretario de Investigación</span>
+              <span data-i18n="sec.equipo.role.secretario">Secretario de Investigación</span>
               <br />
-              <span>Universidad Católica de Cuyo</span>
+              <span data-i18n="brand.kicker">Universidad Católica de Cuyo</span>
             </div>
             <div class="team-card">
               <strong>Javier Coria</strong>
-              <span>Director de la Unidad de Vinculación Tecnológica</span>
+              <span data-i18n="sec.equipo.role.director_uvt">Director de la Unidad de Vinculación Tecnológica</span>
               <br />
-              <span>Universidad Católica de Cuyo</span>
+              <span data-i18n="brand.kicker">Universidad Católica de Cuyo</span>
             </div>
             <div class="team-card">
               <strong>José La Malfa</strong>
-              <span>Coordinador de Investigación Sede San Luis</span>
+              <span data-i18n="sec.equipo.role.coordinador_san_luis">Coordinador de Investigación Sede San Luis</span>
               <br />
-              <span>Universidad Católica de Cuyo</span>
+              <span data-i18n="brand.kicker">Universidad Católica de Cuyo</span>
             </div>
             <div class="team-card">
               <strong>Laura Pizarro</strong>
-              <span>Equipo ejecutivo</span>
+              <span data-i18n="sec.equipo.role.ejecutivo">Equipo ejecutivo</span>
               <br />
-              <span>Universidad Católica de Cuyo</span>
+              <span data-i18n="brand.kicker">Universidad Católica de Cuyo</span>
             </div>
             <div class="team-card">
               <strong>Stefania Young</strong>
-              <span>Equipo ejecutivo</span>
+              <span data-i18n="sec.equipo.role.ejecutivo">Equipo ejecutivo</span>
               <br />
-              <span>Universidad Católica de Cuyo</span>
+              <span data-i18n="brand.kicker">Universidad Católica de Cuyo</span>
             </div>
           </div>
         </div>
@@ -277,16 +270,16 @@
       <section class="section" aria-labelledby="sec-uvt">
         <div class="section-inner">
           <header id="uvt" class="section-head section-head--bar section-head--green">
-            <p class="section-kicker">Vinculación</p>
-            <h2 id="sec-uvt">UVT</h2>
+            <p class="section-kicker" data-i18n="sec.uvt.kicker">Vinculación</p>
+            <h2 id="sec-uvt" data-i18n="nav.uvt">UVT</h2>
           </header>
-          <p class="text-intro">
+          <p class="text-intro" data-i18n="sec.uvt.intro">
             Unidad de Vinculación Tecnológica de la Universidad Católica de
             Cuyo: transferencia, innovación y articulación con el entorno.
           </p>
           <article class="card">
-            <h3>Naturaleza y finalidad</h3>
-            <p>
+            <h3 data-i18n="sec.uvt.naturaleza.title">Naturaleza y finalidad</h3>
+            <p data-i18n="sec.uvt.naturaleza.body">
               La Unidad de Vinculación Tecnológica (UVT) es el organismo
               técnico-administrativo de la Universidad Católica de Cuyo
               encargado de promover, gestionar y formalizar las acciones de
@@ -295,26 +288,26 @@
             </p>
           </article>
           <article class="card stack-gap-top">
-            <h3>Funciones</h3>
+            <h3 data-i18n="sec.uvt.funciones.title">Funciones</h3>
             <ul class="info-list">
-              <li>
+              <li data-i18n="sec.uvt.funciones.item1">
                 Asistir a la Secretaría de Investigación y Vinculación
                 Tecnológica en la identificación y articulación de oportunidades
                 de transferencia científica, tecnológica, educativa o social.
               </li>
-              <li>
+              <li data-i18n="sec.uvt.funciones.item2">
                 Coordinar la presentación, registro y seguimiento de convenios,
                 contratos, patentes, asesorías y servicios tecnológicos.
               </li>
-              <li>
+              <li data-i18n="sec.uvt.funciones.item3">
                 Facilitar la vinculación con organismos públicos, privados y de
                 cooperación internacional.
               </li>
-              <li>
+              <li data-i18n="sec.uvt.funciones.item4">
                 Promover la propiedad intelectual, el emprendedurismo científico
                 y la valorización de resultados de investigación.
               </li>
-              <li>
+              <li data-i18n="sec.uvt.funciones.item5">
                 Consolidar indicadores institucionales de transferencia e
                 innovación, en coordinación con la Secretaría de Investigación y
                 el Consejo de Investigación.
@@ -322,8 +315,8 @@
             </ul>
           </article>
           <article class="card stack-gap-top">
-            <h3>Dependencia funcional</h3>
-            <p>
+            <h3 data-i18n="sec.uvt.dependencia.title">Dependencia funcional</h3>
+            <p data-i18n="sec.uvt.dependencia.body">
               La UVT depende de la Secretaría de Investigación y Vinculación
               Tecnológica, que supervisa su funcionamiento y aprueba sus
               políticas y procedimientos.
@@ -331,14 +324,14 @@
           </article>
           <div class="contact-layout stack-gap-top">
             <aside class="contact-box" aria-labelledby="uvt-contacto">
-              <h3 id="uvt-contacto">Contacto UVT</h3>
+              <h3 id="uvt-contacto" data-i18n="sec.uvt.contacto.title">Contacto UVT</h3>
               <ul class="contact-list">
                 <li>
-                  <strong>Director</strong>
+                  <strong data-i18n="sec.uvt.contacto.director.label">Director</strong>
                   Mg. Javier Coria
                 </li>
                 <li>
-                  <strong>Correo</strong>
+                  <strong data-i18n="sec.contacto.correo.label">Correo</strong>
                   <a href="mailto:coordi.investigacion@uccuyo.edu.ar"
                     >coordi.investigacion@uccuyo.edu.ar</a
                   >
@@ -346,7 +339,7 @@
               </ul>
             </aside>
             <div class="card">
-              <p class="text-lead-tight">
+              <p class="text-lead-tight" data-i18n="sec.uvt.contacto.lead">
                 Para consultas sobre vinculación tecnológica, convenios,
                 transferencia o propiedad intelectual, escribinos por correo
                 electrónico.
@@ -355,8 +348,7 @@
                 <a
                   class="btn btn-primary"
                   href="mailto:coordi.investigacion@uccuyo.edu.ar?subject=%5BUVT%5D%20Consulta"
-                  >Escribir a coordi.investigacion@uccuyo.edu.ar</a
-                >
+                   data-i18n="sec.uvt.contacto.cta">Escribir a coordi.investigacion@uccuyo.edu.ar</a>
               </p>
             </div>
           </div>
@@ -369,11 +361,11 @@
             id="consejo-investigacion"
             class="section-head section-head--bar section-head--green"
           >
-            <p class="section-kicker">Gobernanza</p>
-            <h2 id="sec-consejo">Consejo de Investigación</h2>
+            <p class="section-kicker" data-i18n="sec.consejo.kicker">Gobernanza</p>
+            <h2 id="sec-consejo" data-i18n="nav.consejo">Consejo de Investigación</h2>
           </header>
           <article class="card section-block">
-            <p>
+            <p data-i18n="sec.consejo.body">
               Órgano colegiado de gobierno académico de la investigación.
               Reuniones, orden del día y documentación del Consejo de
               Investigación de la Universidad Católica de Cuyo.
@@ -384,22 +376,19 @@
                 href="https://extractor-actas-investigacion-erpqi2qct7z5sapp3ucdyej.streamlit.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Sistema de gestión de temas — Orden del día</a
-              >
+                 data-i18n="sec.consejo.cta.orden_dia">Sistema de gestión de temas — Orden del día</a>
               <a
                 class="btn btn-primary"
                 href="https://drive.google.com/drive/folders/14_QJAYZPCPkB_zCj0bBF1m1PssGNwE-S"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Actas de Consejo de Investigación</a
-              >
+                 data-i18n="nav.actas">Actas de Consejo de Investigación</a>
               <a
                 class="btn btn-primary"
                 href="https://drive.google.com/drive/folders/11VLTghKYjxuAxXRMiPIuvdT8gMlokBrr"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Resoluciones de Consejo Superior</a
-              >
+                 data-i18n="nav.resoluciones">Resoluciones de Consejo Superior</a>
             </p>
           </article>
         </div>
@@ -411,10 +400,10 @@
             id="ordenanza-general"
             class="section-head section-head--bar section-head--red"
           >
-            <p class="section-kicker">Normativa</p>
-            <h2 id="sec-ordenanza">Ordenanza</h2>
+            <p class="section-kicker" data-i18n="sec.ordenanza.kicker">Normativa</p>
+            <h2 id="sec-ordenanza" data-i18n="nav.ordenanza">Ordenanza</h2>
           </header>
-          <p class="text-intro">
+          <p class="text-intro" data-i18n="sec.ordenanza.intro">
             Marco normativo institucional: ordenanza general, anexos, instructivos
             y documentación oficial. Cada enlace se abre en una pestaña nueva.
           </p>
@@ -423,89 +412,77 @@
             href="https://docs.google.com/document/d/109sFwKZa_P8azrpJ6jQ4XgI37JhM2lDX/edit?usp=drive_link&amp;ouid=102865527515262890038&amp;rtpof=true&amp;sd=true"
             target="_blank"
             rel="noopener noreferrer"
-            >ORDENANZA GENERAL DE INVESTIGACION</a
-          >
+             data-i18n="sec.ordenanza.doc.general">ORDENANZA GENERAL DE INVESTIGACION</a>
           <div class="doc-link-columns">
-            <div class="doc-link-col" aria-label="Anexos">
+            <div class="doc-link-col" aria-label="Anexos" data-i18n-attr="aria-label:sec.ordenanza.anexos.aria">
               <a
                 class="doc-link doc-link--compact"
                 href="https://docs.google.com/document/d/1ai0CFZjJW1BXlP09RguyL2F6Ch2QT2T5JzSip7201uo/edit?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Anexo I — Presentación de proyectos de investigación</a
-              >
+                 data-i18n="sec.ordenanza.doc.anexo1">Anexo I — Presentación de proyectos de investigación</a>
               <a
                 class="doc-link doc-link--compact"
                 href="https://docs.google.com/document/d/17SBtrA36EGqW0TLeHru_TMWqX29bFE1fEvhtpNYxdYw/edit?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Anexo II — Presentación de informes de avances</a
-              >
+                 data-i18n="sec.ordenanza.doc.anexo2">Anexo II — Presentación de informes de avances</a>
               <a
                 class="doc-link doc-link--compact"
                 href="https://docs.google.com/document/d/1dTwZDIEMamFzDKnJRq-I07cDegGX0rOpJywvyeovcEo/edit?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Anexo III — Presentación de informes finales</a
-              >
+                 data-i18n="sec.ordenanza.doc.anexo3">Anexo III — Presentación de informes finales</a>
               <a
                 class="doc-link doc-link--compact"
                 href="https://docs.google.com/document/d/1jGWG9K3ufXRnQ4FS-V1Vbf2QmJ6ASE4F/edit?usp=drive_link&amp;ouid=102865527515262890038&amp;rtpof=true&amp;sd=true"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Anexo IV — Valorador de proyectos de investigación</a
-              >
+                 data-i18n="sec.ordenanza.doc.anexo4">Anexo IV — Valorador de proyectos de investigación</a>
               <a
                 class="doc-link doc-link--compact"
                 href="https://docs.google.com/document/d/11DG4Js4yWChy5upnvHVAPg1pkv28CmoN/edit?usp=drive_link&amp;ouid=102865527515262890038&amp;rtpof=true&amp;sd=true"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Anexo V — Valorador de informes de avance</a
-              >
+                 data-i18n="sec.ordenanza.doc.anexo5">Anexo V — Valorador de informes de avance</a>
               <a
                 class="doc-link doc-link--compact"
                 href="https://docs.google.com/document/d/1lRmd08MYPkRWZbYVfxcUIstjJaShOyQv/edit?usp=drive_link&amp;ouid=102865527515262890038&amp;rtpof=true&amp;sd=true"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Anexo VI — Valorador de informes finales</a
-              >
+                 data-i18n="sec.ordenanza.doc.anexo6">Anexo VI — Valorador de informes finales</a>
               <a
                 class="doc-link doc-link--compact"
                 href="https://docs.google.com/document/d/1i5Wx0kzHemRhL6TWLVQ2RQAFVTtap1euSjtdqY0Q838/edit?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Anexo VII — Valorador de currículum docente</a
-              >
+                 data-i18n="sec.ordenanza.doc.anexo7">Anexo VII — Valorador de currículum docente</a>
             </div>
-            <div class="doc-link-col" aria-label="Instructivos y manual">
+            <div class="doc-link-col" aria-label="Instructivos y manual" data-i18n-attr="aria-label:sec.ordenanza.instructivos.aria">
               <a
                 class="doc-link doc-link--red doc-link--compact"
                 href="https://docs.google.com/document/d/1yhrpCrx39RnxusF1Bpy8RSgoT7lxL1kAUgadeHZpQoU/edit?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Instructivo — Presentación de proyectos de investigación</a
-              >
+                 data-i18n="sec.ordenanza.doc.instructivo_proyectos">Instructivo — Presentación de proyectos de investigación</a>
               <a
                 class="doc-link doc-link--red doc-link--compact"
                 href="https://docs.google.com/document/d/1deanX1ZGlki0f781iOqGaedUgxg5lb6TqlWGHWFsj4I/edit?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Instructivo — Presentación de informes de avances</a
-              >
+                 data-i18n="sec.ordenanza.doc.instructivo_avances">Instructivo — Presentación de informes de avances</a>
               <a
                 class="doc-link doc-link--red doc-link--compact"
                 href="https://docs.google.com/document/d/10X9RbavkvpDRKFJqpEgvUQ_QwsmbLSpXAzHMNEP6SqA/edit?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Instructivo — Presentación de informes finales</a
-              >
+                 data-i18n="sec.ordenanza.doc.instructivo_finales">Instructivo — Presentación de informes finales</a>
               <a
                 class="doc-link doc-link--red doc-link--compact"
                 href="https://docs.google.com/document/d/1DpjFXdu5HTIU8OIuWCs8-ng9hNN_EhKZw1tL6EPs0rU/edit?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Manual de procedimientos de investigación</a
-              >
+                 data-i18n="sec.ordenanza.doc.manual">Manual de procedimientos de investigación</a>
             </div>
           </div>
         </div>
@@ -517,17 +494,17 @@
             id="financiamiento-externo"
             class="section-head section-head--bar section-head--green"
           >
-            <p class="section-kicker">Convocatorias</p>
-            <h2 id="sec-financiamiento">Financiamiento externo</h2>
+            <p class="section-kicker" data-i18n="sec.financiamiento.kicker">Convocatorias</p>
+            <h2 id="sec-financiamiento" data-i18n="nav.financiamiento">Financiamiento externo</h2>
           </header>
-          <p class="text-intro">
+          <p class="text-intro" data-i18n="sec.financiamiento.intro">
             Programas y premios de financiamiento externo vigentes. Cada enlace
             se abre en una pestaña nueva.
           </p>
           <div class="grid-2">
             <article class="card">
-              <h3>Programa Impulsa Ciencia</h3>
-              <p>
+              <h3 data-i18n="sec.financiamiento.impulsa.title">Programa Impulsa Ciencia</h3>
+              <p data-i18n="sec.financiamiento.impulsa.body">
                 Convocatoria del Programa Impulsa Ciencia. Consultá la
                 documentación oficial del programa.
               </p>
@@ -537,13 +514,12 @@
                   href="https://drive.google.com/file/d/1_EOTfa_bm397WyqqLwLodDSldGvdKl_2/view"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >Ver Programa Impulsa Ciencia</a
-                >
+                   data-i18n="sec.financiamiento.impulsa.cta">Ver Programa Impulsa Ciencia</a>
               </p>
             </article>
             <article class="card">
-              <h3>Premio Domingo Faustino Sarmiento 2026</h3>
-              <p>
+              <h3 data-i18n="sec.financiamiento.sarmiento.title">Premio Domingo Faustino Sarmiento 2026</h3>
+              <p data-i18n="sec.financiamiento.sarmiento.body">
                 Se adjuntan las Bases y Condiciones del premio. También podés
                 consultarlas en el enlace siguiente.
               </p>
@@ -553,8 +529,7 @@
                   href="https://drive.google.com/file/d/1P4_LXMK78Ztqgk_aLlsONJyhBCgrT5G7/view"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >Bases y Condiciones — Premio Sarmiento 2026</a
-                >
+                   data-i18n="sec.financiamiento.sarmiento.cta">Bases y Condiciones — Premio Sarmiento 2026</a>
               </p>
             </article>
           </div>
@@ -567,10 +542,10 @@
             id="tablero-investigacion"
             class="section-head section-head--bar section-head--green"
           >
-            <p class="section-kicker">Transparencia</p>
-            <h2 id="sec-tablero">Tablero de Investigación</h2>
+            <p class="section-kicker" data-i18n="sec.tablero.kicker">Transparencia</p>
+            <h2 id="sec-tablero" data-i18n="nav.tablero">Tablero de Investigación</h2>
           </header>
-          <p class="text-intro">
+          <p class="text-intro" data-i18n="sec.tablero.intro">
             Indicadores, estadísticas, proyectos, investigadores, producción
             científica y métricas de la actividad investigadora de la UCCuyo.
           </p>
@@ -585,7 +560,7 @@
               allowfullscreen
               loading="lazy"
               sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-            ></iframe>
+             data-i18n-attr="title:sec.tablero.iframe.title"></iframe>
           </div>
           <p class="tile-actions">
             <a
@@ -593,8 +568,7 @@
               href="https://datastudio.google.com/u/1/reporting/42923975-d3ff-4972-acd7-ab51db384f13/page/p_zx78im542d"
               target="_blank"
               rel="noopener noreferrer"
-              >Abrir tablero en pantalla completa</a
-            >
+               data-i18n="sec.tablero.cta">Abrir tablero en pantalla completa</a>
           </p>
         </div>
       </section>
@@ -605,18 +579,18 @@
             id="publicaciones"
             class="section-head section-head--bar section-head--red"
           >
-            <p class="section-kicker">Difusión</p>
-            <h2 id="sec-pub">Publicaciones</h2>
+            <p class="section-kicker" data-i18n="sec.publicaciones.kicker">Difusión</p>
+            <h2 id="sec-pub" data-i18n="nav.publicaciones">Publicaciones</h2>
           </header>
           <p class="pub-intro">
             Boletines, informes, revistas, documentos técnicos y resultados.
-            Consultá la producción <strong>registrada por la universidad</strong> o explorá un
-            <strong>índice académico automático</strong> en fuentes abiertas (OpenAlex, Crossref,
+            Consultá la producción <strong data-i18n="sec.publicaciones.intro.registrada">registrada por la universidad</strong> o explorá un
+            <strong data-i18n="sec.publicaciones.intro.indice">índice académico automático</strong> en fuentes abiertas (OpenAlex, Crossref,
             Semantic Scholar, Europe PMC y enlaces de acceso abierto vía Unpaywall),
-            <strong>por afiliación UCCuyo</strong>.
+            <strong data-i18n="sec.publicaciones.intro.afiliacion">por afiliación UCCuyo</strong>.
           </p>
 
-          <div class="pub-tabs" role="tablist" aria-label="Vistas de publicaciones">
+          <div class="pub-tabs" role="tablist" aria-label="Vistas de publicaciones" data-i18n-attr="aria-label:sec.publicaciones.tabs.aria">
             <button
               type="button"
               class="pub-tab pub-tab--active"
@@ -625,7 +599,7 @@
               aria-selected="true"
               aria-controls="pub-panel-registradas"
               data-pub-tab="registradas"
-            >
+             data-i18n="sec.publicaciones.tab.registradas">
               Producción registrada
             </button>
             <button
@@ -637,7 +611,7 @@
               aria-controls="pub-panel-uccuyo"
               data-pub-tab="uccuyo"
               tabindex="-1"
-            >
+             data-i18n="sec.publicaciones.tab.indice">
               Publicaciones UCCuyo (índice)
             </button>
           </div>
@@ -656,7 +630,7 @@
               </span>
             </p>
             <div id="pub-team-entry"></div>
-            <div class="pub-toolbar" id="pub-filters" role="toolbar" aria-label="Filtrar por tipo"></div>
+            <div class="pub-toolbar" id="pub-filters" role="toolbar" aria-label="Filtrar por tipo" data-i18n-attr="aria-label:sec.publicaciones.filters.aria"></div>
             <div id="pub-status" class="pub-status" aria-live="polite"></div>
             <div class="pub-grid" id="pub-grid"></div>
           </div>
@@ -680,29 +654,28 @@
               (incluye PubMed), con enlaces de acceso abierto vía
               <a href="https://unpaywall.org" target="_blank" rel="noopener noreferrer">Unpaywall</a>.
               Publicaciones de investigadoras e investigadores de la
-              <em>Universidad Católica de Cuyo</em> (según <strong>afiliación UCCuyo</strong> en la base). Puede faltar
+              <em data-i18n="brand.kicker">Universidad Católica de Cuyo</em> (según <strong>afiliación UCCuyo</strong> en la base). Puede faltar
               producción sin DOI o incluir registros a revisar. Datos actualizados por las bases, no
               por la Secretaría.
-              <span class="pub-index-badge">Resultados aproximados</span>
+              <span class="pub-index-badge" data-i18n="sec.publicaciones.panel.indice.badge">Resultados aproximados</span>
               <span id="pub-index-count-wrap" hidden>
                 · <strong id="pub-index-total">0</strong> trabajos aproximados (referencia OpenAlex)
               </span>
             </p>
             <div class="pub-index-search">
               <label class="pub-index-search-label" for="pub-index-q"
-                >Buscar por título, DOI o autor/a</label
-              >
+                 data-i18n="sec.publicaciones.search.label">Buscar por título, DOI o autor/a</label>
               <div
                 class="pub-index-search-modes"
                 role="radiogroup"
                 aria-label="Tipo de búsqueda"
-              >
+               data-i18n-attr="aria-label:sec.publicaciones.search.type.aria">
                 <button
                   type="button"
                   class="pub-index-mode pub-index-mode--active"
                   data-pub-index-mode="auto"
                   aria-pressed="true"
-                >
+                 data-i18n="sec.publicaciones.search.mode.auto">
                   Auto
                 </button>
                 <button
@@ -710,7 +683,7 @@
                   class="pub-index-mode"
                   data-pub-index-mode="title"
                   aria-pressed="false"
-                >
+                 data-i18n="sec.publicaciones.search.mode.title">
                   Título
                 </button>
                 <button
@@ -718,7 +691,7 @@
                   class="pub-index-mode"
                   data-pub-index-mode="author"
                   aria-pressed="false"
-                >
+                 data-i18n="sec.publicaciones.search.mode.author">
                   Autor/a
                 </button>
                 <button
@@ -726,11 +699,11 @@
                   class="pub-index-mode"
                   data-pub-index-mode="doi"
                   aria-pressed="false"
-                >
+                 data-i18n="sec.publicaciones.search.mode.doi">
                   DOI
                 </button>
                 <div class="pub-index-year pub-index-year--inline">
-                  <label class="pub-index-year-label visually-hidden" for="pub-index-year">
+                  <label class="pub-index-year-label visually-hidden" for="pub-index-year" data-i18n="sec.publicaciones.year.label">
                     Filtrar por año
                   </label>
                   <select
@@ -738,8 +711,8 @@
                     class="pub-index-year-select"
                     aria-label="Filtrar publicaciones por año"
                     title="Filtrar por año"
-                  >
-                    <option value="all">Todos los años</option>
+                   data-i18n-attr="aria-label:sec.publicaciones.year.aria">
+                    <option value="all" data-i18n="sec.publicaciones.year.all">Todos los años</option>
                   </select>
                 </div>
               </div>
@@ -750,32 +723,31 @@
                   class="pub-index-search-input"
                   placeholder="Título, 10.1234/…, Apellido Nombre o Apellido, Nombre"
                   autocomplete="off"
-                  enterkeyhint="search"
-                />
+                  enterkeyhint="search" data-i18n-attr="placeholder:sec.publicaciones.search.placeholder" />
                 <button
                   type="button"
                   id="pub-index-q-clear"
                   class="pub-more-btn pub-index-search-clear"
                   hidden
-                >
+                 data-i18n="sec.publicaciones.search.clear">
                   Limpiar
                 </button>
-                <button type="button" id="pub-index-clear-all" class="pub-more-btn pub-index-search-clear-all">
+                <button type="button" id="pub-index-clear-all" class="pub-more-btn pub-index-search-clear-all" data-i18n="sec.publicaciones.search.clear_all">
                   Limpiar todo
                 </button>
               </div>
               <div class="pub-index-controls">
-                <label class="pub-index-control-label" for="pub-index-size">Por página</label>
-                <select id="pub-index-size" class="pub-index-control-select" aria-label="Cantidad por página">
+                <label class="pub-index-control-label" for="pub-index-size" data-i18n="sec.publicaciones.page_size.label">Por página</label>
+                <select id="pub-index-size" class="pub-index-control-select" aria-label="Cantidad por página" data-i18n-attr="aria-label:sec.publicaciones.page_size.aria">
                   <option value="15">15</option>
                   <option value="30">30</option>
                   <option value="50">50</option>
                 </select>
-                <label class="pub-index-control-label" for="pub-index-sort">Orden</label>
-                <select id="pub-index-sort" class="pub-index-control-select" aria-label="Ordenar publicaciones">
-                  <option value="date_desc">Fecha: más reciente</option>
-                  <option value="date_asc">Fecha: más antigua</option>
-                  <option value="relevance">Relevancia (si hay búsqueda)</option>
+                <label class="pub-index-control-label" for="pub-index-sort" data-i18n="sec.publicaciones.sort.label">Orden</label>
+                <select id="pub-index-sort" class="pub-index-control-select" aria-label="Ordenar publicaciones" data-i18n-attr="aria-label:sec.publicaciones.sort.aria">
+                  <option value="date_desc" data-i18n="sec.publicaciones.sort.date_desc">Fecha: más reciente</option>
+                  <option value="date_asc" data-i18n="sec.publicaciones.sort.date_asc">Fecha: más antigua</option>
+                  <option value="relevance" data-i18n="sec.publicaciones.sort.relevance">Relevancia (si hay búsqueda)</option>
                 </select>
               </div>
               <div id="pub-index-active" class="pub-index-active" aria-live="polite"></div>
@@ -789,10 +761,10 @@
       <section class="section section--tools" id="herramientas" aria-labelledby="sec-tools">
         <div class="section-inner">
           <header class="section-head section-head--bar section-head--red">
-            <p class="section-kicker">Productos</p>
-            <h2 id="sec-tools">Herramientas de Análisis</h2>
+            <p class="section-kicker" data-i18n="sec.herramientas.kicker">Productos</p>
+            <h2 id="sec-tools" data-i18n="nav.herramientas">Herramientas de Análisis</h2>
           </header>
-          <p class="text-intro">
+          <p class="text-intro" data-i18n="sec.herramientas.intro">
             Calculadoras, valoradores, dashboards y sistemas desarrollados por
             la Secretaría para el análisis de datos institucionales, la
             Encuesta Permanente de Hogares (INDEC), la pre-auditoría de tesis y la
@@ -801,17 +773,17 @@
           </p>
           <div class="tools-grid">
             <article class="tool-card">
-              <p class="tool-card-badge">Disponible</p>
-              <h3>Encuesta Clara</h3>
-              <p class="tool-card-lead">
+              <p class="tool-card-badge" data-i18n="sec.herramientas.badge.disponible">Disponible</p>
+              <h3 data-i18n="sec.herramientas.encuesta_clara.title">Encuesta Clara</h3>
+              <p class="tool-card-lead" data-i18n="sec.herramientas.encuesta_clara.lead">
                 Del Excel de Google Forms a tablas, cruces y temas del texto
                 libre: análisis cuantitativo y cualitativo en español, pensado
                 para encuestas institucionales.
               </p>
               <ul class="tool-card-list">
-                <li>Carga de respuestas en Excel (.xlsx)</li>
-                <li>Resumen de ítems, cruces y análisis guiado</li>
-                <li>Lectura de respuestas abiertas y sentimiento</li>
+                <li data-i18n="sec.herramientas.encuesta_clara.item1">Carga de respuestas en Excel (.xlsx)</li>
+                <li data-i18n="sec.herramientas.encuesta_clara.item2">Resumen de ítems, cruces y análisis guiado</li>
+                <li data-i18n="sec.herramientas.encuesta_clara.item3">Lectura de respuestas abiertas y sentimiento</li>
               </ul>
               <p class="tile-actions">
                 <a
@@ -819,29 +791,27 @@
                   href="https://cuantitativo-cualitativo-encuesta.streamlit.app/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >Abrir Encuesta Clara</a
-                >
+                   data-i18n="sec.herramientas.encuesta_clara.cta">Abrir Encuesta Clara</a>
                 <a
                   class="btn btn-ghost"
                   href="https://claudiomlarrea.github.io/observatorio-ia/docs/instructivos/instructivo-encuesta-clara.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >Instructivo (PDF)</a
-                >
+                   data-i18n="sec.herramientas.instructivo_pdf">Instructivo (PDF)</a>
               </p>
             </article>
             <article class="tool-card">
-              <p class="tool-card-badge">Disponible</p>
-              <h3>Análisis EPH (INDEC)</h3>
-              <p class="tool-card-lead">
+              <p class="tool-card-badge" data-i18n="sec.herramientas.badge.disponible">Disponible</p>
+              <h3 data-i18n="sec.herramientas.eph.title">Análisis EPH (INDEC)</h3>
+              <p class="tool-card-lead" data-i18n="sec.herramientas.eph.lead">
                 Microdatos de la Encuesta Permanente de Hogares: descriptivos,
                 desigualdad, correlaciones, índice de exclusión digital, regresión
                 logística, modelos predictivos e interpretabilidad (SHAP).
               </p>
               <ul class="tool-card-list">
-                <li>Hogares, individuos y módulo TIC (.xlsx, .txt, .csv, .dbf)</li>
-                <li>Modo guiado y modo experto</li>
-                <li>Exportación de resultados</li>
+                <li data-i18n="sec.herramientas.eph.item1">Hogares, individuos y módulo TIC (.xlsx, .txt, .csv, .dbf)</li>
+                <li data-i18n="sec.herramientas.eph.item2">Modo guiado y modo experto</li>
+                <li data-i18n="sec.herramientas.eph.item3">Exportación de resultados</li>
               </ul>
               <p class="tile-actions">
                 <a
@@ -849,29 +819,27 @@
                   href="https://eph-analyzer.streamlit.app/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >Abrir análisis EPH</a
-                >
+                   data-i18n="sec.herramientas.eph.cta">Abrir análisis EPH</a>
                 <a
                   class="btn btn-ghost"
                   href="https://claudiomlarrea.github.io/observatorio-ia/docs/instructivos/instructivo-analisis-eph.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >Instructivo (PDF)</a
-                >
+                   data-i18n="sec.herramientas.instructivo_pdf">Instructivo (PDF)</a>
               </p>
             </article>
             <article class="tool-card">
-              <p class="tool-card-badge">Disponible</p>
-              <h3>SAVT — Auditoría de Tesis</h3>
-              <p class="tool-card-lead">
+              <p class="tool-card-badge" data-i18n="sec.herramientas.badge.disponible">Disponible</p>
+              <h3 data-i18n="sec.herramientas.savt.title">SAVT — Auditoría de Tesis</h3>
+              <p class="tool-card-lead" data-i18n="sec.herramientas.savt.lead">
                 Pre-auditoría académica integral de tesis y trabajos finales:
                 estructura, bibliografía, citas, integridad, ética y profundidad,
                 con orientación antes de la evaluación del jurado.
               </p>
               <ul class="tool-card-list">
-                <li>Carga de tesis en Word (.docx) o PDF</li>
-                <li>Índice ICAI, checklist y apartados con observaciones</li>
-                <li>Informe descargable en CSV y Word (.docx)</li>
+                <li data-i18n="sec.herramientas.savt.item1">Carga de tesis en Word (.docx) o PDF</li>
+                <li data-i18n="sec.herramientas.savt.item2">Índice ICAI, checklist y apartados con observaciones</li>
+                <li data-i18n="sec.herramientas.savt.item3">Informe descargable en CSV y Word (.docx)</li>
               </ul>
               <p class="tile-actions">
                 <a
@@ -879,29 +847,27 @@
                   href="https://8j4mtw4waqxwme7cm5eaeq.streamlit.app/?src=secretaria"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >Abrir SAVT</a
-                >
+                   data-i18n="sec.herramientas.savt.cta">Abrir SAVT</a>
                 <a
                   class="btn btn-ghost"
                   href="https://claudiomlarrea.github.io/observatorio-ia/docs/instructivos/instructivo-savt.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >Instructivo (PDF)</a
-                >
+                   data-i18n="sec.herramientas.instructivo_pdf">Instructivo (PDF)</a>
               </p>
             </article>
             <article class="tool-card">
-              <p class="tool-card-badge">Disponible</p>
-              <h3>EvaluAR</h3>
-              <p class="tool-card-lead">
+              <p class="tool-card-badge" data-i18n="sec.herramientas.badge.disponible">Disponible</p>
+              <h3 data-i18n="sec.herramientas.evaluar.title">EvaluAR</h3>
+              <p class="tool-card-lead" data-i18n="sec.herramientas.evaluar.lead">
                 Examen en papel y corrección digital: los alumnos cargan sus
                 respuestas desde el celular y el docente obtiene la planilla de
                 notas al instante, con clave de respuestas configurable.
               </p>
               <ul class="tool-card-list">
-                <li>Exámenes de opción múltiple, V/F y emparejamiento</li>
-                <li>Código o QR por comisión; corrección automática</li>
-                <li>Planilla de notas y exportación a Excel (.xlsx)</li>
+                <li data-i18n="sec.herramientas.evaluar.item1">Exámenes de opción múltiple, V/F y emparejamiento</li>
+                <li data-i18n="sec.herramientas.evaluar.item2">Código o QR por comisión; corrección automática</li>
+                <li data-i18n="sec.herramientas.evaluar.item3">Planilla de notas y exportación a Excel (.xlsx)</li>
               </ul>
               <p class="tile-actions">
                 <a
@@ -909,15 +875,13 @@
                   href="https://evaluar-9gp7kxvrwvojv9wk8u4wv7.streamlit.app/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >Abrir EvaluAR</a
-                >
+                   data-i18n="sec.herramientas.evaluar.cta">Abrir EvaluAR</a>
                 <a
                   class="btn btn-ghost"
                   href="https://claudiomlarrea.github.io/observatorio-ia/docs/instructivos/instructivo-evaluar.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >Instructivo (PDF)</a
-                >
+                   data-i18n="sec.herramientas.instructivo_pdf">Instructivo (PDF)</a>
               </p>
             </article>
           </div>
@@ -930,10 +894,10 @@
             id="observatorio-ia"
             class="section-head section-head--bar section-head--green"
           >
-            <p class="section-kicker">Vinculación</p>
-            <h2 id="sec-oia">Observatorio de Inteligencia Artificial</h2>
+            <p class="section-kicker" data-i18n="sec.uvt.kicker">Vinculación</p>
+            <h2 id="sec-oia" data-i18n="sec.observatorio.title">Observatorio de Inteligencia Artificial</h2>
           </header>
-          <p class="text-intro">
+          <p class="text-intro" data-i18n="sec.observatorio.intro">
             Unidad especializada dependiente de la Secretaría de Investigación.
           </p>
           <article class="card oia-card">
@@ -947,7 +911,7 @@
                 decoding="async"
               />
               <div>
-                <p>
+                <p data-i18n="sec.observatorio.body">
                   El Observatorio de Inteligencia Artificial de la UCCuyo
                   promueve análisis, formación, investigación y vinculación sobre
                   el impacto y las aplicaciones de la IA, con enfoque académico,
@@ -959,8 +923,7 @@
                     href="https://claudiomlarrea.github.io/observatorio-ia/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    >Visitar el Observatorio de Inteligencia Artificial</a
-                  >
+                     data-i18n="sec.observatorio.cta">Visitar el Observatorio de Inteligencia Artificial</a>
                   <a
                     class="btn btn-ghost"
                     href="mailto:observatorioia@uccuyo.edu.ar"
@@ -976,10 +939,10 @@
       <section class="section section--visitas" id="visitas" aria-labelledby="sec-visitas">
         <div class="section-inner">
           <header class="section-head section-head--bar section-head--green">
-            <p class="section-kicker">Alcance</p>
-            <h2 id="sec-visitas">Visitas a la Secretaría</h2>
+            <p class="section-kicker" data-i18n="sec.visitas.kicker">Alcance</p>
+            <h2 id="sec-visitas" data-i18n="nav.visitas">Visitas a la Secretaría</h2>
           </header>
-          <p class="text-intro">
+          <p class="text-intro" data-i18n="sec.visitas.intro">
             Estimación del país y, cuando está disponible, de la provincia o
             región desde donde se consulta el sitio de la Secretaría de
             Investigación. Tocá un origen en la lista para enfocarlo en el mapa.
@@ -994,10 +957,10 @@
               class="visitas-mapa"
               role="img"
               aria-label="Mapa de origen estimado de las visitas a la Secretaría"
-            ></div>
+             data-i18n-attr="aria-label:sec.visitas.map.aria"></div>
             <div id="visitas-lista" class="visitas-lista"></div>
           </div>
-          <p class="visitas-note">
+          <p class="visitas-note" data-i18n="sec.visitas.note">
             El origen es una estimación por IP. Las visitas anteriores al mapa
             se pueden repartir con las proporciones de Google Analytics (backfill
             en Apps Script). Redes móviles, VPN y campus universitarios pueden
@@ -1009,31 +972,31 @@
       <section class="section" aria-labelledby="sec-contacto">
         <div class="section-inner">
           <header id="contacto" class="section-head section-head--bar section-head--red">
-            <p class="section-kicker">Escríbenos</p>
-            <h2 id="sec-contacto">Datos de contacto</h2>
+            <p class="section-kicker" data-i18n="sec.contacto.kicker">Escríbenos</p>
+            <h2 id="sec-contacto" data-i18n="sec.contacto.title">Datos de contacto</h2>
           </header>
           <div class="contact-layout">
             <aside class="contact-box" aria-labelledby="contacto-instit">
-              <h3 id="contacto-instit">Secretaría de Investigación</h3>
+              <h3 id="contacto-instit" data-i18n="brand.title">Secretaría de Investigación</h3>
               <ul class="contact-list">
                 <li>
-                  <strong>Correo</strong>
+                  <strong data-i18n="sec.contacto.correo.label">Correo</strong>
                   <a href="mailto:investigacion@uccuyo.edu.ar"
                     >investigacion@uccuyo.edu.ar</a
                   >
                 </li>
                 <li>
-                  <strong>Universidad</strong>
+                  <strong data-i18n="sec.contacto.universidad.label">Universidad</strong>
                   Universidad Católica de Cuyo
                 </li>
                 <li>
-                  <strong>Teléfono</strong>
+                  <strong data-i18n="sec.contacto.telefono.label">Teléfono</strong>
                   <a href="tel:+542644292300">0264-4292300</a>
                 </li>
               </ul>
             </aside>
             <div class="card">
-              <p class="text-lead-tight">
+              <p class="text-lead-tight" data-i18n="sec.contacto.lead">
                 Para consultas sobre trámites, proyectos, informes o reuniones del
                 Consejo de Investigación, escribinos por correo electrónico.
               </p>
@@ -1041,8 +1004,7 @@
                 <a
                   class="btn btn-primary"
                   href="mailto:investigacion@uccuyo.edu.ar?subject=%5BSecretar%C3%ADa%20de%20Investigaci%C3%B3n%5D%20Consulta"
-                  >Escribir a investigacion@uccuyo.edu.ar</a
-                >
+                   data-i18n="sec.contacto.cta">Escribir a investigacion@uccuyo.edu.ar</a>
               </p>
             </div>
           </div>
@@ -1052,34 +1014,35 @@
 
     <footer class="site-footer">
       <div class="footer-inner">
-        <span>Secretaría de Investigación · UCCuyo</span>
+        <span data-i18n="footer.brand">Secretaría de Investigación · UCCuyo</span>
         <a href="mailto:investigacion@uccuyo.edu.ar">investigacion@uccuyo.edu.ar</a>
-        <a href="#la-secretaria">La Secretaría</a>
-        <a href="#equipo">Equipo</a>
-        <a href="#uvt">UVT</a>
-        <a href="#consejo-investigacion">Consejo</a>
-        <a href="#ordenanza-general">Ordenanza</a>
-        <a href="#financiamiento-externo">Financiamiento externo</a>
-        <a href="#tablero-investigacion">Tablero de Investigación</a>
-        <a href="#publicaciones">Publicaciones</a>
-        <a href="#herramientas">Herramientas de Análisis</a>
-        <a href="#visitas">Visitas a la Secretaría</a>
-        <a href="#contacto">Contacto</a>
+        <a href="#la-secretaria" data-i18n="nav.secretaria">La Secretaría</a>
+        <a href="#equipo" data-i18n="nav.equipo">Equipo</a>
+        <a href="#uvt" data-i18n="nav.uvt">UVT</a>
+        <a href="#consejo-investigacion" data-i18n="footer.consejo">Consejo</a>
+        <a href="#ordenanza-general" data-i18n="nav.ordenanza">Ordenanza</a>
+        <a href="#financiamiento-externo" data-i18n="nav.financiamiento">Financiamiento externo</a>
+        <a href="#tablero-investigacion" data-i18n="nav.tablero">Tablero de Investigación</a>
+        <a href="#publicaciones" data-i18n="nav.publicaciones">Publicaciones</a>
+        <a href="#herramientas" data-i18n="nav.herramientas">Herramientas de Análisis</a>
+        <a href="#visitas" data-i18n="nav.visitas">Visitas a la Secretaría</a>
+        <a href="#contacto" data-i18n="nav.contacto">Contacto</a>
         <a
           href="https://claudiomlarrea.github.io/observatorio-ia/"
           target="_blank"
           rel="noopener noreferrer"
-          >Observatorio de IA</a
-        >
+           data-i18n="nav.observatorio">Observatorio de IA</a>
         <a href="https://uccuyo.edu.ar/" rel="noopener noreferrer">uccuyo.edu.ar</a>
       </div>
     </footer>
 
+    <script src="js/i18n-dict.js?v=1"></script>
+    <script src="js/i18n.js?v=1"></script>
     <script src="js/publicaciones-config.js?v=5" defer></script>
     <script src="js/visitantes-config.js?v=1" defer></script>
-    <script src="js/visitantes.js?v=2" defer></script>
-    <script src="js/visitas-mapa.js?v=5" defer></script>
-    <script src="js/publicaciones.js?v=6" defer></script>
+    <script src="js/visitantes.js?v=3" defer></script>
+    <script src="js/visitas-mapa.js?v=6" defer></script>
+    <script src="js/publicaciones.js?v=7" defer></script>
     <script src="js/publicaciones-fuentes-abiertas.js?v=1" defer></script>
     <script src="js/publicaciones-index.js?v=5" defer></script>
     <script src="js/main.js?v=4" defer></script>

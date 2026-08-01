@@ -24,8 +24,16 @@
       "<p class=\"pub-intro\" style=\"margin-top:0\">" +
       "<a class=\"btn btn-ghost\" href=\"" +
       esc(url) +
-      "\" target=\"_blank\" rel=\"noopener noreferrer\">Ingreso equipo · Cargar publicaciones</a> " +
-      "<small>(iniciá sesión en Google con un correo autorizado)</small></p>";
+      "\" target=\"_blank\" rel=\"noopener noreferrer\">" +
+      (window.I18N && window.I18N.t
+        ? window.I18N.t("dyn.pub.teamEntry")
+        : "Ingreso equipo · Cargar publicaciones") +
+      "</a> " +
+      "<small>" +
+      (window.I18N && window.I18N.t
+        ? window.I18N.t("dyn.pub.teamHint")
+        : "(iniciá sesión en Google con un correo autorizado)") +
+      "</small></p>";
   }
 
   function esc(s) {

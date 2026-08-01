@@ -119,6 +119,58 @@ a:hover {
   gap: 0.75rem 1rem;
 }
 
+.lang-switcher {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.15rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  margin-left: auto;
+}
+
+.lang-switcher__btn {
+  appearance: none;
+  border: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.82);
+  background: transparent;
+}
+
+.lang-switcher__btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.lang-switcher__btn.is-active {
+  color: var(--color-institutional-dark);
+  background: #fff;
+}
+
+@media (max-width: 900px) {
+  .lang-switcher {
+    margin-left: 0;
+    order: 2;
+  }
+
+  .nav-toggle {
+    order: 3;
+  }
+
+  .site-nav {
+    order: 4;
+  }
+}
+
 .brand {
   display: flex;
   align-items: center;
