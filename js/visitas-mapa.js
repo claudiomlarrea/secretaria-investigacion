@@ -199,6 +199,11 @@
     "ciudad autonoma de buenos aires": [-58.4, -34.6],
     "ciudad de buenos aires": [-58.4, -34.6],
     caba: [-58.4, -34.6],
+    "capital federal": [-58.4, -34.6],
+    "distrito federal": [-58.4, -34.6],
+    "buenos aires f d": [-58.4, -34.6],
+    "buenos aires fd": [-58.4, -34.6],
+    "buenos aires federal district": [-58.4, -34.6],
     "buenos aires": [-60.0, -36.7],
     catamarca: [-66.0, -28.5],
     chaco: [-60.0, -26.4],
@@ -223,6 +228,73 @@
     "tierra del fuego": [-67.0, -54.4],
     tucuman: [-65.3, -26.9]
   };
+
+  /** Comunidades / regiones frecuentes (ipapi y similares). */
+  var ES_REGION_CENTROIDS = {
+    andalucia: [-4.5, 37.6],
+    aragon: [-0.9, 41.6],
+    asturias: [-5.8, 43.3],
+    "islas baleares": [2.9, 39.5],
+    baleares: [2.9, 39.5],
+    "pais vasco": [-2.7, 43.0],
+    euskadi: [-2.7, 43.0],
+    "canarias": [-15.5, 28.0],
+    cantabria: [-4.0, 43.2],
+    "castilla la mancha": [-3.0, 39.6],
+    "castilla-la mancha": [-3.0, 39.6],
+    "castilla y leon": [-4.8, 41.8],
+    cataluna: [1.5, 41.8],
+    catalunya: [1.5, 41.8],
+    extremadura: [-6.2, 39.2],
+    galicia: [-8.0, 42.8],
+    "la rioja": [-2.5, 42.3],
+    madrid: [-3.7, 40.4],
+    "comunidad de madrid": [-3.7, 40.4],
+    murcia: [-1.1, 37.99],
+    navarra: [-1.6, 42.7],
+    "comunidad valenciana": [-0.4, 39.5],
+    valencia: [-0.4, 39.5],
+    ceuta: [-5.3, 35.9],
+    melilla: [-2.9, 35.3]
+  };
+
+  var REGION_CENTROIDS_BY_COUNTRY = {
+    AR: AR_PROVINCE_CENTROIDS,
+    ES: ES_REGION_CENTROIDS
+  };
+
+  function regionKey(region) {
+    return normKey(region)
+      .replace(/\./g, " ")
+      .replace(/-/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function regionCentroid(country, region) {
+    var code = String(country || "").toUpperCase();
+    var map = REGION_CENTROIDS_BY_COUNTRY[code];
+    if (!map) return null;
+    var key = regionKey(region);
+    if (map[key]) return map[key];
+    return null;
+  }
+
+  function regionMarkerKey(country, region) {
+    return "p:" + String(country || "").toUpperCase() + ":" + regionKey(region);
+  }
+
+  function resolveListMarkerKey(preferred, fallbackCountry) {
+    if (preferred && markerIndex[preferred]) return preferred;
+    var countryKey = "c:" + String(fallbackCountry || "").toUpperCase();
+    if (markerIndex[countryKey]) return countryKey;
+    var prefix = "p:" + String(fallbackCountry || "").toUpperCase() + ":";
+    var keys = Object.keys(markerIndex);
+    for (var i = 0; i < keys.length; i++) {
+      if (keys[i].indexOf(prefix) === 0) return keys[i];
+    }
+    return preferred || countryKey;
+  }
 
   function setStatus(msg) {
     if (!statusEl) return;
@@ -361,10 +433,6 @@
   function radiusForCount(count, max) {
     var t = max > 0 ? Math.sqrt(count / max) : 0;
     return 9 + Math.round(t * 26);
-  }
-
-  function provinceCentroid(region) {
-    return AR_PROVINCE_CENTROIDS[normKey(region)] || null;
   }
 
   function ensureChrome() {
@@ -508,22 +576,13 @@
     html += "<div><h3>Países</h3><ol class=\"visitas-rank\">";
     countries.slice(0, 12).forEach(function (c, idx) {
       var code = String(c.code || "").toUpperCase();
-      var key = "c:" + code;
-      var hasMarker = !!markerIndex[key] || (code === "AR" && Object.keys(markerIndex).some(function (k) {
-        return k.indexOf("p:AR:") === 0;
-      }));
-      var markKey = markerIndex[key]
-        ? key
-        : code === "AR"
-          ? Object.keys(markerIndex).filter(function (k) {
-              return k.indexOf("p:AR:") === 0;
-            })[0] || ""
-          : "";
+      var key = resolveListMarkerKey("c:" + code, code);
+      var enabled = !!markerIndex[key];
       html +=
         '<li><button type="button" class="visitas-rank__btn" data-marker-key="' +
-        escapeHtml(markKey || key) +
+        escapeHtml(key) +
         '"' +
-        (hasMarker || markKey ? "" : " disabled") +
+        (enabled ? "" : " disabled") +
         ">" +
         '<span class="visitas-rank__pos">' +
         (idx + 1) +
@@ -545,7 +604,8 @@
       html += "<div><h3>Provincias / regiones</h3><ol class=\"visitas-rank\">";
       regions.slice(0, 12).forEach(function (r, idx) {
         var code = String(r.country || "").toUpperCase();
-        var key = "p:" + code + ":" + normKey(r.region);
+        var preferred = regionMarkerKey(code, r.region);
+        var key = resolveListMarkerKey(preferred, code);
         var label = r.region;
         if (r.countryName && code !== "AR") label += " (" + r.countryName + ")";
         html +=
@@ -645,13 +705,18 @@
     });
 
     var bounds = [];
-    var arRegions = regions.filter(function (r) {
-      return String(r.country || "").toUpperCase() === "AR" && provinceCentroid(r.region);
+    var detailedCountries = {};
+    var plottedRegions = regions.filter(function (r) {
+      var code = String(r.country || "").toUpperCase();
+      return !!regionCentroid(code, r.region);
+    });
+    plottedRegions.forEach(function (r) {
+      detailedCountries[String(r.country || "").toUpperCase()] = true;
     });
 
     countries.forEach(function (c) {
       var code = String(c.code || "").toUpperCase();
-      if (code === "AR" && arRegions.length) return;
+      if (detailedCountries[code]) return;
       var centroid = COUNTRY_CENTROIDS[code];
       if (!centroid) return;
       var latlng = [centroid[1], centroid[0]];
@@ -671,10 +736,44 @@
       bounds.push(latlng);
     });
 
-    arRegions.forEach(function (r) {
-      var c = provinceCentroid(r.region);
+    // País de respaldo si hay detalle regional (p. ej. España + Aragón).
+    Object.keys(detailedCountries).forEach(function (code) {
+      if (markerIndex["c:" + code]) return;
+      var centroid = COUNTRY_CENTROIDS[code];
+      if (!centroid) return;
+      var countryRow = null;
+      for (var i = 0; i < countries.length; i++) {
+        if (String(countries[i].code || "").toUpperCase() === code) {
+          countryRow = countries[i];
+          break;
+        }
+      }
+      var latlng = [centroid[1], centroid[0]];
+      var key = "c:" + code;
+      var marker = L.circleMarker(latlng, {
+        radius: Math.max(7, radiusForCount((countryRow && countryRow.count) || 1, max) - 4),
+        color: "#042f23",
+        weight: 1,
+        fillColor: colorForCount((countryRow && countryRow.count) || 1, max),
+        fillOpacity: 0.35,
+        dashArray: "2 3"
+      }).addTo(map);
+      marker.bindPopup(
+        popupHtml(
+          (countryRow && countryRow.name) || code,
+          (countryRow && countryRow.count) || 0,
+          total
+        )
+      );
+      markerIndex[key] = { marker: marker, latlng: latlng, kind: "country" };
+      bounds.push(latlng);
+    });
+
+    plottedRegions.forEach(function (r) {
+      var code = String(r.country || "").toUpperCase();
+      var c = regionCentroid(code, r.region);
       var latlng = [c[1], c[0]];
-      var key = "p:AR:" + normKey(r.region);
+      var key = regionMarkerKey(code, r.region);
       var marker = L.circleMarker(latlng, {
         radius: radiusForCount(r.count, max),
         color: "#4a0c1f",
@@ -686,15 +785,19 @@
       marker.on("click", function () {
         setActiveListItem(key);
       });
-      markerIndex[key] = { marker: marker, latlng: latlng, kind: "province" };
+      markerIndex[key] = {
+        marker: marker,
+        latlng: latlng,
+        kind: code === "AR" ? "province" : "region"
+      };
       bounds.push(latlng);
     });
 
     map._visitasBounds = bounds;
     if (bounds.length === 1) {
-      map.setView(bounds[0], arRegions.length ? 5 : 3);
+      map.setView(bounds[0], plottedRegions.length ? 5 : 3);
     } else if (bounds.length > 1) {
-      map.fitBounds(bounds, { padding: [36, 36], maxZoom: arRegions.length ? 5 : 4 });
+      map.fitBounds(bounds, { padding: [36, 36], maxZoom: plottedRegions.length ? 5 : 4 });
     }
 
     window.setTimeout(function () {
