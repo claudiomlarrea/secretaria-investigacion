@@ -10,6 +10,8 @@ from typing import Any
 
 import pandas as pd
 
+from lib.texto_legible import legibilizar_siglas_udigital
+
 _DATA = Path(__file__).resolve().parent.parent / "data"
 
 
@@ -266,7 +268,7 @@ def detalle_evaluacion(respuestas: dict[str, Any]) -> pd.DataFrame:
         rows.append(
             {
                 "Código": ind["codigo"],
-                "Indicador": ind["texto"],
+                "Indicador": legibilizar_siglas_udigital(ind["texto"]),
                 "Área": ind["area"],
                 "Reto": ind.get("reto_id") or "—",
                 "IA": "Sí" if ind.get("dimension_ia") else "No",
@@ -292,7 +294,7 @@ def brechas_prioritarias(respuestas: dict[str, Any], top_n: int = 10) -> pd.Data
         rows.append(
             {
                 "Código": ind["codigo"],
-                "Indicador": ind["texto"],
+                "Indicador": legibilizar_siglas_udigital(ind["texto"]),
                 "Área": ind["area"],
                 "Reto": ind.get("reto_id") or "—",
                 "Prioridad": gap,

@@ -183,6 +183,27 @@ def nivel_observatorio(n_respuestas: int) -> int:
     return 0
 
 
+def nivel_encuesta(tasa_pct: float | None, *, n_respuestas: int = 0) -> int:
+    """Traduce tasa OIA a nivel de madurez 0–4."""
+    if tasa_pct is not None:
+        if tasa_pct >= 70:
+            return 4
+        if tasa_pct >= 50:
+            return 3
+        if tasa_pct >= 30:
+            return 2
+        if tasa_pct > 0:
+            return 1
+        return 0
+    if n_respuestas >= 50:
+        return 3
+    if n_respuestas >= 10:
+        return 2
+    if n_respuestas >= 1:
+        return 1
+    return 0
+
+
 def aplicar_metricas_mdeia(
     metricas: dict[str, Any],
     respuestas: dict[str, Any],
@@ -200,11 +221,10 @@ def aplicar_metricas_mdeia(
 
     cod_tasa = mapping.get("tasa_respuesta", "MDEIA_IA_ENCUESTA")
     tasa = metricas.get("tasa_respuesta_pct")
-    if tasa is not None:
-        out[cod_tasa] = float(tasa)
-    elif n > 0:
-        # Sin población declarada: registrar cantidad como referencia (cap 100)
-        out[cod_tasa] = float(min(100, n))
+    out[cod_tasa] = nivel_encuesta(
+        float(tasa) if tasa is not None else None,
+        n_respuestas=n,
+    )
 
     return out
 

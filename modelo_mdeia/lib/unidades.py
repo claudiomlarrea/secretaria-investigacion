@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -11,6 +12,7 @@ from typing import Any
 import streamlit as st
 
 from constants import FASE1_CORTO, IMD_FASE1_LABEL, INSTITUTION_NAME
+from lib.texto_legible import legibilizar_siglas_udigital
 from lib.mdeia_model import calcular_imd, load_indicadores, normalizar_respuestas, pilot_codigos, progreso_piloto
 
 _DATA = Path(__file__).resolve().parent.parent / "data"
@@ -95,30 +97,207 @@ def unidades_index() -> dict[str, dict]:
     return idx
 
 
-def texto_indicador_para_ambito(texto: str, unidad_id: str) -> str:
-    """Adapta el enunciado al ámbito institucional, sede o facultad."""
-    u = unidad_por_id(unidad_id)
-    if not u:
-        return texto
-    if u.get("es_institucional_consolidada"):
-        return (
-            f"Ámbito: {INSTITUTION_NAME} (toda la institución, todas las sedes y unidades). "
-            f"{texto}"
-        )
-    if not u.get("es_sede_consolidada"):
-        return texto
-    sede = u.get("grupo_nombre", "esta sede")
-    t = texto
+def _adaptar_texto_institucional(texto: str) -> str:
+    """Reformula enunciados UDigital para ámbito universidad completa (sin prefijo ni redundancias)."""
+    t = texto.strip()
+    casos = {
+        "¿Dispone su institución de una estrategia digital incluida o alineada con la estrategia de la institución?": (
+            "¿Dispone la Universidad de una estrategia digital incluida o alineada con la estrategia institucional?"
+        ),
+        "¿Dispone su institución de una estrategia de negocio institucional definida formalmente?": (
+            "¿Dispone la Universidad de una estrategia de negocio institucional definida formalmente?"
+        ),
+    }
+    if t in casos:
+        return casos[t]
     for viejo, nuevo in (
-        ("la institución", "la sede"),
-        ("La institución", "La sede"),
-        ("institución", "sede"),
-        ("Institución", "Sede"),
+        ("su institución", "la Universidad"),
+        ("Su institución", "La Universidad"),
+        ("la institución", "la Universidad"),
+        ("La institución", "La Universidad"),
     ):
         t = t.replace(viejo, nuevo)
+    t = t.replace(
+        "estrategia digital incluida o alineada con la estrategia de la Universidad",
+        "estrategia digital incluida o alineada con la estrategia institucional",
+    )
+    return legibilizar_siglas_udigital(t)
+
+
+_UNIV_REF = "la Institución o Universidad"
+_PH_OTRAS_ENT = "\x00OTRAS_INST_ENT\x00"
+_PH_OTRAS = "\x00OTRAS_INST\x00"
+_PH_INTEROP = "\x00INST_INTEROP\x00"
+
+_PERFILES_UNIDAD: dict[str, dict[str, str]] = {
+    "unidad_academica": {
+        "sujeto_dispone": "su unidad académica",
+        "sujeto_la": "la unidad académica",
+        "negocio_fragment": "estrategia de negocio de la unidad académica alineada con",
+        "prefijo_suffix": "evaluar esta unidad académica (facultad, escuela o instituto)",
+    },
+    "secretaria": {
+        "sujeto_dispone": "su Secretaría",
+        "sujeto_la": "la Secretaría",
+        "negocio_fragment": "estrategia de negocio de la Secretaría alineada con",
+        "prefijo_suffix": "evaluar esta secretaría",
+    },
+    "observatorio": {
+        "sujeto_dispone": "el Observatorio",
+        "sujeto_la": "el Observatorio",
+        "negocio_fragment": "estrategia de negocio del Observatorio alineada con",
+        "prefijo_suffix": "evaluar este observatorio",
+    },
+    "departamento_admin": {
+        "sujeto_dispone": "su departamento",
+        "sujeto_la": "el departamento",
+        "negocio_fragment": "estrategia de negocio del departamento alineada con",
+        "prefijo_suffix": "evaluar este departamento administrativo",
+    },
+}
+
+
+def _proteger_instituciones_externas(t: str) -> str:
+    t = t.replace("otras instituciones o entidades", _PH_OTRAS_ENT)
+    t = t.replace(
+        "Nº de instituciones con las que se relaciona la institución",
+        _PH_INTEROP,
+    )
+    t = t.replace("otras instituciones", _PH_OTRAS)
+    return t
+
+
+def _restaurar_instituciones_externas(t: str, *, sujeto_la: str) -> str:
+    t = t.replace(_PH_OTRAS_ENT, "otras instituciones o entidades")
+    t = t.replace(_PH_OTRAS, "otras instituciones")
+    t = t.replace(
+        _PH_INTEROP,
+        f"Nº de instituciones con las que se relaciona {sujeto_la}",
+    )
+    return t
+
+
+def _aplicar_refs_universidad_madre(t: str, *, negocio_fragment: str) -> str:
+    t = re.sub(
+        r"(?i)con la estrategia de la institución\b",
+        f"con la estrategia de {_UNIV_REF}",
+        t,
+    )
+    t = re.sub(
+        r"(?i)alinead[oa]s? con su estrategia\b",
+        f"alineado con la estrategia de {_UNIV_REF}",
+        t,
+    )
+    t = re.sub(
+        r"(?i)satisfacer la estrategia institucional\b",
+        f"satisfacer la estrategia de {_UNIV_REF}",
+        t,
+    )
+    t = re.sub(
+        r"(?i)la estrategia institucional\b",
+        f"la estrategia de {_UNIV_REF}",
+        t,
+    )
+    t = re.sub(
+        r"(?i)estrategia de negocio institucional\b",
+        f"{negocio_fragment} {_UNIV_REF}",
+        t,
+    )
+    return t
+
+
+def _casos_estrategia_ambito(perfil: dict[str, str]) -> dict[str, str]:
+    sd = perfil["sujeto_dispone"]
+    nf = perfil["negocio_fragment"]
+    return {
+        "¿Dispone su institución de una estrategia digital incluida o alineada con la estrategia de la institución?": (
+            f"¿Dispone {sd} de una estrategia digital incluida o alineada con la estrategia de {_UNIV_REF}?"
+        ),
+        "¿Dispone su institución de una estrategia de negocio institucional definida formalmente?": (
+            f"¿Dispone {sd} de una {nf} {_UNIV_REF}, definida formalmente?"
+        ),
+    }
+
+
+def _reemplazos_sujeto(perfil: dict[str, str]) -> tuple[tuple[str, str], ...]:
+    sd = perfil["sujeto_dispone"]
+    la = perfil["sujeto_la"]
+    cap_sd = sd[0].upper() + sd[1:] if sd else sd
+    cap_la = la[0].upper() + la[1:] if la else la
     return (
-        f"Ámbito: {sede} (evaluar la sede en su totalidad, no una sola facultad). "
-        f"{t}"
+        ("está su institución", f"está {sd}"),
+        ("Ha diseñado y ejecutado su institución", f"Ha diseñado y ejecutado {sd}"),
+        ("su institución", sd),
+        ("Su institución", cap_sd),
+        ("de su institución", f"de {sd}"),
+        ("en su institución", f"en {sd}"),
+        ("la institución", la),
+        ("La institución", cap_la),
+    )
+
+
+def _adaptar_texto_con_perfil(texto: str, perfil: dict[str, str]) -> str:
+    """Sustituye sujeto evaluado (sede, unidad, secretaría, etc.) y referencias a la Universidad madre."""
+    t = texto.strip()
+    casos = _casos_estrategia_ambito(perfil)
+    if t in casos:
+        return casos[t]
+
+    t = _proteger_instituciones_externas(t)
+    t = _aplicar_refs_universidad_madre(t, negocio_fragment=perfil["negocio_fragment"])
+    for viejo, nuevo in _reemplazos_sujeto(perfil):
+        t = t.replace(viejo, nuevo)
+    return _restaurar_instituciones_externas(t, sujeto_la=perfil["sujeto_la"])
+
+
+def _clasificar_tipo_unidad(u: dict) -> str:
+    uid = str(u.get("id") or "")
+    nombre = str(u.get("nombre") or "")
+    if uid.startswith("DEPT_ADMIN") or "Departamento Administrativo" in nombre:
+        return "departamento_admin"
+    if u.get("grupo_tipo") == "transversal":
+        if uid == "OIA" or "Observatorio" in nombre:
+            return "observatorio"
+        if uid.startswith("SEC_") or "Secretaría" in nombre:
+            return "secretaria"
+    return "unidad_academica"
+
+
+def _adaptar_texto_sede(texto: str) -> str:
+    """Reformula enunciados UDigital para diagnóstico de sede (sede vs universidad madre)."""
+    perfil = {
+        "sujeto_dispone": "su sede",
+        "sujeto_la": "la sede",
+        "negocio_fragment": "estrategia de negocio de la sede alineada con",
+    }
+    return _adaptar_texto_con_perfil(texto, perfil)
+
+
+def _adaptar_texto_unidad(texto: str, tipo: str) -> str:
+    """Reformula enunciados UDigital para una unidad concreta (facultad, secretaría, etc.)."""
+    return _adaptar_texto_con_perfil(texto, _PERFILES_UNIDAD[tipo])
+
+
+def texto_indicador_para_ambito(texto: str, unidad_id: str) -> str:
+    """Adapta el enunciado al ámbito institucional, sede o unidad académica/transversal."""
+    u = unidad_por_id(unidad_id)
+    if not u:
+        return legibilizar_siglas_udigital(texto)
+    if u.get("es_institucional_consolidada"):
+        return _adaptar_texto_institucional(texto)
+    if u.get("es_sede_consolidada"):
+        sede = u.get("grupo_nombre", "esta sede")
+        t = _adaptar_texto_sede(texto)
+        return legibilizar_siglas_udigital(
+            f"Ámbito: {sede} (evaluar la sede en su totalidad, no una sola facultad). "
+            f"{t}"
+        )
+    tipo = _clasificar_tipo_unidad(u)
+    perfil = _PERFILES_UNIDAD[tipo]
+    label = u.get("label") or u.get("nombre", "esta unidad")
+    t = _adaptar_texto_unidad(texto, tipo)
+    return legibilizar_siglas_udigital(
+        f"Ámbito: {label} ({perfil['prefijo_suffix']}). {t}"
     )
 
 
@@ -215,7 +394,10 @@ def _slot(unidad_id: str | None = None) -> dict:
     init_session_store()
     uid = unidad_id or st.session_state.mdeia_unidad_activa
     if uid == SIN_UNIDAD:
-        return {"respuestas": {}, "meta_informe": {}}
+        return {
+            "respuestas": {},
+            "meta_informe": _default_meta_informe(DEFAULT_UNIDAD),
+        }
     if uid not in st.session_state.mdeia_unidades_data:
         st.session_state.mdeia_unidades_data[uid] = _empty_unidad_data(uid)
     return st.session_state.mdeia_unidades_data[uid]
@@ -225,18 +407,36 @@ def respuestas_activas() -> dict[str, Any]:
     return _slot()["respuestas"]
 
 
+def widget_key_respuesta(codigo: str, unidad_id: str | None = None) -> str:
+    """Clave de widget aislada por unidad (evita arrastrar valores entre ámbitos)."""
+    uid = unidad_id or st.session_state.get("mdeia_unidad_activa", SIN_UNIDAD)
+    if uid and uid != SIN_UNIDAD:
+        return f"mdeia_{uid}_{codigo}"
+    return f"mdeia_{codigo}"
+
+
+def _codigo_desde_widget_key(key: str, valid: set[str]) -> str | None:
+    if not key.startswith("mdeia_"):
+        return None
+    uid = st.session_state.get("mdeia_unidad_activa", SIN_UNIDAD)
+    if uid and uid != SIN_UNIDAD and key.startswith(f"mdeia_{uid}_"):
+        codigo = key[len(f"mdeia_{uid}_") :]
+        return codigo if codigo in valid else None
+    codigo = key[len("mdeia_") :]
+    return codigo if codigo in valid else None
+
+
 def sincronizar_respuestas_widgets() -> None:
     """Actualiza respuestas desde widgets antes del sidebar (Streamlit corre sidebar primero)."""
     from lib.mdeia_model import load_indicadores
 
     valid = {i["codigo"] for i in load_indicadores()}
     resp = respuestas_activas()
-    prefix = "mdeia_"
     for key, val in st.session_state.items():
-        if not isinstance(key, str) or not key.startswith(prefix):
+        if not isinstance(key, str):
             continue
-        codigo = key[len(prefix) :]
-        if codigo in valid and val is not None:
+        codigo = _codigo_desde_widget_key(key, valid)
+        if codigo and val is not None:
             resp[codigo] = val
 
 
@@ -246,18 +446,23 @@ def limpiar_respuestas_activas() -> None:
 
     valid = {i["codigo"] for i in load_indicadores()}
     respuestas_activas().clear()
-    prefix = "mdeia_"
     for key in list(st.session_state.keys()):
-        if isinstance(key, str) and key.startswith(prefix):
-            codigo = key[len(prefix) :]
-            if codigo in valid:
-                del st.session_state[key]
+        if not isinstance(key, str) or not key.startswith("mdeia_"):
+            continue
+        codigo = _codigo_desde_widget_key(key, valid)
+        if codigo:
+            del st.session_state[key]
     for k in ("mdeia_resultado", "mdeia_resultado_piloto", "mdeia_ultima_carga"):
         st.session_state.pop(k, None)
 
 
 def meta_informe_activa() -> dict:
-    return _slot()["meta_informe"]
+    uid = st.session_state.get("mdeia_unidad_activa", SIN_UNIDAD)
+    meta = _slot()["meta_informe"]
+    base_uid = uid if hay_unidad_activa() else DEFAULT_UNIDAD
+    for key, val in _default_meta_informe(base_uid).items():
+        meta.setdefault(key, val)
+    return meta
 
 
 def set_unidad_activa(unidad_id: str) -> None:

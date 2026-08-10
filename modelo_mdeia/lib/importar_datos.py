@@ -20,6 +20,7 @@ from lib.mdeia_model import (
     pilot_codigos,
 )
 from lib.oia_encuesta import fetch_sheet_csv
+from lib.texto_legible import legibilizar_siglas_udigital
 
 _CODIGO_HINTS = ("codigo", "código", "code", "id_indicador")
 _VALOR_HINTS = ("valor", "value", "respuesta", "nivel", "puntaje", "resultado")
@@ -377,7 +378,7 @@ def generar_plantilla_excel(*, piloto: bool = True) -> bytes:
         records.append(
             {
                 "codigo": ind["codigo"],
-                "indicador": ind["texto"],
+                "indicador": legibilizar_siglas_udigital(ind["texto"]),
                 "tipo": ind.get("tipo") or "nivel",
                 "como_completar": _texto_ayuda_valor(ind),
                 "valor": "",

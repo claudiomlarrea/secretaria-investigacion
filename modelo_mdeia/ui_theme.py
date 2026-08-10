@@ -231,12 +231,21 @@ def inject_theme() -> None:
         [data-testid="stBaseButton-primary"] span,
         .stButton button[kind="primary"],
         .stButton button[kind="primary"] p,
-        .stButton button[kind="primary"] span {{
+        .stButton button[kind="primary"] span,
+        [data-testid="stLinkButton"] a,
+        [data-testid="stLinkButton"] a p,
+        [data-testid="stLinkButton"] a span,
+        [data-testid="stLinkButton"] a:visited,
+        a[data-testid="stBaseLinkButton-primary"],
+        a[data-testid="stBaseLinkButton-primary"] p,
+        a[data-testid="stBaseLinkButton-primary"] span {{
             color: {SURFACE} !important;
             -webkit-text-fill-color: {SURFACE} !important;
         }}
         [data-testid="stBaseButton-primary"]:hover,
-        .stButton button[kind="primary"]:hover {{
+        .stButton button[kind="primary"]:hover,
+        [data-testid="stLinkButton"] a:hover,
+        a[data-testid="stBaseLinkButton-primary"]:hover {{
             color: {SURFACE} !important;
             border-color: {GREEN_DARK} !important;
         }}

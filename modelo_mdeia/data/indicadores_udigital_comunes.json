@@ -17,7 +17,7 @@
   },
   {
     "codigo": "GOS_LIDERARECTORPLANEST",
-    "texto": "¿Lidera el Rector y su equipo de gobierno (EG) el diseño de la planificación estratégica de las TI y la transformación digital?",
+    "texto": "¿Lidera el Rector y su equipo de gestión el diseño de la planificación estratégica de las TI y la transformación digital?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -33,7 +33,7 @@
   },
   {
     "codigo": "TDM_PLANTD",
-    "texto": "¿Dispone su institución de un Plan de Transformación Digital aprobado por el EG?",
+    "texto": "¿Dispone su institución de un Plan de Transformación Digital aprobado por el equipo de gestión?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -81,7 +81,7 @@
   },
   {
     "codigo": "GOM_MODELOGOBIERNOTI",
-    "texto": "¿Ha seleccionado el EG un modelo de gobierno TI y está en operación?",
+    "texto": "¿Ha seleccionado el equipo de gestión un modelo de gobierno TI y está en operación?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -121,7 +121,7 @@
   },
   {
     "codigo": "GOS_COMISIONESTRATEGIATI",
-    "texto": "¿Ha creado el EG un Comité responsable del diseño de la estrategia de las TI y el gobierno de las TI?",
+    "texto": "¿Ha creado el equipo de gestión un Comité responsable del diseño de la estrategia de las TI y el gobierno de las TI?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -161,7 +161,7 @@
   },
   {
     "codigo": "GOM_INFORMEXITOEG",
-    "texto": "¿Al finalizar cada proyecto TI el EG recibe un informe que establece su éxito en relación a los indicadores estratégicos establecidos?",
+    "texto": "¿Al finalizar cada proyecto TI el equipo de gestión recibe un informe que establece su éxito en relación a los indicadores estratégicos establecidos?",
     "objetivo_num": 1,
     "objetivo": "Disponer de una estrategia digital y un plan que incluya la transformación digital",
     "comun": true,
@@ -241,7 +241,7 @@
   },
   {
     "codigo": "TDM_ANALISISPREDI",
-    "texto": "¿Utiliza el EG técnicas de big data y analytics para realizar análisis predictivos sobre la evolución de la institución?",
+    "texto": "¿Utiliza el equipo de gestión técnicas de big data y analytics para realizar análisis predictivos sobre la evolución de la institución?",
     "objetivo_num": 3,
     "objetivo": "Colaborar con otras instituciones para mejorar nuestra madurez digital",
     "comun": true,
@@ -457,7 +457,7 @@
   },
   {
     "codigo": "GOS_PLANMIGRANUBE",
-    "texto": "¿Ha aprobado el EG, y ya se está ejecutando, un plan de migración de contenidos a la nube a corto/medio plazo?",
+    "texto": "¿Ha aprobado el equipo de gestión, y ya se está ejecutando, un plan de migración de contenidos a la nube a corto/medio plazo?",
     "objetivo_num": 8,
     "objetivo": "Definir, con criterios estratégicos, qué parte de nuestros productos formativos son",
     "comun": true,
@@ -769,9 +769,33 @@
   },
   {
     "codigo": "GEN_PRESUTOTALTINOCENTRAL",
-    "texto": "Presupuesto de TI para SERVICIOS NO CENTRALIZADOS (incluido personal) GEN_ PPRESUTICENTRALMANTIENE % de presupuesto de servicios TI centralizado dedicado a MANTENIMIENTO de infraestructuras ya en operación GEC_ PPRESUTICENTRALINVERSION % de presupuesto de servicios TI centralizados dedicado a INVERSIONES en nuevos proyectos TI GOM_ PLANFINANCIAPLURIANUALTI ¿Se ha diseñado un plan de financiación plurianual de las TI que establezca los recursos necesarios para satisfacer la estrategia institucional?",
+    "texto": "Presupuesto de TI para SERVICIOS NO CENTRALIZADOS (incluido personal)",
     "objetivo_num": 11,
     "objetivo": "Definir un plan de externalización que asegure la calidad de los servicios",
+    "comun": true,
+    "dimension_ia": false
+  },
+  {
+    "codigo": "GEN_PPRESUTICENTRALMANTIENE",
+    "texto": "% de presupuesto de servicios TI centralizado dedicado a MANTENIMIENTO de infraestructuras ya en explotación",
+    "objetivo_num": 11,
+    "objetivo": "Definir un plan de externalización que asegure la calidad de los servicios",
+    "comun": true,
+    "dimension_ia": false
+  },
+  {
+    "codigo": "GEC_PPRESUTICENTRALINVERSION",
+    "texto": "% de presupuesto de servicios TI centralizados dedicado a INVERSIONES en nuevos proyectos TI",
+    "objetivo_num": 11,
+    "objetivo": "Definir un plan de externalización que asegure la calidad de los servicios",
+    "comun": true,
+    "dimension_ia": false
+  },
+  {
+    "codigo": "GOM_PLANFINANCIAPLURIANUALTI",
+    "texto": "¿Se ha diseñado un plan de financiación plurianual de las TI que establezca los recursos necesarios para satisfacer la estrategia institucional?",
+    "objetivo_num": 12,
+    "objetivo": "Disponer del presupuesto suficiente y adecuado para impulsar la transformación digital",
     "comun": true,
     "dimension_ia": false
   },

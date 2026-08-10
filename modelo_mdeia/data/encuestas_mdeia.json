@@ -1,0 +1,477 @@
+{
+  "version": "1.0.0",
+  "nombre": "Encuestas MDeIA UCCuyo por audiencia",
+  "instrucciones_generales": "Exportá respuestas desde Google Forms (Respuestas → Descargar .xlsx) o usá la plantilla Excel. Los nombres de columna deben coincidir con los IDs IND_* / META_*. Al cargar en MDeIA, elegí audiencia, ámbito y población convocada.",
+  "escalas": {
+    "madurez": {
+      "tipo": "lista",
+      "opciones": [
+        "0 — No implementado",
+        "1 — Inicial / ad hoc",
+        "2 — En desarrollo",
+        "3 — Implementado",
+        "4 — Optimizado / referente"
+      ],
+      "valores": [0, 1, 2, 3, 4]
+    },
+    "frecuencia": {
+      "tipo": "lista",
+      "opciones": ["Nunca", "Rara vez", "A veces", "Frecuentemente", "Siempre"],
+      "valores": [0, 1, 2, 3, 4]
+    },
+    "acuerdo_5": {
+      "tipo": "lista",
+      "opciones": [
+        "Totalmente en desacuerdo",
+        "En desacuerdo",
+        "Ni de acuerdo ni en desacuerdo",
+        "De acuerdo",
+        "Totalmente de acuerdo"
+      ],
+      "valores": [0, 1, 2, 3, 4]
+    },
+    "si_no": {
+      "tipo": "lista",
+      "opciones": ["No", "Sí"],
+      "valores": [0, 3]
+    },
+    "si_no_ns": {
+      "tipo": "lista",
+      "opciones": ["No", "Sí", "No sé"],
+      "valores": [0, 3, 0]
+    },
+    "si_no_elaboracion": {
+      "tipo": "lista",
+      "opciones": ["No", "En elaboración", "Sí"],
+      "valores": [0, 2, 4]
+    }
+  },
+  "audiencias": {
+    "estudiante": {
+      "id": "estudiante",
+      "nombre": "Estudiantes",
+      "google_form_url": "https://docs.google.com/forms/d/e/1FAIpQLSc4ngUiTtRZKqd6lLdHjr-nUQAFwCt7kK2wTqS9nHXs7NtQRw/viewform",
+      "descripcion": "Uso de IA, servicios digitales y satisfacción con plataformas institucionales.",
+      "ambitos_permitidos": ["institucional", "sede", "facultad"],
+      "poblacion_ejemplo": "Matrícula o lista de difusión de la encuesta",
+      "preguntas": [
+        {
+          "columna": "META_SEDE",
+          "texto": "¿En qué sede cursás principalmente?",
+          "escala": "meta_sede",
+          "opciones": ["San Juan", "San Luis", "Mendoza", "Otra / no aplica"],
+          "requerida": true
+        },
+        {
+          "columna": "META_UNIDAD",
+          "texto": "Facultad o unidad académica (lista oficial MDeIA UCCuyo)",
+          "escala": "meta_unidad",
+          "requerida": true
+        },
+        {
+          "columna": "IND_IA_USO__chatgpt",
+          "texto": "¿Con qué frecuencia usás herramientas de IA generativa (ChatGPT, Gemini, Copilot, etc.) para tus estudios?",
+          "escala": "frecuencia",
+          "requerida": true
+        },
+        {
+          "columna": "IND_IA_USO__traduccion",
+          "texto": "¿Con qué frecuencia usás IA para traducir o mejorar textos académicos?",
+          "escala": "frecuencia",
+          "requerida": true
+        },
+        {
+          "columna": "IND_IA_USO__resumenes",
+          "texto": "¿Con qué frecuencia usás IA para resumir bibliografía o apuntes?",
+          "escala": "frecuencia",
+          "requerida": true
+        },
+        {
+          "columna": "IND_IA_USO__codigo",
+          "texto": "¿Con qué frecuencia usás IA para programación o análisis de datos en tus materias?",
+          "escala": "frecuencia",
+          "requerida": false
+        },
+        {
+          "columna": "IND_GUIA_IA__conocimiento",
+          "texto": "¿Conocés la guía o normativa institucional sobre uso responsable de IA?",
+          "escala": "si_no_ns",
+          "requerida": true
+        },
+        {
+          "columna": "IND_APP_INST__uso",
+          "texto": "¿Con qué frecuencia usás la app o portal institucional de la universidad (campus, SIU, etc.)?",
+          "escala": "frecuencia",
+          "requerida": true
+        },
+        {
+          "columna": "IND_CAU__conoce",
+          "texto": "¿Sabés cómo contactar al Centro de Atención al Usuario / mesa de ayuda TI?",
+          "escala": "si_no",
+          "requerida": true
+        },
+        {
+          "columna": "IND_CAU__satisfaccion",
+          "texto": "Si contactaste soporte TI, ¿qué tan satisfecho/a quedaste con la respuesta?",
+          "escala": "acuerdo_5",
+          "requerida": false
+        },
+        {
+          "columna": "IND_LMS__satisfaccion",
+          "texto": "¿Qué tan satisfecho/a estás con el aula virtual / LMS de la universidad?",
+          "escala": "acuerdo_5",
+          "requerida": true
+        },
+        {
+          "columna": "IND_WIFI__satisfaccion",
+          "texto": "¿Qué tan satisfecho/a estás con la conectividad WiFi en la sede?",
+          "escala": "acuerdo_5",
+          "requerida": true
+        },
+        {
+          "columna": "IND_TRAMITES__satisfaccion",
+          "texto": "¿Qué tan satisfecho/a estás con los trámites online disponibles (inscripciones, certificados, etc.)?",
+          "escala": "acuerdo_5",
+          "requerida": true
+        }
+      ],
+      "indicadores": [
+        {"codigo": "MDEIA_IA_ENCUESTA", "regla": "tasa_respuesta_nivel"},
+        {"codigo": "MDEIA_IA_OBSERVATORIO", "regla": "volumen_respuestas_nivel"},
+        {
+          "codigo": "MDEIA_IA_GUIA_ETICA",
+          "regla": "promedio_preguntas",
+          "preguntas": ["IND_GUIA_IA__conocimiento"],
+          "minimo": 3
+        },
+        {
+          "codigo": "INM_APPUNIPERSONALIZADA",
+          "regla": "promedio_preguntas",
+          "preguntas": ["IND_APP_INST__uso"],
+          "minimo": 3
+        },
+        {
+          "codigo": "GEM_PSOPGESTIONCAU",
+          "regla": "promedio_preguntas",
+          "preguntas": ["IND_CAU__conoce", "IND_CAU__satisfaccion"],
+          "minimo": 3
+        },
+        {
+          "codigo": "TDM_LMSAEDA",
+          "regla": "promedio_preguntas",
+          "preguntas": ["IND_LMS__satisfaccion"],
+          "minimo": 3
+        }
+      ]
+    },
+    "docente": {
+      "id": "docente",
+      "nombre": "Docentes",
+      "google_form_url": "https://docs.google.com/forms/d/e/1FAIpQLScDY9SqYrjT6WYO-1xhqzRhF_edLb5UO0-bAffOpn6bqUIM6g/viewform",
+      "descripcion": "Formación en IA, integridad académica, LMS y evaluación auténtica.",
+      "ambitos_permitidos": ["institucional", "sede", "facultad"],
+      "poblacion_ejemplo": "Docentes convocados por facultad o sede",
+      "preguntas": [
+        {
+          "columna": "META_SEDE",
+          "texto": "¿En qué sede desarrollás principalmente tu actividad docente?",
+          "escala": "meta_sede",
+          "opciones": ["San Juan", "San Luis", "Mendoza", "Otra / no aplica"],
+          "requerida": true
+        },
+        {
+          "columna": "META_UNIDAD",
+          "texto": "Facultad o departamento académico (lista oficial MDeIA UCCuyo)",
+          "escala": "meta_unidad",
+          "requerida": true
+        },
+        {
+          "columna": "IND_FORM_IA__recibida",
+          "texto": "¿Qué nivel de formación formal recibiste sobre IA aplicada a la docencia?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_IA_USO__planificacion",
+          "texto": "¿Con qué frecuencia usás IA para planificar clases, materiales o rúbricas?",
+          "escala": "frecuencia",
+          "requerida": true
+        },
+        {
+          "columna": "IND_IA_USO__evaluacion",
+          "texto": "¿Con qué frecuencia usás IA en el diseño o corrección de evaluaciones?",
+          "escala": "frecuencia",
+          "requerida": true
+        },
+        {
+          "columna": "IND_INTEGRIDAD__guia_catedra",
+          "texto": "¿Tu cátedra cuenta con guía explícita de integridad académica que contempla el uso de IA?",
+          "escala": "si_no_elaboracion",
+          "requerida": true
+        },
+        {
+          "columna": "IND_EVAL_AUTENTICA__practicas",
+          "texto": "¿En qué nivel implementás evaluaciones auténticas que reducen la dependencia de IA no declarada?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_GUIA_ETICA__conocimiento",
+          "texto": "¿Conocés y aplicás la guía institucional de uso responsable de IA generativa?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_LMS__uso_avanzado",
+          "texto": "¿En qué nivel usás funcionalidades avanzadas del LMS (foros, entregas, videoclase, analítica)?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_ALFABETIZACION__aplicacion",
+          "texto": "¿En qué nivel incorporás alfabetización algorítmica y pedagogía con IA en tu práctica docente?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_COMINNOVA__conocimiento",
+          "texto": "¿Conocés las recomendaciones de la Comisión de Innovación Docente sobre nuevas tecnologías?",
+          "escala": "si_no",
+          "requerida": false
+        }
+      ],
+      "indicadores": [
+        {
+          "codigo": "MDEIA_IA_ALFABETIZACION",
+          "regla": "promedio_preguntas",
+          "preguntas": ["IND_FORM_IA__recibida", "IND_ALFABETIZACION__aplicacion"],
+          "minimo": 3
+        },
+        {
+          "codigo": "MDEIA_IA_INTEGRIDAD",
+          "regla": "promedio_preguntas",
+          "preguntas": ["IND_INTEGRIDAD__guia_catedra"],
+          "minimo": 3
+        },
+        {
+          "codigo": "MDEIA_IA_EVAL_AUTENTICA",
+          "regla": "directo",
+          "pregunta": "IND_EVAL_AUTENTICA__practicas"
+        },
+        {
+          "codigo": "MDEIA_IA_GUIA_ETICA",
+          "regla": "directo",
+          "pregunta": "IND_GUIA_ETICA__conocimiento"
+        },
+        {
+          "codigo": "TDM_LMSAEDA",
+          "regla": "directo",
+          "pregunta": "IND_LMS__uso_avanzado"
+        },
+        {
+          "codigo": "GOM_COMINNOVADOCENTE",
+          "regla": "promedio_preguntas",
+          "preguntas": ["IND_COMINNOVA__conocimiento"],
+          "minimo": 3
+        }
+      ]
+    },
+    "autoridad": {
+      "id": "autoridad",
+      "nombre": "Autoridades",
+      "google_form_url": "https://docs.google.com/forms/d/e/1FAIpQLSfY-tOujGHw33X2RYkbWYMg46RzzU9Z-G4D0yMHB9ka-brKkw/viewform",
+      "descripcion": "Estrategia digital, gobierno TI, financiación y gobernanza de IA (rectorado, decanato, secretarías).",
+      "ambitos_permitidos": ["institucional", "sede"],
+      "poblacion_ejemplo": "Miembros del equipo de gestión, decanos, secretarios convocados",
+      "preguntas": [
+        {
+          "columna": "META_CARGO",
+          "texto": "Cargo o rol institucional",
+          "escala": "texto",
+          "requerida": false
+        },
+        {
+          "columna": "META_SEDE",
+          "texto": "Ámbito de evaluación",
+          "escala": "meta_sede",
+          "opciones": ["Institución completa", "Sede San Juan", "Sede San Luis", "Sede Mendoza"],
+          "requerida": true
+        },
+        {
+          "columna": "IND_ESTRATEGIA_DIGITAL",
+          "texto": "¿En qué nivel la institución dispone de estrategia digital alineada con la estrategia institucional?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_ESTRATEGIA_UNI",
+          "texto": "¿En qué nivel existe estrategia de negocio institucional formalmente definida?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_LIDERAZGO_RECTOR",
+          "texto": "¿En qué nivel el Rectorado y equipo de gestión lideran la planificación estratégica de TI y transformación digital?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_PLAN_TD",
+          "texto": "¿En qué nivel existe un Plan de Transformación Digital aprobado por el equipo de gestión?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_MODELO_GOBIERNO_TI",
+          "texto": "¿En qué nivel está implementado el modelo de gobierno de TI (roles, comités, políticas)?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_COMISION_ESTRATEGIA_TI",
+          "texto": "¿En qué nivel funciona un comité de estrategia y gobierno de TI?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_PLAN_FINANCIACION_TI",
+          "texto": "¿En qué nivel existe plan de financiación plurianual de TI alineado con la estrategia?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_GUIA_ETICA_IA",
+          "texto": "¿En qué nivel está aprobada e implementada la guía de uso responsable de IA generativa?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_ENCUESTA_IA_PERIODICA",
+          "texto": "¿En qué nivel la institución realiza encuestas periódicas sobre uso de IA en la comunidad?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_OBSERVATORIO_IA",
+          "texto": "¿En qué nivel está activo un observatorio o instancia de monitoreo de IA institucional?",
+          "escala": "madurez",
+          "requerida": true
+        }
+      ],
+      "indicadores": [
+        {"codigo": "GOM_ESTRATEGIATI", "regla": "directo", "pregunta": "IND_ESTRATEGIA_DIGITAL"},
+        {"codigo": "GOS_ESTRATEGIAUNI", "regla": "directo", "pregunta": "IND_ESTRATEGIA_UNI"},
+        {"codigo": "GOS_LIDERARECTORPLANEST", "regla": "directo", "pregunta": "IND_LIDERAZGO_RECTOR"},
+        {"codigo": "TDM_PLANTD", "regla": "directo", "pregunta": "IND_PLAN_TD"},
+        {"codigo": "GOM_MODELOGOBIERNOTI", "regla": "directo", "pregunta": "IND_MODELO_GOBIERNO_TI"},
+        {"codigo": "GOS_COMISIONESTRATEGIATI", "regla": "directo", "pregunta": "IND_COMISION_ESTRATEGIA_TI"},
+        {"codigo": "GOM_PLANFINANCIAPLURIANUALTI", "regla": "directo", "pregunta": "IND_PLAN_FINANCIACION_TI"},
+        {"codigo": "MDEIA_IA_GUIA_ETICA", "regla": "directo", "pregunta": "IND_GUIA_ETICA_IA"},
+        {"codigo": "MDEIA_IA_ENCUESTA", "regla": "directo", "pregunta": "IND_ENCUESTA_IA_PERIODICA"},
+        {"codigo": "MDEIA_IA_OBSERVATORIO", "regla": "directo", "pregunta": "IND_OBSERVATORIO_IA"}
+      ]
+    },
+    "administracion": {
+      "id": "administracion",
+      "nombre": "Personal administrativo",
+      "google_form_url": "https://docs.google.com/forms/d/e/1FAIpQLSdcLGH81wZuDtVWbYBJmjPA962oOyG4ri468kjapb5rI6t9Ng/viewform",
+      "descripcion": "Uso y satisfacción con sistemas de gestión, CAU y trámites digitalizados (depto. administrativo, secretarías).",
+      "ambitos_permitidos": ["institucional", "sede", "depto_admin"],
+      "poblacion_ejemplo": "Personal administrativo convocado (ej. Depto. Admin. San Juan)",
+      "preguntas": [
+        {
+          "columna": "META_SEDE",
+          "texto": "¿En qué sede trabajás?",
+          "escala": "meta_sede",
+          "opciones": ["San Juan", "San Luis", "Mendoza", "Otra / no aplica"],
+          "requerida": true
+        },
+        {
+          "columna": "META_AREA",
+          "texto": "Área o unidad institucional (lista oficial MDeIA UCCuyo)",
+          "escala": "meta_unidad",
+          "requerida": true
+        },
+        {
+          "columna": "IND_SIU__uso_diario",
+          "texto": "¿Con qué frecuencia usás SIU-Guaraní u otros sistemas de gestión académica en tu trabajo diario?",
+          "escala": "frecuencia",
+          "requerida": true
+        },
+        {
+          "columna": "IND_SIU__satisfaccion",
+          "texto": "¿Qué tan satisfecho/a estás con los sistemas de gestión académica (SIU, etc.)?",
+          "escala": "acuerdo_5",
+          "requerida": true
+        },
+        {
+          "columna": "IND_CAU__contacto",
+          "texto": "¿Contactaste al CAU / mesa de ayuda TI en los últimos 12 meses?",
+          "escala": "si_no",
+          "requerida": true
+        },
+        {
+          "columna": "IND_CAU__resolvio",
+          "texto": "Si contactaste, ¿el problema quedó resuelto satisfactoriamente?",
+          "escala": "si_no",
+          "requerida": false
+        },
+        {
+          "columna": "IND_CAU__satisfaccion",
+          "texto": "¿Qué tan satisfecho/a estás con el soporte TI recibido?",
+          "escala": "acuerdo_5",
+          "requerida": false
+        },
+        {
+          "columna": "IND_TRAMITES__digitalizados",
+          "texto": "¿En qué nivel los trámites de tu área están digitalizados y son usables sin papel?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_CAPACITACION_DIGITAL",
+          "texto": "¿En qué nivel recibís capacitación en herramientas digitales para tu puesto?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_PSERVTI__calidad",
+          "texto": "¿En qué nivel los servicios TI que usás son confiables, oportunos y adecuados a tu trabajo?",
+          "escala": "madurez",
+          "requerida": true
+        },
+        {
+          "columna": "IND_GESTION__satisfaccion",
+          "texto": "¿Qué tan satisfecho/a estás con las herramientas de gestión administrativa (compras, mesa de entrada, etc.)?",
+          "escala": "acuerdo_5",
+          "requerida": true
+        }
+      ],
+      "indicadores": [
+        {
+          "codigo": "GEN_PSERVTISATISFACCION",
+          "regla": "promedio_preguntas",
+          "preguntas": ["IND_PSERVTI__calidad", "IND_SIU__satisfaccion", "IND_GESTION__satisfaccion"],
+          "minimo": 3
+        },
+        {
+          "codigo": "GEN_PSOPTIGESTION",
+          "regla": "promedio_preguntas",
+          "preguntas": ["IND_SIU__uso_diario", "IND_TRAMITES__digitalizados"],
+          "minimo": 3
+        },
+        {
+          "codigo": "GEM_PSOPGESTIONCAU",
+          "regla": "promedio_preguntas",
+          "preguntas": ["IND_CAU__contacto", "IND_CAU__resolvio", "IND_CAU__satisfaccion"],
+          "minimo": 3
+        },
+        {
+          "codigo": "GOS_PLANFORMAPERSONALTI",
+          "regla": "directo",
+          "pregunta": "IND_CAPACITACION_DIGITAL"
+        }
+      ]
+    }
+  }
+}

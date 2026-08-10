@@ -1,14 +1,12 @@
 [
   {
     "codigo": "MDEIA_IA_ENCUESTA",
-    "texto": "La institución dispone de encuesta periódica de uso de IA en la comunidad estudiantil (OIA) con tasa de respuesta ≥ 70 %",
+    "texto": "Encuesta periódica de uso de IA en la comunidad estudiantil (OIA) con cobertura y tasa de respuesta adecuadas (referencia: ≥ 70 %)",
     "objetivo_num": null,
     "objetivo": "Gobernanza ética e IA generativa",
     "comun": false,
     "dimension_ia": true,
-    "tipo": "umbral",
-    "umbral": 70,
-    "unidad": "%"
+    "tipo": "nivel"
   },
   {
     "codigo": "MDEIA_IA_GUIA_ETICA",
@@ -30,14 +28,12 @@
   },
   {
     "codigo": "MDEIA_IA_INTEGRIDAD",
-    "texto": "Cátedras con guías explícitas de integridad académica que contemplan el uso de IA",
+    "texto": "Cátedras con guías explícitas de integridad académica que contemplan el uso de IA (referencia de madurez: ≥ 60 % de cátedras)",
     "objetivo_num": null,
     "objetivo": "Integridad académica e IA",
     "comun": false,
     "dimension_ia": true,
-    "tipo": "porcentaje",
-    "umbral": 60,
-    "unidad": "%"
+    "tipo": "nivel"
   },
   {
     "codigo": "MDEIA_IA_EVAL_AUTENTICA",
@@ -59,14 +55,12 @@
   },
   {
     "codigo": "MDEIA_IA_DESERCION",
-    "texto": "Modelo predictivo de deserción académica en producción con precisión (Acc) ≥ 80 %",
+    "texto": "Modelo predictivo de deserción académica en producción con precisión adecuada (referencia: Acc ≥ 80 %)",
     "objetivo_num": 4,
     "objetivo": "Apoyar la toma de decisiones gobernando los datos",
     "comun": false,
     "dimension_ia": true,
-    "tipo": "umbral",
-    "umbral": 80,
-    "unidad": "%"
+    "tipo": "nivel"
   },
   {
     "codigo": "MDEIA_IA_OBSERVATORIO",

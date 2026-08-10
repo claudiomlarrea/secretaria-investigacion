@@ -44,17 +44,9 @@ from lib.mdeia_model import (
     retos_df,
 )
 from lib.informe import generar_informe_html
-from lib.oia_encuesta import (
-    analizar_encuesta,
-    aplicar_metricas_mdeia,
-    fetch_sheet_csv,
-    load_oia_config,
-    load_uploaded_file,
-    metricas_desde_cifras,
-    resumen_markdown,
-    sheet_export_url,
-)
 from lib.ui_encuesta import render_encuesta
+from lib.texto_legible import leyenda_siglas_markdown
+from lib.ui_encuestas_audiencia import render_encuestas_audiencia
 from lib.ui_informe_auto import render_informe_automatico
 from lib.ui_unidades import render_panel_unidades
 from lib.unidades import (
@@ -106,7 +98,7 @@ SECCIONES = [
     "Informe automático",
     "Guía del diagnóstico",
     "Unidades académicas",
-    "Encuesta estudiantil",
+    "Encuestas por audiencia",
     FASE1_MENU,
     "Autodiagnóstico completo",
     "Panel IMD",
@@ -121,6 +113,8 @@ if "mdeia_seccion" not in st.session_state:
     st.session_state.mdeia_seccion = SECCIONES[0]
 elif st.session_state.mdeia_seccion == "Piloto Fase 1":
     st.session_state.mdeia_seccion = FASE1_MENU
+elif st.session_state.mdeia_seccion == "Encuesta estudiantil":
+    st.session_state.mdeia_seccion = "Encuestas por audiencia"
 
 aplicar_navegacion_pendiente(secciones=SECCIONES)
 
@@ -144,6 +138,8 @@ with st.sidebar:
         key="mdeia_seccion",
         label_visibility="collapsed",
     )
+    st.markdown("---")
+    st.caption(leyenda_siglas_markdown())
     st.markdown("---")
     m = metricas_sidebar_activa()
     st.metric(FASE1_CORTO, m["linea_base"])
@@ -198,11 +194,15 @@ seccion = st.session_state.mdeia_seccion
 
 def _meta_informe_widgets() -> dict:
     m = dict(meta_informe_activa())
+    fallback = date.today().isoformat()
     c1, c2, c3 = st.columns(3)
     with c1:
-        m["fecha"] = st.date_input("Fecha del informe", value=date.fromisoformat(m["fecha"])).isoformat()
+        m["fecha"] = st.date_input(
+            "Fecha del informe",
+            value=date.fromisoformat(m.get("fecha") or fallback),
+        ).isoformat()
     with c2:
-        m["responsable"] = st.text_input("Responsable", value=m["responsable"])
+        m["responsable"] = st.text_input("Responsable", value=m.get("responsable", ""))
     with c3:
         m["sede"] = st.text_input("Ámbito / unidad", value=m.get("sede") or unidad_label(st.session_state.mdeia_unidad_activa))
     actualizar_meta_informe_activa(m)
@@ -224,7 +224,7 @@ def _panel_imd(resp: dict, *, modo_piloto: bool = False) -> None:
             f"""
             1. **Unidades académicas** — elegí el ámbito (UCCuyo completa, una sede o una facultad) con **Elegir**.
             2. **{FASE1_MENU}** — respondé los **36 indicadores** (sesión ~90 min con el equipo).
-               - Opcional: en **Encuesta estudiantil** subí el Excel de alumnos y **Aplicar al diagnóstico** (bloque B8 · IA).
+               - Opcional: en **Encuestas por audiencia** subí Excel y **Aplicar al diagnóstico** (bloque B8 · IA).
             3. Volvé a **Panel IMD** para ver el índice, gráficos por área/reto y brechas.
             """
         )
@@ -235,10 +235,10 @@ def _panel_imd(resp: dict, *, modo_piloto: bool = False) -> None:
                 f"Ámbito activo: **{unidad_label(st.session_state.mdeia_unidad_activa)}**. "
                 f"Falta completar indicadores ({n_pil}/{tot_pil} en línea de base)."
             )
-        if st.session_state.get("mdeia_oia_metricas"):
+        if st.session_state.get("mdeia_encuestas_resultados"):
             st.warning(
-                "Hay una encuesta de alumnos **analizada** pero no aplicada al diagnóstico. "
-                "Andá a **Encuesta estudiantil → Resultado y aplicar → Aplicar al diagnóstico MDeIA**."
+                "Hay encuestas **analizadas** sin aplicar. "
+                "Andá a **Encuestas por audiencia → Resultado y aplicar → Aplicar al diagnóstico MDeIA**."
             )
         c1, c2, c3 = st.columns(3)
         with c1:
@@ -250,8 +250,8 @@ def _panel_imd(resp: dict, *, modo_piloto: bool = False) -> None:
                 solicitar_seccion(FASE1_MENU)
                 st.rerun()
         with c3:
-            if st.button("Encuesta estudiantil", use_container_width=True):
-                solicitar_seccion("Encuesta estudiantil")
+            if st.button("Encuestas por audiencia", use_container_width=True):
+                solicitar_seccion("Encuestas por audiencia")
                 st.rerun()
         return
 
@@ -312,224 +312,11 @@ def _panel_imd(resp: dict, *, modo_piloto: bool = False) -> None:
         st.dataframe(brechas, use_container_width=True, hide_index=True)
 
 
-if "mdeia_oia_metricas" not in st.session_state:
-    st.session_state.mdeia_oia_metricas = None
-
 if seccion == "Informe automático":
     render_informe_automatico()
 
-elif seccion == "Encuesta estudiantil":
-    oia_cfg = load_oia_config()
-    st.subheader("Encuesta estudiantil de IA")
-    st.info(
-        "**No necesitás Google Sheet.** Si todavía no hay planilla vinculada al formulario, "
-        "usá **Carga manual** con las cifras que tenga el equipo o completá el bloque **B8** "
-        "en **Línea de base IMD**."
-    )
-    st.markdown(
-        f"""
-        Cuando existan respuestas exportables, podés subir el Excel de Google Forms
-        ([Encuesta Clara]({oia_cfg['encuesta_clara_url']})). Google Sheet es **opcional**
-        y solo aplica si alguien del OIA comparte el ID de la planilla de respuestas.
-        """
-    )
-
-    try:
-        secret_sheet = st.secrets.get("oia", {}).get("google_sheet_id", "")
-        secret_gid = st.secrets.get("oia", {}).get("google_sheet_gid", oia_cfg.get("google_sheet_gid", "0"))
-        secret_pob = st.secrets.get("oia", {}).get("poblacion_objetivo_estudiantes")
-    except (FileNotFoundError, AttributeError):
-        secret_sheet, secret_gid, secret_pob = "", oia_cfg.get("google_sheet_gid", "0"), None
-
-    default_sheet = secret_sheet or oia_cfg.get("google_sheet_id", "")
-    default_pob = int(secret_pob or oia_cfg.get("poblacion_objetivo_estudiantes") or 0)
-
-    tab_manual, tab_upload, tab_sheet, tab_result = st.tabs(
-        ["Carga manual", "Subir Excel/CSV", "Google Sheet (opcional)", "Resultado y aplicar"]
-    )
-
-    with tab_manual:
-        st.markdown(
-            "Ingresá lo que sepas de la encuesta estudiantil del OIA. "
-            "Con **respuestas + población** calculamos la tasa (meta MDeIA ≥ 70 %)."
-        )
-        c1, c2 = st.columns(2)
-        with c1:
-            n_manual = st.number_input(
-                "Respuestas recibidas",
-                min_value=0,
-                value=0,
-                step=1,
-                key="oia_n_manual",
-            )
-        with c2:
-            pob_manual = st.number_input(
-                "Estudiantes convocados (población)",
-                min_value=0,
-                value=default_pob,
-                step=100,
-                key="oia_pob_manual",
-                help="Ej.: matrícula o lista de difusión de la encuesta.",
-            )
-        usar_tasa_directa = st.checkbox(
-            "Ya conozco la tasa de respuesta (%) y no tengo el desglose",
-            key="oia_tasa_directa",
-        )
-        tasa_directa: float | None = None
-        if usar_tasa_directa:
-            tasa_directa = st.slider(
-                "Tasa de respuesta (%)",
-                min_value=0.0,
-                max_value=100.0,
-                value=0.0,
-                key="oia_tasa_slider",
-            )
-
-        if n_manual > 0 or tasa_directa is not None:
-            pob_prev = pob_manual if pob_manual > 0 else None
-            preview = metricas_desde_cifras(
-                n_respuestas=n_manual,
-                poblacion=pob_prev,
-                tasa_pct=tasa_directa if usar_tasa_directa else None,
-            )
-            st.markdown(resumen_markdown(preview))
-
-        if st.button("Usar estas cifras", type="primary", key="oia_btn_manual"):
-            pob_prev = pob_manual if pob_manual > 0 else None
-            st.session_state.mdeia_oia_metricas = metricas_desde_cifras(
-                n_respuestas=n_manual,
-                poblacion=pob_prev,
-                tasa_pct=tasa_directa if usar_tasa_directa else None,
-            )
-            st.success("Cifras guardadas. Revisá **Resultado y aplicar**.")
-
-        st.markdown("---")
-        st.caption(
-            f"También podés cargar B8 a mano en **{FASE1_MENU} → Autodiagnóstico (36 ind.)**. "
-            f"Observatorio: [{oia_cfg['observatorio_url']}]({oia_cfg['observatorio_url']})"
-        )
-        if st.button("Aplicar cifras al diagnóstico MDeIA", key="oia_aplicar_manual"):
-            pob_prev = pob_manual if pob_manual > 0 else None
-            metricas = metricas_desde_cifras(
-                n_respuestas=n_manual,
-                poblacion=pob_prev,
-                tasa_pct=tasa_directa if usar_tasa_directa else None,
-            )
-            st.session_state.mdeia_oia_metricas = metricas
-            reemplazar_respuestas_activas(
-                aplicar_metricas_mdeia(
-                    metricas,
-                    respuestas_activas(),
-                    config=oia_cfg,
-                )
-            )
-            st.success(
-                "Indicadores OIA aplicados. Revisá **Línea de base IMD → Autodiagnóstico (36 ind.)** (B8) "
-                "o el **Panel IMD**."
-            )
-
-    with tab_upload:
-        st.caption("En Google Forms: Respuestas → Descargar (.xlsx)")
-        archivo = st.file_uploader("Archivo de respuestas", type=["xlsx", "xls", "csv"])
-        pob_upload = st.number_input(
-            "Población objetivo (estudiantes convocados)",
-            min_value=0,
-            value=default_pob,
-            step=100,
-            key="oia_pob_upload",
-            help="Necesario para calcular la tasa de respuesta (meta MDeIA ≥ 70 %).",
-        )
-        if st.button("Analizar archivo", type="primary", disabled=archivo is None):
-            try:
-                df = load_uploaded_file(archivo.name, archivo.getvalue())
-                pob = pob_upload if pob_upload > 0 else None
-                st.session_state.mdeia_oia_metricas = analizar_encuesta(df, poblacion=pob)
-                st.session_state.mdeia_oia_df_rows = len(df)
-                st.success("Encuesta analizada. Revisá la pestaña **Resultado y aplicar**.")
-            except Exception as exc:
-                st.error(str(exc))
-
-    with tab_sheet:
-        st.caption(
-            "Solo si el equipo OIA tiene una planilla de Google vinculada al formulario "
-            "y puede compartir el ID (o publicarla con link de lectura)."
-        )
-        sheet_id = st.text_input(
-            "ID de Google Sheet (respuestas del formulario)",
-            value=default_sheet,
-            placeholder="1abc…xyz en docs.google.com/spreadsheets/d/ID/edit",
-        )
-        gid = st.text_input("GID de la pestaña", value=str(secret_gid or "0"))
-        pob_sheet = st.number_input(
-            "Población objetivo",
-            min_value=0,
-            value=default_pob,
-            step=100,
-            key="oia_pob_sheet",
-        )
-        if sheet_id:
-            st.caption(f"URL de export: `{sheet_export_url(sheet_id, gid)}`")
-        if st.button("Sincronizar desde Sheet", type="primary", disabled=not sheet_id.strip()):
-            try:
-                df = fetch_sheet_csv(sheet_id.strip(), gid)
-                pob = pob_sheet if pob_sheet > 0 else None
-                st.session_state.mdeia_oia_metricas = analizar_encuesta(df, poblacion=pob)
-                st.session_state.mdeia_oia_df_rows = len(df)
-                st.success("Sheet leído. Revisá **Resultado y aplicar**.")
-            except Exception as exc:
-                st.error(str(exc))
-
-        with st.expander("Configuración permanente (Streamlit secrets)"):
-            st.code(
-                '[oia]\ngoogle_sheet_id = "TU_ID_AQUI"\ngoogle_sheet_gid = "0"\n'
-                "poblacion_objetivo_estudiantes = 5000",
-                language="toml",
-            )
-
-    with tab_result:
-        metricas = st.session_state.mdeia_oia_metricas
-        if not metricas:
-            st.info(
-                "Usá **Carga manual**, subí un Excel o (opcional) sincronizá un Google Sheet."
-            )
-        else:
-            st.markdown("#### Resumen de la encuesta")
-            st.markdown(resumen_markdown(metricas))
-
-            c1, c2, c3 = st.columns(3)
-            c1.metric("Respuestas", metricas["n_respuestas"])
-            tasa = metricas.get("tasa_respuesta_pct")
-            c2.metric("Tasa respuesta", f"{tasa} %" if tasa is not None else "—")
-            alto = metricas.get("pct_uso_ia_alto")
-            c3.metric("Uso IA frecuente", f"{alto} %" if alto is not None else "—")
-
-            st.markdown("#### Indicadores MDeIA que se actualizarán")
-            st.markdown(
-                """
-                | Indicador | Valor automático |
-                |-----------|------------------|
-                | `MDEIA_IA_ENCUESTA` | Tasa de respuesta (%) o N respuestas si falta población |
-                | `MDEIA_IA_OBSERVATORIO` | Nivel 0–4 según volumen de respuestas |
-                """
-            )
-
-            if st.button("Aplicar al diagnóstico MDeIA", type="primary"):
-                reemplazar_respuestas_activas(
-                    aplicar_metricas_mdeia(
-                        metricas,
-                        respuestas_activas(),
-                        config=oia_cfg,
-                    )
-                )
-                st.success(
-                    f"Indicadores OIA aplicados. Revisá **{FASE1_MENU} → Autodiagnóstico (36 ind.)** "
-                    "bloque B8 o el **Panel IMD**."
-                )
-
-            if metricas.get("n_respuestas", 0) > 0:
-                enc = respuestas_activas().get("MDEIA_IA_ENCUESTA")
-                obs = respuestas_activas().get("MDEIA_IA_OBSERVATORIO")
-                st.caption(f"Valores actuales en sesión: ENCUESTA={enc}, OBSERVATORIO={obs}")
+elif seccion == "Encuestas por audiencia":
+    render_encuestas_audiencia()
 
 elif seccion == "Unidades académicas":
     render_panel_unidades()
@@ -540,7 +327,8 @@ elif seccion == "Guía del diagnóstico":
         f"""
         El **MDeIA UCCuyo** no se conecta automáticamente a SIU ni a bases externas (por ahora).
         Los integrantes del Observatorio **cargan los datos manualmente** en la encuesta, a partir
-        de evidencia institucional, entrevistas con TI y resultados de las encuestas del OIA.
+        de evidencia institucional, entrevistas con el área de tecnologías de la información (TI)
+        y resultados de las encuestas del OIA.
 
         ### Flujo automático (recomendado)
 
@@ -560,7 +348,7 @@ elif seccion == "Guía del diagnóstico":
 
         ### Fuentes de datos sugeridas
 
-        - **TI / Sistemas:** presupuesto TI, personal, seguridad, LMS, servicios digitalizados.
+        - **Tecnologías de la información (TI) / Sistemas:** presupuesto, personal, seguridad, LMS y servicios digitalizados.
         - **OIA:** encuesta estudiantil de IA, observatorio, propuestas de guía ética.
         - **Secretaría / Rectorado:** estrategia institucional, planes de formación docente.
         - **Sesión conjunta (90 min):** consensuar niveles cuando no hay dato exacto.
@@ -569,7 +357,7 @@ elif seccion == "Guía del diagnóstico":
 
         - Los datos **no se guardan solos** al cerrar el navegador: exportá JSON con frecuencia.
         - Para la **línea de base oficial**, usá **{FASE1_MENU}** ({FASE1_N_INDICADORES} indicadores).
-        - El catálogo completo (129) es para diagnósticos posteriores, no para la primera sesión.
+        - El catálogo completo (132) es para diagnósticos posteriores, no para la primera sesión.
         """
     )
     st.info(
