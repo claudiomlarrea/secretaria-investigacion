@@ -29,6 +29,9 @@
 
   var mapApi = null;
   var markerIndex = {};
+  var REGION_PAGE_SIZE = 8;
+  var regionsVisibleLimit = REGION_PAGE_SIZE;
+  var lastListData = null;
 
   var COUNTRY_CENTROIDS = {
     AF: [-65.2, 33.9],
@@ -528,6 +531,11 @@
           pct(topRegion.count, total) +
           "</em></div>"
         : "");
+
+    if (window.OBS_NUMEROS_API) {
+      window.OBS_NUMEROS_API.set("visitas", total);
+      window.OBS_NUMEROS_API.set("provincias", regions.length);
+    }
   }
 
   function popupHtml(title, count, total) {
@@ -564,14 +572,74 @@
   function bindListClicks() {
     if (!listRoot) return;
     listRoot.onclick = function (e) {
+      var moreBtn = e.target.closest("[data-visitas-regions-more]");
+      if (moreBtn) {
+        regionsVisibleLimit += REGION_PAGE_SIZE;
+        if (lastListData) renderList(lastListData, true);
+        return;
+      }
       var btn = e.target.closest("[data-marker-key]");
       if (!btn) return;
       focusMarker(btn.getAttribute("data-marker-key"));
     };
   }
 
-  function renderList(data) {
+  function regionCountryLabel(r) {
+    var code = String(r.country || "").toUpperCase();
+    if (code === "AR") return "Argentina";
+    return String(r.countryName || code || "").trim() || code;
+  }
+
+  /** Argentina primero; resto por país; dentro del país, por cantidad. */
+  function sortRegionsByCountry(regions) {
+    return (regions || []).slice().sort(function (a, b) {
+      var codeA = String(a.country || "").toUpperCase();
+      var codeB = String(b.country || "").toUpperCase();
+      if (codeA === "AR" && codeB !== "AR") return -1;
+      if (codeB === "AR" && codeA !== "AR") return 1;
+      var cmp = regionCountryLabel(a).localeCompare(regionCountryLabel(b), "es", {
+        sensitivity: "base"
+      });
+      if (cmp !== 0) return cmp;
+      var byCount = (b.count || 0) - (a.count || 0);
+      if (byCount !== 0) return byCount;
+      return String(a.region || "").localeCompare(String(b.region || ""), "es", {
+        sensitivity: "base"
+      });
+    });
+  }
+
+  function regionRowHtml(r, idx, maxCount, total) {
+    var code = String(r.country || "").toUpperCase();
+    var preferred = regionMarkerKey(code, r.region);
+    var key = resolveListMarkerKey(preferred, code);
+    return (
+      '<li><button type="button" class="visitas-rank__btn" data-marker-key="' +
+      escapeHtml(key) +
+      '"' +
+      (markerIndex[key] ? "" : " disabled") +
+      ">" +
+      '<span class="visitas-rank__pos">' +
+      (idx + 1) +
+      "</span>" +
+      '<span class="visitas-rank__meta"><span class="visitas-rank__name">' +
+      escapeHtml(r.region) +
+      '</span><span class="visitas-rank__bar" aria-hidden="true"><i style="width:' +
+      Math.max(6, Math.round((100 * r.count) / (maxCount || 1))) +
+      '%"></i></span></span>' +
+      '<strong><em>' +
+      pct(r.count, total) +
+      "</em>" +
+      fmt(r.count) +
+      "</strong></button></li>"
+    );
+  }
+
+  function renderList(data, keepLimit) {
     if (!listRoot) return;
+    lastListData = data;
+    if (!keepLimit) regionsVisibleLimit = REGION_PAGE_SIZE;
+
     var countries = data.countries || [];
     var regions = data.regions || [];
     var total = Number(data.total) || 0;
@@ -610,34 +678,47 @@
     html += "</ol></div>";
 
     if (regions.length) {
-      html += "<div><h3>" + tt("dyn.visitas.regions", "Provincias / regiones") + "</h3><ol class=\"visitas-rank\">";
-      regions.slice(0, 12).forEach(function (r, idx) {
-        var code = String(r.country || "").toUpperCase();
-        var preferred = regionMarkerKey(code, r.region);
-        var key = resolveListMarkerKey(preferred, code);
-        var label = r.region;
-        if (r.countryName && code !== "AR") label += " (" + r.countryName + ")";
-        html +=
-          '<li><button type="button" class="visitas-rank__btn" data-marker-key="' +
-          escapeHtml(key) +
-          '"' +
-          (markerIndex[key] ? "" : " disabled") +
-          ">" +
-          '<span class="visitas-rank__pos">' +
-          (idx + 1) +
-          "</span>" +
-          '<span class="visitas-rank__meta"><span class="visitas-rank__name">' +
-          escapeHtml(label) +
-          '</span><span class="visitas-rank__bar" aria-hidden="true"><i style="width:' +
-          Math.max(6, Math.round((100 * r.count) / (regions[0].count || 1))) +
-          '%"></i></span></span>' +
-          '<strong><em>' +
-          pct(r.count, total) +
-          "</em>" +
-          fmt(r.count) +
-          "</strong></button></li>";
+      var sortedRegions = sortRegionsByCountry(regions);
+      var shownRegions = sortedRegions.slice(0, regionsVisibleLimit);
+      var restantes = sortedRegions.length - shownRegions.length;
+      var maxRegion = 1;
+      for (var ri = 0; ri < sortedRegions.length; ri++) {
+        if ((sortedRegions[ri].count || 0) > maxRegion) {
+          maxRegion = sortedRegions[ri].count || 0;
+        }
+      }
+      html +=
+        "<div><h3>" +
+        tt("dyn.visitas.regions", "Provincias / regiones") +
+        '</h3><ol class="visitas-rank">';
+      var lastCountry = null;
+      var regionIdx = 0;
+      shownRegions.forEach(function (r) {
+        var countryLabel = regionCountryLabel(r);
+        var countryKey = String(r.country || "").toUpperCase() || countryLabel;
+        if (countryKey !== lastCountry) {
+          lastCountry = countryKey;
+          html +=
+            '<li class="visitas-rank__country" aria-hidden="false">' +
+            escapeHtml(countryLabel) +
+            "</li>";
+          regionIdx = 0;
+        }
+        html += regionRowHtml(r, regionIdx, maxRegion, total);
+        regionIdx += 1;
       });
-      html += "</ol></div>";
+      html += "</ol>";
+      if (restantes > 0) {
+        html +=
+          '<div class="visitas-more-wrap">' +
+          '<button type="button" class="pub-more-btn" data-visitas-regions-more="1">' +
+          tt("dyn.visitas.verMas", "Ver más") +
+          " (" +
+          restantes +
+          ")</button>" +
+          "</div>";
+      }
+      html += "</div>";
     }
     html += "</div>";
     listRoot.innerHTML = html;
