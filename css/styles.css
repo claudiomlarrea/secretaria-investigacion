@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap");
-@import "variables.css";
+@import "variables.css?v=39";
 
 *,
 *::before,
@@ -293,30 +293,54 @@ a:hover {
   border: none;
   cursor: pointer;
   font-family: inherit;
+  transform: translateY(0);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease,
+    background 0.15s ease;
 }
 
-.btn-primary {
-  background: linear-gradient(
-    135deg,
-    var(--color-institutional) 0%,
-    var(--color-institutional-dark) 100%
-  );
-  color: #fff;
-}
-
-.btn-primary:hover {
-  filter: brightness(1.08);
-  color: #fff;
-}
-
+.btn-primary,
 .btn-ghost {
-  background: transparent;
-  color: var(--color-institutional);
-  border: 2px solid var(--color-institutional);
+  background: var(--btn-3d-bg);
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-bottom-color: rgba(8, 40, 28, 0.55);
+  box-shadow: var(--btn-3d-shadow);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 }
 
+.btn-primary:hover,
 .btn-ghost:hover {
-  background: rgba(var(--rgb-inst), 0.06);
+  background: var(--btn-3d-bg-hover);
+  color: #fff !important;
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+  box-shadow: var(--btn-3d-shadow-hover);
+}
+
+.btn-primary:active,
+.btn-ghost:active {
+  filter: none;
+  color: #fff !important;
+  transform: translateY(3px);
+  box-shadow: var(--btn-3d-shadow-active);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn:hover,
+  .btn:active,
+  .btn-primary,
+  .btn-primary:hover,
+  .btn-primary:active,
+  .btn-ghost,
+  .btn-ghost:hover,
+  .btn-ghost:active {
+    transition: none;
+    transform: none;
+  }
 }
 
 .hero {
@@ -389,70 +413,6 @@ a:hover {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 600;
-}
-
-.hero-actions .btn,
-.hero-actions .btn-primary,
-.hero-actions .btn-ghost {
-  background: linear-gradient(
-    180deg,
-    #3ecf8e 0%,
-    var(--color-banner-green) 38%,
-    var(--color-banner-green-dark) 100%
-  ) !important;
-  color: #fff !important;
-  border: 1px solid rgba(255, 255, 255, 0.35) !important;
-  border-bottom-color: rgba(8, 40, 28, 0.55) !important;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.45),
-    inset 0 -2px 0 rgba(8, 40, 28, 0.22),
-    0 4px 0 rgba(8, 40, 28, 0.55),
-    0 10px 22px rgba(0, 0, 0, 0.32) !important;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
-  transform: translateY(0);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    filter 0.15s ease;
-}
-
-.hero-actions .btn:hover,
-.hero-actions .btn-primary:hover,
-.hero-actions .btn-ghost:hover {
-  filter: brightness(1.05);
-  color: #fff !important;
-  transform: translateY(-2px);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    inset 0 -2px 0 rgba(8, 40, 28, 0.24),
-    0 5px 0 rgba(8, 40, 28, 0.55),
-    0 14px 26px rgba(0, 0, 0, 0.36) !important;
-}
-
-.hero-actions .btn:active,
-.hero-actions .btn-primary:active,
-.hero-actions .btn-ghost:active {
-  filter: none;
-  color: #fff !important;
-  transform: translateY(3px);
-  box-shadow:
-    inset 0 2px 5px rgba(8, 40, 28, 0.35),
-    0 1px 0 rgba(8, 40, 28, 0.4) !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-actions .btn,
-  .hero-actions .btn:hover,
-  .hero-actions .btn:active,
-  .hero-actions .btn-primary,
-  .hero-actions .btn-primary:hover,
-  .hero-actions .btn-primary:active,
-  .hero-actions .btn-ghost,
-  .hero-actions .btn-ghost:hover,
-  .hero-actions .btn-ghost:active {
-    transition: none;
-    transform: none;
-  }
 }
 
 .hero-mail a {
@@ -814,17 +774,6 @@ header.section-head--bar h2 {
   font-size: 0.88rem;
 }
 
-.tool-card .btn-ghost {
-  background: transparent;
-  color: var(--color-institutional);
-  border: 1.5px solid var(--color-institutional);
-}
-
-.tool-card .btn-ghost:hover {
-  background: rgba(var(--rgb-inst), 0.08);
-  color: var(--color-institutional-dark);
-}
-
 .contact-layout {
   display: grid;
   gap: 2rem;
@@ -924,17 +873,6 @@ form.simple-form small {
   flex-wrap: wrap;
   gap: 0.65rem;
   align-items: center;
-}
-
-.card .btn-ghost {
-  color: var(--color-green-dark);
-  border: 1px solid rgba(var(--rgb-green), 0.35);
-  background: transparent;
-}
-
-.card .btn-ghost:hover {
-  background: rgba(var(--rgb-green), 0.08);
-  color: var(--color-green-dark);
 }
 
 .form-status {
