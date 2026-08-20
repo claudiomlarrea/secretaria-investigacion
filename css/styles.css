@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap");
-@import "variables.css?v=39";
+@import "variables.css?v=40";
 
 *,
 *::before,
@@ -1482,19 +1482,31 @@ form.simple-form small {
   font-size: 0.8rem;
   text-decoration: none;
   color: #fff;
-  background: linear-gradient(
-    135deg,
-    var(--color-banner-green) 0%,
-    var(--color-green-dark) 100%
-  );
+  background: var(--btn-3d-bg);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-bottom-color: rgba(8, 40, 28, 0.55);
+  box-shadow: var(--btn-3d-shadow);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
   white-space: nowrap;
-  transition: filter 0.15s ease, transform 0.15s ease;
+  transform: translateY(0);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
 }
 
 .pub-btn-link:hover {
-  filter: brightness(1.08);
-  transform: translateY(-1px);
+  background: var(--btn-3d-bg-hover);
+  filter: brightness(1.05);
+  transform: translateY(-2px);
   color: #fff;
+  box-shadow: var(--btn-3d-shadow-hover);
+}
+
+.pub-btn-link:active {
+  filter: none;
+  transform: translateY(3px);
+  box-shadow: var(--btn-3d-shadow-active);
 }
 
 .pub-index-search {
@@ -1822,19 +1834,30 @@ form.simple-form small {
   font-size: 0.88rem;
   text-decoration: none;
   color: #fff;
-  background: linear-gradient(
-    135deg,
-    var(--color-banner-green) 0%,
-    var(--color-green-dark) 100%
-  );
-  box-shadow: 0 6px 18px rgba(var(--rgb-banner-green), 0.35);
-  transition: filter 0.15s ease, transform 0.15s ease;
+  background: var(--btn-3d-bg);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-bottom-color: rgba(8, 40, 28, 0.55);
+  box-shadow: var(--btn-3d-shadow);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  transform: translateY(0);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
 }
 
 .pub-btn-more:hover {
-  filter: brightness(1.08);
-  transform: translateY(-1px);
+  background: var(--btn-3d-bg-hover);
+  filter: brightness(1.05);
+  transform: translateY(-2px);
   color: #fff;
+  box-shadow: var(--btn-3d-shadow-hover);
+}
+
+.pub-btn-more:active {
+  filter: none;
+  transform: translateY(3px);
+  box-shadow: var(--btn-3d-shadow-active);
 }
 
 /* Secretaría: anexos (verde) | instructivos y manual (rojo) */
@@ -1883,13 +1906,17 @@ form.simple-form small {
   font-size: 0.98rem;
   line-height: 1.35;
   color: var(--color-on-dark);
-  background: linear-gradient(
-    135deg,
-    var(--color-banner-green) 0%,
-    var(--color-green-dark) 100%
-  );
-  box-shadow: 0 6px 20px rgba(var(--rgb-banner-green), 0.28);
-  transition: filter 0.15s ease, transform 0.15s ease;
+  background: var(--btn-3d-bg);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-bottom-color: rgba(8, 40, 28, 0.55);
+  box-shadow: var(--btn-3d-shadow);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  transform: translateY(0);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease,
+    background 0.15s ease;
 }
 
 .doc-link--compact {
@@ -1897,26 +1924,36 @@ form.simple-form small {
   padding: 0.7rem 1rem;
   font-size: 0.86rem;
   line-height: 1.3;
-  box-shadow: 0 4px 14px rgba(var(--rgb-banner-green), 0.22);
-}
-
-.doc-link--compact.doc-link--red {
-  box-shadow: 0 4px 14px rgba(var(--rgb-inst), 0.22);
 }
 
 .doc-link:hover {
-  filter: brightness(1.07);
+  background: var(--btn-3d-bg-hover);
+  filter: brightness(1.05);
   transform: translateY(-2px);
   color: var(--color-on-dark);
+  box-shadow: var(--btn-3d-shadow-hover);
+}
+
+.doc-link:active {
+  filter: none;
+  transform: translateY(3px);
+  box-shadow: var(--btn-3d-shadow-active);
 }
 
 .doc-link--red {
-  background: linear-gradient(
-    135deg,
-    var(--color-institutional) 0%,
-    var(--color-institutional-dark) 100%
-  );
-  box-shadow: 0 6px 20px rgba(var(--rgb-inst), 0.28);
+  background: var(--btn-3d-red-bg);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom-color: rgba(40, 8, 18, 0.55);
+  box-shadow: var(--btn-3d-red-shadow);
+}
+
+.doc-link--red:hover {
+  background: var(--btn-3d-red-bg-hover);
+  box-shadow: var(--btn-3d-red-shadow-hover);
+}
+
+.doc-link--red:active {
+  box-shadow: var(--btn-3d-red-shadow-active);
 }
 
 .doc-link--span2 {
@@ -1928,9 +1965,25 @@ form.simple-form small {
   opacity: 0.92;
 }
 
-.doc-link[href="#"]:hover {
+.doc-link[href="#"]:hover,
+.doc-link[href="#"]:active {
   transform: none;
   filter: none;
+  box-shadow: var(--btn-3d-shadow);
+}
+
+.doc-link--red[href="#"]:hover,
+.doc-link--red[href="#"]:active {
+  box-shadow: var(--btn-3d-red-shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doc-link,
+  .doc-link:hover,
+  .doc-link:active {
+    transition: none;
+    transform: none;
+  }
 }
 .section--visitas {
   background: linear-gradient(180deg, #f4f8f6 0%, #faf8f8 100%);
