@@ -100,8 +100,12 @@
     wrap.setAttribute("role", "group");
     wrap.setAttribute("aria-label", "Language / Idioma");
     wrap.innerHTML =
-      '<button type="button" class="lang-switcher__btn" data-lang="es" aria-pressed="false">ES</button>' +
-      '<button type="button" class="lang-switcher__btn" data-lang="en" aria-pressed="false">EN</button>';
+      '<button type="button" class="lang-switcher__btn" data-lang="es" aria-pressed="false" title="Español">' +
+      '<span class="lang-switcher__flag" aria-hidden="true">🇦🇷</span>' +
+      '<span class="lang-switcher__code">ES</span></button>' +
+      '<button type="button" class="lang-switcher__btn" data-lang="en" aria-pressed="false" title="English">' +
+      '<span class="lang-switcher__flag" aria-hidden="true">🇬🇧</span>' +
+      '<span class="lang-switcher__code">EN</span></button>';
     var toggle = header.querySelector(".nav-toggle");
     if (toggle) header.insertBefore(wrap, toggle);
     else header.appendChild(wrap);
