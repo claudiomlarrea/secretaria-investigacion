@@ -35,6 +35,18 @@
     "es": "Principal",
     "en": "Main"
   },
+  "nav.group.secretaria": {
+    "es": "La Secretaría",
+    "en": "The Secretariat"
+  },
+  "nav.group.consejo": {
+    "es": "Consejo y normativa",
+    "en": "Council & regulations"
+  },
+  "nav.group.investigacion": {
+    "es": "Investigación",
+    "en": "Research"
+  },
   "nav.inicio": {
     "es": "Inicio",
     "en": "Home"
@@ -818,6 +830,10 @@
   "footer.brand": {
     "es": "Secretaría de Investigación · UCCuyo",
     "en": "Research Secretariat · UCCuyo"
+  },
+  "footer.mapLabel": {
+    "es": "Mapa del sitio",
+    "en": "Site map"
   },
   "footer.secretaria": {
     "es": "La Secretaría",

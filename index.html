@@ -13,7 +13,7 @@
     />
     <title>Secretaría de Investigación | Universidad Católica de Cuyo</title>
     <link rel="icon" type="image/png" href="assets/logo-uccuyo.png" />
-    <link rel="stylesheet" href="css/styles.css?v=41" />
+    <link rel="stylesheet" href="css/styles.css?v=42" />
     <script>
       if (location.hash === "#investigaciones") {
         history.replaceState(null, "", location.pathname + "#inicio");
@@ -54,37 +54,83 @@
             <span class="nav-toggle-icon"></span>
           </button>
           <!--
-            REGLA: cada banda de sección lleva id en <header id="..."> y su <li><a href="#...">
-            Orden = orden de las secciones en la página.
+            Menú por pilares (dropdown). Cada destino sigue yendo al id de sección.
           -->
           <nav class="site-nav" id="site-nav" aria-label="Principal" data-i18n-attr="aria-label:nav.aria">
-            <ul>
+            <ul class="nav-root">
               <li><a href="#inicio" data-i18n="nav.inicio">Inicio</a></li>
-              <li><a href="#la-secretaria" data-i18n="nav.secretaria">La Secretaría</a></li>
-              <li><a href="#equipo" data-i18n="nav.equipo">Equipo</a></li>
-              <li><a href="#uvt" data-i18n="nav.uvt">UVT</a></li>
-              <li><a href="#consejo-investigacion" data-i18n="nav.consejo">Consejo de Investigación</a></li>
-              <li>
-                <a
-                  href="https://drive.google.com/drive/folders/14_QJAYZPCPkB_zCj0bBF1m1PssGNwE-S"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                   data-i18n="nav.actas">Actas de Consejo de Investigación</a>
+
+              <li class="nav-item has-submenu">
+                <button
+                  type="button"
+                  class="nav-submenu-toggle"
+                  aria-expanded="false"
+                  aria-controls="nav-sub-secretaria"
+                  data-i18n="nav.group.secretaria"
+                >
+                  La Secretaría
+                </button>
+                <ul class="nav-submenu" id="nav-sub-secretaria">
+                  <li><a href="#la-secretaria" data-i18n="nav.secretaria">La Secretaría</a></li>
+                  <li><a href="#equipo" data-i18n="nav.equipo">Equipo</a></li>
+                  <li><a href="#uvt" data-i18n="nav.uvt">UVT</a></li>
+                  <li><a href="#visitas" data-i18n="nav.visitas">Visitas a la Secretaría</a></li>
+                </ul>
               </li>
-              <li>
-                <a
-                  href="https://drive.google.com/drive/folders/11VLTghKYjxuAxXRMiPIuvdT8gMlokBrr"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                   data-i18n="nav.resoluciones">Resoluciones de Consejo Superior</a>
+
+              <li class="nav-item has-submenu">
+                <button
+                  type="button"
+                  class="nav-submenu-toggle"
+                  aria-expanded="false"
+                  aria-controls="nav-sub-consejo"
+                  data-i18n="nav.group.consejo"
+                >
+                  Consejo y normativa
+                </button>
+                <ul class="nav-submenu" id="nav-sub-consejo">
+                  <li><a href="#consejo-investigacion" data-i18n="nav.consejo">Consejo de Investigación</a></li>
+                  <li>
+                    <a
+                      href="https://drive.google.com/drive/folders/14_QJAYZPCPkB_zCj0bBF1m1PssGNwE-S"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-i18n="nav.actas"
+                      >Actas de Consejo de Investigación</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://drive.google.com/drive/folders/11VLTghKYjxuAxXRMiPIuvdT8gMlokBrr"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-i18n="nav.resoluciones"
+                      >Resoluciones de Consejo Superior</a
+                    >
+                  </li>
+                  <li><a href="#ordenanza-general" data-i18n="nav.ordenanza">Ordenanza</a></li>
+                </ul>
               </li>
-              <li><a href="#ordenanza-general" data-i18n="nav.ordenanza">Ordenanza</a></li>
-              <li><a href="#financiamiento-externo" data-i18n="nav.financiamiento">Financiamiento externo</a></li>
-              <li><a href="#tablero-investigacion" data-i18n="nav.tablero">Tablero de Investigación</a></li>
-              <li><a href="#publicaciones" data-i18n="nav.publicaciones">Publicaciones</a></li>
-              <li><a href="#herramientas" data-i18n="nav.herramientas">Herramientas de Análisis</a></li>
-              <li><a href="#observatorio-ia" data-i18n="nav.observatorio">Observatorio de IA</a></li>
-              <li><a href="#visitas" data-i18n="nav.visitas">Visitas a la Secretaría</a></li>
+
+              <li class="nav-item has-submenu">
+                <button
+                  type="button"
+                  class="nav-submenu-toggle"
+                  aria-expanded="false"
+                  aria-controls="nav-sub-investigacion"
+                  data-i18n="nav.group.investigacion"
+                >
+                  Investigación
+                </button>
+                <ul class="nav-submenu" id="nav-sub-investigacion">
+                  <li><a href="#financiamiento-externo" data-i18n="nav.financiamiento">Financiamiento externo</a></li>
+                  <li><a href="#tablero-investigacion" data-i18n="nav.tablero">Tablero de Investigación</a></li>
+                  <li><a href="#publicaciones" data-i18n="nav.publicaciones">Publicaciones</a></li>
+                  <li><a href="#herramientas" data-i18n="nav.herramientas">Herramientas de Análisis</a></li>
+                  <li><a href="#observatorio-ia" data-i18n="nav.observatorio">Observatorio de IA</a></li>
+                </ul>
+              </li>
+
               <li><a href="#contacto" data-i18n="nav.contacto">Contacto</a></li>
             </ul>
           </nav>
@@ -113,20 +159,8 @@
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#la-secretaria" data-i18n="nav.secretaria">La Secretaría</a>
-            <a class="btn btn-primary" href="#equipo" data-i18n="nav.equipo">Equipo</a>
-            <a class="btn btn-primary" href="#uvt" data-i18n="nav.uvt">UVT</a>
-            <a class="btn btn-primary" href="#consejo-investigacion"
-               data-i18n="nav.consejo">Consejo de Investigación</a>
-            <a class="btn btn-primary" href="#ordenanza-general" data-i18n="nav.ordenanza">Ordenanza</a>
-            <a class="btn btn-primary" href="#financiamiento-externo"
-               data-i18n="nav.financiamiento">Financiamiento externo</a>
-            <a class="btn btn-primary" href="#tablero-investigacion"
-               data-i18n="nav.tablero">Tablero de Investigación</a>
-            <a class="btn btn-primary" href="#publicaciones" data-i18n="nav.publicaciones">Publicaciones</a>
-            <a class="btn btn-primary" href="#herramientas"
-               data-i18n="nav.herramientas">Herramientas de Análisis</a>
+            <a class="btn btn-primary" href="#tablero-investigacion" data-i18n="nav.tablero">Tablero de Investigación</a>
             <a class="btn btn-primary" href="#observatorio-ia" data-i18n="nav.observatorio">Observatorio de IA</a>
-            <a class="btn btn-primary" href="#visitas" data-i18n="nav.visitas">Visitas a la Secretaría</a>
             <a class="btn btn-primary" href="#contacto" data-i18n="nav.contacto">Contacto</a>
           </div>
           <div class="hero-mail-row">
@@ -1014,29 +1048,62 @@
 
     <footer class="site-footer">
       <div class="footer-inner">
-        <span data-i18n="footer.brand">Secretaría de Investigación · UCCuyo</span>
-        <a href="mailto:investigacion@uccuyo.edu.ar">investigacion@uccuyo.edu.ar</a>
-        <a href="#la-secretaria" data-i18n="nav.secretaria">La Secretaría</a>
-        <a href="#equipo" data-i18n="nav.equipo">Equipo</a>
-        <a href="#uvt" data-i18n="nav.uvt">UVT</a>
-        <a href="#consejo-investigacion" data-i18n="footer.consejo">Consejo</a>
-        <a href="#ordenanza-general" data-i18n="nav.ordenanza">Ordenanza</a>
-        <a href="#financiamiento-externo" data-i18n="nav.financiamiento">Financiamiento externo</a>
-        <a href="#tablero-investigacion" data-i18n="nav.tablero">Tablero de Investigación</a>
-        <a href="#publicaciones" data-i18n="nav.publicaciones">Publicaciones</a>
-        <a href="#herramientas" data-i18n="nav.herramientas">Herramientas de Análisis</a>
-        <a href="#visitas" data-i18n="nav.visitas">Visitas a la Secretaría</a>
-        <a href="#contacto" data-i18n="nav.contacto">Contacto</a>
-        <a
-          href="https://claudiomlarrea.github.io/observatorio-ia/"
-          target="_blank"
-          rel="noopener noreferrer"
-           data-i18n="nav.observatorio">Observatorio de IA</a>
-        <a href="https://uccuyo.edu.ar/" rel="noopener noreferrer">uccuyo.edu.ar</a>
+        <div class="footer-brand-block">
+          <span data-i18n="footer.brand">Secretaría de Investigación · UCCuyo</span>
+          <a href="mailto:investigacion@uccuyo.edu.ar">investigacion@uccuyo.edu.ar</a>
+        </div>
+        <nav class="footer-map" aria-label="Mapa del sitio" data-i18n-attr="aria-label:footer.mapLabel">
+          <div class="footer-col">
+            <p class="footer-col-title" data-i18n="nav.group.secretaria">La Secretaría</p>
+            <a href="#la-secretaria" data-i18n="nav.secretaria">La Secretaría</a>
+            <a href="#equipo" data-i18n="nav.equipo">Equipo</a>
+            <a href="#uvt" data-i18n="nav.uvt">UVT</a>
+            <a href="#visitas" data-i18n="nav.visitas">Visitas a la Secretaría</a>
+          </div>
+          <div class="footer-col">
+            <p class="footer-col-title" data-i18n="nav.group.consejo">Consejo y normativa</p>
+            <a href="#consejo-investigacion" data-i18n="footer.consejo">Consejo</a>
+            <a
+              href="https://drive.google.com/drive/folders/14_QJAYZPCPkB_zCj0bBF1m1PssGNwE-S"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-i18n="nav.actas"
+              >Actas de Consejo de Investigación</a
+            >
+            <a
+              href="https://drive.google.com/drive/folders/11VLTghKYjxuAxXRMiPIuvdT8gMlokBrr"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-i18n="nav.resoluciones"
+              >Resoluciones de Consejo Superior</a
+            >
+            <a href="#ordenanza-general" data-i18n="nav.ordenanza">Ordenanza</a>
+          </div>
+          <div class="footer-col">
+            <p class="footer-col-title" data-i18n="nav.group.investigacion">Investigación</p>
+            <a href="#financiamiento-externo" data-i18n="nav.financiamiento">Financiamiento externo</a>
+            <a href="#tablero-investigacion" data-i18n="nav.tablero">Tablero de Investigación</a>
+            <a href="#publicaciones" data-i18n="nav.publicaciones">Publicaciones</a>
+            <a href="#herramientas" data-i18n="nav.herramientas">Herramientas de Análisis</a>
+            <a href="#observatorio-ia" data-i18n="nav.observatorio">Observatorio de IA</a>
+          </div>
+          <div class="footer-col">
+            <p class="footer-col-title" data-i18n="nav.contacto">Contacto</p>
+            <a href="#contacto" data-i18n="nav.contacto">Contacto</a>
+            <a
+              href="https://observatorio-ia.uccuyo.edu.ar/"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-i18n="nav.observatorio"
+              >Observatorio de IA</a
+            >
+            <a href="https://uccuyo.edu.ar/" rel="noopener noreferrer">uccuyo.edu.ar</a>
+          </div>
+        </nav>
       </div>
     </footer>
 
-    <script src="js/i18n-dict.js?v=1"></script>
+    <script src="js/i18n-dict.js?v=2"></script>
     <script src="js/i18n.js?v=2"></script>
     <script src="js/publicaciones-config.js?v=5" defer></script>
     <script src="js/visitantes-config.js?v=1" defer></script>
@@ -1045,6 +1112,6 @@
     <script src="js/publicaciones.js?v=7" defer></script>
     <script src="js/publicaciones-fuentes-abiertas.js?v=1" defer></script>
     <script src="js/publicaciones-index.js?v=5" defer></script>
-    <script src="js/main.js?v=4" defer></script>
+    <script src="js/main.js?v=5" defer></script>
   </body>
 </html>
