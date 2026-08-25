@@ -291,9 +291,7 @@ a:hover {
   z-index: 1;
 }
 
-.site-nav .has-submenu:hover,
-.site-nav .has-submenu.is-open,
-.site-nav .has-submenu:focus-within {
+.site-nav .has-submenu.is-open {
   z-index: 8;
 }
 
@@ -384,20 +382,7 @@ a:hover {
   text-decoration: none;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .site-nav .has-submenu:hover > .nav-submenu,
-  .site-nav .has-submenu:focus-within > .nav-submenu,
-  .site-nav .has-submenu.is-open > .nav-submenu {
-    display: block;
-  }
-
-  .site-nav .has-submenu:hover > .nav-submenu-toggle,
-  .site-nav .has-submenu:focus-within > .nav-submenu-toggle {
-    color: var(--color-on-dark);
-    background: rgba(255, 255, 255, 0.1);
-  }
-}
-
+/* Solo un menú abierto a la vez (controlado por JS con .is-open) */
 .site-nav .has-submenu.is-open > .nav-submenu {
   display: block;
 }
