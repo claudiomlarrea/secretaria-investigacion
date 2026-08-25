@@ -1210,48 +1210,11 @@ form.simple-form small {
 }
 
 /*
-  Menú visible como el Observatorio desde 640px (tablet, panel de Cursor, PC).
-  Hamburguesa solo en celulares angostos (< 640px).
+  Menú inline solo en escritorio/laptop (puntero fino + hover).
+  Celulares, tablets y foldables (p. ej. Fold abierto) mantienen la hamburguesa
+  aunque el ancho CSS sea amplio.
 */
-@media (min-width: 640px) {
-  .nav-toggle {
-    display: none !important;
-  }
-
-  .header-inner {
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .site-nav {
-    position: static;
-    flex: 1 1 auto;
-    transform: none;
-    opacity: 1;
-    pointer-events: auto;
-    padding: 0;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-  }
-
-  .site-nav .nav-root {
-    justify-content: flex-end;
-  }
-}
-
-@media (min-width: 640px) and (max-width: 1050px) {
-  .site-nav {
-    flex: 1 1 100%;
-  }
-
-  .site-nav .nav-root {
-    justify-content: flex-start;
-    padding-top: 0.15rem;
-  }
-}
-
-@media (max-width: 639px) {
+@media (max-width: 959px), (hover: none), (pointer: coarse) {
   .nav-toggle {
     display: block;
   }
@@ -1347,6 +1310,105 @@ form.simple-form small {
 
   .site-nav .has-submenu.is-open > .nav-submenu-toggle::after {
     transform: rotate(-135deg) translateY(-1px);
+  }
+}
+
+@media (min-width: 960px) and (hover: hover) and (pointer: fine) {
+  .nav-toggle {
+    display: none !important;
+  }
+
+  .header-inner {
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .site-nav {
+    position: static;
+    flex: 1 1 auto;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .site-nav .nav-root {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.15rem 0.35rem;
+  }
+
+  .site-nav .nav-item {
+    width: auto;
+  }
+
+  .site-nav a,
+  .site-nav .nav-submenu-toggle {
+    width: auto;
+    justify-content: center;
+    color: var(--color-on-dark-muted);
+    padding: 0.45rem 0.55rem;
+    font-size: 0.9rem;
+  }
+
+  .site-nav .nav-submenu {
+    position: absolute;
+    top: calc(100% - 2px);
+    left: 0;
+    right: auto;
+    display: none;
+    min-width: 15rem;
+    margin: 0;
+    padding: 0.5rem 0.45rem 0.45rem;
+    background: #fff;
+    border: 1px solid rgba(122, 21, 50, 0.14);
+    border-radius: 10px;
+    box-shadow: 0 14px 32px rgba(40, 10, 20, 0.22);
+  }
+
+  .site-nav .nav-submenu::before {
+    display: block;
+  }
+
+  .site-nav .nav-root > .has-submenu:nth-last-child(-n + 2) > .nav-submenu {
+    left: auto;
+    right: 0;
+  }
+
+  .site-nav .has-submenu.is-open > .nav-submenu {
+    display: block;
+  }
+
+  .site-nav .nav-submenu a {
+    color: var(--color-institutional-dark, #5a1026);
+    white-space: nowrap;
+  }
+
+  .site-nav .nav-submenu a:hover {
+    color: var(--color-institutional, #7a1532);
+    background: rgba(122, 21, 50, 0.07);
+  }
+
+  .site-nav .has-submenu.is-open > .nav-submenu-toggle::after {
+    transform: rotate(45deg) translateY(-1px);
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1100px) and (hover: hover) and (pointer: fine) {
+  .site-nav {
+    flex: 1 1 100%;
+  }
+
+  .site-nav .nav-root {
+    justify-content: flex-start;
+    padding-top: 0.15rem;
   }
 }
 
