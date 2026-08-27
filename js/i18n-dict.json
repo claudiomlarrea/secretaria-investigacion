@@ -644,8 +644,8 @@
     "en": "Analysis Tools"
   },
   "sec.herramientas.intro": {
-    "es": "Calculadoras, valoradores, dashboards y sistemas desarrollados por la Secretaría para el análisis de datos institucionales, la Encuesta Permanente de Hogares (INDEC), la pre-auditoría de tesis y la evaluación de exámenes presenciales. Se amplían a medida que se incorporen nuevas herramientas.",
-    "en": "Calculators, assessment tools, dashboards, and systems developed by the Secretariat for institutional data analysis, the Permanent Household Survey (EPH / INDEC), thesis pre-audit, and in-person exam assessment. The list grows as new tools are added."
+    "es": "Calculadoras, valoradores, dashboards y sistemas desarrollados por la Secretaría y el Observatorio de IA: análisis de datos, Encuesta Permanente de Hogares (INDEC), pre-auditoría de tesis, evaluación de exámenes, madurez digital (MDeIA), SACAU, agenda universitaria y más. Se amplían a medida que se incorporen nuevas herramientas.",
+    "en": "Calculators, assessment tools, dashboards, and systems developed by the Secretariat and the AI Observatory: data analysis, the Permanent Household Survey (EPH / INDEC), thesis pre-audit, exam assessment, digital maturity (MDeIA), SACAU, university agenda, and more. The list grows as new tools are added."
   },
   "sec.herramientas.badge.disponible": {
     "es": "Disponible",
@@ -750,6 +750,158 @@
   "sec.herramientas.evaluar.cta": {
     "es": "Abrir EvaluAR",
     "en": "Open EvaluAR"
+  },
+  "sec.herramientas.mdeia.title": {
+    "es": "MDeIA UCCuyo",
+    "en": "MDeIA UCCuyo"
+  },
+  "sec.herramientas.mdeia.lead": {
+    "es": "Modelo de Madurez Digital e Inteligencia Artificial para unidades académicas y ámbitos institucionales: autodiagnóstico, índice IMD, encuestas por audiencia e informe ejecutivo.",
+    "en": "Digital and AI Maturity Model for academic units and institutional areas: self-assessment, IMD index, audience surveys, and executive report."
+  },
+  "sec.herramientas.mdeia.item1": {
+    "es": "Indicadores de madurez digital e IA por unidad",
+    "en": "Digital and AI maturity indicators by unit"
+  },
+  "sec.herramientas.mdeia.item2": {
+    "es": "Autodiagnóstico, piloto Fase 1 e informe IMD",
+    "en": "Self-assessment, Phase 1 pilot, and IMD report"
+  },
+  "sec.herramientas.mdeia.item3": {
+    "es": "Encuestas por audiencia y exportación de resultados",
+    "en": "Audience surveys and results export"
+  },
+  "sec.herramientas.mdeia.cta": {
+    "es": "Abrir MDeIA",
+    "en": "Open MDeIA"
+  },
+  "sec.herramientas.agenda.title": {
+    "es": "Agenda Universitaria",
+    "en": "Agenda Universitaria"
+  },
+  "sec.herramientas.agenda.lead": {
+    "es": "Lo que te llega al WhatsApp o al calendario aparece en las botoneras. Llevás a Mi Agenda solo lo que te importa: clases, reuniones, jornadas y avisos. En español e inglés.",
+    "en": "What arrives on WhatsApp or the calendar lands in the buttons. You move into My Agenda only what matters: classes, meetings, conference days and reminders. In Spanish and English."
+  },
+  "sec.herramientas.agenda.item1": {
+    "es": "Vincular WhatsApp (país y región) y el calendario",
+    "en": "Link WhatsApp (country and region) and the calendar"
+  },
+  "sec.herramientas.agenda.item2": {
+    "es": "Botones de horario, reuniones, clases, eventos y Mi Agenda",
+    "en": "Buttons for schedule, meetings, classes, events and My Agenda"
+  },
+  "sec.herramientas.agenda.item3": {
+    "es": "Carga de PDF, foto, Word o Excel; se instala en el celular",
+    "en": "Load a PDF, photo, Word or Excel file; install it on the phone"
+  },
+  "sec.herramientas.agenda.cta": {
+    "es": "Abrir Agenda Universitaria",
+    "en": "Open Agenda Universitaria"
+  },
+  "sec.herramientas.sacau.title": {
+    "es": "SACAU CRE",
+    "en": "SACAU CRE"
+  },
+  "sec.herramientas.sacau.lead": {
+    "es": "Convertí planes de estudio en horas (Word, PDF o CSV) al sistema de créditos CRE de la UCCuyo, con tipologías y control de cumplimiento SACAU.",
+    "en": "Convert study plans in hours (Word, PDF, or CSV) to UCCuyo’s CRE credit system, with typologies and SACAU compliance checks."
+  },
+  "sec.herramientas.sacau.item1": {
+    "es": "Carga de planes en Word (.docx), PDF o CSV",
+    "en": "Load plans from Word (.docx), PDF, or CSV"
+  },
+  "sec.herramientas.sacau.item2": {
+    "es": "Cálculo CRE, tipologías y desglose por año / área",
+    "en": "CRE calculation, typologies, and year / area breakdown"
+  },
+  "sec.herramientas.sacau.item3": {
+    "es": "Exportación Word, PDF y CSV · anexo Res. 911",
+    "en": "Word, PDF, and CSV export · Res. 911 annex"
+  },
+  "sec.herramientas.sacau.cta": {
+    "es": "Abrir SACAU CRE",
+    "en": "Open SACAU CRE"
+  },
+  "sec.herramientas.sacauAula.title": {
+    "es": "SACAU Aula",
+    "en": "SACAU Aula"
+  },
+  "sec.herramientas.sacauAula.lead": {
+    "es": "Continuación de SACAU CRE: del crédito al programa de cátedra. Presupuesto de esfuerzo del estudiante, trabajo autónomo, semáforo de IA y resultados de aprendizaje, con descarga Word y PDF.",
+    "en": "Continuation of SACAU CRE: from credits to the course syllabus. Student effort budget, autonomous work, AI traffic light, and learning outcomes, with Word and PDF download."
+  },
+  "sec.herramientas.sacauAula.item1": {
+    "es": "Cargá cualquier plan (Word, PDF o CSV) y elegí la cátedra",
+    "en": "Load any plan (Word, PDF, or CSV) and choose the course"
+  },
+  "sec.herramientas.sacauAula.item2": {
+    "es": "Horas/semana, desglose autónomo y semáforo de IA",
+    "en": "Hours/week, autonomous breakdown, and AI traffic light"
+  },
+  "sec.herramientas.sacauAula.item3": {
+    "es": "RA, cláusula de uso de IA y programa analítico descargable",
+    "en": "Learning outcomes, AI-use clause, and downloadable syllabus"
+  },
+  "sec.herramientas.sacauAula.cta": {
+    "es": "Abrir SACAU Aula",
+    "en": "Open SACAU Aula"
+  },
+  "sec.herramientas.senalsegura.title": {
+    "es": "Señal Segura",
+    "en": "Señal Segura"
+  },
+  "sec.herramientas.senalsegura.lead": {
+    "es": "Herramienta digital de prevención y educación frente al grooming: analiza chats o capturas de forma voluntaria para identificar señales de alerta y orientar sobre cómo pedir ayuda, con procesamiento en el propio dispositivo.",
+    "en": "Digital prevention and education tool against grooming: voluntarily analyzes chats or screenshots to flag warning signs and guide how to seek help, with on-device processing."
+  },
+  "sec.herramientas.senalsegura.item1": {
+    "es": "Varias capturas o textos antes de analizar (p. ej. WhatsApp)",
+    "en": "Several screenshots or texts before analyzing (e.g. WhatsApp)"
+  },
+  "sec.herramientas.senalsegura.item2": {
+    "es": "Contenidos por edad: chicos, adolescentes y adultos",
+    "en": "Age-appropriate content: children, teens, and adults"
+  },
+  "sec.herramientas.senalsegura.item3": {
+    "es": "Derivación a ayuda: 137, 102, 911 y canales de denuncia",
+    "en": "Referral to help: 137, 102, 911 and reporting channels"
+  },
+  "sec.herramientas.senalsegura.cta": {
+    "es": "Abrir Señal Segura",
+    "en": "Open Señal Segura"
+  },
+  "sec.herramientas.rumbo.badge": {
+    "es": "Demo · consulta",
+    "en": "Demo · inquiry"
+  },
+  "sec.herramientas.rumbo.title": {
+    "es": "Rumbo Deporte",
+    "en": "Rumbo Deporte"
+  },
+  "sec.herramientas.rumbo.lead": {
+    "es": "Plan Estratégico Institucional (PEI) + actividades + tablero de monitoreo para clubes, federaciones y asociaciones, alineado a la metodología COI.",
+    "en": "Institutional Strategic Plan (PEI) + activities + monitoring dashboard for clubs, federations, and associations, aligned with IOC methodology."
+  },
+  "sec.herramientas.rumbo.item1": {
+    "es": "FODA, visión, prioridades, plan de acción y KPI",
+    "en": "SWOT, vision, priorities, action plan, and KPIs"
+  },
+  "sec.herramientas.rumbo.item2": {
+    "es": "Actividades de ejecución y tablero meta vs. avance",
+    "en": "Execution activities and target vs. progress board"
+  },
+  "sec.herramientas.rumbo.item3": {
+    "es": "Exportación Word / Markdown y respaldo JSON",
+    "en": "Word / Markdown export and JSON backup"
+  },
+  "sec.herramientas.rumbo.ctaVideo": {
+    "es": "Ver demo en video",
+    "en": "Watch video demo"
+  },
+  "sec.herramientas.rumbo.ctaConsulta": {
+    "es": "Consultar por correo",
+    "en": "Inquire by email"
   },
   "sec.observatorio.kicker": {
     "es": "Vinculación",
@@ -882,5 +1034,77 @@
   "footer.observatorio": {
     "es": "Observatorio de IA",
     "en": "AI Observatory"
+  },
+  "dyn.visitantes": {
+    "es": "Visitas a las páginas web: Secretaría {sec} · Observatorio {obs}",
+    "en": "Website visits: Secretariat {sec} · Observatory {obs}"
+  },
+  "dyn.visitas.loading": {
+    "es": "Cargando origen de visitas…",
+    "en": "Loading visit origins…"
+  },
+  "dyn.visitas.error": {
+    "es": "No se pudo cargar el origen de las visitas.",
+    "en": "Could not load visit origins."
+  },
+  "dyn.visitas.errorMap": {
+    "es": "No se pudo cargar el mapa de visitas.",
+    "en": "Could not load the visits map."
+  },
+  "dyn.visitas.errorOrigin": {
+    "es": "No se pudo obtener el origen de las visitas.",
+    "en": "Could not get visit origins."
+  },
+  "dyn.visitas.empty": {
+    "es": "Todavía no hay orígenes registrados. El mapa se irá completando con las nuevas visitas.",
+    "en": "No origins recorded yet. The map will fill in with new visits."
+  },
+  "dyn.visitas.countries": {
+    "es": "Países",
+    "en": "Countries"
+  },
+  "dyn.visitas.regions": {
+    "es": "Provincias / regiones",
+    "en": "Provinces / regions"
+  },
+  "dyn.visitas.withOrigin": {
+    "es": "Con origen",
+    "en": "With origin"
+  },
+  "dyn.visitas.main": {
+    "es": "Principal",
+    "en": "Top"
+  },
+  "dyn.visitas.topRegion": {
+    "es": "Provincia destacada",
+    "en": "Top province"
+  },
+  "dyn.visitas.world": {
+    "es": "Mundo",
+    "en": "World"
+  },
+  "dyn.visitas.argentina": {
+    "es": "Argentina",
+    "en": "Argentina"
+  },
+  "dyn.visitas.legend": {
+    "es": "Más visitas → círculo más grande y tono más intenso",
+    "en": "More visits → larger circle and stronger color"
+  },
+  "dyn.visitas.mapFail": {
+    "es": "No se pudo cargar el mapa interactivo. La lista de orígenes sigue disponible.",
+    "en": "Could not load the interactive map. The origin list remains available."
+  },
+  "dyn.pub.loading": {
+    "es": "Cargando publicaciones…",
+    "en": "Loading publications…"
+  },
+  "dyn.pub.teamEntry": {
+    "es": "Ingreso equipo · Cargar publicaciones",
+    "en": "Team access · Upload publications"
+  },
+  "dyn.pub.teamHint": {
+    "es": "(iniciá sesión en Google con un correo autorizado)",
+    "en": "(sign in to Google with an authorized email)"
   }
 }
