@@ -92,8 +92,8 @@
     "en": "Publications"
   },
   "nav.herramientas": {
-    "es": "Herramientas de Análisis",
-    "en": "Analysis Tools"
+    "es": "Aplicaciones IA",
+    "en": "AI Apps"
   },
   "nav.observatorio": {
     "es": "Observatorio de IA",
@@ -148,8 +148,8 @@
     "en": "Publications"
   },
   "hero.cta.herramientas": {
-    "es": "Herramientas de Análisis",
-    "en": "Analysis Tools"
+    "es": "Aplicaciones IA",
+    "en": "AI Apps"
   },
   "hero.cta.observatorio": {
     "es": "Observatorio de IA",
@@ -636,12 +636,12 @@
     "en": "Relevance (when searching)"
   },
   "sec.herramientas.kicker": {
-    "es": "Productos",
-    "en": "Products"
+    "es": "Desarrollos propios",
+    "en": "In-house developments"
   },
   "sec.herramientas.title": {
-    "es": "Herramientas de Análisis",
-    "en": "Analysis Tools"
+    "es": "Aplicaciones IA",
+    "en": "AI Apps"
   },
   "sec.herramientas.intro": {
     "es": "Calculadoras, valoradores, dashboards y sistemas desarrollados por la Secretaría y el Observatorio de IA: análisis de datos, Encuesta Permanente de Hogares (INDEC), pre-auditoría de tesis, evaluación de exámenes, madurez digital (MDeIA), SACAU, agenda universitaria y más. Se amplían a medida que se incorporen nuevas herramientas.",
@@ -1052,8 +1052,8 @@
     "en": "Publications"
   },
   "footer.herramientas": {
-    "es": "Herramientas de Análisis",
-    "en": "Analysis Tools"
+    "es": "Aplicaciones IA",
+    "en": "AI Apps"
   },
   "footer.visitas": {
     "es": "Visitas a la Secretaría",
