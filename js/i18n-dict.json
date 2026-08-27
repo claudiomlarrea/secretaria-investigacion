@@ -903,6 +903,38 @@
     "es": "Consultar por correo",
     "en": "Inquire by email"
   },
+  "sec.herramientas.consultaCongreso.badge": {
+    "es": "Servicio del Observatorio",
+    "en": "Observatory service"
+  },
+  "sec.herramientas.consultaCongreso.title": {
+    "es": "Gestor de Eventos Científicos",
+    "en": "Scientific Events Manager"
+  },
+  "sec.herramientas.consultaCongreso.lead": {
+    "es": "El Observatorio de IA te ayuda a armar la organización del evento científico con esta aplicación: congresos, jornadas, talleres y otras reuniones. Nosotros cargamos el programa, el logo y los materiales, y te entregamos la URL lista para compartir.",
+    "en": "The AI Observatory helps you organize the scientific event with this app: conferences, workshops, and other meetings. We load the program, logo, and materials, and deliver a shareable URL."
+  },
+  "sec.herramientas.consultaCongreso.item1": {
+    "es": "Armamos la app con el programa, logo y PDF de tu evento",
+    "en": "We build the app with your event program, logo, and PDF"
+  },
+  "sec.herramientas.consultaCongreso.item2": {
+    "es": "Botonera clara: horario, tipo, disertante, aula, agenda y más",
+    "en": "Clear buttons: schedule, type, speaker, room, agenda, and more"
+  },
+  "sec.herramientas.consultaCongreso.item3": {
+    "es": "Te entregamos la URL del evento; se puede instalar y usar sin Wi‑Fi",
+    "en": "We deliver the event URL; it can be installed and used offline"
+  },
+  "sec.herramientas.consultaCongreso.cta": {
+    "es": "Abrir Gestor de Eventos",
+    "en": "Open Events Manager"
+  },
+  "sec.herramientas.consultaCongreso.ctaSolicitar": {
+    "es": "Solicitar para tu evento",
+    "en": "Request for your event"
+  },
   "sec.observatorio.kicker": {
     "es": "Vinculación",
     "en": "Engagement"
