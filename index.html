@@ -13,7 +13,7 @@
     />
     <title>Secretaría de Investigación | Universidad Católica de Cuyo</title>
     <link rel="icon" type="image/png" href="assets/logo-uccuyo.png" />
-    <link rel="stylesheet" href="css/styles.css?v=44" />
+    <link rel="stylesheet" href="css/styles.css?v=45" />
     <script>
       if (location.hash === "#investigaciones") {
         history.replaceState(null, "", location.pathname + "#inicio");
@@ -532,8 +532,9 @@
             <h2 id="sec-financiamiento" data-i18n="nav.financiamiento">Financiamiento externo</h2>
           </header>
           <p class="text-intro" data-i18n="sec.financiamiento.intro">
-            Programas y premios de financiamiento externo vigentes. Cada enlace
-            se abre en una pestaña nueva.
+            Programas y premios de financiamiento externo. Las convocatorias
+            cerradas se mantienen como referencia porque se renuevan cada año.
+            Cada enlace se abre en una pestaña nueva.
           </p>
           <div class="grid-2">
             <article class="card">
@@ -551,19 +552,23 @@
                    data-i18n="sec.financiamiento.impulsa.cta">Ver Programa Impulsa Ciencia</a>
               </p>
             </article>
-            <article class="card">
-              <h3 data-i18n="sec.financiamiento.sarmiento.title">Premio Domingo Faustino Sarmiento 2026</h3>
+            <article class="card card--call-closed" aria-labelledby="sarmiento-title">
+              <p class="call-status-badge call-status-badge--closed" data-i18n="sec.financiamiento.sarmiento.badge">
+                Cerrada · edición 2026
+              </p>
+              <h3 id="sarmiento-title" data-i18n="sec.financiamiento.sarmiento.title">Premio Domingo Faustino Sarmiento 2026</h3>
               <p data-i18n="sec.financiamiento.sarmiento.body">
-                Se adjuntan las Bases y Condiciones del premio. También podés
-                consultarlas en el enlace siguiente.
+                La convocatoria 2026 ya no está abierta. El premio se publica todos
+                los años; cuando salga la próxima edición actualizaremos bases y
+                plazos. Mientras tanto, las bases 2026 quedan como referencia.
               </p>
               <p class="tile-actions">
                 <a
-                  class="btn btn-primary"
+                  class="btn btn-ghost"
                   href="https://drive.google.com/file/d/1P4_LXMK78Ztqgk_aLlsONJyhBCgrT5G7/view"
                   target="_blank"
                   rel="noopener noreferrer"
-                   data-i18n="sec.financiamiento.sarmiento.cta">Bases y Condiciones — Premio Sarmiento 2026</a>
+                   data-i18n="sec.financiamiento.sarmiento.cta">Bases 2026 (referencia)</a>
               </p>
             </article>
           </div>
@@ -1294,7 +1299,7 @@
       </div>
     </footer>
 
-    <script src="js/i18n-dict.js?v=5"></script>
+    <script src="js/i18n-dict.js?v=6"></script>
     <script src="js/i18n.js?v=2"></script>
     <script src="js/publicaciones-config.js?v=5" defer></script>
     <script src="js/visitantes-config.js?v=1" defer></script>

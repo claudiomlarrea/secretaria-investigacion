@@ -452,8 +452,8 @@
     "en": "External funding"
   },
   "sec.financiamiento.intro": {
-    "es": "Programas y premios de financiamiento externo vigentes. Cada enlace se abre en una pestaña nueva.",
-    "en": "Current external funding programs and awards. Each link opens in a new tab."
+    "es": "Programas y premios de financiamiento externo. Las convocatorias cerradas se mantienen como referencia porque se renuevan cada año. Cada enlace se abre en una pestaña nueva.",
+    "en": "External funding programs and awards. Closed calls remain as reference because they renew each year. Each link opens in a new tab."
   },
   "sec.financiamiento.impulsa.title": {
     "es": "Programa Impulsa Ciencia",
@@ -467,17 +467,21 @@
     "es": "Ver Programa Impulsa Ciencia",
     "en": "View Impulsa Ciencia Program (Spanish)"
   },
+  "sec.financiamiento.sarmiento.badge": {
+    "es": "Cerrada · edición 2026",
+    "en": "Closed · 2026 edition"
+  },
   "sec.financiamiento.sarmiento.title": {
     "es": "Premio Domingo Faustino Sarmiento 2026",
     "en": "Domingo Faustino Sarmiento Award 2026"
   },
   "sec.financiamiento.sarmiento.body": {
-    "es": "Se adjuntan las Bases y Condiciones del premio. También podés consultarlas en el enlace siguiente.",
-    "en": "The award’s terms and conditions are attached. You can also review them via the link below."
+    "es": "La convocatoria 2026 ya no está abierta. El premio se publica todos los años; cuando salga la próxima edición actualizaremos bases y plazos. Mientras tanto, las bases 2026 quedan como referencia.",
+    "en": "The 2026 call is no longer open. The award is published every year; when the next edition opens we will update the guidelines and deadlines. Meanwhile, the 2026 terms remain available for reference."
   },
   "sec.financiamiento.sarmiento.cta": {
-    "es": "Bases y Condiciones — Premio Sarmiento 2026",
-    "en": "Terms and Conditions — Sarmiento Award 2026 (Spanish)"
+    "es": "Bases 2026 (referencia)",
+    "en": "2026 terms (reference)"
   },
   "sec.tablero.kicker": {
     "es": "Transparencia",

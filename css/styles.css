@@ -668,6 +668,33 @@ header.section-head--bar h2 {
   margin-bottom: 0;
 }
 
+.call-status-badge {
+  display: inline-block;
+  margin: 0 0 0.65rem;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  line-height: 1.3;
+}
+
+.call-status-badge--closed {
+  color: var(--color-institutional-dark);
+  background: rgba(var(--rgb-inst), 0.1);
+  border: 1px solid rgba(var(--rgb-inst), 0.18);
+}
+
+.card--call-closed {
+  opacity: 0.96;
+  border-color: rgba(var(--rgb-inst), 0.14);
+}
+
+.card--call-closed h3 {
+  margin-top: 0;
+}
+
 .pill-list {
   display: flex;
   flex-wrap: wrap;
