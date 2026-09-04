@@ -693,6 +693,11 @@
     if (window.location.hash === "#publicaciones-uccuyo") {
       activarTab("uccuyo");
     }
+    document.addEventListener("oia:page", function (ev) {
+      if (ev.detail === "publicaciones" && window.location.hash === "#publicaciones-uccuyo") {
+        activarTab("uccuyo");
+      }
+    });
   }
 
   if (document.readyState === "loading") {

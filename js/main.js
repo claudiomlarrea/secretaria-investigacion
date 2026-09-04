@@ -1,20 +1,85 @@
 (function () {
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.querySelector("#site-nav");
-  var siteTop = document.querySelector(".site-top");
+  var baseTitle = "Secretaría de Investigación | Universidad Católica de Cuyo";
+  var aliases = {
+    contenido: "inicio",
+    investigaciones: "inicio",
+    "publicaciones-uccuyo": "publicaciones"
+  };
+  var pageTitles = {
+    inicio: baseTitle,
+    "la-secretaria": "La Secretaría · Secretaría de Investigación",
+    equipo: "Equipo · Secretaría de Investigación",
+    uvt: "UVT · Secretaría de Investigación",
+    visitas: "Visitas a la Secretaría · Secretaría de Investigación",
+    "consejo-investigacion": "Consejo de Investigación · Secretaría de Investigación",
+    "ordenanza-general": "Ordenanza · Secretaría de Investigación",
+    "financiamiento-externo": "Financiamiento externo · Secretaría de Investigación",
+    "tablero-investigacion": "Tablero de Investigación · Secretaría de Investigación",
+    publicaciones: "Publicaciones · Secretaría de Investigación",
+    herramientas: "Aplicaciones IA · Secretaría de Investigación",
+    "observatorio-ia": "Observatorio de IA · Secretaría de Investigación",
+    contacto: "Contacto · Secretaría de Investigación"
+  };
 
-  function headerOffset() {
-    return siteTop ? siteTop.offsetHeight + 10 : 110;
+  var dismissHover = function () {};
+
+  function pageTitle(id) {
+    return pageTitles[id] || baseTitle;
   }
 
-  function scrollToTarget(el, updateHash) {
-    if (!el) return;
-    var top =
-      el.getBoundingClientRect().top + window.pageYOffset - headerOffset();
-    window.scrollTo({ top: Math.max(0, top), left: 0, behavior: "smooth" });
-    if (updateHash && el.id) {
-      history.pushState(null, "", "#" + el.id);
+  function pageIdFromHash(hash) {
+    var id = String(hash || "").replace(/^#/, "");
+    if (!id) return "inicio";
+    id = aliases[id] || id;
+    if (document.querySelector('.page-panel[data-page="' + id + '"]')) return id;
+    var el = document.getElementById(id);
+    if (el) {
+      var panel = el.closest(".page-panel");
+      if (panel && panel.getAttribute("data-page")) return panel.getAttribute("data-page");
     }
+    return "inicio";
+  }
+
+  function showPage(hash, push) {
+    var raw = String(hash || "").replace(/^#/, "") || "inicio";
+    var id = pageIdFromHash(hash);
+    var panel = document.querySelector('.page-panel[data-page="' + id + '"]');
+    if (!panel) return;
+    document.querySelectorAll(".page-panel.is-active").forEach(function (el) {
+      el.classList.remove("is-active");
+    });
+    panel.classList.add("is-active");
+    var shownHash = "#" + raw;
+    var target = document.getElementById(raw);
+    if (target && panel.contains(target) && raw !== "inicio") {
+      window.scrollTo(0, 0);
+      requestAnimationFrame(function () {
+        target.scrollIntoView({ block: "start" });
+      });
+    } else {
+      window.scrollTo(0, 0);
+    }
+    document.title = pageTitle(id);
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+      var href = link.getAttribute("href") || "";
+      if (href === "#contenido") {
+        link.removeAttribute("aria-current");
+        return;
+      }
+      if (href === shownHash || href === "#" + id || (id === "inicio" && href === "#inicio")) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+    if (push) {
+      if (location.hash !== shownHash) {
+        history.pushState({ page: id }, "", shownHash);
+      }
+    }
+    document.dispatchEvent(new CustomEvent("oia:page", { detail: id }));
   }
 
   function cerrarSubmenus(except) {
@@ -28,59 +93,39 @@
   }
 
   function cerrarMenu() {
-    if (!nav || !toggle) return;
-    nav.classList.remove("is-open");
-    toggle.setAttribute("aria-expanded", "false");
+    dismissHover();
+    if (nav) nav.classList.remove("is-open");
+    if (toggle) toggle.setAttribute("aria-expanded", "false");
     cerrarSubmenus();
-  }
-
-  function irInicio() {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    if (window.location.hash !== "#inicio") {
-      history.pushState(null, "", "#inicio");
+    if (document.activeElement && document.activeElement.blur) {
+      document.activeElement.blur();
     }
   }
 
-  document.querySelectorAll('a[href="#inicio"]').forEach(function (link) {
-    link.addEventListener("click", function (e) {
-      e.preventDefault();
-      irInicio();
-      cerrarMenu();
-    });
+  document.addEventListener("click", function (e) {
+    var link = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!link) return;
+    var href = link.getAttribute("href") || "";
+    if (href === "#" || href === "#contenido") return;
+    if (link.getAttribute("target") === "_blank") return;
+    e.preventDefault();
+    showPage(href, true);
+    cerrarMenu();
   });
 
-  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
-    var hash = link.getAttribute("href");
-    if (!hash || hash === "#" || hash === "#inicio") return;
-
-    link.addEventListener("click", function (e) {
-      var el = document.querySelector(hash);
-      if (!el) return;
-      e.preventDefault();
-      scrollToTarget(el, true);
-      cerrarMenu();
-    });
+  window.addEventListener("popstate", function () {
+    showPage(location.hash || "#inicio", false);
   });
 
-  function alinearHashInicial() {
-    var hash = window.location.hash;
-    if (hash === "#investigaciones") {
-      history.replaceState(null, "", "#inicio");
-      hash = "#inicio";
-    }
-    if (!hash || hash === "#inicio") return;
-    var el = document.querySelector(hash);
-    if (!el) return;
-    requestAnimationFrame(function () {
-      scrollToTarget(el, false);
-    });
-  }
+  window.addEventListener("hashchange", function () {
+    showPage(location.hash || "#inicio", false);
+  });
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", alinearHashInicial);
-  } else {
-    alinearHashInicial();
-  }
+  window.addEventListener("oia:langchange", function () {
+    showPage(location.hash || "#inicio", false);
+  });
+
+  showPage(location.hash || "#inicio", false);
 
   if (!toggle || !nav) return;
 
@@ -146,6 +191,17 @@
         scheduleClose(item);
       });
     });
+
+    dismissHover = function () {
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+      if (activeItem) {
+        setOpen(activeItem, false);
+        activeItem = null;
+      }
+    };
   })();
 
   document.addEventListener("keydown", function (e) {

@@ -13,7 +13,7 @@
     />
     <title>Secretaría de Investigación | Universidad Católica de Cuyo</title>
     <link rel="icon" type="image/png" href="assets/logo-uccuyo.png" />
-    <link rel="stylesheet" href="css/styles.css?v=45" />
+    <link rel="stylesheet" href="css/styles.css?v=46" />
     <script>
       if (location.hash === "#investigaciones") {
         history.replaceState(null, "", location.pathname + "#inicio");
@@ -139,6 +139,7 @@
     </div>
 
     <main id="contenido">
+      <div class="page-panel is-active" data-page="inicio">
       <section class="hero" aria-labelledby="titulo-principal">
         <div class="hero-inner">
           <div class="hero-logo-ring" aria-hidden="true">
@@ -171,8 +172,9 @@
           </div>
         </div>
       </section>
+      </div>
 
-      <section class="section" aria-labelledby="sec-secretaria">
+      <section class="page-panel section" aria-labelledby="sec-secretaria" data-page="la-secretaria">
         <div class="section-inner">
           <header
             id="la-secretaria"
@@ -256,7 +258,7 @@
         </div>
       </section>
 
-      <section class="section" aria-labelledby="sec-equipo">
+      <section class="page-panel section" aria-labelledby="sec-equipo" data-page="equipo">
         <div class="section-inner">
           <header id="equipo" class="section-head section-head--bar section-head--red">
             <p class="section-kicker" data-i18n="sec.equipo.kicker">Personas</p>
@@ -301,7 +303,7 @@
         </div>
       </section>
 
-      <section class="section" aria-labelledby="sec-uvt">
+      <section class="page-panel section" aria-labelledby="sec-uvt" data-page="uvt">
         <div class="section-inner">
           <header id="uvt" class="section-head section-head--bar section-head--green">
             <p class="section-kicker" data-i18n="sec.uvt.kicker">Vinculación</p>
@@ -389,7 +391,7 @@
         </div>
       </section>
 
-      <section class="section" aria-labelledby="sec-consejo">
+      <section class="page-panel section" aria-labelledby="sec-consejo" data-page="consejo-investigacion">
         <div class="section-inner">
           <header
             id="consejo-investigacion"
@@ -428,7 +430,7 @@
         </div>
       </section>
 
-      <section class="section" aria-labelledby="sec-ordenanza">
+      <section class="page-panel section" aria-labelledby="sec-ordenanza" data-page="ordenanza-general">
         <div class="section-inner">
           <header
             id="ordenanza-general"
@@ -522,7 +524,7 @@
         </div>
       </section>
 
-      <section class="section" aria-labelledby="sec-financiamiento">
+      <section class="page-panel section" aria-labelledby="sec-financiamiento" data-page="financiamiento-externo">
         <div class="section-inner">
           <header
             id="financiamiento-externo"
@@ -575,7 +577,7 @@
         </div>
       </section>
 
-      <section class="section" aria-labelledby="sec-tablero">
+      <section class="page-panel section" aria-labelledby="sec-tablero" data-page="tablero-investigacion">
         <div class="section-inner">
           <header
             id="tablero-investigacion"
@@ -612,7 +614,7 @@
         </div>
       </section>
 
-      <section class="section" aria-labelledby="sec-pub">
+      <section class="page-panel section" aria-labelledby="sec-pub" data-page="publicaciones">
         <div class="section-inner">
           <header
             id="publicaciones"
@@ -797,7 +799,7 @@
         </div>
       </section>
 
-      <section class="section section--tools" id="herramientas" aria-labelledby="sec-tools">
+      <section class="page-panel section section--tools" id="herramientas" aria-labelledby="sec-tools" data-page="herramientas">
         <div class="section-inner">
           <header class="section-head section-head--bar section-head--red">
             <p class="section-kicker" data-i18n="sec.herramientas.kicker">Desarrollos propios</p>
@@ -1118,7 +1120,7 @@
         </div>
       </section>
 
-      <section class="section" aria-labelledby="sec-oia">
+      <section class="page-panel section" aria-labelledby="sec-oia" data-page="observatorio-ia">
         <div class="section-inner">
           <header
             id="observatorio-ia"
@@ -1166,7 +1168,7 @@
         </div>
       </section>
 
-      <section class="section section--visitas" id="visitas" aria-labelledby="sec-visitas">
+      <section class="page-panel section section--visitas" id="visitas" aria-labelledby="sec-visitas" data-page="visitas">
         <div class="section-inner">
           <header class="section-head section-head--bar section-head--green">
             <p class="section-kicker" data-i18n="sec.visitas.kicker">Alcance</p>
@@ -1199,7 +1201,7 @@
         </div>
       </section>
 
-      <section class="section" aria-labelledby="sec-contacto">
+      <section class="page-panel section" aria-labelledby="sec-contacto" data-page="contacto">
         <div class="section-inner">
           <header id="contacto" class="section-head section-head--bar section-head--red">
             <p class="section-kicker" data-i18n="sec.contacto.kicker">Escríbenos</p>
@@ -1304,10 +1306,10 @@
     <script src="js/publicaciones-config.js?v=5" defer></script>
     <script src="js/visitantes-config.js?v=1" defer></script>
     <script src="js/visitantes.js?v=3" defer></script>
-    <script src="js/visitas-mapa.js?v=7" defer></script>
+    <script src="js/visitas-mapa.js?v=8" defer></script>
     <script src="js/publicaciones.js?v=7" defer></script>
     <script src="js/publicaciones-fuentes-abiertas.js?v=1" defer></script>
-    <script src="js/publicaciones-index.js?v=5" defer></script>
-    <script src="js/main.js?v=5" defer></script>
+    <script src="js/publicaciones-index.js?v=6" defer></script>
+    <script src="js/main.js?v=6" defer></script>
   </body>
 </html>

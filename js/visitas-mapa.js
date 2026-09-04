@@ -978,4 +978,13 @@
         setStatus(tt("dyn.visitas.error", "No se pudo cargar el origen de las visitas."));
       }
     );
+
+  document.addEventListener("oia:page", function (ev) {
+    if (ev.detail !== "visitas") return;
+    window.setTimeout(function () {
+      if (!mapApi) return;
+      mapApi.invalidateSize();
+      applyFocus("all");
+    }, 150);
+  });
 })();
