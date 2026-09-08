@@ -448,6 +448,26 @@ a:hover {
   box-shadow: var(--btn-3d-shadow-active);
 }
 
+/* Misma apariencia que Observatorio: ingreso equipo en rojo institucional */
+#pub-team-entry .btn,
+#pub-team-entry .btn-ghost {
+  background: var(--btn-3d-red-bg);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom-color: rgba(40, 8, 18, 0.55);
+  box-shadow: var(--btn-3d-red-shadow);
+}
+
+#pub-team-entry .btn:hover,
+#pub-team-entry .btn-ghost:hover {
+  background: var(--btn-3d-red-bg-hover);
+  box-shadow: var(--btn-3d-red-shadow-hover);
+}
+
+#pub-team-entry .btn:active,
+#pub-team-entry .btn-ghost:active {
+  box-shadow: var(--btn-3d-red-shadow-active);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .btn,
   .btn:hover,
