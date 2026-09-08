@@ -88,8 +88,8 @@
     "en": "Research Dashboard"
   },
   "nav.publicaciones": {
-    "es": "Publicaciones",
-    "en": "Publications"
+    "es": "Biblioteca de publicaciones",
+    "en": "Publications library"
   },
   "nav.herramientas": {
     "es": "Aplicaciones IA",
@@ -144,8 +144,8 @@
     "en": "Research Dashboard"
   },
   "hero.cta.publicaciones": {
-    "es": "Publicaciones",
-    "en": "Publications"
+    "es": "Biblioteca de publicaciones",
+    "en": "Publications library"
   },
   "hero.cta.herramientas": {
     "es": "Aplicaciones IA",
@@ -508,8 +508,8 @@
     "en": "Dissemination"
   },
   "sec.publicaciones.title": {
-    "es": "Publicaciones",
-    "en": "Publications"
+    "es": "Biblioteca de publicaciones",
+    "en": "Publications library"
   },
   "sec.publicaciones.intro": {
     "es": "Boletines, informes, revistas, documentos técnicos y resultados. Consultá la producción registrada por la universidad o explorá un índice académico automático en fuentes abiertas (OpenAlex, Crossref, Semantic Scholar, Europe PMC y enlaces de acceso abierto vía Unpaywall), por afiliación UCCuyo.",
@@ -1052,8 +1052,8 @@
     "en": "Research Dashboard"
   },
   "footer.publicaciones": {
-    "es": "Publicaciones",
-    "en": "Publications"
+    "es": "Biblioteca de publicaciones",
+    "en": "Publications library"
   },
   "footer.herramientas": {
     "es": "Aplicaciones IA",

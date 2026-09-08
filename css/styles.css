@@ -1785,31 +1785,24 @@ form.simple-form small {
   font-size: 0.8rem;
   text-decoration: none;
   color: #fff;
-  background: var(--btn-3d-bg);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-bottom-color: rgba(8, 40, 28, 0.55);
-  box-shadow: var(--btn-3d-shadow);
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  background: linear-gradient(
+    135deg,
+    var(--color-banner-green) 0%,
+    var(--color-green-dark) 100%
+  );
   white-space: nowrap;
-  transform: translateY(0);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    filter 0.15s ease;
+  transition: filter 0.15s ease, transform 0.15s ease, color 0.15s ease;
 }
 
 .pub-btn-link:hover {
-  background: var(--btn-3d-bg-hover);
-  filter: brightness(1.05);
-  transform: translateY(-2px);
+  filter: brightness(1.08);
+  transform: translateY(-1px);
   color: #fff;
-  box-shadow: var(--btn-3d-shadow-hover);
 }
 
 .pub-btn-link:active {
-  filter: none;
-  transform: translateY(3px);
-  box-shadow: var(--btn-3d-shadow-active);
+  filter: brightness(0.96);
+  transform: translateY(0);
 }
 
 .pub-index-search {
