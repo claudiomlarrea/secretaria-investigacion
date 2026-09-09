@@ -13,7 +13,7 @@
     />
     <title>Secretaría de Investigación | Universidad Católica de Cuyo</title>
     <link rel="icon" type="image/png" href="assets/logo-uccuyo.png" />
-    <link rel="stylesheet" href="css/styles.css?v=48" />
+    <link rel="stylesheet" href="css/styles.css?v=49" />
     <script>
       if (location.hash === "#investigaciones") {
         history.replaceState(null, "", location.pathname + "#inicio");
@@ -73,6 +73,7 @@
                 <ul class="nav-submenu" id="nav-sub-secretaria">
                   <li><a href="#la-secretaria" data-i18n="nav.secretaria">La Secretaría</a></li>
                   <li><a href="#equipo" data-i18n="nav.equipo">Equipo</a></li>
+                  <li><a href="#numeros" data-i18n="nav.numeros">La Secretaría en números</a></li>
                   <li><a href="#uvt" data-i18n="nav.uvt">UVT</a></li>
                   <li><a href="#visitas" data-i18n="nav.visitas">Visitas a la Secretaría</a></li>
                 </ul>
@@ -300,6 +301,23 @@
               <span data-i18n="brand.kicker">Universidad Católica de Cuyo</span>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section class="page-panel section section--numeros" id="numeros" aria-labelledby="sec-numeros" data-page="numeros">
+        <div class="section-inner">
+          <header class="section-head section-head--bar section-head--green">
+            <p class="section-kicker" data-i18n="sec.numeros.kicker">Indicadores</p>
+            <h2 id="sec-numeros" data-i18n="sec.numeros.title">La Secretaría en números</h2>
+          </header>
+          <p class="text-intro" data-i18n="sec.numeros.intro">
+            Cifras verificables de equipo, producción científica, herramientas y alcance.
+            Algunas se actualizan con las visitas y la Biblioteca de publicaciones.
+          </p>
+          <div class="numeros-grid" id="numeros-grid" aria-live="polite"></div>
+          <p class="numeros-editorial" id="numeros-editorial" data-i18n="sec.numeros.editorial">
+            Indicadores del portal institucional: se actualizan con el equipo, las aplicaciones, la Biblioteca y las visitas.
+          </p>
         </div>
       </section>
 
@@ -1255,6 +1273,7 @@
             <p class="footer-col-title" data-i18n="nav.group.secretaria">La Secretaría</p>
             <a href="#la-secretaria" data-i18n="nav.secretaria">La Secretaría</a>
             <a href="#equipo" data-i18n="nav.equipo">Equipo</a>
+            <a href="#numeros" data-i18n="nav.numeros">La Secretaría en números</a>
             <a href="#uvt" data-i18n="nav.uvt">UVT</a>
             <a href="#visitas" data-i18n="nav.visitas">Visitas a la Secretaría</a>
           </div>
@@ -1301,15 +1320,17 @@
       </div>
     </footer>
 
-    <script src="js/i18n-dict.js?v=8"></script>
+    <script src="js/i18n-dict.js?v=9"></script>
     <script src="js/i18n.js?v=2"></script>
     <script src="js/publicaciones-config.js?v=5" defer></script>
+    <script src="js/secretaria-numeros-config.js?v=1" defer></script>
+    <script src="js/secretaria-numeros.js?v=1" defer></script>
     <script src="js/visitantes-config.js?v=1" defer></script>
     <script src="js/visitantes.js?v=3" defer></script>
-    <script src="js/visitas-mapa.js?v=8" defer></script>
-    <script src="js/publicaciones.js?v=7" defer></script>
+    <script src="js/visitas-mapa.js?v=9" defer></script>
+    <script src="js/publicaciones.js?v=8" defer></script>
     <script src="js/publicaciones-fuentes-abiertas.js?v=1" defer></script>
-    <script src="js/publicaciones-index.js?v=6" defer></script>
-    <script src="js/main.js?v=7" defer></script>
+    <script src="js/publicaciones-index.js?v=7" defer></script>
+    <script src="js/main.js?v=8" defer></script>
   </body>
 </html>

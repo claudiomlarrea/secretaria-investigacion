@@ -18,6 +18,7 @@
     "financiamiento-externo": "Financiamiento externo · Secretaría de Investigación",
     "tablero-investigacion": "Tablero de Investigación · Secretaría de Investigación",
     publicaciones: "Biblioteca de publicaciones · Secretaría de Investigación",
+    numeros: "La Secretaría en números · Secretaría de Investigación",
     herramientas: "Aplicaciones IA · Secretaría de Investigación",
     "observatorio-ia": "Observatorio de IA · Secretaría de Investigación",
     contacto: "Contacto · Secretaría de Investigación"

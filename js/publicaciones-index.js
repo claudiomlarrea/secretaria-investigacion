@@ -116,6 +116,28 @@
     });
   }
 
+  function prefetchTotalUccuyo() {
+    var params = new URLSearchParams();
+    params.set("filter", "authorships.institutions.lineage:" + INSTITUTION_ID);
+    params.set("per-page", "1");
+    params.set("page", "1");
+    if (MAILTO) params.set("mailto", MAILTO);
+    fetchOpenAlex("https://api.openalex.org/works?" + params.toString())
+      .then(function (data) {
+        var n = Number(data && data.meta && data.meta.count) || 0;
+        if (n > 0) {
+          if (!searchQuery.trim() && yearFilter === "all") {
+            metaTotal = n;
+            actualizarContador();
+          }
+          if (window.OBS_NUMEROS_API) {
+            window.OBS_NUMEROS_API.set("publicaciones-mundo", n);
+          }
+        }
+      })
+      .catch(function () {});
+  }
+
   function normalizarDoi(q) {
     var s = String(q || "").trim();
     s = s.replace(/^https?:\/\/(?:dx\.)?doi\.org\//i, "");
@@ -279,6 +301,10 @@
         totalPages = Number(res.totalPages) || Math.max(1, Math.ceil(metaTotal / pageSize));
         items = res.items;
 
+        if (!searchQuery.trim() && yearFilter === "all" && window.OBS_NUMEROS_API && metaTotal > 0) {
+          window.OBS_NUMEROS_API.set("publicaciones-mundo", metaTotal);
+        }
+
         loaded = true;
         actualizarContador();
         actualizarBotonLimpiar();
@@ -323,6 +349,10 @@
         metaTotal = Number(data.meta && data.meta.count) || 0;
         currentPage = Number(data.meta && data.meta.page) || page;
         totalPages = Math.max(1, Math.ceil(metaTotal / pageSize));
+
+        if (!searchQuery.trim() && yearFilter === "all" && window.OBS_NUMEROS_API && metaTotal > 0) {
+          window.OBS_NUMEROS_API.set("publicaciones-mundo", metaTotal);
+        }
 
         items = data.results.map(function (w) {
           return {
@@ -671,6 +701,7 @@
     if (!tablist) return;
 
     initBuscador();
+    prefetchTotalUccuyo();
 
     tablist.querySelectorAll("[data-pub-tab]").forEach(function (btn) {
       btn.addEventListener("click", function () {

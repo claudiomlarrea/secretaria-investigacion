@@ -59,6 +59,10 @@ window.I18N_DICT = {
     "es": "Equipo",
     "en": "Team"
   },
+  "nav.numeros": {
+    "es": "La Secretaría en números",
+    "en": "The Secretariat in numbers"
+  },
   "nav.uvt": {
     "es": "UVT",
     "en": "UVT"
@@ -274,6 +278,22 @@ window.I18N_DICT = {
   "sec.equipo.universidad": {
     "es": "Universidad Católica de Cuyo",
     "en": "Universidad Católica de Cuyo"
+  },
+  "sec.numeros.kicker": {
+    "es": "Indicadores",
+    "en": "Indicators"
+  },
+  "sec.numeros.title": {
+    "es": "La Secretaría en números",
+    "en": "The Secretariat in numbers"
+  },
+  "sec.numeros.intro": {
+    "es": "Cifras verificables de equipo, producción científica, herramientas y alcance. Algunas se actualizan con las visitas y la Biblioteca de publicaciones.",
+    "en": "Verifiable figures on the team, scientific output, tools, and reach. Some update from visits and the publications library."
+  },
+  "sec.numeros.editorial": {
+    "es": "Indicadores del portal institucional: se actualizan con el equipo, las aplicaciones, la Biblioteca y las visitas.",
+    "en": "Institutional portal indicators: they update from the team, the apps, the Library, and visits."
   },
   "sec.uvt.kicker": {
     "es": "Vinculación",
@@ -1030,6 +1050,10 @@ window.I18N_DICT = {
   "footer.equipo": {
     "es": "Equipo",
     "en": "Team"
+  },
+  "footer.numeros": {
+    "es": "La Secretaría en números",
+    "en": "The Secretariat in numbers"
   },
   "footer.uvt": {
     "es": "UVT",

@@ -534,6 +534,7 @@
 
     if (window.OBS_NUMEROS_API) {
       window.OBS_NUMEROS_API.set("visitas", total);
+      window.OBS_NUMEROS_API.set("paises", countries.length);
       window.OBS_NUMEROS_API.set("provincias", regions.length);
     }
   }

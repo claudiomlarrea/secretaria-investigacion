@@ -114,6 +114,7 @@
         items = data.items;
         var cw = el("pub-count-wrap");
         if (cw) cw.hidden = false;
+        if (window.OBS_NUMEROS_API) window.OBS_NUMEROS_API.set("publicaciones", items.length);
         renderTodo();
       },
       function () {
@@ -123,6 +124,7 @@
             items = data.items;
             var cw2 = el("pub-count-wrap");
             if (cw2) cw2.hidden = false;
+            if (window.OBS_NUMEROS_API) window.OBS_NUMEROS_API.set("publicaciones", items.length);
             renderTodo();
           },
           function () {
