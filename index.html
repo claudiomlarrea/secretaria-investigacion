@@ -13,7 +13,7 @@
     />
     <title>Secretaría de Investigación | Universidad Católica de Cuyo</title>
     <link rel="icon" type="image/png" href="assets/logo-uccuyo.png" />
-    <link rel="stylesheet" href="css/styles.css?v=49" />
+    <link rel="stylesheet" href="css/styles.css?v=50" />
     <script>
       if (location.hash === "#investigaciones") {
         history.replaceState(null, "", location.pathname + "#inicio");
@@ -443,6 +443,22 @@
                 target="_blank"
                 rel="noopener noreferrer"
                  data-i18n="nav.resoluciones">Resoluciones de Consejo Superior</a>
+            </p>
+          </article>
+          <article class="card section-block consejero-bot-card" id="bot-consejeros">
+            <h3 data-i18n="bot.card.title">Mesa de ayuda para consejeros</h3>
+            <p data-i18n="bot.card.body">
+              Las dos consultas más frecuentes: cómo cargar un tema al orden del
+              día y cómo cargar un CVar. El bot responde con los pasos del sistema;
+              no carga temas ni sube archivos.
+            </p>
+            <p class="tile-actions">
+              <button type="button" class="btn btn-primary" data-consejero-q="cargar-tema" data-i18n="bot.q.tema">
+                Cómo cargar un tema
+              </button>
+              <button type="button" class="btn btn-primary" data-consejero-q="cargar-cvar" data-i18n="bot.q.cvar">
+                Cómo cargar un CVar
+              </button>
             </p>
           </article>
         </div>
@@ -1320,7 +1336,51 @@
       </div>
     </footer>
 
-    <script src="js/i18n-dict.js?v=9"></script>
+    <button
+      type="button"
+      class="consejero-bot-fab"
+      id="consejero-bot-toggle"
+      aria-expanded="false"
+      aria-controls="consejero-bot-panel"
+      data-i18n="bot.fab"
+    >
+      Dudas de consejeros
+    </button>
+    <div
+      class="consejero-bot-panel"
+      id="consejero-bot-panel"
+      hidden
+      role="dialog"
+      aria-labelledby="consejero-bot-title"
+    >
+      <header class="consejero-bot-panel__head">
+        <h3 id="consejero-bot-title" data-i18n="bot.panel.title">Mesa de ayuda · Consejo</h3>
+        <button
+          type="button"
+          class="consejero-bot-panel__close"
+          id="consejero-bot-close"
+          data-i18n-attr="aria-label:bot.close"
+          aria-label="Cerrar"
+        >
+          ×
+        </button>
+      </header>
+      <div class="consejero-bot-log" id="consejero-bot-log" aria-live="polite"></div>
+      <div class="consejero-bot-quick" id="consejero-bot-quick"></div>
+      <form class="consejero-bot-form" id="consejero-bot-form">
+        <label class="visually-hidden" for="consejero-bot-input" data-i18n="bot.input.label">Pregunta</label>
+        <input
+          id="consejero-bot-input"
+          type="text"
+          autocomplete="off"
+          data-i18n-attr="placeholder:bot.input.placeholder"
+          placeholder="Ej.: ¿cómo cargo un CVar?"
+        />
+        <button type="submit" class="btn btn-primary" data-i18n="bot.send">Enviar</button>
+      </form>
+    </div>
+
+    <script src="js/i18n-dict.js?v=10"></script>
     <script src="js/i18n.js?v=2"></script>
     <script src="js/publicaciones-config.js?v=5" defer></script>
     <script src="js/secretaria-numeros-config.js?v=1" defer></script>
@@ -1332,5 +1392,6 @@
     <script src="js/publicaciones-fuentes-abiertas.js?v=1" defer></script>
     <script src="js/publicaciones-index.js?v=7" defer></script>
     <script src="js/main.js?v=8" defer></script>
+    <script src="js/consejero-bot.js?v=1" defer></script>
   </body>
 </html>

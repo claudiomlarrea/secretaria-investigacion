@@ -1112,5 +1112,45 @@ window.I18N_DICT = {
   "dyn.visitas.mapFail": {"es": "No se pudo cargar el mapa interactivo. La lista de orígenes sigue disponible.", "en": "Could not load the interactive map. The origin list remains available."},
   "dyn.pub.loading": {"es": "Cargando publicaciones…", "en": "Loading publications…"},
   "dyn.pub.teamEntry": {"es": "Ingreso equipo · Cargar publicaciones", "en": "Team access · Upload publications"},
-  "dyn.pub.teamHint": {"es": "(iniciá sesión en Google con un correo autorizado)", "en": "(sign in to Google with an authorized email)"}
+  "dyn.pub.teamHint": {"es": "(iniciá sesión en Google con un correo autorizado)", "en": "(sign in to Google with an authorized email)"},
+  "bot.fab": {
+    "es": "Dudas de consejeros",
+    "en": "Council help"
+  },
+  "bot.panel.title": {
+    "es": "Mesa de ayuda · Consejo",
+    "en": "Help desk · Council"
+  },
+  "bot.close": {
+    "es": "Cerrar",
+    "en": "Close"
+  },
+  "bot.send": {
+    "es": "Enviar",
+    "en": "Send"
+  },
+  "bot.input.label": {
+    "es": "Pregunta",
+    "en": "Question"
+  },
+  "bot.input.placeholder": {
+    "es": "Ej.: ¿cómo cargo un CVar?",
+    "en": "E.g.: how do I upload a CVar?"
+  },
+  "bot.card.title": {
+    "es": "Mesa de ayuda para consejeros",
+    "en": "Help desk for council members"
+  },
+  "bot.card.body": {
+    "es": "Las dos consultas más frecuentes: cómo cargar un tema al orden del día y cómo cargar un CVar. El bot responde con los pasos del sistema; no carga temas ni sube archivos.",
+    "en": "The two most frequent questions: how to load a topic onto the agenda and how to upload a CVar. The bot answers with the system steps; it does not submit topics or upload files."
+  },
+  "bot.q.tema": {
+    "es": "Cómo cargar un tema",
+    "en": "How to load a topic"
+  },
+  "bot.q.cvar": {
+    "es": "Cómo cargar un CVar",
+    "en": "How to upload a CVar"
+  }
 };
